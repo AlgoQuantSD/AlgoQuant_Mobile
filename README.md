@@ -26,4 +26,4 @@ Run `npm install` while in the **AlgoQuant_Mobile** directory.
 
 Run `npx expo start --tunnel` this command will generate a QR code that will run the project via the Expo Go app on your mobile device. Alternatively you can press **w** to run the project on the web.
 
-![](https://ibb.co/88bn3F5)
+![image](https://i.ibb.co/MNfyTqV/image.png)
