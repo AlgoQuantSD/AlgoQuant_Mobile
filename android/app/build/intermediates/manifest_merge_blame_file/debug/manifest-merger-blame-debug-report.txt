@@ -1,0 +1,250 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.auth0samples"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="31" />
+10
+11    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+11-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:4:3-75
+11-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:4:20-73
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:2:3-64
+12-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:2:20-62
+13    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+13-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:3:3-77
+13-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:3:20-75
+14    <uses-permission android:name="android.permission.VIBRATE" />
+14-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:5:3-63
+14-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:5:20-61
+15    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+15-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:6:3-78
+15-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:6:20-76
+16
+17    <queries>
+17-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:7:3-13:13
+18        <intent>
+18-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:8:5-12:14
+19            <action android:name="android.intent.action.VIEW" />
+19-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:9:7-58
+19-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:9:15-56
+20
+21            <category android:name="android.intent.category.BROWSABLE" />
+21-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:10:7-67
+21-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:10:17-65
+22
+23            <data android:scheme="https" />
+23-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:11:7-37
+23-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:11:13-35
+24        </intent>
+25        <!-- Query open documents -->
+26        <intent>
+26-->[:expo-file-system] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:9-19:18
+27            <action android:name="android.intent.action.OPEN_DOCUMENT_TREE" />
+27-->[:expo-file-system] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-79
+27-->[:expo-file-system] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:21-76
+28        </intent>
+29    </queries>
+30
+31    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+31-->[com.facebook.flipper:flipper:0.125.0] C:\Users\wilso\.gradle\caches\transforms-3\03f04a3f11198ce3b7c6cedb9b41266b\transformed\jetified-flipper-0.125.0\AndroidManifest.xml:16:5-76
+31-->[com.facebook.flipper:flipper:0.125.0] C:\Users\wilso\.gradle\caches\transforms-3\03f04a3f11198ce3b7c6cedb9b41266b\transformed\jetified-flipper-0.125.0\AndroidManifest.xml:16:22-73
+32    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+32-->[com.android.installreferrer:installreferrer:1.0] C:\Users\wilso\.gradle\caches\transforms-3\6f602feb550aed9c0210d230bd9f8856\transformed\jetified-installreferrer-1.0\AndroidManifest.xml:9:5-110
+32-->[com.android.installreferrer:installreferrer:1.0] C:\Users\wilso\.gradle\caches\transforms-3\6f602feb550aed9c0210d230bd9f8856\transformed\jetified-installreferrer-1.0\AndroidManifest.xml:9:22-107
+33
+34    <application
+34-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:14:3-33:17
+35        android:name="com.auth0samples.MainApplication"
+35-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:14:16-47
+36        android:allowBackup="true"
+36-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:14:162-188
+37        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+37-->[androidx.core:core:1.7.0] C:\Users\wilso\.gradle\caches\transforms-3\63a3df243d2d102452600006144a86df\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
+38        android:debuggable="true"
+39        android:icon="@mipmap/ic_launcher"
+39-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:14:81-115
+40        android:label="@string/app_name"
+40-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:14:48-80
+41        android:roundIcon="@mipmap/ic_launcher_round"
+41-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:14:116-161
+42        android:theme="@style/AppTheme"
+42-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:14:189-220
+43        android:usesCleartextTraffic="true" >
+43-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:14:221-256
+44        <meta-data
+44-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:15:5-82
+45            android:name="expo.modules.updates.ENABLED"
+45-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:15:16-59
+46            android:value="true" />
+46-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:15:60-80
+47        <meta-data
+47-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:16:5-93
+48            android:name="expo.modules.updates.EXPO_SDK_VERSION"
+48-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:16:16-68
+49            android:value="47.0.0" />
+49-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:16:69-91
+50        <meta-data
+50-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:17:5-105
+51            android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH"
+51-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:17:16-80
+52            android:value="ALWAYS" />
+52-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:17:81-103
+53        <meta-data
+53-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:18:5-99
+54            android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS"
+54-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:18:16-79
+55            android:value="0" />
+55-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:18:80-97
+56        <meta-data
+56-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:19:5-130
+57            android:name="expo.modules.updates.EXPO_UPDATE_URL"
+57-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:19:16-67
+58            android:value="https://exp.host/@anonymous/AlgoQuant_Mobile" />
+58-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:19:68-128
+59
+60        <activity
+60-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:20:5-31:16
+61            android:name="com.auth0samples.MainActivity"
+61-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:20:15-43
+62            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+62-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:20:77-154
+63            android:exported="true"
+63-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:20:276-299
+64            android:label="@string/app_name"
+64-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:20:44-76
+65            android:launchMode="singleTask"
+65-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:20:155-186
+66            android:screenOrientation="portrait"
+66-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:20:300-336
+67            android:theme="@style/Theme.App.SplashScreen"
+67-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:20:230-275
+68            android:windowSoftInputMode="adjustResize" >
+68-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:20:187-229
+69            <intent-filter>
+69-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:21:7-24:23
+70                <action android:name="android.intent.action.MAIN" />
+70-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:22:9-60
+70-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:22:17-58
+71
+72                <category android:name="android.intent.category.LAUNCHER" />
+72-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:23:9-68
+72-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:23:19-66
+73            </intent-filter>
+74            <intent-filter>
+74-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:25:7-30:23
+75                <action android:name="android.intent.action.VIEW" />
+75-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:9:7-58
+75-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:9:15-56
+76
+77                <category android:name="android.intent.category.DEFAULT" />
+77-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:27:9-67
+77-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:27:19-65
+78                <category android:name="android.intent.category.BROWSABLE" />
+78-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:10:7-67
+78-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:10:17-65
+79
+80                <data android:scheme="com.auth0samples" />
+80-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:11:7-37
+80-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:11:13-35
+81            </intent-filter>
+82        </activity>
+83        <activity
+83-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:32:5-106
+84            android:name="com.facebook.react.devsupport.DevSettingsActivity"
+84-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:32:15-79
+85            android:exported="false" />
+85-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:32:80-104
+86        <activity
+86-->[:react-native-auth0] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:25:9-30:75
+87            android:name="com.auth0.react.AuthenticationActivity"
+87-->[:react-native-auth0] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:13-66
+88            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboard|keyboardHidden"
+88-->[:react-native-auth0] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:13-115
+89            android:exported="false"
+89-->[:react-native-auth0] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:28:13-37
+90            android:launchMode="singleTask"
+90-->[:react-native-auth0] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:29:13-44
+91            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+91-->[:react-native-auth0] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:30:13-72
+92        <activity
+92-->[:react-native-auth0] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:31:9-47:20
+93            android:name="com.auth0.react.RedirectActivity"
+93-->[:react-native-auth0] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:32:13-60
+94            android:exported="true" >
+94-->[:react-native-auth0] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:33:13-36
+95            <intent-filter android:autoVerify="true" >
+95-->[:react-native-auth0] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:34:13-46:29
+95-->[:react-native-auth0] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:35:17-42
+96                <action android:name="android.intent.action.VIEW" />
+96-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:9:7-58
+96-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:9:15-56
+97
+98                <category android:name="android.intent.category.DEFAULT" />
+98-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:27:9-67
+98-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:27:19-65
+99                <category android:name="android.intent.category.BROWSABLE" />
+99-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:10:7-67
+99-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:10:17-65
+100
+101                <data
+101-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:11:7-37
+102                    android:host="dev-7fyjqehderlyh061.us.auth0.com"
+103                    android:pathPrefix="/android/com.auth0samples/callback"
+104                    android:scheme="com.auth0samples" />
+104-->C:\Users\wilso\Desktop\AlgoQuant_Mobile\android\app\src\main\AndroidManifest.xml:11:13-35
+105            </intent-filter>
+106        </activity>
+107
+108        <provider
+108-->[:expo-file-system] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:23:9-32:20
+109            android:name="expo.modules.filesystem.FileSystemFileProvider"
+109-->[:expo-file-system] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:24:13-74
+110            android:authorities="com.auth0samples.FileSystemFileProvider"
+110-->[:expo-file-system] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:25:13-74
+111            android:exported="false"
+111-->[:expo-file-system] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:13-37
+112            android:grantUriPermissions="true" >
+112-->[:expo-file-system] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:13-47
+113            <meta-data
+113-->[:expo-file-system] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:29:13-31:70
+114                android:name="android.support.FILE_PROVIDER_PATHS"
+114-->[:expo-file-system] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:30:17-67
+115                android:resource="@xml/file_system_provider_paths" />
+115-->[:expo-file-system] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:31:17-67
+116        </provider>
+117
+118        <meta-data
+118-->[:expo-modules-core] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-12:89
+119            android:name="org.unimodules.core.AppLoader#react-native-headless"
+119-->[:expo-modules-core] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-79
+120            android:value="expo.modules.adapters.react.apploader.RNHeadlessAppLoader" />
+120-->[:expo-modules-core] C:\Users\wilso\Desktop\AlgoQuant_Mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-86
+121
+122        <provider
+122-->[androidx.emoji2:emoji2:1.0.0] C:\Users\wilso\.gradle\caches\transforms-3\b6fe4da57007a43d86a66ba4c66459bd\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
+123            android:name="androidx.startup.InitializationProvider"
+123-->[androidx.emoji2:emoji2:1.0.0] C:\Users\wilso\.gradle\caches\transforms-3\b6fe4da57007a43d86a66ba4c66459bd\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:27:13-67
+124            android:authorities="com.auth0samples.androidx-startup"
+124-->[androidx.emoji2:emoji2:1.0.0] C:\Users\wilso\.gradle\caches\transforms-3\b6fe4da57007a43d86a66ba4c66459bd\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:28:13-68
+125            android:exported="false" >
+125-->[androidx.emoji2:emoji2:1.0.0] C:\Users\wilso\.gradle\caches\transforms-3\b6fe4da57007a43d86a66ba4c66459bd\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:29:13-37
+126            <meta-data
+126-->[androidx.emoji2:emoji2:1.0.0] C:\Users\wilso\.gradle\caches\transforms-3\b6fe4da57007a43d86a66ba4c66459bd\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
+127                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+127-->[androidx.emoji2:emoji2:1.0.0] C:\Users\wilso\.gradle\caches\transforms-3\b6fe4da57007a43d86a66ba4c66459bd\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:32:17-75
+128                android:value="androidx.startup" />
+128-->[androidx.emoji2:emoji2:1.0.0] C:\Users\wilso\.gradle\caches\transforms-3\b6fe4da57007a43d86a66ba4c66459bd\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:33:17-49
+129            <meta-data
+129-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\wilso\.gradle\caches\transforms-3\bc74a39e1ea23fea00bfcf2682a93948\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
+130                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+130-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\wilso\.gradle\caches\transforms-3\bc74a39e1ea23fea00bfcf2682a93948\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
+131                android:value="androidx.startup" />
+131-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\wilso\.gradle\caches\transforms-3\bc74a39e1ea23fea00bfcf2682a93948\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
+132        </provider>
+133    </application>
+134
+135</manifest>
