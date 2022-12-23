@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Amplify, Auth } from "aws-amplify";
 import config from "./src/aws-exports";
 import { withAuthenticator } from "aws-amplify-react-native";
@@ -9,10 +9,12 @@ import { CustomAuthTheme } from "./constants/CustomAuthTheme";
 Amplify.configure(config);
 
 function App() {
-  Auth.signOut();
   return (
     <View style={styles.container}>
       <Text>Welcome to AlgoQuant!</Text>
+      <TouchableOpacity onPress={() => Auth.signOut()}>
+        <Text>Sign out</Text>
+      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
