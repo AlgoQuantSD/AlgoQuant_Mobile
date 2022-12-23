@@ -1,13 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { Amplify } from "aws-amplify";
+import { Amplify, Auth } from "aws-amplify";
 import config from "./src/aws-exports";
 import { withAuthenticator } from "aws-amplify-react-native";
-import { SignUpConfig } from "./authentication/SignUpConfig";
+import { signUpConfig } from "./authentication/SignUpConfig";
+import { CustomAuthTheme } from "./constants/CustomAuthTheme";
 
 Amplify.configure(config);
 
 function App() {
+  Auth.signOut();
   return (
     <View style={styles.container}>
       <Text>Welcome to AlgoQuant!</Text>
@@ -25,4 +27,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withAuthenticator(App, { SignUpConfig });
+export default withAuthenticator(App, {
+  signUpConfig,
+  usernameAttributes: "email",
+  theme: CustomAuthTheme,
+});

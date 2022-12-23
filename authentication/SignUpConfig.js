@@ -1,4 +1,4 @@
-export const SignUpConfig = {
+export const signUpConfig = {
   header: "Create your AlgoQuant account",
   hideAllDefaults: true,
   signUpFields: [
@@ -36,6 +36,12 @@ export const SignUpConfig = {
       required: true,
       displayOrder: 5,
       type: "string",
+    },
+  ],
+  signInFields: [
+    {
+      label: "Email",
+      key: "username",
     },
   ],
 };
