@@ -25,7 +25,7 @@ function App() {
   async function getCurrentUser() {
     try {
       const user = await Auth.currentAuthenticatedUser();
-      console.log("Current user: ", user);
+      console.log("Successfully logged in as: ", user.attributes.email);
       setUserInfo(user);
     } catch (error) {
       console.log("Error getting current user: ", error);

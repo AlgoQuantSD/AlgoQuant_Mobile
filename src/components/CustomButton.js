@@ -2,13 +2,14 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Theme } from "../constants/Theme";
 
 export default function CustomButton(props) {
+  const { label, action } = props;
   return (
     <TouchableOpacity
       testID="customButton"
-      onPress={props.action}
+      onPress={action}
       style={styles.button}
     >
-      <Text style={styles.buttonText}>{props.label}</Text>
+      <Text style={styles.buttonText}>{label}</Text>
     </TouchableOpacity>
   );
 }

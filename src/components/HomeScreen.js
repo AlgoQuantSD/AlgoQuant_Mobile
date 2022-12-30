@@ -1,8 +1,9 @@
-import { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { UserContext } from "../constants/UserContext";
 import CustomButton from "./CustomButton";
 import { Auth } from "aws-amplify";
+import { Theme } from "../constants/Theme";
 
 export default function HomeScreen({ navigation }) {
   const { userInfo, setUserInfo } = useContext(UserContext);
@@ -10,11 +11,10 @@ export default function HomeScreen({ navigation }) {
 
   // Reload the component when the user info is fetched
   useEffect(() => {
-    console.log("User info updated");
     setLoading(false);
   }, [userInfo]);
 
-  // Clear the user info and sign out 
+  // Clear the user info and sign out
   function signOut() {
     setUserInfo({});
     Auth.signOut();
@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: Theme.text.fontSizeBody,
   },
 });
