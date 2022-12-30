@@ -3,7 +3,11 @@ import { Theme } from "../constants/Theme";
 
 export default function CustomButton(props) {
   return (
-    <TouchableOpacity onPress={props.action} style={styles.button}>
+    <TouchableOpacity
+      testID="customButton"
+      onPress={props.action}
+      style={styles.button}
+    >
       <Text style={styles.buttonText}>{props.label}</Text>
     </TouchableOpacity>
   );
