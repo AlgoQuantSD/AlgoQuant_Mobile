@@ -26,7 +26,6 @@ exports[`Should render 1`] = `
       "width": 120,
     }
   }
-  testID="customButton"
 >
   <Text
     style={

@@ -4,22 +4,13 @@ import { Theme } from "../constants/Theme";
 export default function CustomButton(props) {
   const { label, action } = props;
   return (
-    <TouchableOpacity
-      testID="customButton"
-      onPress={action}
-      style={styles.button}
-    >
+    <TouchableOpacity onPress={action} style={styles.button}>
       <Text style={styles.buttonText}>{label}</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   button: {
     ...Theme.button,
   },
