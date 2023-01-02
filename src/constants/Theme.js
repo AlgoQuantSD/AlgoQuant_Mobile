@@ -22,10 +22,13 @@ export const Theme = {
   text: {
     fontSizeH1: 28,
     fontSizeBody: 16,
+    fontSizeButton: 16,
     color: Palette.white,
     disabledColor: Palette.mediumGray,
   },
   button: {
+    alignItems: "center",
+    justifyContent: "center",
     width: 120,
     height: 45,
     marginHorizontal: 20,

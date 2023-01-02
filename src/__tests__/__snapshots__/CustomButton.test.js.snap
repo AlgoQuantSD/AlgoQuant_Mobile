@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#3F9F30",
+      "borderRadius": 10,
+      "disabledBackgroundColor": "#3F9F3059",
+      "height": 45,
+      "justifyContent": "center",
+      "marginHorizontal": 20,
+      "opacity": 1,
+      "padding": 3,
+      "width": 120,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#FFFFFF",
+        "fontSize": 16,
+      }
+    }
+  />
+</View>
+`;
