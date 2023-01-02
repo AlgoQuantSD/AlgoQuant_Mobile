@@ -7,7 +7,8 @@ import { withAuthenticator } from "aws-amplify-react-native";
 import { signUpConfig } from "./src/authentication/SignUpConfig";
 import { CustomAuthTheme } from "./src/constants/CustomAuthTheme";
 import { UserContext } from "./src/constants/UserContext";
-import HomeScreen from "./src/components/HomeScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import BottomTabNavigaton from "./src/components/BottomTabNavigaton";
 
 // Analytics disabled since it is unnecesary and causes an unhandled promise rejection error
 Amplify.configure({ ...config, Analytics: { disabled: true } });
@@ -38,10 +39,9 @@ function App() {
 
   return (
     <UserContext.Provider value={value}>
-      <View style={styles.container}>
-        <HomeScreen />
-        <StatusBar style="auto" />
-      </View>
+      <NavigationContainer>
+        <BottomTabNavigaton />
+      </NavigationContainer>
     </UserContext.Provider>
   );
 }

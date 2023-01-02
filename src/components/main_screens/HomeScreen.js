@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { UserContext } from "../constants/UserContext";
-import CustomButton from "./CustomButton";
+import { UserContext } from "../../constants/UserContext";
+import CustomButton from "../CustomButton";
 import { Auth } from "aws-amplify";
-import { Theme } from "../constants/Theme";
+import { Theme } from "../../constants/Theme";
 
 export default function HomeScreen({ navigation }) {
   const { userInfo, setUserInfo } = useContext(UserContext);
