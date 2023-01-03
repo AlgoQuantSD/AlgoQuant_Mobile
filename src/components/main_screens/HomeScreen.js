@@ -31,6 +31,9 @@ export default function HomeScreen({ navigation }) {
         </Text>
       )}
       <CustomButton label="Sign Out" action={signOut} />
+      <Text onPress={() => navigation.navigate("InvestorScreen")}>
+        InvestorScreen
+      </Text>
     </View>
   );
 }

@@ -37,6 +37,13 @@ export const Theme = {
     backgroundColor: Palette.primaryGreen,
     disabledBackgroundColor: Palette.primaryGreenOpacity35,
   },
+  bottomTab: {
+    backgroundColor: Palette.black,
+    tabActiveColor: Palette.white,
+    tabInactiveColor: Palette.mediumGray,
+    topBorderColor: Palette.darkGray,
+    topBorderWidth: 1,
+  },
   modal: {
     backgroundColor: Palette.darkGrayOpacity95,
   },
