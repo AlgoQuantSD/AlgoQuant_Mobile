@@ -1,3 +1,5 @@
+import { Ionicons } from "@expo/vector-icons";
+
 const Palette = {
   primaryGreen: "#3F9F30",
   primaryGreenOpacity35: "#3F9F3059",
@@ -37,6 +39,13 @@ export const Theme = {
     backgroundColor: Palette.primaryGreen,
     disabledBackgroundColor: Palette.primaryGreenOpacity35,
   },
+  bottomTab: {
+    backgroundColor: Palette.black,
+    tabActiveColor: Palette.white,
+    tabInactiveColor: Palette.mediumGray,
+    topBorderColor: Palette.darkGray,
+    topBorderWidth: 1,
+  },
   modal: {
     backgroundColor: Palette.darkGrayOpacity95,
   },
@@ -49,4 +58,13 @@ export const LightTheme = {
     foreground: Palette.black,
     text: Palette.black,
   },
+};
+
+export const nestedScreenOptions = {
+  title: "",
+  headerBackTitle: "Back",
+  headerTintColor: "white",
+  headerBackImage: () => (
+    <Ionicons name="chevron-back" color="white" size={24} />
+  ),
 };
