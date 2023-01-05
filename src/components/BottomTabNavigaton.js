@@ -1,19 +1,25 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreenStackNavigator from "./StackNavigation";
-import SearchScreen from "./main_screens/SearchScreen";
-import BacktestingScreen from "./main_screens/BacktestingScreen";
-import ProfileScreen from "./main_screens/ProfileScreen";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  HomeScreenStackNavigator,
+  SearchScreenStackNavigator,
+  BacktestingScreenStackNavigator,
+  ProfileScreenStackNavigator,
+} from "./StackNavigation";
+import BottomTabIcon from "./BottomTabIcon";
 import { Theme } from "../constants/Theme";
 
 const Tab = createBottomTabNavigator();
 
+// This is the bottom tab nav you see in the app
+// There are some settings in the Tab.Navigator for general styling
+// In Tab.Screen we specify route names, name of the component we want to render in that tab, and icon styling
 export default function BottomTabNavigaton() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
+        headerShown: false,
         tabBarActiveTintColor: Theme.bottomTab.tabActiveColor,
         tabBarInactiveTintColor: Theme.bottomTab.tabInactiveColor,
         tabBarStyle: {
@@ -27,36 +33,32 @@ export default function BottomTabNavigaton() {
         name="Home"
         component={HomeScreenStackNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" color={color} size={size} />
-          ),
+          tabBarIcon: ({ color, size, name = "home" }) =>
+            BottomTabIcon({ color, size, name }),
         }}
       />
       <Tab.Screen
         name="Search"
-        component={SearchScreen}
+        component={SearchScreenStackNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="search" color={color} size={size} />
-          ),
+          tabBarIcon: ({ color, size, name = "search" }) =>
+            BottomTabIcon({ color, size, name }),
         }}
       />
       <Tab.Screen
         name="Backtesting"
-        component={BacktestingScreen}
+        component={BacktestingScreenStackNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="flask" color={color} size={size} />
-          ),
+          tabBarIcon: ({ color, size, name = "flask" }) =>
+            BottomTabIcon({ color, size, name }),
         }}
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileScreenStackNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" color={color} size={size} />
-          ),
+          tabBarIcon: ({ color, size, name = "person" }) =>
+            BottomTabIcon({ color, size, name }),
         }}
       />
     </Tab.Navigator>

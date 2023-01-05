@@ -2,15 +2,15 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Theme } from "../../constants/Theme";
 
-export default function InvestorScreen({ navigation }) {
+export default function CreateBacktestScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the investor screen!</Text>
+      <Text style={styles.text}>Welcome to the create backtest screen!</Text>
       <Text
         style={styles.text}
-        onPress={() => navigation.navigate("JobScreen")}
+        onPress={() => navigation.navigate("BacktestResultsScreen")}
       >
-        Press here to view one of your investor's jobs
+        Press here to view the results of your backtest.
       </Text>
     </View>
   );
