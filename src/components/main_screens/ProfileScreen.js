@@ -18,6 +18,12 @@ export default function ProfileScreen({ navigation }) {
       >
         Press here to update email
       </Text>
+      <Text
+        style={styles.text}
+        onPress={() => navigation.navigate("TradeHistoryScreen")}
+      >
+        Press here to view trade history
+      </Text>
     </View>
   );
 }
