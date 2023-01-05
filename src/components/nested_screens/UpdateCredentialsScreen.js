@@ -2,15 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Theme } from "../../constants/Theme";
 
-export default function InvestorScreen({ navigation }) {
+export default function UpdateCredentialsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the investor screen!</Text>
-      <Text
-        style={styles.text}
-        onPress={() => navigation.navigate("JobScreen")}
-      >
-        Press here to view one of your investor's jobs
+      <Text style={styles.text}>
+        Welcome to the update credentials screen, this is a reusable component
+        that will be used for updating email and password!
       </Text>
     </View>
   );

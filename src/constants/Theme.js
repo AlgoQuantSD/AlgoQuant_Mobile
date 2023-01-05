@@ -1,3 +1,5 @@
+import { Ionicons } from "@expo/vector-icons";
+
 const Palette = {
   primaryGreen: "#3F9F30",
   primaryGreenOpacity35: "#3F9F3059",
@@ -56,4 +58,13 @@ export const LightTheme = {
     foreground: Palette.black,
     text: Palette.black,
   },
+};
+
+export const nestedScreenOptions = {
+  title: "",
+  headerBackTitle: "Back",
+  headerTintColor: "white",
+  headerBackImage: () => (
+    <Ionicons name="chevron-back" color="white" size={24} />
+  ),
 };

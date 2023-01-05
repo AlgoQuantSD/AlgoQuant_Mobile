@@ -2,16 +2,10 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Theme } from "../../constants/Theme";
 
-export default function InvestorScreen({ navigation }) {
+export default function JobScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the investor screen!</Text>
-      <Text
-        style={styles.text}
-        onPress={() => navigation.navigate("JobScreen")}
-      >
-        Press here to view one of your investor's jobs
-      </Text>
+      <Text style={styles.text}>Welcome to the job screen!</Text>
     </View>
   );
 }
