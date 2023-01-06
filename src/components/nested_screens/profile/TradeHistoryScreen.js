@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Theme } from "../../constants/Theme";
+import { THEME } from "../../../constants/Theme";
 
-export default function JobScreen() {
+export default function TradeHistoryScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the job screen!</Text>
+      <Text style={styles.text}>Welcome to the trade history screen!</Text>
     </View>
   );
 }
@@ -15,10 +15,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Theme.colors.background,
+    backgroundColor: THEME.colors.background,
   },
   text: {
-    fontSize: Theme.text.fontSizeBody,
-    color: Theme.text.color,
+    fontSize: THEME.text.fontSizeBody,
+    color: THEME.text.color,
   },
 });

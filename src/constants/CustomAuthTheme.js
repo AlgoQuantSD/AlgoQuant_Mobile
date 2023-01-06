@@ -1,44 +1,44 @@
 import { AmplifyTheme } from "aws-amplify-react-native";
-import { Theme } from "./Theme";
+import { THEME } from "./Theme";
 
-export const CustomAuthTheme = {
+export const CUSTOM_AUTH_THEME = {
   ...AmplifyTheme,
   container: {
     ...AmplifyTheme.container,
-    backgroundColor: Theme.colors.background,
+    backgroundColor: THEME.colors.background,
   },
   button: {
     ...AmplifyTheme.button,
-    backgroundColor: Theme.button.backgroundColor,
-    borderRadius: Theme.button.borderRadius,
+    backgroundColor: THEME.button.backgroundColor,
+    borderRadius: THEME.button.borderRadius,
   },
   buttonDisabled: {
     ...AmplifyTheme.buttonDisabled,
-    backgroundColor: Theme.button.disabledBackgroundColor,
-    borderRadius: Theme.button.borderRadius,
+    backgroundColor: THEME.button.disabledBackgroundColor,
+    borderRadius: THEME.button.borderRadius,
   },
   sectionHeaderText: {
     ...AmplifyTheme.sectionHeaderText,
-    color: Theme.text.color,
+    color: THEME.text.color,
   },
-  input: { ...AmplifyTheme.input, color: Theme.text.color },
+  input: { ...AmplifyTheme.input, color: THEME.text.color },
   sectionFooterLink: {
     ...AmplifyTheme.sectionFooterLink,
-    color: Theme.text.color,
+    color: THEME.text.color,
   },
   sectionFooterLinkDisabled: {
     ...AmplifyTheme.sectionFooterLinkDisabled,
-    color: Theme.text.disabledColor,
+    color: THEME.text.disabledColor,
   },
-  linkUnderlay: { color: Theme.colors.background },
-  inputLabel: { ...AmplifyTheme.inputLabel, color: Theme.text.color },
-  phoneInput: { ...AmplifyTheme.phoneInput, color: Theme.text.color },
+  linkUnderlay: { color: THEME.colors.background },
+  inputLabel: { ...AmplifyTheme.inputLabel, color: THEME.text.color },
+  phoneInput: { ...AmplifyTheme.phoneInput, color: THEME.text.color },
   pickerItem: {
     ...AmplifyTheme.pickerItem,
-    color: Theme.colors.foreground,
+    color: THEME.colors.foreground,
   },
   errorRowText: {
     ...AmplifyTheme.errorRowText,
-    color: Theme.colors.danger,
+    color: THEME.colors.danger,
   },
 };

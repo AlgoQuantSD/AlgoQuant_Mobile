@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { UserContext } from "../../constants/UserContext";
-import CustomButton from "../CustomButton";
+import { UserContext } from "../../contexts/UserContext";
+import CustomButton from "../reusable_components/CustomButton";
 import { Auth } from "aws-amplify";
-import { Theme } from "../../constants/Theme";
+import { THEME } from "../../constants/Theme";
 
 export default function HomeScreen({ navigation }) {
   const { userInfo, setUserInfo } = useContext(UserContext);
@@ -60,11 +60,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: Theme.colors.background,
+    backgroundColor: THEME.colors.background,
   },
   text: {
-    fontSize: Theme.text.fontSizeBody,
-    color: Theme.text.color,
+    fontSize: THEME.text.fontSizeBody,
+    color: THEME.text.color,
   },
   carouselContainer: {
     height: "10%",
