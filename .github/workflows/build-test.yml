@@ -37,6 +37,7 @@ jobs:
         env:
           EXPO_TOKEN: by0arXS5Je0QCcznuzHG-WRnQlT8Wb7-8VSa4ay-
         run: |
+          expo-auth-session configure --yes
           eas build -p ios
       
       # - name: 📦 Deploy app
