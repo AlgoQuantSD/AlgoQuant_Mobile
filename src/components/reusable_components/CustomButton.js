@@ -1,5 +1,5 @@
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
-import { Theme } from "../constants/Theme";
+import { THEME } from "../../constants/Theme";
 
 export default function CustomButton(props) {
   const { label, action } = props;
@@ -12,10 +12,10 @@ export default function CustomButton(props) {
 
 const styles = StyleSheet.create({
   button: {
-    ...Theme.button,
+    ...THEME.button,
   },
   buttonText: {
-    fontSize: Theme.text.fontSizeButton,
-    color: Theme.text.color,
+    fontSize: THEME.text.fontSizeButton,
+    color: THEME.text.color,
   },
 });

@@ -1,6 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
-
-const Palette = {
+const PALETTE = {
   primaryGreen: "#3F9F30",
   primaryGreenOpacity35: "#3F9F3059",
   red: "#B11818",
@@ -13,20 +11,20 @@ const Palette = {
   black: "#000000",
 };
 
-export const Theme = {
+export const THEME = {
   colors: {
-    background: Palette.black,
-    foreground: Palette.white,
-    primary: Palette.green,
-    success: Palette.green,
-    danger: Palette.red,
+    background: PALETTE.black,
+    foreground: PALETTE.white,
+    primary: PALETTE.green,
+    success: PALETTE.green,
+    danger: PALETTE.red,
   },
   text: {
     fontSizeH1: 28,
     fontSizeBody: 16,
     fontSizeButton: 16,
-    color: Palette.white,
-    disabledColor: Palette.mediumGray,
+    color: PALETTE.white,
+    disabledColor: PALETTE.mediumGray,
   },
   button: {
     alignItems: "center",
@@ -36,35 +34,26 @@ export const Theme = {
     marginHorizontal: 20,
     borderRadius: 10,
     padding: 3,
-    backgroundColor: Palette.primaryGreen,
-    disabledBackgroundColor: Palette.primaryGreenOpacity35,
+    backgroundColor: PALETTE.primaryGreen,
+    disabledBackgroundColor: PALETTE.primaryGreenOpacity35,
   },
   bottomTab: {
-    backgroundColor: Palette.black,
-    tabActiveColor: Palette.white,
-    tabInactiveColor: Palette.mediumGray,
-    topBorderColor: Palette.darkGray,
+    backgroundColor: PALETTE.black,
+    tabActiveColor: PALETTE.white,
+    tabInactiveColor: PALETTE.mediumGray,
+    topBorderColor: PALETTE.darkGray,
     topBorderWidth: 1,
   },
   modal: {
-    backgroundColor: Palette.darkGrayOpacity95,
+    backgroundColor: PALETTE.darkGrayOpacity95,
   },
 };
 
-export const LightTheme = {
-  ...Theme,
+export const LIGHT_THEME = {
+  ...THEME,
   colors: {
-    background: Palette.white,
-    foreground: Palette.black,
-    text: Palette.black,
+    background: PALETTE.white,
+    foreground: PALETTE.black,
+    text: PALETTE.black,
   },
-};
-
-export const nestedScreenOptions = {
-  title: "",
-  headerBackTitle: "Back",
-  headerTintColor: "white",
-  headerBackImage: () => (
-    <Ionicons name="chevron-back" color="white" size={24} />
-  ),
 };

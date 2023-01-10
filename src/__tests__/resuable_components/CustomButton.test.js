@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react-native";
-import CustomButton from "../components/CustomButton";
+import CustomButton from "../../components/reusable_components/CustomButton";
 
 it("Should render", () => {
   const tree = render(<CustomButton />).toJSON();

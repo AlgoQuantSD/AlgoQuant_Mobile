@@ -1,16 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
-import { StyleSheet } from "react-native";
 import { Amplify, Auth } from "aws-amplify";
 import config from "./src/authentication/aws-exports";
 import { withAuthenticator } from "aws-amplify-react-native";
 import { signUpConfig } from "./src/authentication/SignUpConfig";
-import { CustomAuthTheme } from "./src/constants/CustomAuthTheme";
-import { UserContext } from "./src/constants/UserContext";
+import { CUSTOM_AUTH_THEME } from "./src/constants/CustomAuthTheme";
+import { UserContext } from "./src/contexts/UserContext";
 import { NavigationContainer } from "@react-navigation/native";
-import BottomTabNavigaton from "./src/components/BottomTabNavigaton";
-import { Theme } from "./src/constants/Theme";
+import BottomTabNavigaton from "./src/components/navigation/BottomTabNavigaton";
 
-// Analytics disabled since it is unnecesary and causes an unhandled promise rejection error
+// Analytics disabled since it is unnecesary and causes an unhandled promise rejection warning
 Amplify.configure({ ...config, Analytics: { disabled: true } });
 
 function App() {
@@ -46,18 +44,10 @@ function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Theme.colors.background,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
-
-// Wrap our application in Amplify's authenticator flow
+// Wrap our application in Amplify's authenticator flow, this lets Amplify manage our user's auth state
+// It also provides us with Amplify's sign in, sign up, forgot password, and verify account
 export default withAuthenticator(App, {
   signUpConfig,
   usernameAttributes: "email",
-  theme: CustomAuthTheme,
+  theme: CUSTOM_AUTH_THEME,
 });

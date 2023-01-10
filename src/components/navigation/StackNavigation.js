@@ -1,16 +1,16 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "./main_screens/HomeScreen";
-import InvestorScreen from "./nested_screens/InvestorScreen";
-import JobScreen from "./nested_screens/JobScreen";
-import SearchScreen from "./main_screens/SearchScreen";
-import StockInfoScreen from "./nested_screens/StockInfoScreen";
-import BacktestingScreen from "./main_screens/BacktestingScreen";
-import CreateBacktestScreen from "./nested_screens/CreateBacktestScreen";
-import BacktestResultsScreen from "./nested_screens/BacktestResultsScreen";
-import ProfileScreen from "./main_screens/ProfileScreen";
-import UpdateCredentialsScreen from "./nested_screens/UpdateCredentialsScreen";
-import TradeHistoryScreen from "./nested_screens/TradeHistoryScreen";
-import { nestedScreenOptions } from "../constants/Theme";
+import HomeScreen from "../main_screens/HomeScreen";
+import InvestorScreen from "../nested_screens/home/InvestorScreen";
+import JobScreen from "../nested_screens/home/JobScreen";
+import SearchScreen from "../main_screens/SearchScreen";
+import StockInfoScreen from "../nested_screens/search/StockInfoScreen";
+import BacktestingScreen from "../main_screens/BacktestingScreen";
+import CreateBacktestScreen from "../nested_screens/backtesting/CreateBacktestScreen";
+import BacktestResultsScreen from "../nested_screens/backtesting/BacktestResultsScreen";
+import ProfileScreen from "../main_screens/ProfileScreen";
+import UpdateCredentialsScreen from "../nested_screens/profile/UpdateCredentialsScreen";
+import TradeHistoryScreen from "../nested_screens/profile/TradeHistoryScreen";
+import { nestedScreenOptions } from "./NavigationHelpers";
 
 const Stack = createStackNavigator();
 

@@ -1,5 +1,4 @@
 // signUpConfig is used to modify the default sign up form provided by AWS Amplify
-
 export const signUpConfig = {
   header: "Create your AlgoQuant account",
   hideAllDefaults: true,

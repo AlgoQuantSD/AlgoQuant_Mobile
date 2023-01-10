@@ -6,8 +6,8 @@ import {
   BacktestingScreenStackNavigator,
   ProfileScreenStackNavigator,
 } from "./StackNavigation";
-import BottomTabIcon from "./BottomTabIcon";
-import { Theme } from "../constants/Theme";
+import { BottomTabIcon } from "./NavigationHelpers";
+import { THEME } from "../../constants/Theme";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,12 +20,12 @@ export default function BottomTabNavigaton() {
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: Theme.bottomTab.tabActiveColor,
-        tabBarInactiveTintColor: Theme.bottomTab.tabInactiveColor,
+        tabBarActiveTintColor: THEME.bottomTab.tabActiveColor,
+        tabBarInactiveTintColor: THEME.bottomTab.tabInactiveColor,
         tabBarStyle: {
-          backgroundColor: Theme.bottomTab.backgroundColor,
-          borderTopColor: Theme.bottomTab.topBorderColor,
-          borderTopWidth: Theme.bottomTab.topBorderWidth,
+          backgroundColor: THEME.bottomTab.backgroundColor,
+          borderTopColor: THEME.bottomTab.topBorderColor,
+          borderTopWidth: THEME.bottomTab.topBorderWidth,
         },
       }}
     >
