@@ -1,0 +1,45 @@
+name: Build and Test v2
+
+on:
+  push:
+  # pull-request:
+  #   types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: yarn
+
+      - name: 🏗 Install Yarn
+        run: npm install -g yarn
+
+      - name: 📦 Install dependencies
+        run: yarn install
+
+      - name: 🏗 Setup Expo and Build for Android
+        uses: expo/expo-github-action@v7
+        with:
+          token: by0arXS5Je0QCcznuzHG-WRnQlT8Wb7-8VSa4ay-
+          expo-version: latest
+          eas-version: latest
+          expo-cache: true
+          eas-cache: true
+
+      - name: 🚀 Build app
+        env:
+          EXPO_TOKEN: by0arXS5Je0QCcznuzHG-WRnQlT8Wb7-8VSa4ay-
+        run: |
+          eas build -p ios
+      
+      # - name: 📦 Deploy app
+      #   run: eas deploy
+
+
