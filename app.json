@@ -4,30 +4,28 @@
     "slug": "AlgoQuant_Mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/app-json-icons/icon.png",
+    "icon": "./assets/app_json_icons/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/app-json-icons/splash.png",
+      "image": "./assets/app_json_icons/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/app-json-icons/adaptive-icon.png",
+        "foregroundImage": "./assets/app_json_icons/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/app-json-icons/favicon.png"
+      "favicon": "./assets/app_json_icons/favicon.png"
     }
   }
 }
