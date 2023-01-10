@@ -24,7 +24,7 @@ jobs:
       - name: 📦 Install dependencies
         run: yarn install
 
-      - name: 🏗 Setup Expo and Build for Android
+      - name: 🏗 Setup expo and expo-cli
         uses: expo/expo-github-action@v7
         with:
           token: by0arXS5Je0QCcznuzHG-WRnQlT8Wb7-8VSa4ay-
@@ -32,6 +32,7 @@ jobs:
           eas-version: latest
           expo-cache: true
           eas-cache: true
+        run: npm install -g expo-cli
 
       - name: 🚀 Build app
         env:
