@@ -5,56 +5,27 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function ProfileListOptions({ navigation }) {
+  const options = [
+    { label: "View trade history", key: 0 },
+    { label: "Connect to Alpaca", key: 1 },
+    { label: "Reset password", key: 2 },
+    { label: "Update email", key: 3 },
+    { label: "Delete account", key: 4 },
+    { label: "Sign out", key: 5 },
+  ];
   return (
     <View style={styles.profileListOptionsContainer}>
-      <TouchableOpacity style={styles.listItem}>
-        <Text style={styles.text}>View trade history</Text>
-        <Ionicons
-          name="arrow-forward"
-          size={THEME.text.fontSizeBody}
-          color={THEME.colors.foreground}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.listItem}>
-        <Text style={styles.text}>Connect to Alpaca</Text>
-        <Ionicons
-          name="arrow-forward"
-          size={THEME.text.fontSizeBody}
-          color={THEME.colors.foreground}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.listItem}>
-        <Text style={styles.text}>Reset password</Text>
-        <Ionicons
-          name="arrow-forward"
-          size={THEME.text.fontSizeBody}
-          color={THEME.colors.foreground}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.listItem}>
-        <Text style={styles.text}>Update email</Text>
-        <Ionicons
-          name="arrow-forward"
-          size={THEME.text.fontSizeBody}
-          color={THEME.colors.foreground}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.listItem}>
-        <Text style={styles.text}>Delete account</Text>
-        <Ionicons
-          name="arrow-forward"
-          size={THEME.text.fontSizeBody}
-          color={THEME.colors.foreground}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.listItem}>
-        <Text style={styles.text}>Sign out</Text>
-        <Ionicons
-          name="arrow-forward"
-          size={THEME.text.fontSizeBody}
-          color={THEME.colors.foreground}
-        />
-      </TouchableOpacity>
+      {/* Iterate through the options list to render all the options with their labels */}
+      {options.map(({ label, key }) => (
+        <TouchableOpacity style={styles.listItem} key={key}>
+          <Text style={styles.text}>{label}</Text>
+          <Ionicons
+            name="arrow-forward"
+            size={THEME.text.fontSizeBody}
+            color={THEME.colors.foreground}
+          />
+        </TouchableOpacity>
+      ))}
     </View>
   );
 }
