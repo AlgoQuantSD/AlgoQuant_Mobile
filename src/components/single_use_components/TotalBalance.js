@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { mockUser } from "../../constants/MockUser";
+import { MOCK_USER } from "../../constants/MockUser";
 
 export default function TotalBalance({ navigation }) {
   // Format the total balance into a string
@@ -13,7 +13,7 @@ export default function TotalBalance({ navigation }) {
     minimumFractionDigits: 2,
   };
   const dollarString = new Intl.NumberFormat("en-US", formattingOptions);
-  const formattedBalance = dollarString.format(mockUser.data.totalBalance);
+  const formattedBalance = dollarString.format(MOCK_USER.data.totalBalance);
   return (
     <View style={styles.totalBalanceContainer}>
       <Text style={styles.text}>Total Balance</Text>

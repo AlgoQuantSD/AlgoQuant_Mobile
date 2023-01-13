@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import TotalBalance from "../../components/single_use_components/TotalBalance";
-import { mockUser } from "../../constants/MockUser";
+import { MOCK_USER } from "../../constants/MockUser";
 
 describe("TotalBalance", () => {
   it("Should render", () => {
@@ -16,7 +16,7 @@ describe("TotalBalance", () => {
         style: "currency",
         currency: "USD",
         minimumFractionDigits: 2,
-      }).format(mockUser.data.totalBalance)
+      }).format(MOCK_USER.data.totalBalance)
     );
   });
   it("renders the reset icon", () => {
