@@ -6,9 +6,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { mockUser } from "../../constants/MockUser";
 
 export default function TotalBalance({ navigation }) {
-  function handleResetButtonPress() {
-    console.log("You pressed the reset balance button");
-  }
   // Format the total balance into a string
   const formattingOptions = {
     style: "currency",
@@ -25,7 +22,6 @@ export default function TotalBalance({ navigation }) {
           {formattedBalance}
         </Text>
         <TouchableOpacity
-          onPress={handleResetButtonPress}
           hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
         >
           <Ionicons

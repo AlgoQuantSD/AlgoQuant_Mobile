@@ -50,6 +50,14 @@ exports[`ProfileHeader Should render 1`] = `
       exclusive={true}
       handlerTag={1}
       handlerType="NativeViewGestureHandler"
+      hitSlop={
+        Object {
+          "bottom": 30,
+          "left": 30,
+          "right": 30,
+          "top": 30,
+        }
+      }
       onGestureEvent={[Function]}
       onGestureHandlerEvent={[Function]}
       onGestureHandlerStateChange={[Function]}
@@ -60,6 +68,103 @@ exports[`ProfileHeader Should render 1`] = `
       <View
         accessible={true}
         collapsable={false}
+        hitSlop={
+          Object {
+            "bottom": 30,
+            "left": 30,
+            "right": 30,
+            "top": 30,
+          }
+        }
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <Text />
+      </View>
+    </RNGestureHandlerButton>
+  </View>
+</View>
+`;
+
+exports[`TotalBalance Should render 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 0.15,
+      "justifyContent": "center",
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#FFFFFF",
+        "fontSize": 16,
+      }
+    }
+  >
+    Total Balance
+  </Text>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "paddingTop": "1%",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#FFFFFF",
+          "fontSize": 20,
+          "fontWeight": "bold",
+          "paddingLeft": "1%",
+          "paddingRight": "1%",
+        }
+      }
+      testID="total-balance"
+    >
+      $153,012.23
+    </Text>
+    <RNGestureHandlerButton
+      collapsable={false}
+      delayLongPress={600}
+      enabled={true}
+      exclusive={true}
+      handlerTag={1}
+      handlerType="NativeViewGestureHandler"
+      hitSlop={
+        Object {
+          "bottom": 30,
+          "left": 30,
+          "right": 30,
+          "top": 30,
+        }
+      }
+      onGestureEvent={[Function]}
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      onHandlerStateChange={[Function]}
+      rippleColor={0}
+      touchSoundDisabled={false}
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        hitSlop={
+          Object {
+            "bottom": 30,
+            "left": 30,
+            "right": 30,
+            "top": 30,
+          }
+        }
         style={
           Object {
             "opacity": 1,

@@ -9,10 +9,6 @@ export default function ProfileHeader({ navigation }) {
   const { user } = useAuthenticator((context) => [context.user]);
   const userInitials =
     user?.attributes?.given_name[0] + user?.attributes?.family_name[0];
-
-  function testPencilIconPress() {
-    console.log("You pressed the pencil icon");
-  }
   return (
     <View
       style={styles.profileHeaderContainer}
@@ -31,7 +27,6 @@ export default function ProfileHeader({ navigation }) {
           {user?.attributes?.given_name} {user?.attributes?.family_name}
         </Text>
         <TouchableOpacity
-          onPress={testPencilIconPress}
           hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
         >
           <Ionicons

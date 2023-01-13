@@ -3,7 +3,7 @@ import { render } from "@testing-library/react-native";
 import TotalBalance from "../../components/single_use_components/TotalBalance";
 import { mockUser } from "../../constants/MockUser";
 
-describe("ProfileHeader", () => {
+describe("TotalBalance", () => {
   it("Should render", () => {
     const tree = render(<TotalBalance />).toJSON();
     expect(tree).toMatchSnapshot();
