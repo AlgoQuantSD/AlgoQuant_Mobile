@@ -1,29 +1,19 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
+import ProfileHeader from "../single_use_components/ProfileHeader";
+import TotalBalance from "../single_use_components/TotalBalance";
+import ProfileListOptions from "../single_use_components/ProfileListOptions";
 
 export default function ProfileScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the profile screen!</Text>
-      <Text
-        style={styles.text}
-        onPress={() => navigation.navigate("UpdateCredentialsScreen")}
-      >
-        Press here to reset password
-      </Text>
-      <Text
-        style={styles.text}
-        onPress={() => navigation.navigate("UpdateCredentialsScreen")}
-      >
-        Press here to update email
-      </Text>
-      <Text
-        style={styles.text}
-        onPress={() => navigation.navigate("TradeHistoryScreen")}
-      >
-        Press here to view trade history
-      </Text>
+      {/* Profile pic and full name */}
+      <ProfileHeader />
+      {/* Balance display and reset balance button */}
+      <TotalBalance />
+      {/* List of options such as reset password */}
+      <ProfileListOptions />
     </View>
   );
 }
@@ -31,12 +21,8 @@ export default function ProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: THEME.colors.background,
-  },
-  text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
   },
 });

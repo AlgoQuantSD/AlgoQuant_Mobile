@@ -21,6 +21,9 @@ export const THEME = {
   },
   text: {
     fontSizeH1: 28,
+    fontSizeH2: 24,
+    fontSizeH3: 20,
+    fontSizeBold: 20,
     fontSizeBody: 16,
     fontSizeButton: 16,
     color: PALETTE.white,
@@ -46,6 +49,10 @@ export const THEME = {
   },
   modal: {
     backgroundColor: PALETTE.darkGrayOpacity95,
+  },
+  profileScreen: {
+    profilePicBackgroundColor: PALETTE.mediumGray,
+    dividerColor: PALETTE.mediumGray,
   },
 };
 
