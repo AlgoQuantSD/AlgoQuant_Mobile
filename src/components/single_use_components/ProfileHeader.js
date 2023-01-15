@@ -5,10 +5,28 @@ import { THEME } from "../../constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function ProfileHeader({ navigation }) {
+export default function ProfileHeader(props) {
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalInputLabels,
+  } = props;
   const { user } = useAuthenticator((context) => [context.user]);
   const userInitials =
     user?.attributes?.given_name[0] + user?.attributes?.family_name[0];
+
+  function handlePencilIconPress() {
+    console.log("Handle pencil icon press");
+    setModalType("EDIT_NAME");
+    setModalTitle("Edit Name");
+    setModalInputLabels([
+      { label: "First Name", key: "FIRST_NAME_LABEL" },
+      { label: "Last Name", key: "LAST_NAME_LABEL" },
+    ]);
+    setIsModalVisible(!isModalVisible);
+  }
   return (
     <View
       style={styles.profileHeaderContainer}
@@ -28,6 +46,7 @@ export default function ProfileHeader({ navigation }) {
         </Text>
         <TouchableOpacity
           hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+          onPress={handlePencilIconPress}
         >
           <Ionicons
             name="pencil"
