@@ -1,30 +1,17 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useAuthenticator } from "@aws-amplify/ui-react-native";
-import CustomButton from "../reusable_components/CustomButton";
-import { Auth } from "aws-amplify";
 import { THEME } from "../../constants/Theme";
 
 export default function HomeScreen({ navigation }) {
   // Get the current user and only refresh the component if user is updated
   const { user } = useAuthenticator((context) => [context.user]);
 
-  async function signOut() {
-    try {
-      await Auth.signOut();
-    } catch (error) {
-      console.log("error signing out: ", error);
-    }
-  }
-
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
         Welcome to the home screen! {user?.attributes?.email}
       </Text>
-      <View style={{ position: "absolute", top: 60, right: 1 }}>
-        <CustomButton label="Sign Out" action={signOut} />
-      </View>
       <View style={styles.carouselContainer}>
         <Text
           style={styles.text}

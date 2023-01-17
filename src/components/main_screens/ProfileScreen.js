@@ -32,7 +32,16 @@ export default function ProfileScreen({ navigation }) {
       />
 
       {/* Balance display and reset balance button */}
-      <TotalBalance />
+      <TotalBalance
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        setModalType={setModalType}
+        setModalTitle={setModalTitle}
+        setModalHeader={setModalHeader}
+        setModalBody={setModalBody}
+        setModalInputLabels={setModalInputLabels}
+        setModalButtons={setModalButtons}
+      />
 
       {/* List of options such as reset password */}
       {/* Same idea as the other components. In the list options there are different types of modals that can be rendered 

@@ -35,7 +35,7 @@ export default function CustomModal(props) {
     setModalButtons(null);
   }
 
-  // Perform the appropriate action upon submitting based on what modal is open
+  // Perform the appropriate action upon submitting based on which modal is open
   function handleSubmit() {
     switch (modalType) {
       case "EDIT_NAME":
@@ -47,10 +47,15 @@ export default function CustomModal(props) {
         setIsModalVisible(!isModalVisible);
         break;
       case "RESET_BALANCE":
-        console.log("Balance reset!");
+        console.log("Balance reset! Your new API key: ", inputValues[0]);
+        setIsModalVisible(!isModalVisible);
         break;
       case "CONNECT_ALPACA":
         console.log("Connected to Alpaca! Your API key: ", inputValues[0]);
+        setIsModalVisible(!isModalVisible);
+        break;
+      case "DELETE_ACCOUNT":
+        console.log("Account deleted!");
         setIsModalVisible(!isModalVisible);
         break;
       default:

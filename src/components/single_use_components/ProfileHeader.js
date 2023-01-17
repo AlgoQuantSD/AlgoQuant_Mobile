@@ -4,6 +4,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react-native";
 import { THEME } from "../../constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { editNameModalBuilder } from "../../helpers/modalFactory";
 
 export default function ProfileHeader(props) {
   // Get the users initials to render in the gray circle
@@ -11,40 +12,11 @@ export default function ProfileHeader(props) {
   const userInitials =
     user?.attributes?.given_name[0] + user?.attributes?.family_name[0];
 
-  // Get the functions that we need to setup the edit name modal
-  const {
-    isModalVisible,
-    setIsModalVisible,
-    setModalType,
-    setModalTitle,
-    setModalInputLabels,
-    setModalButtons,
-  } = props;
-
-  // Set all the information for the edit name modal and make it visible
+  // Call the modal builder with props, props contains all the functions needed to set info in the modal
   function handlePencilIconPress() {
-    setModalType("EDIT_NAME");
-    setModalTitle("Edit Name");
-    setModalInputLabels([
-      { label: "First Name", key: "FIRST_NAME_LABEL" },
-      { label: "Last Name", key: "LAST_NAME_LABEL" },
-    ]);
-    setModalButtons([
-      {
-        label: "Submit",
-        buttonColor: THEME.colors.success,
-        textColor: THEME.text.color,
-        key: "SUBMIT_BUTTON",
-      },
-      {
-        label: "Cancel",
-        buttonColor: THEME.colors.danger,
-        textColor: THEME.text.color,
-        key: "CANCEL_BUTTON",
-      },
-    ]);
-    setIsModalVisible(!isModalVisible);
+    editNameModalBuilder(props);
   }
+
   return (
     <View
       style={styles.profileHeaderContainer}
