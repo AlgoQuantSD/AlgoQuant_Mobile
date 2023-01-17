@@ -15,8 +15,8 @@ export const THEME = {
   colors: {
     background: PALETTE.black,
     foreground: PALETTE.white,
-    primary: PALETTE.green,
-    success: PALETTE.green,
+    primary: PALETTE.primaryGreen,
+    success: PALETTE.primaryGreen,
     danger: PALETTE.red,
   },
   text: {
@@ -26,6 +26,7 @@ export const THEME = {
     fontSizeBold: 20,
     fontSizeBody: 16,
     fontSizeButton: 16,
+    fontSizeModalBody: 14,
     color: PALETTE.white,
     disabledColor: PALETTE.mediumGray,
   },

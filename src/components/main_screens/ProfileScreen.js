@@ -7,27 +7,46 @@ import ProfileListOptions from "../single_use_components/ProfileListOptions";
 import CustomModal from "../reusable_components/CustomModal";
 
 export default function ProfileScreen({ navigation }) {
+  // Keep track of whether the modal is visible or not and what type of modal we should render
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [modalTitle, setModalTitle] = useState(null);
   const [modalHeader, setModalHeader] = useState(null);
   const [modalBody, setModalBody] = useState(null);
   const [modalInputLabels, setModalInputLabels] = useState(null);
-  console.log("ProfileScreen isModalVisible: ", isModalVisible);
+  const [modalButtons, setModalButtons] = useState(null);
+
   return (
     <View style={styles.container}>
       {/* Profile pic and full name */}
+      {/* Here we pass in all the information that we want in our modal. Since the profile header deals with the edit 
+      name modal only we want to give it the ability to have input fields. Everything else is that it must have is standard 
+      for all modals (title, buttons, type)*/}
       <ProfileHeader
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
         setModalType={setModalType}
         setModalTitle={setModalTitle}
         setModalInputLabels={setModalInputLabels}
+        setModalButtons={setModalButtons}
       />
+
       {/* Balance display and reset balance button */}
       <TotalBalance />
+
       {/* List of options such as reset password */}
-      <ProfileListOptions />
+      {/* Same idea as the other components. In the list options there are different types of modals that can be rendered 
+      that may need a header, body, input fields, and buttons */}
+      <ProfileListOptions
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        setModalType={setModalType}
+        setModalTitle={setModalTitle}
+        setModalHeader={setModalHeader}
+        setModalBody={setModalBody}
+        setModalInputLabels={setModalInputLabels}
+        setModalButtons={setModalButtons}
+      />
       <CustomModal
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
@@ -41,6 +60,8 @@ export default function ProfileScreen({ navigation }) {
         setModalBody={setModalBody}
         modalInputLabels={modalInputLabels}
         setModalInputLabels={setModalInputLabels}
+        modalButtons={modalButtons}
+        setModalButtons={setModalButtons}
       />
     </View>
   );

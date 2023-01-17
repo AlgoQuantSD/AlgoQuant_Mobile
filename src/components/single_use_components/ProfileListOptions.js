@@ -4,20 +4,64 @@ import { THEME } from "../../constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function ProfileListOptions({ navigation }) {
+export default function ProfileListOptions(props, { navigation }) {
+  // Get the functions that we need to setup the edit name modal
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalInputLabels,
+    setModalButtons,
+  } = props;
+
+  // Set the information for the corresponding modal
+  // (This will be extracted into a separate file containing all functions for setting information for different types of modals)
+  function handleConnectAlpacaPress() {
+    setModalType("CONNECT_ALPACA");
+    setModalTitle("Connect to Alpaca");
+    setModalHeader("Enter your API key");
+    setModalBody(
+      "Enter your Alpaca API key below. If you don't have an Alpaca API key you're a loser"
+    );
+    setModalInputLabels([
+      { label: "Alpaca API Key", key: "ALPACA_API_KEY_LABEL" },
+    ]);
+    setModalButtons([
+      {
+        label: "SUBMIT",
+        buttonColor: THEME.colors.success,
+        textColor: THEME.text.color,
+        key: "SUBMIT_BUTTON",
+      },
+      {
+        label: "Cancel",
+        buttonColor: THEME.colors.danger,
+        textColor: THEME.text.color,
+        key: "CANCEL_BUTTON",
+      },
+    ]);
+    setIsModalVisible(!isModalVisible);
+  }
   const options = [
-    { label: "View trade history", key: 0 },
-    { label: "Connect to Alpaca", key: 1 },
-    { label: "Reset password", key: 2 },
-    { label: "Update email", key: 3 },
-    { label: "Delete account", key: 4 },
-    { label: "Sign out", key: 5 },
+    { label: "View trade history", key: "TRADE_HISTORY" },
+    { label: "Connect to Alpaca", key: "CONNECT_ALPACA" },
+    { label: "Reset password", key: "RESET_PASSWORD" },
+    { label: "Update email", key: "UPDATE_EMAIL" },
+    { label: "Delete account", key: "DELETE_ACCOUNT" },
+    { label: "Sign out", key: "SIGN_OUT" },
   ];
   return (
     <View style={styles.profileListOptionsContainer}>
       {/* Iterate through the options list to render all the options with their labels */}
       {options.map(({ label, key }) => (
-        <TouchableOpacity style={styles.listItem} key={key}>
+        <TouchableOpacity
+          style={styles.listItem}
+          key={key}
+          onPress={key === "CONNECT_ALPACA" ? handleConnectAlpacaPress : null}
+        >
           <Text style={styles.text}>{label}</Text>
           <Ionicons
             name="arrow-forward"
