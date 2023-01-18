@@ -18,7 +18,6 @@ export function handleSignOut() {
       { text: "OK", onPress: () => signOut() },
       {
         text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
         style: "cancel",
       },
     ],

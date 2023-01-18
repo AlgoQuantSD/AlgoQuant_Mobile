@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import Modal from "react-native-modal";
 import { Ionicons } from "@expo/vector-icons";
@@ -71,67 +78,74 @@ export default function CustomModal(props) {
   // Check whether certain pieces of the modal should be rendered if so we render it
   // In some cases such as input fields and buttons we must loop through and render them because the number of input fields and buttons in a modal may vary
   return (
-    <Modal isVisible={isModalVisible} style={styles.modalContainer}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.titleText}>{modalTitle}</Text>
-        <TouchableOpacity style={styles.closeButton} onPress={handleModalClose}>
-          <Ionicons name="close" size={16} color="white" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.contentContainer}>
-        {modalHeader ? (
-          <View style={styles.modalHeader}>
-            <Text style={styles.headerText}>{modalHeader}</Text>
-          </View>
-        ) : null}
-        {modalBody ? (
-          <View style={styles.modalBody}>
-            <Text style={styles.bodyText}>{modalBody}</Text>
-          </View>
-        ) : null}
-        {modalInputLabels ? (
-          <View style={styles.modalInputLabels}>
-            {modalInputLabels.map((item, index) => (
-              <TextInput
-                key={item.key}
-                onChangeText={(text) => {
-                  const newInputValues = [...inputValues];
-                  newInputValues[index] = text;
-                  setInputValues(newInputValues);
-                }}
-                label={item.label}
-                selectionColor="white"
-                underlineColor="white"
-                activeUnderlineColor="white"
-                outlineColor="white"
-                activeOutlineColor="white"
-                textColor="white"
-                placeholderTextColor="white"
-                contentStyle={{ color: "white" }}
-                style={{ backgroundColor: "#ffffff00" }}
-              ></TextInput>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <Modal isVisible={isModalVisible} style={styles.modalContainer}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.titleText}>{modalTitle}</Text>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={handleModalClose}
+          >
+            <Ionicons name="close" size={16} color="white" />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.contentContainer}>
+          {modalHeader ? (
+            <View style={styles.modalHeader} testID="modal-header">
+              <Text style={styles.headerText}>{modalHeader}</Text>
+            </View>
+          ) : null}
+          {modalBody ? (
+            <View style={styles.modalBody} testID="modal-body">
+              <Text style={styles.bodyText}>{modalBody}</Text>
+            </View>
+          ) : null}
+          {modalInputLabels ? (
+            <View style={styles.modalInputLabels} testID="modal-input-fields">
+              {modalInputLabels.map((item, index) => (
+                <TextInput
+                  key={item.key}
+                  onChangeText={(text) => {
+                    const newInputValues = [...inputValues];
+                    newInputValues[index] = text;
+                    setInputValues(newInputValues);
+                  }}
+                  label={item.label}
+                  selectionColor="white"
+                  underlineColor="white"
+                  activeUnderlineColor="white"
+                  outlineColor="white"
+                  activeOutlineColor="white"
+                  textColor="white"
+                  placeholderTextColor="white"
+                  contentStyle={{ color: "white" }}
+                  style={{ backgroundColor: "#ffffff00" }}
+                ></TextInput>
+              ))}
+            </View>
+          ) : null}
+        </View>
+        {modalButtons ? (
+          <View style={styles.modalButtons}>
+            {modalButtons.map((item, index) => (
+              <TouchableOpacity key={item.key} style={styles.button}>
+                <Button
+                  onPress={
+                    item.key === "SUBMIT_BUTTON"
+                      ? handleSubmit
+                      : handleModalClose
+                  }
+                  children={item.label}
+                  buttonColor={item.buttonColor}
+                  textColor={item.textColor}
+                  style={{ width: 100 }}
+                />
+              </TouchableOpacity>
             ))}
           </View>
         ) : null}
-      </View>
-      {modalButtons ? (
-        <View style={styles.modalButtons}>
-          {modalButtons.map((item, index) => (
-            <TouchableOpacity key={item.key} style={styles.button}>
-              <Button
-                onPress={
-                  item.key === "SUBMIT_BUTTON" ? handleSubmit : handleModalClose
-                }
-                children={item.label}
-                buttonColor={item.buttonColor}
-                textColor={item.textColor}
-                style={{ width: 100 }}
-              />
-            </TouchableOpacity>
-          ))}
-        </View>
-      ) : null}
-    </Modal>
+      </Modal>
+    </TouchableWithoutFeedback>
   );
 }
 

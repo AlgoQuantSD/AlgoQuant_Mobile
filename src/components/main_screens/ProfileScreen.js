@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { THEME } from "../../constants/Theme";
 import ProfileHeader from "../single_use_components/ProfileHeader";
 import TotalBalance from "../single_use_components/TotalBalance";
