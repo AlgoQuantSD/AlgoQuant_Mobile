@@ -1,25 +1,36 @@
 import React from "react";
 import { THEME } from "../constants/Theme";
+import { getCurrentUser } from "./user";
 
 // All of the builders follow the same pattern
 // 1) Get all the functions from props needed to set the modal content
 // 2) Set the content that is necessary to render the modal
 // 3) Make the modal visible
-export function editNameModalBuilder(props) {
+export async function editNameModalBuilder(props) {
+  const user = await getCurrentUser();
+
   const {
     isModalVisible,
     setIsModalVisible,
     setModalType,
     setModalTitle,
-    setModalInputLabels,
+    setmodalInputFields,
     setModalButtons,
   } = props;
 
   setModalType("EDIT_NAME");
   setModalTitle("Edit Name");
-  setModalInputLabels([
-    { label: "First Name", key: "FIRST_NAME_LABEL" },
-    { label: "Last Name", key: "LAST_NAME_LABEL" },
+  setmodalInputFields([
+    {
+      label: "First Name",
+      defaultValue: user?.attributes?.given_name,
+      key: "FIRST_NAME_LABEL",
+    },
+    {
+      label: "Last Name",
+      defaultValue: user?.attributes?.family_name,
+      key: "LAST_NAME_LABEL",
+    },
   ]);
   setModalButtons([
     {
@@ -46,7 +57,7 @@ export function resetBalanceModalBuilder(props) {
     setModalTitle,
     setModalHeader,
     setModalBody,
-    setModalInputLabels,
+    setmodalInputFields,
     setModalButtons,
   } = props;
 
@@ -56,7 +67,7 @@ export function resetBalanceModalBuilder(props) {
   setModalBody(
     "This will reset your balance to $100,000 and stop all running jobs. Enter a new Alpaca API key to reset your balance. If you don't have one you're a loser."
   );
-  setModalInputLabels([
+  setmodalInputFields([
     { label: "Alpaca API Key", key: "RESET_BALANCE_ALPACA_API_KEY_LABEL" },
   ]);
   setModalButtons([
@@ -84,7 +95,7 @@ export function connectToAlpacaModalBuilder(props) {
     setModalTitle,
     setModalHeader,
     setModalBody,
-    setModalInputLabels,
+    setmodalInputFields,
     setModalButtons,
   } = props;
   setModalType("CONNECT_ALPACA");
@@ -93,7 +104,7 @@ export function connectToAlpacaModalBuilder(props) {
   setModalBody(
     "Enter your Alpaca API key below. If you don't have an Alpaca API key you're a loser"
   );
-  setModalInputLabels([
+  setmodalInputFields([
     { label: "Alpaca API Key", key: "CONNECT_ALPACA_API_KEY_LABEL" },
   ]);
   setModalButtons([
@@ -121,7 +132,7 @@ export function deleteAccountModalBuilder(props) {
     setModalTitle,
     setModalHeader,
     setModalBody,
-    setModalInputLabels,
+    setmodalInputFields,
     setModalButtons,
   } = props;
   setModalType("DELETE_ACCOUNT");
@@ -130,7 +141,7 @@ export function deleteAccountModalBuilder(props) {
   setModalBody(
     "You will not be able to recover your account upon deletion. Enter your password below to confirm."
   );
-  setModalInputLabels([
+  setmodalInputFields([
     { label: "AlgoQuant Password", key: "DELETE_ACCOUNT_ALGOQUANT_PASS_LABEL" },
   ]);
   setModalButtons([

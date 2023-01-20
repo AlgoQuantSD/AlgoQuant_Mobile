@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,6 +11,8 @@ import { TextInput, Button } from "react-native-paper";
 import Modal from "react-native-modal";
 import { Ionicons } from "@expo/vector-icons";
 import { THEME } from "../../constants/Theme";
+import { submitEditNameModal } from "../../helpers/modalSubmitActions";
+import TypewriterAnimatedText from "./TypewriterAnimatedText";
 
 export default function CustomModal(props) {
   // Get the information for the modal and the functions to clear the information when we close the modal
@@ -25,10 +27,12 @@ export default function CustomModal(props) {
     setModalHeader,
     modalBody,
     setModalBody,
-    modalInputLabels,
-    setModalInputLabels,
+    modalInputFields,
+    setmodalInputFields,
     modalButtons,
     setModalButtons,
+    modalErrorMessage,
+    setModalErrorMessage,
   } = props;
 
   // Close the modal and clear the modal information
@@ -38,20 +42,25 @@ export default function CustomModal(props) {
     setModalTitle(null);
     setModalHeader(null);
     setModalBody(null);
-    setModalInputLabels(null);
+    setmodalInputFields(null);
     setModalButtons(null);
+    setInputValues([""]);
+    setModalErrorMessage(null);
   }
 
   // Perform the appropriate action upon submitting based on which modal is open
   function handleSubmit() {
     switch (modalType) {
       case "EDIT_NAME":
-        console.log(
-          "New name saved! Your new name: ",
-          inputValues[0],
-          inputValues[1]
-        );
-        setIsModalVisible(!isModalVisible);
+        let submitProps = {
+          inputValues,
+          setInputValues,
+          modalInputFields,
+          isModalVisible,
+          setIsModalVisible,
+          setModalErrorMessage,
+        };
+        submitEditNameModal(submitProps);
         break;
       case "RESET_BALANCE":
         console.log("Balance reset! Your new API key: ", inputValues[0]);
@@ -72,8 +81,14 @@ export default function CustomModal(props) {
 
   // Keep track of what is being typed into the input fields if we have any in our modal
   const [inputValues, setInputValues] = useState(
-    Array(modalInputLabels?.length).fill("")
+    Array(modalInputFields?.length).fill("")
   );
+  // Refresh the component to get the correct amount of input values
+  useEffect(() => {
+    if (modalInputFields) {
+      setInputValues(Array(modalInputFields.length).fill(""));
+    }
+  }, [modalInputFields]);
 
   // Check whether certain pieces of the modal should be rendered if so we render it
   // In some cases such as input fields and buttons we must loop through and render them because the number of input fields and buttons in a modal may vary
@@ -100,17 +115,18 @@ export default function CustomModal(props) {
               <Text style={styles.bodyText}>{modalBody}</Text>
             </View>
           ) : null}
-          {modalInputLabels ? (
-            <View style={styles.modalInputLabels} testID="modal-input-fields">
-              {modalInputLabels.map((item, index) => (
+          {modalInputFields ? (
+            <View style={styles.modalInputFields} testID="modal-input-fields">
+              {modalInputFields.map((item, index) => (
                 <TextInput
                   key={item.key}
+                  label={item.label}
+                  defaultValue={item.defaultValue}
                   onChangeText={(text) => {
                     const newInputValues = [...inputValues];
                     newInputValues[index] = text;
                     setInputValues(newInputValues);
                   }}
-                  label={item.label}
                   selectionColor="white"
                   underlineColor="white"
                   activeUnderlineColor="white"
@@ -125,6 +141,14 @@ export default function CustomModal(props) {
             </View>
           ) : null}
         </View>
+        {modalErrorMessage ? (
+          <View style={styles.modalErrorMessage}>
+            <TypewriterAnimatedText
+              text={modalErrorMessage}
+              style={styles.modalErrorMessageText}
+            />
+          </View>
+        ) : null}
         {modalButtons ? (
           <View style={styles.modalButtons}>
             {modalButtons.map((item, index) => (
@@ -183,6 +207,10 @@ const styles = StyleSheet.create({
     color: THEME.text.color,
     fontSize: THEME.text.fontSizeH3,
   },
+  modalErrorMessageText: {
+    color: THEME.colors.danger,
+    fontSize: THEME.text.fontSizeModalBody,
+  },
   closeButton: { position: "absolute", top: 0, right: 0, padding: 10 },
   modalHeader: {
     alignItems: "flex-start",
@@ -196,10 +224,15 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     width: "90%",
   },
-  modalInputLabels: {
-    flex: 0.55,
+  modalInputFields: {
+    flex: 0.5,
     justifyContent: "center",
     width: "90%",
+  },
+  modalErrorMessage: {
+    flex: 0.05,
+    alignItems: "center",
+    justifyContent: "center",
   },
   modalButtons: {
     flex: 0.1,

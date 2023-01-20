@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import ProfileHeader from "../single_use_components/ProfileHeader";
 import TotalBalance from "../single_use_components/TotalBalance";
@@ -18,8 +13,9 @@ export default function ProfileScreen({ navigation }) {
   const [modalTitle, setModalTitle] = useState(null);
   const [modalHeader, setModalHeader] = useState(null);
   const [modalBody, setModalBody] = useState(null);
-  const [modalInputLabels, setModalInputLabels] = useState(null);
+  const [modalInputFields, setmodalInputFields] = useState(null);
   const [modalButtons, setModalButtons] = useState(null);
+  const [modalErrorMessage, setModalErrorMessage] = useState(null);
 
   return (
     <View style={styles.container}>
@@ -32,8 +28,9 @@ export default function ProfileScreen({ navigation }) {
         setIsModalVisible={setIsModalVisible}
         setModalType={setModalType}
         setModalTitle={setModalTitle}
-        setModalInputLabels={setModalInputLabels}
+        setmodalInputFields={setmodalInputFields}
         setModalButtons={setModalButtons}
+        setModalErrorMessage={setModalErrorMessage}
       />
 
       {/* Balance display and reset balance button */}
@@ -44,7 +41,7 @@ export default function ProfileScreen({ navigation }) {
         setModalTitle={setModalTitle}
         setModalHeader={setModalHeader}
         setModalBody={setModalBody}
-        setModalInputLabels={setModalInputLabels}
+        setmodalInputFields={setmodalInputFields}
         setModalButtons={setModalButtons}
       />
 
@@ -58,7 +55,7 @@ export default function ProfileScreen({ navigation }) {
         setModalTitle={setModalTitle}
         setModalHeader={setModalHeader}
         setModalBody={setModalBody}
-        setModalInputLabels={setModalInputLabels}
+        setmodalInputFields={setmodalInputFields}
         setModalButtons={setModalButtons}
       />
       <CustomModal
@@ -72,10 +69,12 @@ export default function ProfileScreen({ navigation }) {
         setModalHeader={setModalHeader}
         modalBody={modalBody}
         setModalBody={setModalBody}
-        modalInputLabels={modalInputLabels}
-        setModalInputLabels={setModalInputLabels}
+        modalInputFields={modalInputFields}
+        setmodalInputFields={setmodalInputFields}
         modalButtons={modalButtons}
         setModalButtons={setModalButtons}
+        modalErrorMessage={modalErrorMessage}
+        setModalErrorMessage={setModalErrorMessage}
       />
     </View>
   );

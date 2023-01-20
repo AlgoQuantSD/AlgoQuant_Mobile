@@ -22,11 +22,11 @@ describe("CustomModal", () => {
         setModalHeader={jest.fn()}
         modalBody={null}
         setModalBody={jest.fn()}
-        modalInputLabels={[
+        modalInputFields={[
           { label: "First Name", key: "FIRST_NAME_LABEL" },
           { label: "Last Name", key: "LAST_NAME_LABEL" },
         ]}
-        setModalInputLabels={jest.fn()}
+        setmodalInputFields={jest.fn()}
         modalButtons={[
           {
             label: "Submit",
@@ -59,7 +59,7 @@ describe("CustomModal", () => {
     expect(screen.queryByTestId("modal-body")).toBeNull();
   });
 
-  it("does not render if it is not visible", () => {
+  it("does not render if isModalVisible is false", () => {
     render(
       <CustomModal
         isModalVisible={false}
@@ -72,11 +72,11 @@ describe("CustomModal", () => {
         setModalHeader={jest.fn()}
         modalBody={null}
         setModalBody={jest.fn()}
-        modalInputLabels={[
+        modalInputFields={[
           { label: "First Name", key: "FIRST_NAME_LABEL" },
           { label: "Last Name", key: "LAST_NAME_LABEL" },
         ]}
-        setModalInputLabels={jest.fn()}
+        setmodalInputFields={jest.fn()}
         modalButtons={[
           {
             label: "Submit",
