@@ -37,6 +37,7 @@ export default function TotalBalance({ navigation }) {
         setIsLoading(false);
       });
   });
+
   return (
     <View style={styles.totalBalanceContainer}>
       <Text style={styles.text}>Total Balance</Text>
