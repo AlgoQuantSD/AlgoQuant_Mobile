@@ -14,6 +14,29 @@ export default function TotalBalance({ navigation }) {
   };
   const dollarString = new Intl.NumberFormat("en-US", formattingOptions);
   const formattedBalance = dollarString.format(MOCK_USER.data.totalBalance);
+
+  const algoquantApi = useContext(AlgoquantApiContext);
+
+  const [balance, setBalance] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [alpacaConnection, setAlpacaConnection] = useState(false);
+
+  useEffect(() => {
+    algoquantApi
+      .getUser(user?.signInUserSession?.accessToken?.jwtToken)
+      .then((resp) => {
+        console.log(resp);
+        setBalance(resp.data.buying_power);
+        console.log(resp.data.alpaca_secret_key);
+        if (
+          typeof resp.data.alpaca_secret_key !== "undefined" ||
+          resp.data.alpaca_key !== "undefined"
+        ) {
+          setAlpacaConnection(true);
+        }
+        setIsLoading(false);
+      });
+  });
   return (
     <View style={styles.totalBalanceContainer}>
       <Text style={styles.text}>Total Balance</Text>
