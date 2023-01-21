@@ -16,7 +16,7 @@ export default function TypewriterAnimatedText(props) {
       }
     }, 100);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [textToType]);
 
   return (
     <View>

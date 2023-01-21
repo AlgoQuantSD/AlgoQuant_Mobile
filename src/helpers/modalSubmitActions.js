@@ -33,6 +33,7 @@ export async function submitEditNameModal(props) {
     setModalErrorMessage("ERROR: Invalid name");
     console.log("Invalid name");
   } else {
+    setModalErrorMessage(null);
     try {
       await Auth.updateUserAttributes(user, {
         given_name: inputValues[0],
@@ -42,7 +43,49 @@ export async function submitEditNameModal(props) {
       setIsModalVisible(!isModalVisible);
     } catch (error) {
       console.log("Error updating name: ", error);
+      setModalErrorMessage(error.message);
     }
   }
+  // Clear the state of input values
+  setInputValues(Array(modalInputFields?.length).fill(""));
+}
+
+export async function submitDeleteAccountModal(props) {
+  const {
+    inputValues,
+    setInputValues,
+    modalInputFields,
+    isModalVisible,
+    setIsModalVisible,
+    setModalErrorMessage,
+  } = props;
+
+  // Get the necessary info to submit to the sign in function
+  const currentUser = await getCurrentUser();
+  const username = currentUser?.attributes?.email;
+  const password = inputValues[0];
+
+  try {
+    // The sign in function is used as a verification with the user typing in their password to confirm account deletion
+    const user = await Auth.signIn(username, password);
+    if (
+      user.challengeName === "SMS_MFA" ||
+      user.challengeName === "SOFTWARE_TOKEN_MFA"
+    ) {
+      // Handle MFA if required
+    } else if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+      // Handle new password if required
+    } else {
+      // The user has been authenticated, proceed with account deletion
+      await Auth.deleteUser();
+      // Clear state of error message and hide the modal
+      setModalErrorMessage(null);
+      setIsModalVisible(!isModalVisible);
+    }
+  } catch (error) {
+    console.log("Error signing in: ", error);
+    setModalErrorMessage("ERROR: " + error.message);
+  }
+  // Clear the state of input values
   setInputValues(Array(modalInputFields?.length).fill(""));
 }

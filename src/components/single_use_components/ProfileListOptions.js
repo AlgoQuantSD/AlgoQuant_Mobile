@@ -26,7 +26,6 @@ export default function ProfileListOptions(props, { navigation }) {
       default:
         console.log("Default");
     }
-    console.log("The key: ", key);
   }
 
   const options = [

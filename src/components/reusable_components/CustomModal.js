@@ -11,7 +11,10 @@ import { TextInput, Button } from "react-native-paper";
 import Modal from "react-native-modal";
 import { Ionicons } from "@expo/vector-icons";
 import { THEME } from "../../constants/Theme";
-import { submitEditNameModal } from "../../helpers/modalSubmitActions";
+import {
+  submitEditNameModal,
+  submitDeleteAccountModal,
+} from "../../helpers/modalSubmitActions";
 import TypewriterAnimatedText from "./TypewriterAnimatedText";
 
 export default function CustomModal(props) {
@@ -50,16 +53,16 @@ export default function CustomModal(props) {
 
   // Perform the appropriate action upon submitting based on which modal is open
   function handleSubmit() {
+    let submitProps = {
+      inputValues,
+      setInputValues,
+      modalInputFields,
+      isModalVisible,
+      setIsModalVisible,
+      setModalErrorMessage,
+    };
     switch (modalType) {
       case "EDIT_NAME":
-        let submitProps = {
-          inputValues,
-          setInputValues,
-          modalInputFields,
-          isModalVisible,
-          setIsModalVisible,
-          setModalErrorMessage,
-        };
         submitEditNameModal(submitProps);
         break;
       case "RESET_BALANCE":
@@ -71,8 +74,8 @@ export default function CustomModal(props) {
         setIsModalVisible(!isModalVisible);
         break;
       case "DELETE_ACCOUNT":
+        submitDeleteAccountModal(submitProps);
         console.log("Account deleted!");
-        setIsModalVisible(!isModalVisible);
         break;
       default:
         console.log("Default");
@@ -225,14 +228,15 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   modalInputFields: {
-    flex: 0.5,
+    flex: 0.45,
     justifyContent: "center",
     width: "90%",
   },
   modalErrorMessage: {
-    flex: 0.05,
+    flex: 0.1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    width: "85%",
   },
   modalButtons: {
     flex: 0.1,
