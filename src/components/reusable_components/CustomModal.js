@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.modal.backgroundColor,
     flex: 0.75,
     marginTop: "50%",
+    borderRadius: 10,
   },
   contentContainer: {
     flex: 0.6,
