@@ -1,3 +1,5 @@
+import { PixelRatio } from "react-native";
+
 const PALETTE = {
   primaryGreen: "#3F9F30",
   primaryGreenOpacity35: "#3F9F3059",
@@ -9,6 +11,7 @@ const PALETTE = {
   white: "#FFFFFF",
   whiteOpacity35: "FFFFFFE6",
   black: "#000000",
+  transparent: "#ffffff00",
 };
 
 export const THEME = {
@@ -18,15 +21,16 @@ export const THEME = {
     primary: PALETTE.primaryGreen,
     success: PALETTE.primaryGreen,
     danger: PALETTE.red,
+    transparent: PALETTE.transparent,
   },
   text: {
-    fontSizeH1: 28,
-    fontSizeH2: 24,
-    fontSizeH3: 20,
-    fontSizeBold: 20,
-    fontSizeBody: 16,
-    fontSizeButton: 16,
-    fontSizeModalBody: 14,
+    fontSizeH1: 60 / PixelRatio.get(),
+    fontSizeH2: 24 / PixelRatio.get(),
+    fontSizeH3: 38 / PixelRatio.get(),
+    fontSizeBold: 38 / PixelRatio.get(),
+    fontSizeBody: 30 / PixelRatio.get(),
+    fontSizeButton: 30 / PixelRatio.get(),
+    fontSizeModalBody: 26 / PixelRatio.get(),
     color: PALETTE.white,
     disabledColor: PALETTE.mediumGray,
   },

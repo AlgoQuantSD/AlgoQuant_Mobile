@@ -24,7 +24,6 @@ export default function ProfileListOptions(props, { navigation }) {
         handleSignOut();
         break;
       default:
-        console.log("Default");
     }
   }
 

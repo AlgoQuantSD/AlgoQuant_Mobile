@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import Modal from "react-native-modal";
@@ -14,6 +15,8 @@ import { THEME } from "../../constants/Theme";
 import {
   submitEditNameModal,
   submitDeleteAccountModal,
+  submitResetBalanceModal,
+  submitConnectAlpacaModal,
 } from "../../helpers/modalSubmitActions";
 import TypewriterAnimatedText from "./TypewriterAnimatedText";
 
@@ -47,7 +50,7 @@ export default function CustomModal(props) {
     setModalBody(null);
     setmodalInputFields(null);
     setModalButtons(null);
-    setInputValues([""]);
+    setInputValues(null);
     setModalErrorMessage(null);
   }
 
@@ -59,26 +62,31 @@ export default function CustomModal(props) {
       modalInputFields,
       isModalVisible,
       setIsModalVisible,
+      setModalType,
+      setModalTitle,
+      setModalHeader,
+      setModalBody,
+      setmodalInputFields,
+      setModalButtons,
       setModalErrorMessage,
+      isLoading,
+      setIsLoading,
     };
     switch (modalType) {
       case "EDIT_NAME":
         submitEditNameModal(submitProps);
         break;
       case "RESET_BALANCE":
-        console.log("Balance reset! Your new API key: ", inputValues[0]);
-        setIsModalVisible(!isModalVisible);
+        submitResetBalanceModal(submitProps);
         break;
       case "CONNECT_ALPACA":
-        console.log("Connected to Alpaca! Your API key: ", inputValues[0]);
-        setIsModalVisible(!isModalVisible);
+        submitConnectAlpacaModal(submitProps);
         break;
       case "DELETE_ACCOUNT":
         submitDeleteAccountModal(submitProps);
         console.log("Account deleted!");
         break;
       default:
-        console.log("Default");
     }
   }
 
@@ -86,6 +94,8 @@ export default function CustomModal(props) {
   const [inputValues, setInputValues] = useState(
     Array(modalInputFields?.length).fill("")
   );
+  const [isLoading, setIsLoading] = useState(false);
+  console.log("Loading state: ", isLoading);
   // Refresh the component to get the correct amount of input values
   useEffect(() => {
     if (modalInputFields) {
@@ -98,6 +108,17 @@ export default function CustomModal(props) {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Modal isVisible={isModalVisible} style={styles.modalContainer}>
+        {isLoading ? (
+          <View
+            style={{
+              position: "absolute",
+              top: "50%",
+              alignItems: "center",
+            }}
+          >
+            <ActivityIndicator size="large" color="white" />
+          </View>
+        ) : null}
         <View style={styles.headerContainer}>
           <Text style={styles.titleText}>{modalTitle}</Text>
           <TouchableOpacity
@@ -130,15 +151,15 @@ export default function CustomModal(props) {
                     newInputValues[index] = text;
                     setInputValues(newInputValues);
                   }}
-                  selectionColor="white"
-                  underlineColor="white"
-                  activeUnderlineColor="white"
-                  outlineColor="white"
-                  activeOutlineColor="white"
-                  textColor="white"
-                  placeholderTextColor="white"
-                  contentStyle={{ color: "white" }}
-                  style={{ backgroundColor: "#ffffff00" }}
+                  selectionColor={THEME.colors.foreground}
+                  underlineColor={THEME.colors.foreground}
+                  activeUnderlineColor={THEME.colors.foreground}
+                  outlineColor={THEME.colors.foreground}
+                  activeOutlineColor={THEME.colors.foreground}
+                  textColor={THEME.colors.foreground}
+                  placeholderTextColor={THEME.colors.foreground}
+                  contentStyle={{ color: THEME.colors.foreground }}
+                  style={{ backgroundColor: THEME.colors.transparent }}
                 ></TextInput>
               ))}
             </View>
@@ -225,7 +246,7 @@ const styles = StyleSheet.create({
   modalBody: {
     flex: 0.25,
     alignItems: "flex-start",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     width: "90%",
   },
   modalInputFields: {

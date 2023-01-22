@@ -2,16 +2,37 @@ import React from "react";
 import { getCurrentUser } from "./user";
 import { Auth } from "aws-amplify";
 
-export async function submitEditNameModal(props) {
-  const user = await getCurrentUser();
+// This function is used clear all the modal information upon a successful submission of a modal
+function cleanUpState(props) {
   const {
-    inputValues,
     setInputValues,
-    modalInputFields,
     isModalVisible,
     setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setmodalInputFields,
+    setModalButtons,
     setModalErrorMessage,
+    setIsLoading,
   } = props;
+
+  setModalType(null);
+  setModalTitle(null);
+  setModalHeader(null);
+  setModalBody(null);
+  setmodalInputFields(null);
+  setInputValues(null);
+  setModalButtons(null);
+  setModalErrorMessage(null);
+  setIsLoading(false);
+  setIsModalVisible(!isModalVisible);
+}
+
+export async function submitEditNameModal(props) {
+  const user = await getCurrentUser();
+  const { inputValues, setModalErrorMessage, setIsLoading } = props;
 
   // Currently the edit name fields are pre populated with the user's current first and last name
   // The problem is that when pressing submit without editing these fields it will pass empty strings as first and last name
@@ -33,32 +54,24 @@ export async function submitEditNameModal(props) {
     setModalErrorMessage("ERROR: Invalid name");
     console.log("Invalid name");
   } else {
-    setModalErrorMessage(null);
     try {
+      setIsLoading(true);
       await Auth.updateUserAttributes(user, {
         given_name: inputValues[0],
         family_name: inputValues[1],
       });
       console.log("New name saved successfully: ", inputValues);
-      setIsModalVisible(!isModalVisible);
+      // Clear state upon succesful submit
+      cleanUpState(props);
     } catch (error) {
       console.log("Error updating name: ", error);
       setModalErrorMessage(error.message);
     }
   }
-  // Clear the state of input values
-  setInputValues(Array(modalInputFields?.length).fill(""));
 }
 
 export async function submitDeleteAccountModal(props) {
-  const {
-    inputValues,
-    setInputValues,
-    modalInputFields,
-    isModalVisible,
-    setIsModalVisible,
-    setModalErrorMessage,
-  } = props;
+  const { inputValues, setModalErrorMessage, setIsLoading } = props;
 
   // Get the necessary info to submit to the sign in function
   const currentUser = await getCurrentUser();
@@ -77,15 +90,27 @@ export async function submitDeleteAccountModal(props) {
       // Handle new password if required
     } else {
       // The user has been authenticated, proceed with account deletion
+      setIsLoading(true);
       await Auth.deleteUser();
-      // Clear state of error message and hide the modal
-      setModalErrorMessage(null);
-      setIsModalVisible(!isModalVisible);
+      // Clear state upon successful submit
+      cleanUpState(props);
     }
   } catch (error) {
     console.log("Error signing in: ", error);
     setModalErrorMessage("ERROR: " + error.message);
   }
-  // Clear the state of input values
-  setInputValues(Array(modalInputFields?.length).fill(""));
+}
+
+export async function submitResetBalanceModal(props) {
+  const { setModalErrorMessage } = props;
+
+  // Clear state upon successful submit
+  cleanUpState(props);
+}
+
+export async function submitConnectAlpacaModal(props) {
+  const { setModalErrorMessage } = props;
+
+  // Clear state upon successful submit
+  cleanUpState(props);
 }

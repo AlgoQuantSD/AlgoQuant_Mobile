@@ -3,4 +3,7 @@ export const MOCK_USER = {
   data: {
     totalBalance: 153012.23,
   },
+  alpaca: {
+    isConnected: false,
+  },
 };

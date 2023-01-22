@@ -1,6 +1,9 @@
 import React from "react";
 import { THEME } from "../constants/Theme";
 import { getCurrentUser } from "./user";
+import { MOCK_USER } from "../constants/MockUser";
+import { View, Text, TouchableOpacity, Linking } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
 // All of the builders follow the same pattern
 // 1) Get all the functions from props needed to set the modal content
@@ -64,12 +67,22 @@ export function resetBalanceModalBuilder(props) {
   setModalType("RESET_BALANCE");
   setModalTitle("Reset Balance");
   setModalHeader("Are you sure you want to reset your balance?");
-  setModalBody(
-    "This will reset your balance to $100,000 and stop all running jobs. Enter a new Alpaca API key to reset your balance. If you don't have one you're a loser."
-  );
-  setmodalInputFields([
-    { label: "Alpaca API Key", key: "RESET_BALANCE_ALPACA_API_KEY_LABEL" },
-  ]);
+  MOCK_USER.alpaca.isConnected
+    ? setModalBody(
+        "This will reset your balance to $100,000 and stop all running jobs. Enter your new Alpaca keys below to reset your balance."
+      )
+    : setModalBody(
+        "This will reset your balance to $100,000 and stop all running jobs."
+      );
+  MOCK_USER.alpaca.isConnected
+    ? setmodalInputFields([
+        { label: "Alpaca API Key", key: "RESET_BALANCE_ALPACA_API_KEY_LABEL" },
+        {
+          label: "Alpaca Secret API Key",
+          key: "RESET_BALANCE_ALPACA_SECRET_API_KEY_LABEL",
+        },
+      ])
+    : setmodalInputFields(null);
   setModalButtons([
     {
       label: "Submit",
@@ -102,10 +115,35 @@ export function connectToAlpacaModalBuilder(props) {
   setModalTitle("Connect to Alpaca");
   setModalHeader("Enter your API key");
   setModalBody(
-    "Enter your Alpaca API key below. If you don't have an Alpaca API key you're a loser"
+    <View>
+      <Text
+        style={{
+          color: THEME.text.color,
+          fontSize: THEME.text.fontSizeModalBody,
+        }}
+      >
+        Enter your Alpaca API keys below. Don't have an Alpaca account?{" "}
+      </Text>
+      <TouchableOpacity
+        onPress={() => Linking.openURL("https://app.alpaca.markets/signup")}
+      >
+        <Text style={{ color: THEME.colors.primary, paddingTop: "1%" }}>
+          Sign up here{" "}
+          <FontAwesome
+            name="external-link"
+            size={THEME.text.fontSizeModalBody}
+            color={THEME.colors.primary}
+          />
+        </Text>
+      </TouchableOpacity>
+    </View>
   );
   setmodalInputFields([
     { label: "Alpaca API Key", key: "CONNECT_ALPACA_API_KEY_LABEL" },
+    {
+      label: "Alpaca Secret API Key",
+      key: "CONNECT_ALPACA_SECRET_API_KEY_LABEL",
+    },
   ]);
   setModalButtons([
     {
