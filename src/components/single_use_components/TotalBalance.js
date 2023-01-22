@@ -1,9 +1,13 @@
-import React from "react";
+import { React, useContext, useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MOCK_USER } from "../../constants/MockUser";
+import AlgoquantApiContext from "../../constants/ApiContext";
+import JwtContext from "../../constants/JwtContext";
+import { useAuthenticator } from "@aws-amplify/ui-react-native";
+import LoadSpinner from "../reusable_components/LoadSpinner";
 
 export default function TotalBalance({ navigation }) {
   // Format the total balance into a string
@@ -13,37 +17,35 @@ export default function TotalBalance({ navigation }) {
     minimumFractionDigits: 2,
   };
   const dollarString = new Intl.NumberFormat("en-US", formattingOptions);
-  const formattedBalance = dollarString.format(MOCK_USER.data.totalBalance);
 
   const algoquantApi = useContext(AlgoquantApiContext);
+  const jwtContext = useContext(JwtContext);
+  const { user } = useAuthenticator((context) => [context.user]);
 
   const [balance, setBalance] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [alpacaConnection, setAlpacaConnection] = useState(false);
 
   useEffect(() => {
-    algoquantApi
-      .getUser(user?.signInUserSession?.accessToken?.jwtToken)
-      .then((resp) => {
-        console.log(resp);
+    if (jwtContext) {
+      algoquantApi.getUser(jwtContext).then((resp) => {
         setBalance(resp.data.buying_power);
-        console.log(resp.data.alpaca_secret_key);
-        if (
-          typeof resp.data.alpaca_secret_key !== "undefined" ||
-          resp.data.alpaca_key !== "undefined"
-        ) {
-          setAlpacaConnection(true);
-        }
+        setAlpacaConnection(resp.data.alpaca);
         setIsLoading(false);
       });
-  });
+    }
+  }, [jwtContext, algoquantApi]);
 
   return (
     <View style={styles.totalBalanceContainer}>
-      <Text style={styles.text}>Total Balance</Text>
+      <Text style={styles.text}>
+        {alpacaConnection
+          ? "Alpaca verfied Buying Power"
+          : "Simulated Buying Power"}
+      </Text>
       <View style={styles.balance}>
         <Text style={styles.balanceText} testID="total-balance">
-          {formattedBalance}
+          {isLoading ? <LoadSpinner /> : dollarString.format(balance)}
         </Text>
         <TouchableOpacity
           hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
