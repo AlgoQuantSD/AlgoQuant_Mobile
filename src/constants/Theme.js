@@ -24,7 +24,7 @@ export const THEME = {
     transparent: PALETTE.transparent,
   },
   text: {
-    fontSizeH1: 60 / PixelRatio.get(),
+    fontSizeH1: 54 / PixelRatio.get(),
     fontSizeH2: 24 / PixelRatio.get(),
     fontSizeH3: 38 / PixelRatio.get(),
     fontSizeBold: 38 / PixelRatio.get(),

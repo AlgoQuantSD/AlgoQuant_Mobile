@@ -4,6 +4,6 @@ export const MOCK_USER = {
     totalBalance: 153012.23,
   },
   alpaca: {
-    isConnected: false,
+    isConnected: true,
   },
 };

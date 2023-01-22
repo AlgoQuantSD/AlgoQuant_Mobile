@@ -17,6 +17,7 @@ import {
   submitDeleteAccountModal,
   submitResetBalanceModal,
   submitConnectAlpacaModal,
+  submitDisconnectAlpacaModal,
 } from "../../helpers/modalSubmitActions";
 import TypewriterAnimatedText from "./TypewriterAnimatedText";
 
@@ -82,6 +83,9 @@ export default function CustomModal(props) {
       case "CONNECT_ALPACA":
         submitConnectAlpacaModal(submitProps);
         break;
+      case "DISCONNECT_ALPACA":
+        submitDisconnectAlpacaModal(submitProps);
+        break;
       case "DELETE_ACCOUNT":
         submitDeleteAccountModal(submitProps);
         console.log("Account deleted!");
@@ -95,7 +99,6 @@ export default function CustomModal(props) {
     Array(modalInputFields?.length).fill("")
   );
   const [isLoading, setIsLoading] = useState(false);
-  console.log("Loading state: ", isLoading);
   // Refresh the component to get the correct amount of input values
   useEffect(() => {
     if (modalInputFields) {
@@ -221,7 +224,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   titleText: {
-    color: THEME.text.color,
+    color: THEME.colors.primary,
     fontSize: THEME.text.fontSizeH1,
   },
   bodyText: {

@@ -111,6 +111,7 @@ export function connectToAlpacaModalBuilder(props) {
     setmodalInputFields,
     setModalButtons,
   } = props;
+
   setModalType("CONNECT_ALPACA");
   setModalTitle("Connect to Alpaca");
   setModalHeader("Enter your API key");
@@ -145,6 +146,39 @@ export function connectToAlpacaModalBuilder(props) {
       key: "CONNECT_ALPACA_SECRET_API_KEY_LABEL",
     },
   ]);
+  setModalButtons([
+    {
+      label: "Submit",
+      buttonColor: THEME.colors.primary,
+      textColor: THEME.text.color,
+      key: "SUBMIT_BUTTON",
+    },
+    {
+      label: "Cancel",
+      buttonColor: THEME.colors.danger,
+      textColor: THEME.text.color,
+      key: "CANCEL_BUTTON",
+    },
+  ]);
+  setIsModalVisible(!isModalVisible);
+}
+
+export function disconnectFromAlpacaModalBuilder(props) {
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalButtons,
+  } = props;
+  setModalType("DISCONNECT_ALPACA");
+  setModalTitle("Disconnect from Alpaca");
+  setModalHeader("Are you sure you want to disconnect from Alpaca?");
+  setModalBody(
+    "Disconnecting from Alpaca will reset your balance to $100,000 and use AlgoQuant's simulated broker"
+  );
   setModalButtons([
     {
       label: "Submit",

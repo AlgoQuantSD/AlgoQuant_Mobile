@@ -1,6 +1,7 @@
 import React from "react";
 import { getCurrentUser } from "./user";
 import { Auth } from "aws-amplify";
+import { MOCK_USER } from "../constants/MockUser";
 
 // This function is used clear all the modal information upon a successful submission of a modal
 function cleanUpState(props) {
@@ -110,7 +111,16 @@ export async function submitResetBalanceModal(props) {
 
 export async function submitConnectAlpacaModal(props) {
   const { setModalErrorMessage } = props;
+  console.log("Connected to Alpaca");
+  MOCK_USER.alpaca.isConnected = !MOCK_USER.alpaca.isConnected;
+  // Clear state upon successful submit
+  cleanUpState(props);
+}
 
+export async function submitDisconnectAlpacaModal(props) {
+  const { setModalErrorMessage } = props;
+  MOCK_USER.alpaca.isConnected = !MOCK_USER.alpaca.isConnected;
+  console.log("Disconnected from Alpaca");
   // Clear state upon successful submit
   cleanUpState(props);
 }
