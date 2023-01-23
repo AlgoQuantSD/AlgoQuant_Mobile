@@ -112,14 +112,11 @@ export default function CustomModal(props) {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Modal isVisible={isModalVisible} style={styles.modalContainer}>
         {isLoading ? (
-          <View
-            style={{
-              position: "absolute",
-              top: "50%",
-              alignItems: "center",
-            }}
-          >
-            <ActivityIndicator size="large" color="white" />
+          <View style={styles.loadingIndicator}>
+            <ActivityIndicator
+              size="large"
+              color={THEME.loadingIndicator.color}
+            />
           </View>
         ) : null}
         <View style={styles.headerContainer}>
@@ -272,5 +269,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     paddingBottom: "10%",
+  },
+  loadingIndicator: {
+    position: "absolute",
+    top: "50%",
+    alignItems: "center",
   },
 });

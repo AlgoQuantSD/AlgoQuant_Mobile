@@ -59,6 +59,9 @@ export const THEME = {
     profilePicBackgroundColor: PALETTE.mediumGray,
     dividerColor: PALETTE.mediumGray,
   },
+  loadingIndicator: {
+    color: PALETTE.white,
+  },
 };
 
 export const LIGHT_THEME = {
