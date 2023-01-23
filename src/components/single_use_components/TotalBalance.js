@@ -3,10 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { MOCK_USER } from "../../constants/MockUser";
 import AlgoquantApiContext from "../../constants/ApiContext";
-import JwtContext from "../../constants/JwtContext";
-import { useAuthenticator } from "@aws-amplify/ui-react-native";
 import LoadSpinner from "../reusable_components/LoadSpinner";
 
 export default function TotalBalance({ navigation }) {
@@ -19,22 +16,20 @@ export default function TotalBalance({ navigation }) {
   const dollarString = new Intl.NumberFormat("en-US", formattingOptions);
 
   const algoquantApi = useContext(AlgoquantApiContext);
-  const jwtContext = useContext(JwtContext);
-  const { user } = useAuthenticator((context) => [context.user]);
 
   const [balance, setBalance] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [alpacaConnection, setAlpacaConnection] = useState(false);
 
   useEffect(() => {
-    if (jwtContext) {
-      algoquantApi.getUser(jwtContext).then((resp) => {
+    if (algoquantApi.token) {
+      algoquantApi.getUser().then((resp) => {
         setBalance(resp.data.buying_power);
         setAlpacaConnection(resp.data.alpaca);
         setIsLoading(false);
       });
     }
-  }, [jwtContext, algoquantApi]);
+  }, [algoquantApi]);
 
   return (
     <View style={styles.totalBalanceContainer}>

@@ -9,7 +9,8 @@ import {
 import { BottomTabIcon } from "./NavigationHelpers";
 import { THEME } from "../../constants/Theme";
 import { useAuthenticator } from "@aws-amplify/ui-react-native";
-import JwtContext from "../../constants/JwtContext";
+import initAlgoQuantApi from "../../constants/ApiUtils";
+import AlgoquantApiContext from "../../constants/ApiContext";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,22 +19,14 @@ const Tab = createBottomTabNavigator();
 // In Tab.Screen we specify route names, name of the component we want to render in that tab, and icon styling
 export default function BottomTabNavigaton() {
   const { user } = useAuthenticator((context) => [context.user]);
-  const [jwtToken, setJwtToken] = useState(null);
-
-  useEffect(() => {
-    const getToken = async () => {
-      try {
-        setJwtToken(user?.signInUserSession?.accessToken?.jwtToken);
-      } catch (error) {
-        console.log(error);
-        setJwtToken(null);
-      }
-    };
-    getToken();
-  }, [user]);
-
+  let algoquant = undefined;
+  try {
+    algoquant = initAlgoQuantApi(user);
+  } catch (err) {
+    console.log(err);
+  }
   return (
-    <JwtContext.Provider value={jwtToken}>
+    <AlgoquantApiContext.Provider value={algoquant}>
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={{
@@ -80,6 +73,6 @@ export default function BottomTabNavigaton() {
           }}
         />
       </Tab.Navigator>
-    </JwtContext.Provider>
+    </AlgoquantApiContext.Provider>
   );
 }
