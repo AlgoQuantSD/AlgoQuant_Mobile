@@ -3,17 +3,14 @@ import { View, Text, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { MOCK_USER } from "../../constants/MockUser";
+import { formattedBalance } from "../../helpers/formatUserBalance";
+import { resetBalanceModalBuilder } from "../../helpers/modalFactory";
 
-export default function TotalBalance({ navigation }) {
-  // Format the total balance into a string
-  const formattingOptions = {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-  };
-  const dollarString = new Intl.NumberFormat("en-US", formattingOptions);
-  const formattedBalance = dollarString.format(MOCK_USER.data.totalBalance);
+export default function TotalBalance(props) {
+  function handleResetButtonPress() {
+    resetBalanceModalBuilder(props);
+  }
+
   return (
     <View style={styles.totalBalanceContainer}>
       <Text style={styles.text}>Total Balance</Text>
@@ -23,6 +20,7 @@ export default function TotalBalance({ navigation }) {
         </Text>
         <TouchableOpacity
           hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+          onPress={handleResetButtonPress}
         >
           <Ionicons
             name="refresh"
