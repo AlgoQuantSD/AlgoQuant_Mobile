@@ -1,7 +1,6 @@
 import React from "react";
 import { THEME } from "../constants/Theme";
 import { getCurrentUser } from "./user";
-import { MOCK_USER } from "../constants/MockUser";
 import { View, Text, TouchableOpacity, Linking } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -62,19 +61,20 @@ export function resetBalanceModalBuilder(props) {
     setModalBody,
     setmodalInputFields,
     setModalButtons,
+    alpacaAccount,
   } = props;
-
+  console.log(alpacaAccount);
   setModalType("RESET_BALANCE");
   setModalTitle("Reset Balance");
   setModalHeader("Are you sure you want to reset your balance?");
-  MOCK_USER.alpaca.isConnected
+  alpacaAccount
     ? setModalBody(
         "This will reset your balance to $100,000 and stop all running jobs. Enter your new Alpaca keys below to reset your balance."
       )
     : setModalBody(
         "This will reset your balance to $100,000 and stop all running jobs."
       );
-  MOCK_USER.alpaca.isConnected
+  alpacaAccount
     ? setmodalInputFields([
         { label: "Alpaca API Key", key: "RESET_BALANCE_ALPACA_API_KEY_LABEL" },
         {

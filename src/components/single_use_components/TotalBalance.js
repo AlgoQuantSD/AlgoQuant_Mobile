@@ -10,7 +10,8 @@ import { resetBalanceModalBuilder } from "../../helpers/modalFactory";
 
 export default function TotalBalance(props) {
   function handleResetButtonPress() {
-    resetBalanceModalBuilder(props);
+    // The spread operator to add to the prop
+    resetBalanceModalBuilder({ ...props, alpacaAccount: alpacaConnection });
   }
   // Format the total balance into a string
   const formattingOptions = {
