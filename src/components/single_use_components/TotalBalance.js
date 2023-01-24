@@ -7,7 +7,11 @@ import AlgoquantApiContext from "../../constants/ApiContext";
 import LoadSpinner from "../reusable_components/LoadSpinner";
 import { formattedBalance } from "../../helpers/formatUserBalance";
 import { resetBalanceModalBuilder } from "../../helpers/modalFactory";
-export default function TotalBalance({ navigation }) {
+
+export default function TotalBalance(props) {
+  function handleResetButtonPress() {
+    resetBalanceModalBuilder(props);
+  }
   // Format the total balance into a string
   const formattingOptions = {
     style: "currency",
@@ -31,12 +35,6 @@ export default function TotalBalance({ navigation }) {
       });
     }
   }, [algoquantApi]);
-
-
-export default function TotalBalance(props) {
-  function handleResetButtonPress() {
-    resetBalanceModalBuilder(props);
-  }
 
   return (
     <View style={styles.totalBalanceContainer}>
