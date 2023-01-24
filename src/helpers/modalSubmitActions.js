@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { getCurrentUser } from "./user";
 import { Auth } from "aws-amplify";
 import { MOCK_USER } from "../constants/MockUser";
+import initAlgoQuantApi from "../constants/ApiUtils";
+
+let algoquant = undefined;
+
+async function getUserWrapper() {
+  let user = await getCurrentUser();
+  algoquant = initAlgoQuantApi(user);
+  console.log(user);
+}
+
+getUserWrapper();
 
 // This function is used clear all the modal information upon a successful submission of a modal
 function cleanUpState(props) {
@@ -103,10 +114,26 @@ export async function submitDeleteAccountModal(props) {
 }
 
 export async function submitResetBalanceModal(props) {
-  const { setModalErrorMessage } = props;
-
-  // Clear state upon successful submit
-  cleanUpState(props);
+  const { setModalErrorMessage, inputValues } = props;
+  console.log(algoquant.token);
+  if (algoquant.token) {
+    console.log("yo");
+    algoquant
+      .resetBalance({
+        alpaca_key: inputValues[0],
+        alpaca_secret_key: inputValues[1],
+      })
+      .then((resp) => {
+        console.log(resp);
+        // Clear state upon successful submit
+        cleanUpState(props);
+      })
+      .catch((err) => {
+        setModalErrorMessage(err.message);
+        console.log(err);
+      });
+  }
+  console.log(inputValues);
 }
 
 export async function submitConnectAlpacaModal(props) {
