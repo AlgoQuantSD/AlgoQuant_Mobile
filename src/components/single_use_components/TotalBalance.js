@@ -5,7 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AlgoquantApiContext from "../../constants/ApiContext";
 import LoadSpinner from "../reusable_components/LoadSpinner";
-
+import { formattedBalance } from "../../helpers/formatUserBalance";
+import { resetBalanceModalBuilder } from "../../helpers/modalFactory";
 export default function TotalBalance({ navigation }) {
   // Format the total balance into a string
   const formattingOptions = {
@@ -31,6 +32,12 @@ export default function TotalBalance({ navigation }) {
     }
   }, [algoquantApi]);
 
+
+export default function TotalBalance(props) {
+  function handleResetButtonPress() {
+    resetBalanceModalBuilder(props);
+  }
+
   return (
     <View style={styles.totalBalanceContainer}>
       <Text style={styles.text}>
@@ -44,6 +51,7 @@ export default function TotalBalance({ navigation }) {
         </Text>
         <TouchableOpacity
           hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+          onPress={handleResetButtonPress}
         >
           <Ionicons
             name="refresh"

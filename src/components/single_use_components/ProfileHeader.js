@@ -4,11 +4,19 @@ import { useAuthenticator } from "@aws-amplify/ui-react-native";
 import { THEME } from "../../constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { editNameModalBuilder } from "../../helpers/modalFactory";
 
-export default function ProfileHeader({ navigation }) {
+export default function ProfileHeader(props) {
+  // Get the users initials to render in the gray circle
   const { user } = useAuthenticator((context) => [context.user]);
   const userInitials =
     user?.attributes?.given_name[0] + user?.attributes?.family_name[0];
+
+  // Call the modal builder with props, props contains all the functions needed to set info in the modal
+  function handlePencilIconPress() {
+    editNameModalBuilder(props);
+  }
+
   return (
     <View
       style={styles.profileHeaderContainer}
@@ -28,6 +36,7 @@ export default function ProfileHeader({ navigation }) {
         </Text>
         <TouchableOpacity
           hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+          onPress={handlePencilIconPress}
         >
           <Ionicons
             name="pencil"
