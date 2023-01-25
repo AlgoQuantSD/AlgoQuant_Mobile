@@ -13,7 +13,11 @@ import { MOCK_USER } from "../../constants/MockUser";
 import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function ProfileListOptions(props, { navigation }) {
+  // Get access to the algoquant object from parent component to use api
   const algoquantApi = useContext(AlgoquantApiContext);
+
+  // State to keep track if a users account is conntect to alpaca or not
+  // Boolean value
   const [alpacaConnection, setAlpacaConnection] = useState(false);
   // Set the information for the corresponding modal
   // (This will be extracted into a separate file containing all functions for setting information for different types of modals)
@@ -46,7 +50,8 @@ export default function ProfileListOptions(props, { navigation }) {
   ];
 
   // Render the list options based on the users state
-  // We don't want to render connect to alpaca if the user is already connected
+  // If the user is connected to Alpaca (true) then DISCONNECTED_ALPACA will show "Disconnect from Alpaca" on the screen
+  // If the user is not connected to Alpaca (false) then CONNECT_ALPACA will show "Connect to Alpaca" on the screen
   const filteredOptions = options.filter((option) => {
     if (option.key === "CONNECT_ALPACA") {
       return !alpacaConnection;
@@ -56,6 +61,7 @@ export default function ProfileListOptions(props, { navigation }) {
     return true;
   });
 
+  // Get user information using algoquant api, set the alpaca connection based on the information receieved.
   useEffect(() => {
     if (algoquantApi.token) {
       algoquantApi.getUser().then((resp) => {

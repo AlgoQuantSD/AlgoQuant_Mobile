@@ -7,14 +7,14 @@ import AlgoquantApiContext from "../../constants/ApiContext";
 import LoadSpinner from "../reusable_components/LoadSpinner";
 import { formattedBalance } from "../../helpers/formatUserBalance";
 import { resetBalanceModalBuilder } from "../../helpers/modalFactory";
-import { ConsoleLogger } from "@aws-amplify/core";
 
 export default function TotalBalance(props) {
   function handleResetButtonPress() {
     // The spread operator to add to the prop
+    // Add state variable if user is connected to alpaca or not
     resetBalanceModalBuilder({ ...props, alpacaAccount: alpacaConnection });
   }
-  // Format the total balance into a string
+  // Format the total balance
   const formattingOptions = {
     style: "currency",
     currency: "USD",
@@ -22,12 +22,18 @@ export default function TotalBalance(props) {
   };
   const dollarString = new Intl.NumberFormat("en-US", formattingOptions);
 
+  // Get instance of the algoquant api from parent function
   const algoquantApi = useContext(AlgoquantApiContext);
 
+  // States to keep track of user related information
+  // Loading is used to keep track of what will show an activity indicator until the information is fetched and shown on screen instead
   const [balance, setBalance] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [alpacaConnection, setAlpacaConnection] = useState(false);
 
+  // Fetch the user using the user context from aws amplify
+  // Set the balance, alpaca connection based on the data recieved
+  // Loading is set to false, so the information will be shown on screen
   useEffect(() => {
     if (algoquantApi.token) {
       algoquantApi.getUser().then((resp) => {
@@ -41,6 +47,7 @@ export default function TotalBalance(props) {
   return (
     <View style={styles.totalBalanceContainer}>
       <Text style={styles.text}>
+        {/* if the user is conntected to alpaca already it will show whether the buying power is simulated or not */}
         {alpacaConnection
           ? "Alpaca verfied Buying Power"
           : "Simulated Buying Power"}

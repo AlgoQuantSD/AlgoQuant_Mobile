@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   HomeScreenStackNavigator,
@@ -18,14 +18,19 @@ const Tab = createBottomTabNavigator();
 // There are some settings in the Tab.Navigator for general styling
 // In Tab.Screen we specify route names, name of the component we want to render in that tab, and icon styling
 export default function BottomTabNavigaton() {
+  // Utilizing amplify's useAuthenticator hook to access logged in user information
   const { user } = useAuthenticator((context) => [context.user]);
+
+  // Create Algoquant object, used to access algoquant SDK api
   let algoquant = undefined;
   try {
     algoquant = initAlgoQuantApi(user);
   } catch (err) {
     console.log(err);
   }
+
   return (
+    // Context Provider allowing access to the algoquant to any child component of the provider
     <AlgoquantApiContext.Provider value={algoquant}>
       <Tab.Navigator
         initialRouteName="Home"

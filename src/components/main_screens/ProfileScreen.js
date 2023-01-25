@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import ProfileHeader from "../single_use_components/ProfileHeader";

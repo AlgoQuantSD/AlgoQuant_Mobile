@@ -115,9 +115,16 @@ export async function submitDeleteAccountModal(props) {
   }
 }
 
+// Async function that handles the submit button logic for the Reset Balance modal.
+// Used for both resetting alpaca balance and simulated balance using the modal type prop passed in
 export async function submitResetBalanceModal(props) {
+  // Modal type is based on the users account status on if they are connected with alpaca or not
   const { setModalErrorMessage, inputValues, modalType } = props;
 
+  // Data that is sent with the request
+  // based on the modal type users will be able to enter inputs or not,
+  // if they are connected to Alpaca, use the inputted values and use it as apart of the data for the request
+  // if not send an empty body
   const bodyData =
     modalType === "RESET_ALPACA_BALANCE"
       ? {
@@ -126,6 +133,7 @@ export async function submitResetBalanceModal(props) {
         }
       : {};
 
+  // Call algoquant api and send bodyData to update user information
   if (algoquant.token) {
     algoquant
       .resetBalance(bodyData)
@@ -140,13 +148,13 @@ export async function submitResetBalanceModal(props) {
         console.log(err.code);
       });
   }
-  console.log(inputValues);
 }
 
+// Async function that handles the submit button logic for the Connect to Alpaca modal.
 export async function submitConnectAlpacaModal(props) {
   const { setModalErrorMessage, inputValues } = props;
-  console.log(inputValues[0]);
-  // Clear state upon successful submit
+
+  // Call algoquant api and send bodyData to update user information
   if (algoquant.token) {
     algoquant
       .resetBalance({
@@ -161,7 +169,6 @@ export async function submitConnectAlpacaModal(props) {
       .catch((err) => {
         // TO-DO HANDLE ERROR
         setModalErrorMessage(err.message);
-        console.log(err);
       });
   }
 }

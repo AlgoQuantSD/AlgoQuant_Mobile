@@ -52,6 +52,7 @@ export async function editNameModalBuilder(props) {
 }
 
 export function resetBalanceModalBuilder(props) {
+  // Set local variables from the props that were passed
   const {
     isModalVisible,
     setIsModalVisible,
@@ -63,7 +64,8 @@ export function resetBalanceModalBuilder(props) {
     setModalButtons,
     alpacaAccount,
   } = props;
-  console.log(alpacaAccount);
+
+  // Check if the users account is connected Alpaca and display the appropriate modal and inputs
   alpacaAccount
     ? setModalType("RESET_ALPACA_BALANCE")
     : setModalType("RESET_SIMULATED_BALANCE");
