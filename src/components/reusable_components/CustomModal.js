@@ -60,6 +60,7 @@ export default function CustomModal(props) {
   function handleSubmit() {
     let submitProps = {
       inputValues,
+      modalType,
       setInputValues,
       modalInputFields,
       isModalVisible,
@@ -78,7 +79,8 @@ export default function CustomModal(props) {
       case "EDIT_NAME":
         submitEditNameModal(submitProps);
         break;
-      case "RESET_BALANCE":
+      case "RESET_ALPACA_BALANCE":
+      case "RESET_SIMULATED_BALANCE":
         submitResetBalanceModal(submitProps);
         break;
       case "CONNECT_ALPACA":

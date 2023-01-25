@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { getCurrentUser } from "./user";
 import { Auth } from "aws-amplify";
 import { MOCK_USER } from "../constants/MockUser";
+import initAlgoQuantApi from "../constants/ApiUtils";
+
+// Get access to the algoquant sdk api. Declaring an algoquant object and initializing it
+// This is done because React hooks cant be used here since this is a regular JS function
+let algoquant = undefined;
+
+// Async function to ensure the user is fetched before attempting to create the Algoquant object
+async function getUserWrapper() {
+  let user = await getCurrentUser();
+  algoquant = initAlgoQuantApi(user);
+}
+
+getUserWrapper();
 
 // This function is used clear all the modal information upon a successful submission of a modal
 function cleanUpState(props) {
@@ -102,27 +115,82 @@ export async function submitDeleteAccountModal(props) {
   }
 }
 
+// Async function that handles the submit button logic for the Reset Balance modal.
+// Used for both resetting alpaca balance and simulated balance using the modal type prop passed in
 export async function submitResetBalanceModal(props) {
-  const { setModalErrorMessage } = props;
+  // Modal type is based on the users account status on if they are connected with alpaca or not
+  const { setModalErrorMessage, inputValues, modalType } = props;
 
-  // Clear state upon successful submit
-  cleanUpState(props);
+  // Data that is sent with the request
+  // based on the modal type users will be able to enter inputs or not,
+  // if they are connected to Alpaca, use the inputted values and use it as apart of the data for the request
+  // if not send an empty body
+  const bodyData =
+    modalType === "RESET_ALPACA_BALANCE"
+      ? {
+          alpaca_key: inputValues[0],
+          alpaca_secret_key: inputValues[1],
+        }
+      : {};
+
+  // Call algoquant api and send bodyData to update user information
+  if (algoquant.token) {
+    algoquant
+      .resetBalance(bodyData)
+      .then((resp) => {
+        console.log(resp);
+        // Clear state upon successful submit
+        cleanUpState(props);
+      })
+      .catch((err) => {
+        // TO-DO HANDLE ERROR
+        setModalErrorMessage(err.message);
+        console.log(err.code);
+      });
+  }
 }
 
+// Async function that handles the submit button logic for the Connect to Alpaca modal.
 export async function submitConnectAlpacaModal(props) {
-  const { setModalErrorMessage } = props;
-  console.log("Connected to Alpaca");
-  MOCK_USER.alpaca.isConnected = !MOCK_USER.alpaca.isConnected;
-  // Clear state upon successful submit
-  cleanUpState(props);
+  const { setModalErrorMessage, inputValues } = props;
+
+  // Call algoquant api and send bodyData to update user information
+  if (algoquant.token) {
+    algoquant
+      .resetBalance({
+        alpaca_key: inputValues[0],
+        alpaca_secret_key: inputValues[1],
+      })
+      .then((resp) => {
+        console.log(resp);
+        // Clear state upon successful submit
+        cleanUpState(props);
+      })
+      .catch((err) => {
+        // TO-DO HANDLE ERROR
+        setModalErrorMessage(err.message);
+      });
+  }
 }
 
 export async function submitDisconnectAlpacaModal(props) {
   const { setModalErrorMessage } = props;
-  MOCK_USER.alpaca.isConnected = !MOCK_USER.alpaca.isConnected;
   console.log("Disconnected from Alpaca");
-  // Clear state upon successful submit
-  cleanUpState(props);
+  console.log(algoquant.token);
+  if (algoquant.token) {
+    algoquant
+      .resetBalance({})
+      .then((resp) => {
+        console.log(resp);
+        // Clear state upon successful submit
+        cleanUpState(props);
+      })
+      .catch((err) => {
+        // TO-DO HANDLE ERROR
+        setModalErrorMessage(err.message);
+        console.log(err);
+      });
+  }
 }
 
 export async function submitResetPasswordModal(props) {
