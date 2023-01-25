@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useEffect, useContext, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,8 +10,11 @@ import {
 } from "../../helpers/modalFactory";
 import { handleSignOut } from "../../helpers/signOut";
 import { MOCK_USER } from "../../constants/MockUser";
+import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function ProfileListOptions(props, { navigation }) {
+  const algoquantApi = useContext(AlgoquantApiContext);
+  const [alpacaConnection, setAlpacaConnection] = useState(false);
   // Set the information for the corresponding modal
   // (This will be extracted into a separate file containing all functions for setting information for different types of modals)
   function handleListItemPress(key) {
@@ -46,12 +49,21 @@ export default function ProfileListOptions(props, { navigation }) {
   // We don't want to render connect to alpaca if the user is already connected
   const filteredOptions = options.filter((option) => {
     if (option.key === "CONNECT_ALPACA") {
-      return !MOCK_USER.alpaca.isConnected;
+      return !alpacaConnection;
     } else if (option.key === "DISCONNECT_ALPACA") {
-      return MOCK_USER.alpaca.isConnected;
+      return alpacaConnection;
     }
     return true;
   });
+
+  useEffect(() => {
+    if (algoquantApi.token) {
+      algoquantApi.getUser().then((resp) => {
+        setAlpacaConnection(resp.data.alpaca);
+        // setIsLoading(false);
+      });
+    }
+  }, [algoquantApi]);
 
   return (
     <View style={styles.profileListOptionsContainer}>

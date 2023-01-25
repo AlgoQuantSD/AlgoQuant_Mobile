@@ -64,7 +64,9 @@ export function resetBalanceModalBuilder(props) {
     alpacaAccount,
   } = props;
   console.log(alpacaAccount);
-  setModalType("RESET_BALANCE");
+  alpacaAccount
+    ? setModalType("RESET_ALPACA_BALANCE")
+    : setModalType("RESET_SIMULATED_BALANCE");
   setModalTitle("Reset Balance");
   setModalHeader("Are you sure you want to reset your balance?");
   alpacaAccount

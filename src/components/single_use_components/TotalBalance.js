@@ -7,6 +7,7 @@ import AlgoquantApiContext from "../../constants/ApiContext";
 import LoadSpinner from "../reusable_components/LoadSpinner";
 import { formattedBalance } from "../../helpers/formatUserBalance";
 import { resetBalanceModalBuilder } from "../../helpers/modalFactory";
+import { ConsoleLogger } from "@aws-amplify/core";
 
 export default function TotalBalance(props) {
   function handleResetButtonPress() {

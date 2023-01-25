@@ -9,7 +9,6 @@ let algoquant = undefined;
 async function getUserWrapper() {
   let user = await getCurrentUser();
   algoquant = initAlgoQuantApi(user);
-  console.log(user);
 }
 
 getUserWrapper();
@@ -114,10 +113,38 @@ export async function submitDeleteAccountModal(props) {
 }
 
 export async function submitResetBalanceModal(props) {
-  const { setModalErrorMessage, inputValues } = props;
-  console.log(algoquant.token);
+  const { setModalErrorMessage, inputValues, modalType } = props;
+
+  const bodyData =
+    modalType === "RESET_ALPACA_BALANCE"
+      ? {
+          alpaca_key: inputValues[0],
+          alpaca_secret_key: inputValues[1],
+        }
+      : {};
+  console.log("hello: ", modalType);
   if (algoquant.token) {
-    console.log("yo");
+    algoquant
+      .resetBalance(bodyData)
+      .then((resp) => {
+        console.log(resp);
+        // Clear state upon successful submit
+        cleanUpState(props);
+      })
+      .catch((err) => {
+        // TO-DO HANDLE ERROR
+        setModalErrorMessage(err.message);
+        console.log(err.code);
+      });
+  }
+  console.log(inputValues);
+}
+
+export async function submitConnectAlpacaModal(props) {
+  const { setModalErrorMessage, inputValues } = props;
+  console.log(inputValues[0]);
+  // Clear state upon successful submit
+  if (algoquant.token) {
     algoquant
       .resetBalance({
         alpaca_key: inputValues[0],
@@ -129,25 +156,29 @@ export async function submitResetBalanceModal(props) {
         cleanUpState(props);
       })
       .catch((err) => {
+        // TO-DO HANDLE ERROR
         setModalErrorMessage(err.message);
         console.log(err);
       });
   }
-  console.log(inputValues);
-}
-
-export async function submitConnectAlpacaModal(props) {
-  const { setModalErrorMessage } = props;
-  console.log("Connected to Alpaca");
-  MOCK_USER.alpaca.isConnected = !MOCK_USER.alpaca.isConnected;
-  // Clear state upon successful submit
-  cleanUpState(props);
 }
 
 export async function submitDisconnectAlpacaModal(props) {
   const { setModalErrorMessage } = props;
-  MOCK_USER.alpaca.isConnected = !MOCK_USER.alpaca.isConnected;
   console.log("Disconnected from Alpaca");
-  // Clear state upon successful submit
-  cleanUpState(props);
+  console.log(algoquant.token);
+  if (algoquant.token) {
+    algoquant
+      .resetBalance({})
+      .then((resp) => {
+        console.log(resp);
+        // Clear state upon successful submit
+        cleanUpState(props);
+      })
+      .catch((err) => {
+        // TO-DO HANDLE ERROR
+        setModalErrorMessage(err.message);
+        console.log(err);
+      });
+  }
 }

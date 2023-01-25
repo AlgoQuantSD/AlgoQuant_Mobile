@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import ProfileHeader from "../single_use_components/ProfileHeader";
 import TotalBalance from "../single_use_components/TotalBalance";
 import ProfileListOptions from "../single_use_components/ProfileListOptions";
 import CustomModal from "../reusable_components/CustomModal";
+import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function ProfileScreen({ navigation }) {
   // Keep track of whether the modal is visible or not and what type of modal we should render
