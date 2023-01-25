@@ -1,7 +1,6 @@
 import React from "react";
 import { THEME } from "../constants/Theme";
 import { getCurrentUser } from "./user";
-import { MOCK_USER } from "../constants/MockUser";
 import { View, Text, TouchableOpacity, Linking } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -53,6 +52,7 @@ export async function editNameModalBuilder(props) {
 }
 
 export function resetBalanceModalBuilder(props) {
+  // Set local variables from the props that were passed
   const {
     isModalVisible,
     setIsModalVisible,
@@ -62,19 +62,23 @@ export function resetBalanceModalBuilder(props) {
     setModalBody,
     setmodalInputFields,
     setModalButtons,
+    alpacaAccount,
   } = props;
 
-  setModalType("RESET_BALANCE");
+  // Check if the users account is connected Alpaca and display the appropriate modal and inputs
+  alpacaAccount
+    ? setModalType("RESET_ALPACA_BALANCE")
+    : setModalType("RESET_SIMULATED_BALANCE");
   setModalTitle("Reset Balance");
   setModalHeader("Are you sure you want to reset your balance?");
-  MOCK_USER.alpaca.isConnected
+  alpacaAccount
     ? setModalBody(
         "This will reset your balance to $100,000 and stop all running jobs. Enter your new Alpaca keys below to reset your balance."
       )
     : setModalBody(
         "This will reset your balance to $100,000 and stop all running jobs."
       );
-  MOCK_USER.alpaca.isConnected
+  alpacaAccount
     ? setmodalInputFields([
         { label: "Alpaca API Key", key: "RESET_BALANCE_ALPACA_API_KEY_LABEL" },
         {
