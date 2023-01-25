@@ -196,6 +196,40 @@ export function disconnectFromAlpacaModalBuilder(props) {
   setIsModalVisible(!isModalVisible);
 }
 
+export function resetPasswordModalBuilder(props) {
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setmodalInputFields,
+    setModalButtons,
+  } = props;
+
+  setModalType("RESET_PASSWORD");
+  setModalTitle("Reset Password");
+  setmodalInputFields([
+    { label: "Old password", key: "OLD_PASSWORD" },
+    { label: "New password", key: "NEW_PASSWORD" },
+    { label: "Confirm new password", key: "CONFIRM_NEW_PASSWORD" },
+  ]);
+  setModalButtons([
+    {
+      label: "Submit",
+      buttonColor: THEME.colors.primary,
+      textColor: THEME.text.color,
+      key: "SUBMIT_BUTTON",
+    },
+    {
+      label: "Cancel",
+      buttonColor: THEME.colors.danger,
+      textColor: THEME.text.color,
+      key: "CANCEL_BUTTON",
+    },
+  ]);
+  setIsModalVisible(!isModalVisible);
+}
+
 export function deleteAccountModalBuilder(props) {
   const {
     isModalVisible,

@@ -124,3 +124,9 @@ export async function submitDisconnectAlpacaModal(props) {
   // Clear state upon successful submit
   cleanUpState(props);
 }
+
+export async function submitResetPasswordModal(props) {
+  const { inputValues } = props;
+  console.log(inputValues);
+  cleanUpState(props);
+}

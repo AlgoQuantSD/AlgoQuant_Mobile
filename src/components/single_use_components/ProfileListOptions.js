@@ -7,6 +7,7 @@ import {
   connectToAlpacaModalBuilder,
   deleteAccountModalBuilder,
   disconnectFromAlpacaModalBuilder,
+  resetPasswordModalBuilder,
 } from "../../helpers/modalFactory";
 import { handleSignOut } from "../../helpers/signOut";
 import { MOCK_USER } from "../../constants/MockUser";
@@ -21,6 +22,9 @@ export default function ProfileListOptions(props, { navigation }) {
         break;
       case "DISCONNECT_ALPACA":
         disconnectFromAlpacaModalBuilder(props);
+        break;
+      case "RESET_PASSWORD":
+        resetPasswordModalBuilder(props);
         break;
       case "DELETE_ACCOUNT":
         deleteAccountModalBuilder(props);

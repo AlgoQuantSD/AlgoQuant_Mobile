@@ -18,6 +18,7 @@ import {
   submitResetBalanceModal,
   submitConnectAlpacaModal,
   submitDisconnectAlpacaModal,
+  submitResetPasswordModal,
 } from "../../helpers/modalSubmitActions";
 import TypewriterAnimatedText from "./TypewriterAnimatedText";
 
@@ -85,6 +86,9 @@ export default function CustomModal(props) {
         break;
       case "DISCONNECT_ALPACA":
         submitDisconnectAlpacaModal(submitProps);
+        break;
+      case "RESET_PASSWORD":
+        submitResetPasswordModal(submitProps);
         break;
       case "DELETE_ACCOUNT":
         submitDeleteAccountModal(submitProps);
@@ -251,7 +255,7 @@ const styles = StyleSheet.create({
   },
   modalInputFields: {
     flex: 0.45,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     width: "90%",
   },
   modalErrorMessage: {
