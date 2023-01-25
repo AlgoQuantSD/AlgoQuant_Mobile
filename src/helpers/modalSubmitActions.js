@@ -4,8 +4,11 @@ import { Auth } from "aws-amplify";
 import { MOCK_USER } from "../constants/MockUser";
 import initAlgoQuantApi from "../constants/ApiUtils";
 
+// Get access to the algoquant sdk api. Declaring an algoquant object and initializing it
+// This is done because React hooks cant be used here since this is a regular JS function
 let algoquant = undefined;
 
+// Async function to ensure the user is fetched before attempting to create the Algoquant object
 async function getUserWrapper() {
   let user = await getCurrentUser();
   algoquant = initAlgoQuantApi(user);
@@ -122,7 +125,7 @@ export async function submitResetBalanceModal(props) {
           alpaca_secret_key: inputValues[1],
         }
       : {};
-  console.log("hello: ", modalType);
+
   if (algoquant.token) {
     algoquant
       .resetBalance(bodyData)

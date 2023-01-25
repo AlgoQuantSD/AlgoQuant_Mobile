@@ -60,7 +60,6 @@ export default function ProfileListOptions(props, { navigation }) {
     if (algoquantApi.token) {
       algoquantApi.getUser().then((resp) => {
         setAlpacaConnection(resp.data.alpaca);
-        // setIsLoading(false);
       });
     }
   }, [algoquantApi]);
