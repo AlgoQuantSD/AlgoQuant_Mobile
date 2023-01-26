@@ -207,10 +207,10 @@ export async function submitResetPasswordModal(props) {
     try {
       setIsLoading(true);
       await Auth.changePassword(user, oldPassword, newPassword);
-      console.log("New name saved successfully: ", inputValues);
       // Clear state upon succesful submit
       cleanUpState(props);
     } catch (error) {
+      setIsLoading(false);
       setModalErrorMessage(error.message);
     }
   }
