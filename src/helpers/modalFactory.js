@@ -1,6 +1,6 @@
 import React from "react";
 import { THEME } from "../constants/Theme";
-import { getCurrentUser } from "./user";
+import { getCurrentUser, sendVerificationCode } from "./user";
 import { View, Text, TouchableOpacity, Linking } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -16,13 +16,13 @@ export async function editNameModalBuilder(props) {
     setIsModalVisible,
     setModalType,
     setModalTitle,
-    setmodalInputFields,
+    setModalInputFields,
     setModalButtons,
   } = props;
 
   setModalType("EDIT_NAME");
   setModalTitle("Edit Name");
-  setmodalInputFields([
+  setModalInputFields([
     {
       label: "First Name",
       defaultValue: user?.attributes?.given_name,
@@ -60,7 +60,7 @@ export function resetBalanceModalBuilder(props) {
     setModalTitle,
     setModalHeader,
     setModalBody,
-    setmodalInputFields,
+    setModalInputFields,
     setModalButtons,
     alpacaAccount,
   } = props;
@@ -79,14 +79,14 @@ export function resetBalanceModalBuilder(props) {
         "This will reset your balance to $100,000 and stop all running jobs."
       );
   alpacaAccount
-    ? setmodalInputFields([
+    ? setModalInputFields([
         { label: "Alpaca API Key", key: "RESET_BALANCE_ALPACA_API_KEY_LABEL" },
         {
           label: "Alpaca Secret API Key",
           key: "RESET_BALANCE_ALPACA_SECRET_API_KEY_LABEL",
         },
       ])
-    : setmodalInputFields(null);
+    : setModalInputFields(null);
   setModalButtons([
     {
       label: "Submit",
@@ -112,7 +112,7 @@ export function connectToAlpacaModalBuilder(props) {
     setModalTitle,
     setModalHeader,
     setModalBody,
-    setmodalInputFields,
+    setModalInputFields,
     setModalButtons,
   } = props;
 
@@ -143,7 +143,7 @@ export function connectToAlpacaModalBuilder(props) {
       </TouchableOpacity>
     </View>
   );
-  setmodalInputFields([
+  setModalInputFields([
     { label: "Alpaca API Key", key: "CONNECT_ALPACA_API_KEY_LABEL" },
     {
       label: "Alpaca Secret API Key",
@@ -206,16 +206,74 @@ export function resetPasswordModalBuilder(props) {
     setIsModalVisible,
     setModalType,
     setModalTitle,
-    setmodalInputFields,
+    setModalInputFields,
     setModalButtons,
   } = props;
 
   setModalType("RESET_PASSWORD");
   setModalTitle("Reset Password");
-  setmodalInputFields([
+  setModalInputFields([
     { label: "Old password", key: "OLD_PASSWORD" },
     { label: "New password", key: "NEW_PASSWORD" },
     { label: "Confirm new password", key: "CONFIRM_NEW_PASSWORD" },
+  ]);
+  setModalButtons([
+    {
+      label: "Submit",
+      buttonColor: THEME.colors.primary,
+      textColor: THEME.text.color,
+      key: "SUBMIT_BUTTON",
+    },
+    {
+      label: "Cancel",
+      buttonColor: THEME.colors.danger,
+      textColor: THEME.text.color,
+      key: "CANCEL_BUTTON",
+    },
+  ]);
+  setIsModalVisible(!isModalVisible);
+}
+
+export function updateEmailModalBuilder(props) {
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalInputFields,
+    setModalButtons,
+  } = props;
+
+  setModalType("UPDATE_EMAIL_VERIFICATION_STEP");
+  setModalTitle("Update Email");
+  setModalHeader("Provide verification key");
+  setModalBody(
+    <View>
+      <Text
+        style={{
+          color: THEME.text.color,
+          fontSize: THEME.text.fontSizeModalBody,
+        }}
+      >
+        Enter your verification code below to continue.{" "}
+      </Text>
+      <TouchableOpacity onPress={() => sendVerificationCode()}>
+        <Text
+          style={{
+            color: THEME.colors.primary,
+            paddingTop: "1%",
+            textDecorationLine: "underline",
+          }}
+        >
+          Send code{" "}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+  setModalInputFields([
+    { label: "Verification Key", key: "UPDATE_EMAIL_VERIFICATION_KEY" },
   ]);
   setModalButtons([
     {
@@ -242,7 +300,7 @@ export function deleteAccountModalBuilder(props) {
     setModalTitle,
     setModalHeader,
     setModalBody,
-    setmodalInputFields,
+    setModalInputFields,
     setModalButtons,
   } = props;
   setModalType("DELETE_ACCOUNT");
@@ -251,7 +309,7 @@ export function deleteAccountModalBuilder(props) {
   setModalBody(
     "You will not be able to recover your account upon deletion. Enter your password below to confirm."
   );
-  setmodalInputFields([
+  setModalInputFields([
     { label: "AlgoQuant Password", key: "DELETE_ACCOUNT_ALGOQUANT_PASS_LABEL" },
   ]);
   setModalButtons([

@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
+import { View, Text } from "react-native";
 import { getCurrentUser } from "./user";
 import { Auth } from "aws-amplify";
-import { MOCK_USER } from "../constants/MockUser";
 import initAlgoQuantApi from "../constants/ApiUtils";
+import { Ionicons } from "@expo/vector-icons";
+import { THEME } from "../constants/Theme";
 
 // Get access to the algoquant sdk api. Declaring an algoquant object and initializing it
 // This is done because React hooks cant be used here since this is a regular JS function
@@ -26,9 +28,11 @@ function cleanUpState(props) {
     setModalTitle,
     setModalHeader,
     setModalBody,
-    setmodalInputFields,
+    setModalInputFields,
     setModalButtons,
     setModalErrorMessage,
+    setIsModalSnackbarVisible,
+    setModalSnackbarMessage,
     setIsLoading,
   } = props;
 
@@ -36,11 +40,13 @@ function cleanUpState(props) {
   setModalTitle(null);
   setModalHeader(null);
   setModalBody(null);
-  setmodalInputFields(null);
+  setModalInputFields(null);
   setInputValues(null);
   setModalButtons(null);
   setModalErrorMessage(null);
   setIsLoading(false);
+  setIsModalSnackbarVisible(false);
+  setModalSnackbarMessage(null);
   setIsModalVisible(!isModalVisible);
 }
 
@@ -212,6 +218,84 @@ export async function submitResetPasswordModal(props) {
     } catch (error) {
       setIsLoading(false);
       setModalErrorMessage(error.message);
+    }
+  }
+}
+
+export async function submitUpdateEmailModalVerificationStep(props) {
+  const {
+    inputValues,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalInputFields,
+    setIsModalSnackbarVisible,
+    setModalSnackbarMessage,
+    setModalErrorMessage,
+  } = props;
+  const verificationCode = inputValues[0];
+  try {
+    await Auth.verifyCurrentUserAttributeSubmit("email", verificationCode);
+    setModalType("UPDATE_EMAIL_NEW_EMAIL_STEP");
+    setModalTitle("Update Email");
+    setModalHeader("Enter your new email");
+    setModalBody(null);
+    setModalInputFields([
+      { label: "New Email", key: "UPDATE_EMAIL_NEW_EMAIL" },
+      { label: "Confirm New Email", key: "UPDATE_EMAIL_CONFIRM_NEW_EMAIL" },
+    ]);
+  } catch (error) {
+    setModalSnackbarMessage("Wrong code");
+    setIsModalSnackbarVisible(true);
+    console.log("Error submitting verification code: ", error);
+  }
+}
+
+export async function submitUpdateEmailModalNewEmailStep(props) {
+  const {
+    inputValues,
+    setIsModalSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsSnackbarVisible,
+    setSnackbarMessage,
+  } = props;
+
+  const newEmail = inputValues[0];
+  console.log("Email: ", inputValues[0], " Confirm email: ", inputValues[1]);
+
+  const user = await getCurrentUser();
+  if (inputValues[0] !== inputValues[1]) {
+    setModalSnackbarMessage(
+      <View style={{ flexDirection: "row" }}>
+        <Ionicons name="warning" size={16} color={THEME.colors.danger} />
+        <Text style={{ color: THEME.colors.danger }}>
+          ERROR: Emails do not match
+        </Text>
+      </View>
+    );
+    setIsModalSnackbarVisible(true);
+  } else {
+    try {
+      await Auth.updateUserAttributes(user, { email: newEmail });
+      setSnackbarMessage(
+        <View style={{ flexDirection: "row" }}>
+          <Ionicons
+            name="shield-checkmark-outline"
+            size={16}
+            color={THEME.colors.primary}
+            style={{ paddingRight: "1%" }}
+          />
+          <Text style={{ color: THEME.colors.primary }}>
+            SUCCESS: Email successfully updated
+          </Text>
+        </View>
+      );
+      cleanUpState(props);
+      setIsSnackbarVisible(true);
+      console.log("Success updating email");
+    } catch (error) {
+      console.log(error);
     }
   }
 }

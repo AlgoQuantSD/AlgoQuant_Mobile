@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from "react-native";
-import { TextInput, Button } from "react-native-paper";
+import { TextInput, Button, Snackbar } from "react-native-paper";
 import Modal from "react-native-modal";
 import { Ionicons } from "@expo/vector-icons";
 import { THEME } from "../../constants/Theme";
@@ -19,6 +19,8 @@ import {
   submitConnectAlpacaModal,
   submitDisconnectAlpacaModal,
   submitResetPasswordModal,
+  submitUpdateEmailModalVerificationStep,
+  submitUpdateEmailModalNewEmailStep,
 } from "../../helpers/modalSubmitActions";
 import TypewriterAnimatedText from "./TypewriterAnimatedText";
 
@@ -36,9 +38,11 @@ export default function CustomModal(props) {
     modalBody,
     setModalBody,
     modalInputFields,
-    setmodalInputFields,
+    setModalInputFields,
     modalButtons,
     setModalButtons,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
     modalErrorMessage,
     setModalErrorMessage,
   } = props;
@@ -50,7 +54,7 @@ export default function CustomModal(props) {
     setModalTitle(null);
     setModalHeader(null);
     setModalBody(null);
-    setmodalInputFields(null);
+    setModalInputFields(null);
     setModalButtons(null);
     setInputValues(null);
     setModalErrorMessage(null);
@@ -70,8 +74,13 @@ export default function CustomModal(props) {
       setModalTitle,
       setModalHeader,
       setModalBody,
-      setmodalInputFields,
+      setModalInputFields,
       setModalButtons,
+      setIsSnackbarVisible,
+      setIsModalSnackbarVisible,
+      setSnackbarMessage,
+      setModalSnackbarMessage,
+      modalErrorMessage,
       setModalErrorMessage,
       isLoading,
       setIsLoading,
@@ -93,6 +102,12 @@ export default function CustomModal(props) {
       case "RESET_PASSWORD":
         submitResetPasswordModal(submitProps);
         break;
+      case "UPDATE_EMAIL_VERIFICATION_STEP":
+        submitUpdateEmailModalVerificationStep(submitProps);
+        break;
+      case "UPDATE_EMAIL_NEW_EMAIL_STEP":
+        submitUpdateEmailModalNewEmailStep(submitProps);
+        break;
       case "DELETE_ACCOUNT":
         submitDeleteAccountModal(submitProps);
         console.log("Account deleted!");
@@ -106,7 +121,10 @@ export default function CustomModal(props) {
     Array(modalInputFields?.length).fill("")
   );
   const [isLoading, setIsLoading] = useState(false);
+
   const [isSensitiveTextHidden, setIsSensitiveTextHidden] = useState(true);
+  const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(false);
+  const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
   // Refresh the component to get the correct amount of input values
   useEffect(() => {
     if (modalInputFields) {
@@ -233,6 +251,21 @@ export default function CustomModal(props) {
             ))}
           </View>
         ) : null}
+        <Snackbar
+          visible={isModalSnackbarVisible}
+          onDismiss={() => setIsModalSnackbarVisible(false)}
+          duration={5000}
+          action={{
+            label: "Dismiss",
+            onPress: () => {
+              setIsModalSnackbarVisible(false);
+            },
+            textColor: "white",
+          }}
+          style={styles.modalSnackbar}
+        >
+          {modalSnackbarMessage}
+        </Snackbar>
       </Modal>
     </TouchableWithoutFeedback>
   );
@@ -287,7 +320,7 @@ const styles = StyleSheet.create({
   modalBody: {
     flex: 0.25,
     alignItems: "flex-start",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     width: "90%",
   },
   modalInputFields: {
@@ -315,5 +348,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "50%",
     alignItems: "center",
+  },
+  modalSnackbar: {
+    backgroundColor: THEME.colors.background,
   },
 });

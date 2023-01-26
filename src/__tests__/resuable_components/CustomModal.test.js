@@ -26,7 +26,7 @@ describe("CustomModal", () => {
           { label: "First Name", key: "FIRST_NAME_LABEL" },
           { label: "Last Name", key: "LAST_NAME_LABEL" },
         ]}
-        setmodalInputFields={jest.fn()}
+        setModalInputFields={jest.fn()}
         modalButtons={[
           {
             label: "Submit",
@@ -76,7 +76,7 @@ describe("CustomModal", () => {
           { label: "First Name", key: "FIRST_NAME_LABEL" },
           { label: "Last Name", key: "LAST_NAME_LABEL" },
         ]}
-        setmodalInputFields={jest.fn()}
+        setModalInputFields={jest.fn()}
         modalButtons={[
           {
             label: "Submit",
