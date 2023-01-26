@@ -54,6 +54,7 @@ export default function CustomModal(props) {
     setModalButtons(null);
     setInputValues(null);
     setModalErrorMessage(null);
+    setIsSensitiveTextHidden(true);
   }
 
   // Perform the appropriate action upon submitting based on which modal is open
@@ -105,6 +106,7 @@ export default function CustomModal(props) {
     Array(modalInputFields?.length).fill("")
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [isSensitiveTextHidden, setIsSensitiveTextHidden] = useState(true);
   // Refresh the component to get the correct amount of input values
   useEffect(() => {
     if (modalInputFields) {
@@ -148,25 +150,58 @@ export default function CustomModal(props) {
           {modalInputFields ? (
             <View style={styles.modalInputFields} testID="modal-input-fields">
               {modalInputFields.map((item, index) => (
-                <TextInput
+                <View
                   key={item.key}
-                  label={item.label}
-                  defaultValue={item.defaultValue}
-                  onChangeText={(text) => {
-                    const newInputValues = [...inputValues];
-                    newInputValues[index] = text;
-                    setInputValues(newInputValues);
+                  style={{
+                    flexDirection: "row",
+                    width: "100%",
                   }}
-                  selectionColor={THEME.colors.foreground}
-                  underlineColor={THEME.colors.foreground}
-                  activeUnderlineColor={THEME.colors.foreground}
-                  outlineColor={THEME.colors.foreground}
-                  activeOutlineColor={THEME.colors.foreground}
-                  textColor={THEME.colors.foreground}
-                  placeholderTextColor={THEME.colors.foreground}
-                  contentStyle={{ color: THEME.colors.foreground }}
-                  style={{ backgroundColor: THEME.colors.transparent }}
-                ></TextInput>
+                >
+                  <TextInput
+                    label={item.label}
+                    secureTextEntry={
+                      modalType === "RESET_PASSWORD"
+                        ? isSensitiveTextHidden
+                        : false
+                    }
+                    defaultValue={item.defaultValue}
+                    onChangeText={(text) => {
+                      const newInputValues = [...inputValues];
+                      newInputValues[index] = text;
+                      setInputValues(newInputValues);
+                    }}
+                    selectionColor={THEME.colors.foreground}
+                    underlineColor={THEME.colors.foreground}
+                    activeUnderlineColor={THEME.colors.foreground}
+                    outlineColor={THEME.colors.foreground}
+                    activeOutlineColor={THEME.colors.foreground}
+                    textColor={THEME.colors.foreground}
+                    placeholderTextColor={THEME.colors.foreground}
+                    contentStyle={{ color: THEME.colors.foreground }}
+                    style={{
+                      backgroundColor: THEME.colors.transparent,
+                      width: "100%",
+                    }}
+                  />
+                  {modalType === "RESET_PASSWORD" ? (
+                    <TouchableOpacity
+                      style={{
+                        alignSelf: "center",
+                        position: "absolute",
+                        left: "90%",
+                      }}
+                      onPress={() =>
+                        setIsSensitiveTextHidden(!isSensitiveTextHidden)
+                      }
+                    >
+                      <Ionicons
+                        name="eye"
+                        size={20}
+                        color={THEME.colors.foreground}
+                      />
+                    </TouchableOpacity>
+                  ) : null}
+                </View>
               ))}
             </View>
           ) : null}
