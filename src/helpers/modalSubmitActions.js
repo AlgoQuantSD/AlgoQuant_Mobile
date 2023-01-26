@@ -194,7 +194,24 @@ export async function submitDisconnectAlpacaModal(props) {
 }
 
 export async function submitResetPasswordModal(props) {
-  const { inputValues } = props;
-  console.log(inputValues);
-  cleanUpState(props);
+  const user = await getCurrentUser();
+  const { inputValues, setModalErrorMessage, setIsLoading } = props;
+
+  const oldPassword = inputValues[0];
+  const newPassword = inputValues[1];
+  const confirmPassword = inputValues[2];
+
+  if (newPassword !== confirmPassword) {
+    setModalErrorMessage("ERROR: Passwords do not match");
+  } else {
+    try {
+      setIsLoading(true);
+      await Auth.changePassword(user, oldPassword, newPassword);
+      console.log("New name saved successfully: ", inputValues);
+      // Clear state upon succesful submit
+      cleanUpState(props);
+    } catch (error) {
+      setModalErrorMessage(error.message);
+    }
+  }
 }
