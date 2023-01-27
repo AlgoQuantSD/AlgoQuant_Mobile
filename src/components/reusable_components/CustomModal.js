@@ -22,6 +22,7 @@ import {
   submitUpdateEmailModalVerificationStep,
   submitUpdateEmailModalNewEmailStep,
 } from "../../helpers/modalSubmitActions";
+import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import TypewriterAnimatedText from "./TypewriterAnimatedText";
 
 export default function CustomModal(props) {
@@ -41,8 +42,14 @@ export default function CustomModal(props) {
     setModalInputFields,
     modalButtons,
     setModalButtons,
+    snackbarMessage,
     setSnackbarMessage,
+    isSnackbarVisible,
     setIsSnackbarVisible,
+    modalSnackbarMessage,
+    setModalSnackbarMessage,
+    isModalSnackbarVisible,
+    setIsModalSnackbarVisible,
     modalErrorMessage,
     setModalErrorMessage,
   } = props;
@@ -57,7 +64,8 @@ export default function CustomModal(props) {
     setModalInputFields(null);
     setModalButtons(null);
     setInputValues(null);
-    setModalErrorMessage(null);
+    setIsModalSnackbarVisible(false);
+    setModalSnackbarMessage(null);
     setIsSensitiveTextHidden(true);
   }
 
@@ -76,10 +84,14 @@ export default function CustomModal(props) {
       setModalBody,
       setModalInputFields,
       setModalButtons,
+      isSnackbarVisible,
       setIsSnackbarVisible,
-      setIsModalSnackbarVisible,
+      snackbarMessage,
       setSnackbarMessage,
+      modalSnackbarMessage,
       setModalSnackbarMessage,
+      isModalSnackbarVisible,
+      setIsModalSnackbarVisible,
       modalErrorMessage,
       setModalErrorMessage,
       isLoading,
@@ -123,8 +135,6 @@ export default function CustomModal(props) {
   const [isLoading, setIsLoading] = useState(false);
 
   const [isSensitiveTextHidden, setIsSensitiveTextHidden] = useState(true);
-  const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(false);
-  const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
   // Refresh the component to get the correct amount of input values
   useEffect(() => {
     if (modalInputFields) {
@@ -136,7 +146,11 @@ export default function CustomModal(props) {
   // In some cases such as input fields and buttons we must loop through and render them because the number of input fields and buttons in a modal may vary
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <Modal isVisible={isModalVisible} style={styles.modalContainer}>
+      <Modal
+        isVisible={isModalVisible}
+        onBackdropPress={() => setIsModalVisible(false)}
+        style={styles.modalContainer}
+      >
         {isLoading ? (
           <View style={styles.loadingIndicator}>
             <ActivityIndicator
@@ -251,21 +265,36 @@ export default function CustomModal(props) {
             ))}
           </View>
         ) : null}
-        <Snackbar
-          visible={isModalSnackbarVisible}
-          onDismiss={() => setIsModalSnackbarVisible(false)}
-          duration={5000}
-          action={{
-            label: "Dismiss",
-            onPress: () => {
-              setIsModalSnackbarVisible(false);
-            },
-            textColor: "white",
+        <View
+          style={{
+            position: "absolute",
+            bottom: -150,
+            width: "100%",
           }}
-          style={styles.modalSnackbar}
         >
-          {modalSnackbarMessage}
-        </Snackbar>
+          <Snackbar
+            visible={isModalSnackbarVisible}
+            onDismiss={() =>
+              snackbarCleanUp(
+                setIsModalSnackbarVisible,
+                setModalSnackbarMessage
+              )
+            }
+            duration={3500}
+            action={{
+              label: "Dismiss",
+              textColor: THEME.text.color,
+              onPress: () => {
+                snackbarCleanUp(
+                  setIsModalSnackbarVisible,
+                  setModalSnackbarMessage
+                );
+              },
+            }}
+          >
+            {modalSnackbarMessage}
+          </Snackbar>
+        </View>
       </Modal>
     </TouchableWithoutFeedback>
   );

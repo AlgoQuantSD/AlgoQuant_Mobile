@@ -6,6 +6,7 @@ import TotalBalance from "../single_use_components/TotalBalance";
 import ProfileListOptions from "../single_use_components/ProfileListOptions";
 import CustomModal from "../reusable_components/CustomModal";
 import { Button, Snackbar } from "react-native-paper";
+import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 
 export default function ProfileScreen({ navigation }) {
   // Keep track of whether the modal is visible or not and what type of modal we should render
@@ -18,6 +19,8 @@ export default function ProfileScreen({ navigation }) {
   const [modalButtons, setModalButtons] = useState(null);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState(null);
+  const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(false);
+  const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
   const [modalErrorMessage, setModalErrorMessage] = useState(null);
 
   return (
@@ -60,6 +63,8 @@ export default function ProfileScreen({ navigation }) {
         setModalBody={setModalBody}
         setModalInputFields={setModalInputFields}
         setModalButtons={setModalButtons}
+        setModalSnackbarMessage={setModalSnackbarMessage}
+        setIsModalSnackbarVisible={setIsModalSnackbarVisible}
       />
       <CustomModal
         isModalVisible={isModalVisible}
@@ -80,24 +85,37 @@ export default function ProfileScreen({ navigation }) {
         setSnackbarMessage={setSnackbarMessage}
         isSnackbarVisible={isSnackbarVisible}
         setIsSnackbarVisible={setIsSnackbarVisible}
+        modalSnackbarMessage={modalSnackbarMessage}
+        setModalSnackbarMessage={setModalSnackbarMessage}
+        isModalSnackbarVisible={isModalSnackbarVisible}
+        setIsModalSnackbarVisible={setIsModalSnackbarVisible}
         modalErrorMessage={modalErrorMessage}
         setModalErrorMessage={setModalErrorMessage}
       />
-      <Button onPress={() => setIsSnackbarVisible(true)}>Show Snackbar</Button>
-      <Snackbar
-        visible={isSnackbarVisible}
-        onDismiss={() => setIsSnackbarVisible(false)}
-        duration={3500}
-        action={{
-          label: "Dismiss",
-          textColor: THEME.text.color,
-          onPress: () => {
-            setIsSnackbarVisible(false);
-          },
+      <View
+        style={{
+          position: "absolute",
+          bottom: -40,
+          width: "100%",
         }}
       >
-        {snackbarMessage}
-      </Snackbar>
+        <Snackbar
+          visible={isSnackbarVisible}
+          onDismiss={() =>
+            snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage)
+          }
+          duration={3500}
+          action={{
+            label: "Dismiss",
+            textColor: THEME.text.color,
+            onPress: () => {
+              snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
+            },
+          }}
+        >
+          {snackbarMessage}
+        </Snackbar>
+      </View>
     </View>
   );
 }

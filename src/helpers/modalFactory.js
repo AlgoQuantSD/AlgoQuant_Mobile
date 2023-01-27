@@ -259,7 +259,7 @@ export function updateEmailModalBuilder(props) {
       >
         Enter your verification code below to continue.{" "}
       </Text>
-      <TouchableOpacity onPress={() => sendVerificationCode()}>
+      <TouchableOpacity onPress={() => sendVerificationCode(props)}>
         <Text
           style={{
             color: THEME.colors.primary,

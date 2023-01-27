@@ -5,6 +5,7 @@ import { Auth } from "aws-amplify";
 import initAlgoQuantApi from "../constants/ApiUtils";
 import { Ionicons } from "@expo/vector-icons";
 import { THEME } from "../constants/Theme";
+import SnackbarContent from "../components/reusable_components/SnackbarContent";
 
 // Get access to the algoquant sdk api. Declaring an algoquant object and initializing it
 // This is done because React hooks cant be used here since this is a regular JS function
@@ -52,7 +53,15 @@ function cleanUpState(props) {
 
 export async function submitEditNameModal(props) {
   const user = await getCurrentUser();
-  const { inputValues, setModalErrorMessage, setIsLoading } = props;
+  const {
+    inputValues,
+    setModalErrorMessage,
+    setIsLoading,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+  } = props;
 
   // Currently the edit name fields are pre populated with the user's current first and last name
   // The problem is that when pressing submit without editing these fields it will pass empty strings as first and last name
@@ -71,7 +80,16 @@ export async function submitEditNameModal(props) {
     (inputValues[0] === user.attributes.given_name &&
       inputValues[1] === user.attributes.family_name)
   ) {
-    setModalErrorMessage("ERROR: Invalid name");
+    setModalSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.errorIcon}
+        iconSize={THEME.icons.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Invalid name"
+        textColor={THEME.colors.danger}
+      />
+    );
+    setIsModalSnackbarVisible(true);
     console.log("Invalid name");
   } else {
     try {
@@ -80,6 +98,16 @@ export async function submitEditNameModal(props) {
         given_name: inputValues[0],
         family_name: inputValues[1],
       });
+      setSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icons.successIcon}
+          iconSize={THEME.icons.snackbarIconSize}
+          iconColor={THEME.colors.primary}
+          text="SUCCESS: Name sucessfully updated"
+          textColor={THEME.colors.primary}
+        />
+      );
+      setIsSnackbarVisible(true);
       console.log("New name saved successfully: ", inputValues);
       // Clear state upon succesful submit
       cleanUpState(props);
@@ -91,7 +119,12 @@ export async function submitEditNameModal(props) {
 }
 
 export async function submitDeleteAccountModal(props) {
-  const { inputValues, setModalErrorMessage, setIsLoading } = props;
+  const {
+    inputValues,
+    setIsLoading,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+  } = props;
 
   // Get the necessary info to submit to the sign in function
   const currentUser = await getCurrentUser();
@@ -117,7 +150,16 @@ export async function submitDeleteAccountModal(props) {
     }
   } catch (error) {
     console.log("Error signing in: ", error);
-    setModalErrorMessage("ERROR: " + error.message);
+    setModalSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.errorIcon}
+        iconSize={THEME.icons.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text={"ERROR: Incorrect password"}
+        textColor={THEME.colors.danger}
+      />
+    );
+    setIsModalSnackbarVisible(true);
   }
 }
 
@@ -125,7 +167,14 @@ export async function submitDeleteAccountModal(props) {
 // Used for both resetting alpaca balance and simulated balance using the modal type prop passed in
 export async function submitResetBalanceModal(props) {
   // Modal type is based on the users account status on if they are connected with alpaca or not
-  const { setModalErrorMessage, inputValues, modalType } = props;
+  const {
+    inputValues,
+    modalType,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+  } = props;
 
   // Data that is sent with the request
   // based on the modal type users will be able to enter inputs or not,
@@ -145,20 +194,43 @@ export async function submitResetBalanceModal(props) {
       .resetBalance(bodyData)
       .then((resp) => {
         console.log(resp);
+        setSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icons.successIcon}
+            iconSize={THEME.icons.snackbarIconSize}
+            iconColor={THEME.colors.primary}
+            text="SUCCESS: Balance reset"
+            textColor={THEME.colors.primary}
+          />
+        );
+        setIsSnackbarVisible(true);
         // Clear state upon successful submit
         cleanUpState(props);
       })
       .catch((err) => {
-        // TO-DO HANDLE ERROR
-        setModalErrorMessage(err.message);
-        console.log(err.code);
+        setModalSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icons.errorIcon}
+            iconSize={THEME.icons.snackbarIconSize}
+            iconColor={THEME.colors.danger}
+            text={"ERROR: " + err.message}
+            textColor={THEME.colors.danger}
+          />
+        );
+        setIsModalSnackbarVisible(true);
       });
   }
 }
 
 // Async function that handles the submit button logic for the Connect to Alpaca modal.
 export async function submitConnectAlpacaModal(props) {
-  const { setModalErrorMessage, inputValues } = props;
+  const {
+    inputValues,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+  } = props;
 
   // Call algoquant api and send bodyData to update user information
   if (algoquant.token) {
@@ -169,18 +241,41 @@ export async function submitConnectAlpacaModal(props) {
       })
       .then((resp) => {
         console.log(resp);
+        setSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icons.successIcon}
+            iconSize={THEME.icons.snackbarIconSize}
+            iconColor={THEME.colors.primary}
+            text="SUCCESS: Connected to Alpaca"
+            textColor={THEME.colors.primary}
+          />
+        );
+        setIsSnackbarVisible(true);
         // Clear state upon successful submit
         cleanUpState(props);
       })
       .catch((err) => {
-        // TO-DO HANDLE ERROR
-        setModalErrorMessage(err.message);
+        setModalSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icons.errorIcon}
+            iconSize={THEME.icons.snackbarIconSize}
+            iconColor={THEME.colors.danger}
+            text={"ERROR: " + err.message}
+            textColor={THEME.colors.danger}
+          />
+        );
+        setIsModalSnackbarVisible(true);
       });
   }
 }
 
 export async function submitDisconnectAlpacaModal(props) {
-  const { setModalErrorMessage } = props;
+  const {
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+  } = props;
   console.log("Disconnected from Alpaca");
   console.log(algoquant.token);
   if (algoquant.token) {
@@ -188,12 +283,30 @@ export async function submitDisconnectAlpacaModal(props) {
       .resetBalance({})
       .then((resp) => {
         console.log(resp);
+        setSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icons.successIcon}
+            iconSize={THEME.icons.snackbarIconSize}
+            iconColor={THEME.colors.primary}
+            text="SUCCESS: Disconnected from Alpaca"
+            textColor={THEME.colors.primary}
+          />
+        );
+        setIsSnackbarVisible(true);
         // Clear state upon successful submit
         cleanUpState(props);
       })
       .catch((err) => {
-        // TO-DO HANDLE ERROR
-        setModalErrorMessage(err.message);
+        setModalSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icons.errorIcon}
+            iconSize={THEME.icons.snackbarIconSize}
+            iconColor={THEME.colors.danger}
+            text={"ERROR: " + err.message}
+            textColor={THEME.colors.danger}
+          />
+        );
+        setIsModalSnackbarVisible(true);
         console.log(err);
       });
   }
@@ -201,23 +314,58 @@ export async function submitDisconnectAlpacaModal(props) {
 
 export async function submitResetPasswordModal(props) {
   const user = await getCurrentUser();
-  const { inputValues, setModalErrorMessage, setIsLoading } = props;
+  const {
+    inputValues,
+    setIsLoading,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+  } = props;
 
   const oldPassword = inputValues[0];
   const newPassword = inputValues[1];
   const confirmPassword = inputValues[2];
 
   if (newPassword !== confirmPassword) {
-    setModalErrorMessage("ERROR: Passwords do not match");
+    setModalSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.errorIcon}
+        iconSize={THEME.icons.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Passwords do not match"
+        textColor={THEME.colors.danger}
+      />
+    );
+    setIsModalSnackbarVisible(true);
   } else {
     try {
       setIsLoading(true);
       await Auth.changePassword(user, oldPassword, newPassword);
+      setSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icons.successIcon}
+          iconSize={THEME.icons.snackbarIconSize}
+          iconColor={THEME.colors.primary}
+          text="SUCCESS: Password reset"
+          textColor={THEME.colors.primary}
+        />
+      );
+      setIsSnackbarVisible(true);
       // Clear state upon succesful submit
       cleanUpState(props);
     } catch (error) {
       setIsLoading(false);
-      setModalErrorMessage(error.message);
+      setModalSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icons.errorIcon}
+          iconSize={THEME.icons.snackbarIconSize}
+          iconColor={THEME.colors.danger}
+          text="ERROR: Incorrect old password"
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsModalSnackbarVisible(true);
     }
   }
 }
@@ -230,9 +378,8 @@ export async function submitUpdateEmailModalVerificationStep(props) {
     setModalHeader,
     setModalBody,
     setModalInputFields,
-    setIsModalSnackbarVisible,
     setModalSnackbarMessage,
-    setModalErrorMessage,
+    setIsModalSnackbarVisible,
   } = props;
   const verificationCode = inputValues[0];
   try {
@@ -246,7 +393,15 @@ export async function submitUpdateEmailModalVerificationStep(props) {
       { label: "Confirm New Email", key: "UPDATE_EMAIL_CONFIRM_NEW_EMAIL" },
     ]);
   } catch (error) {
-    setModalSnackbarMessage("Wrong code");
+    setModalSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.errorIcon}
+        iconSize={16}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Incorrect verification code"
+        textColor={THEME.colors.danger}
+      />
+    );
     setIsModalSnackbarVisible(true);
     console.log("Error submitting verification code: ", error);
   }
@@ -255,10 +410,10 @@ export async function submitUpdateEmailModalVerificationStep(props) {
 export async function submitUpdateEmailModalNewEmailStep(props) {
   const {
     inputValues,
-    setIsModalSnackbarVisible,
-    setModalSnackbarMessage,
-    setIsSnackbarVisible,
     setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
   } = props;
 
   const newEmail = inputValues[0];
@@ -267,34 +422,41 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
   const user = await getCurrentUser();
   if (inputValues[0] !== inputValues[1]) {
     setModalSnackbarMessage(
-      <View style={{ flexDirection: "row" }}>
-        <Ionicons name="warning" size={16} color={THEME.colors.danger} />
-        <Text style={{ color: THEME.colors.danger }}>
-          ERROR: Emails do not match
-        </Text>
-      </View>
+      <SnackbarContent
+        iconName={THEME.icons.errorIcon}
+        iconSize={THEME.icons.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Emails do not match"
+        textColor={THEME.colors.danger}
+      />
     );
     setIsModalSnackbarVisible(true);
   } else {
     try {
       await Auth.updateUserAttributes(user, { email: newEmail });
       setSnackbarMessage(
-        <View style={{ flexDirection: "row" }}>
-          <Ionicons
-            name="shield-checkmark-outline"
-            size={16}
-            color={THEME.colors.primary}
-            style={{ paddingRight: "1%" }}
-          />
-          <Text style={{ color: THEME.colors.primary }}>
-            SUCCESS: Email successfully updated
-          </Text>
-        </View>
+        <SnackbarContent
+          iconName={THEME.icons.successIcon}
+          iconSize={THEME.icons.snackbarIconSize}
+          iconColor={THEME.colors.primary}
+          text={"SUCCESS: Email has been reset to " + newEmail}
+          textColor={THEME.colors.primary}
+        />
       );
-      cleanUpState(props);
       setIsSnackbarVisible(true);
+      cleanUpState(props);
       console.log("Success updating email");
     } catch (error) {
+      setModalSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icons.errorIcon}
+          iconSize={16}
+          iconColor={THEME.colors.danger}
+          text={"ERROR: " + error.message}
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsModalSnackbarVisible(true);
       console.log(error);
     }
   }
