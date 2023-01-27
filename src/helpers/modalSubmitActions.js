@@ -85,7 +85,7 @@ export async function submitEditNameModal(props) {
         iconName={THEME.icons.errorIcon}
         iconSize={THEME.icons.snackbarIconSize}
         iconColor={THEME.colors.danger}
-        text="ERROR: Invalid name"
+        text="ERROR: Invalid name."
         textColor={THEME.colors.danger}
       />
     );
@@ -103,7 +103,7 @@ export async function submitEditNameModal(props) {
           iconName={THEME.icons.successIcon}
           iconSize={THEME.icons.snackbarIconSize}
           iconColor={THEME.colors.primary}
-          text="SUCCESS: Name sucessfully updated"
+          text="SUCCESS: Name sucessfully updated."
           textColor={THEME.colors.primary}
         />
       );
@@ -155,7 +155,7 @@ export async function submitDeleteAccountModal(props) {
         iconName={THEME.icons.errorIcon}
         iconSize={THEME.icons.snackbarIconSize}
         iconColor={THEME.colors.danger}
-        text={"ERROR: Incorrect password"}
+        text="ERROR: Incorrect password."
         textColor={THEME.colors.danger}
       />
     );
@@ -199,7 +199,7 @@ export async function submitResetBalanceModal(props) {
             iconName={THEME.icons.successIcon}
             iconSize={THEME.icons.snackbarIconSize}
             iconColor={THEME.colors.primary}
-            text="SUCCESS: Balance reset"
+            text="SUCCESS: Balance reset."
             textColor={THEME.colors.primary}
           />
         );
@@ -213,7 +213,7 @@ export async function submitResetBalanceModal(props) {
             iconName={THEME.icons.errorIcon}
             iconSize={THEME.icons.snackbarIconSize}
             iconColor={THEME.colors.danger}
-            text={"ERROR: " + err.message}
+            text="ERROR: Unable to reset Alpaca balance, please try again."
             textColor={THEME.colors.danger}
           />
         );
@@ -246,7 +246,7 @@ export async function submitConnectAlpacaModal(props) {
             iconName={THEME.icons.successIcon}
             iconSize={THEME.icons.snackbarIconSize}
             iconColor={THEME.colors.primary}
-            text="SUCCESS: Connected to Alpaca"
+            text="SUCCESS: Connected to Alpaca."
             textColor={THEME.colors.primary}
           />
         );
@@ -260,7 +260,7 @@ export async function submitConnectAlpacaModal(props) {
             iconName={THEME.icons.errorIcon}
             iconSize={THEME.icons.snackbarIconSize}
             iconColor={THEME.colors.danger}
-            text={"ERROR: " + err.message}
+            text="ERROR: Unable to connect to Alpaca, please try again."
             textColor={THEME.colors.danger}
           />
         );
@@ -288,7 +288,7 @@ export async function submitDisconnectAlpacaModal(props) {
             iconName={THEME.icons.successIcon}
             iconSize={THEME.icons.snackbarIconSize}
             iconColor={THEME.colors.primary}
-            text="SUCCESS: Disconnected from Alpaca"
+            text="SUCCESS: Disconnected from Alpaca."
             textColor={THEME.colors.primary}
           />
         );
@@ -302,7 +302,7 @@ export async function submitDisconnectAlpacaModal(props) {
             iconName={THEME.icons.errorIcon}
             iconSize={THEME.icons.snackbarIconSize}
             iconColor={THEME.colors.danger}
-            text={"ERROR: " + err.message}
+            text="ERROR: Unable to disconnect from Alpaca, please try again."
             textColor={THEME.colors.danger}
           />
         );
@@ -333,7 +333,7 @@ export async function submitResetPasswordModal(props) {
         iconName={THEME.icons.errorIcon}
         iconSize={THEME.icons.snackbarIconSize}
         iconColor={THEME.colors.danger}
-        text="ERROR: Passwords do not match"
+        text="ERROR: Passwords do not match."
         textColor={THEME.colors.danger}
       />
     );
@@ -347,7 +347,7 @@ export async function submitResetPasswordModal(props) {
           iconName={THEME.icons.successIcon}
           iconSize={THEME.icons.snackbarIconSize}
           iconColor={THEME.colors.primary}
-          text="SUCCESS: Password reset"
+          text="SUCCESS: Password reset."
           textColor={THEME.colors.primary}
         />
       );
@@ -361,7 +361,7 @@ export async function submitResetPasswordModal(props) {
           iconName={THEME.icons.errorIcon}
           iconSize={THEME.icons.snackbarIconSize}
           iconColor={THEME.colors.danger}
-          text="ERROR: Incorrect old password"
+          text="ERROR: Incorrect old password."
           textColor={THEME.colors.danger}
         />
       );
@@ -398,7 +398,7 @@ export async function submitUpdateEmailModalVerificationStep(props) {
         iconName={THEME.icons.errorIcon}
         iconSize={16}
         iconColor={THEME.colors.danger}
-        text="ERROR: Incorrect verification code"
+        text="ERROR: Incorrect verification code."
         textColor={THEME.colors.danger}
       />
     );
@@ -426,7 +426,7 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
         iconName={THEME.icons.errorIcon}
         iconSize={THEME.icons.snackbarIconSize}
         iconColor={THEME.colors.danger}
-        text="ERROR: Emails do not match"
+        text="ERROR: Emails do not match."
         textColor={THEME.colors.danger}
       />
     );
@@ -439,7 +439,7 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
           iconName={THEME.icons.successIcon}
           iconSize={THEME.icons.snackbarIconSize}
           iconColor={THEME.colors.primary}
-          text={"SUCCESS: Email has been reset to " + newEmail}
+          text={"SUCCESS: Email has been updated to " + newEmail + "."}
           textColor={THEME.colors.primary}
         />
       );
@@ -452,7 +452,7 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
           iconName={THEME.icons.errorIcon}
           iconSize={16}
           iconColor={THEME.colors.danger}
-          text={"ERROR: " + error.message}
+          text="ERROR: Unable to update email, please try again."
           textColor={THEME.colors.danger}
         />
       );

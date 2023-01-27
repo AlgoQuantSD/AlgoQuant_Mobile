@@ -24,10 +24,10 @@ export async function sendVerificationCode(props) {
     console.log("Verification sent");
     setModalSnackbarMessage(
       <SnackbarContent
-        iconName="shield-checkmark-outline"
+        iconName={THEME.icons.successIcon}
         iconSize={16}
         iconColor={THEME.colors.primary}
-        text={"SUCCESS: Verification code sent to " + email}
+        text={"SUCCESS: Verification code sent to " + email + "."}
         textColor={THEME.colors.primary}
       />
     );
@@ -35,23 +35,18 @@ export async function sendVerificationCode(props) {
   } catch (error) {
     setModalSnackbarMessage(
       <SnackbarContent
-        iconName="warning-outline"
-        iconSize={16}
+        iconName={THEME.icons.errorIcon}
+        iconSize={THEME.icons.snackbarIconSize}
         iconColor={THEME.colors.danger}
-        text={"ERROR: " + error.message}
+        text={
+          "ERROR: Unable to send verification code to " +
+          email +
+          " ,please try again."
+        }
         textColor={THEME.colors.danger}
       />
     );
     setIsModalSnackbarVisible(true);
     console.log("Error sending verification code: ", error);
-  }
-}
-
-export async function handleVerificationCodeSubmit(verificationCode) {
-  try {
-    await Auth.verifyCurrentUserAttributeSubmit("email", verificationCode);
-    // update the email in the user's profile and confirm the change to the user
-  } catch (error) {
-    console.log("Error submitting verification code: ", error);
   }
 }
