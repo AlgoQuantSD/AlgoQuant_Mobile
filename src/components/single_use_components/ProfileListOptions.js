@@ -9,6 +9,7 @@ import {
   disconnectFromAlpacaModalBuilder,
   resetPasswordModalBuilder,
   updateEmailModalBuilder,
+  updatePhoneModalBuilder,
 } from "../../helpers/modalFactory";
 import { handleSignOut } from "../../helpers/signOut";
 import AlgoquantApiContext from "../../constants/ApiContext";
@@ -33,8 +34,11 @@ export default function ProfileListOptions(props, { navigation }) {
       case "RESET_PASSWORD":
         resetPasswordModalBuilder(props);
         break;
-      case "UPDATE_EMAIL_VERIFICATION_STEP":
+      case "UPDATE_EMAIL":
         updateEmailModalBuilder(props);
+        break;
+      case "UPDATE_PHONE":
+        updatePhoneModalBuilder(props);
         break;
       case "DELETE_ACCOUNT":
         deleteAccountModalBuilder(props);
@@ -51,7 +55,8 @@ export default function ProfileListOptions(props, { navigation }) {
     { label: "Connect to Alpaca", key: "CONNECT_ALPACA" },
     { label: "Disconnect from Alpaca", key: "DISCONNECT_ALPACA" },
     { label: "Reset password", key: "RESET_PASSWORD" },
-    { label: "Update email", key: "UPDATE_EMAIL_VERIFICATION_STEP" },
+    { label: "Update email", key: "UPDATE_EMAIL" },
+    { label: "Update phone number", key: "UPDATE_PHONE" },
     { label: "Delete account", key: "DELETE_ACCOUNT" },
     { label: "Sign out", key: "SIGN_OUT" },
   ];

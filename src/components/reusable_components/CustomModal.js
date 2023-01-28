@@ -19,8 +19,9 @@ import {
   submitConnectAlpacaModal,
   submitDisconnectAlpacaModal,
   submitResetPasswordModal,
-  submitUpdateEmailModalVerificationStep,
   submitUpdateEmailModalNewEmailStep,
+  submitUpdateEmailConfirmNewEmailStep,
+  submitUpdatePhoneModal,
 } from "../../helpers/modalSubmitActions";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import TypewriterAnimatedText from "./TypewriterAnimatedText";
@@ -114,11 +115,14 @@ export default function CustomModal(props) {
       case "RESET_PASSWORD":
         submitResetPasswordModal(submitProps);
         break;
-      case "UPDATE_EMAIL_VERIFICATION_STEP":
-        submitUpdateEmailModalVerificationStep(submitProps);
-        break;
       case "UPDATE_EMAIL_NEW_EMAIL_STEP":
         submitUpdateEmailModalNewEmailStep(submitProps);
+        break;
+      case "UPDATE_EMAIL_NEW_EMAIL_CONFIRM_STEP":
+        submitUpdateEmailConfirmNewEmailStep(submitProps);
+        break;
+      case "UPDATE_PHONE":
+        submitUpdatePhoneModal(submitProps);
         break;
       case "DELETE_ACCOUNT":
         submitDeleteAccountModal(submitProps);

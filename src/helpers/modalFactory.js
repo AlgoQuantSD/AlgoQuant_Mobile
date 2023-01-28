@@ -1,6 +1,6 @@
 import React from "react";
 import { THEME } from "../constants/Theme";
-import { getCurrentUser, sendVerificationCode } from "./user";
+import { getCurrentUser } from "./user";
 import { View, Text, TouchableOpacity, Linking } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -246,34 +246,53 @@ export function updateEmailModalBuilder(props) {
     setModalButtons,
   } = props;
 
-  setModalType("UPDATE_EMAIL_VERIFICATION_STEP");
+  setModalType("UPDATE_EMAIL_NEW_EMAIL_STEP");
   setModalTitle("Update Email");
-  setModalHeader("Provide verification key");
-  setModalBody(
-    <View>
-      <Text
-        style={{
-          color: THEME.text.color,
-          fontSize: THEME.text.fontSizeModalBody,
-        }}
-      >
-        Enter your verification code below to continue.{" "}
-      </Text>
-      <TouchableOpacity onPress={() => sendVerificationCode(props)}>
-        <Text
-          style={{
-            color: THEME.colors.primary,
-            paddingTop: "1%",
-            textDecorationLine: "underline",
-          }}
-        >
-          Send code{" "}
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
+  setModalHeader("Enter your new email");
+  setModalBody(null);
   setModalInputFields([
-    { label: "Verification Key", key: "UPDATE_EMAIL_VERIFICATION_KEY" },
+    { label: "New Email", key: "UPDATE_EMAIL_NEW_EMAIL" },
+    { label: "Confirm New Email", key: "UPDATE_EMAIL_CONFIRM_NEW_EMAIL" },
+  ]);
+  setModalButtons([
+    {
+      label: "Submit",
+      buttonColor: THEME.colors.primary,
+      textColor: THEME.text.color,
+      key: "SUBMIT_BUTTON",
+    },
+    {
+      label: "Cancel",
+      buttonColor: THEME.colors.danger,
+      textColor: THEME.text.color,
+      key: "CANCEL_BUTTON",
+    },
+  ]);
+  setIsModalVisible(!isModalVisible);
+}
+
+export function updatePhoneModalBuilder(props) {
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalInputFields,
+    setModalButtons,
+  } = props;
+
+  setModalType("UPDATE_PHONE");
+  setModalTitle("Update Phone Number");
+  setModalHeader("Enter your new phone number");
+  setModalBody(null);
+  setModalInputFields([
+    { label: "New Phone Number", key: "UPDATE_PHONE_NEW_PHONE" },
+    {
+      label: "Confirm New Phone Number",
+      key: "UPDATE_PHONE_CONFIRM_NEW_PHONE",
+    },
   ]);
   setModalButtons([
     {

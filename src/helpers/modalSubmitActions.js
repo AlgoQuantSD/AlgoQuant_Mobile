@@ -1,9 +1,7 @@
-import React, { useContext } from "react";
-import { View, Text } from "react-native";
+import React from "react";
 import { getCurrentUser } from "./user";
 import { Auth } from "aws-amplify";
 import initAlgoQuantApi from "../constants/ApiUtils";
-import { Ionicons } from "@expo/vector-icons";
 import { THEME } from "../constants/Theme";
 import SnackbarContent from "../components/reusable_components/SnackbarContent";
 
@@ -51,6 +49,7 @@ function cleanUpState(props) {
   setIsModalVisible(!isModalVisible);
 }
 
+// Action that occurs when the user submits the edit name modal
 export async function submitEditNameModal(props) {
   const user = await getCurrentUser();
   const {
@@ -119,6 +118,7 @@ export async function submitEditNameModal(props) {
   }
 }
 
+// Action that occurs when the user submits the delete account modal
 export async function submitDeleteAccountModal(props) {
   const {
     inputValues,
@@ -277,6 +277,7 @@ export async function submitConnectAlpacaModal(props) {
   }
 }
 
+// Action that occurs when the user submits the disconnect from alpaca modal
 export async function submitDisconnectAlpacaModal(props) {
   const {
     setSnackbarMessage,
@@ -323,6 +324,7 @@ export async function submitDisconnectAlpacaModal(props) {
   }
 }
 
+// Action that occurs when the user enters their new password in the modal
 export async function submitResetPasswordModal(props) {
   const user = await getCurrentUser();
   const {
@@ -381,7 +383,8 @@ export async function submitResetPasswordModal(props) {
   }
 }
 
-export async function submitUpdateEmailModalVerificationStep(props) {
+// Action that occurs when the user enters their new email in the modal
+export async function submitUpdateEmailModalNewEmailStep(props) {
   const {
     inputValues,
     setModalType,
@@ -393,18 +396,88 @@ export async function submitUpdateEmailModalVerificationStep(props) {
     setIsModalSnackbarVisible,
     setIsLoading,
   } = props;
+
+  const newEmail = inputValues[0].toLowerCase();
+  const confirmNewEmail = inputValues[1].toLowerCase();
+  console.log("Email: ", inputValues[0], " Confirm email: ", inputValues[1]);
+
+  const user = await getCurrentUser();
+  if (newEmail !== confirmNewEmail) {
+    setModalSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.errorIcon}
+        iconSize={THEME.icons.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Emails do not match."
+        textColor={THEME.colors.danger}
+      />
+    );
+    setIsModalSnackbarVisible(true);
+  } else {
+    try {
+      setIsLoading(true);
+      await Auth.updateUserAttributes(user, { email: newEmail });
+      setIsLoading(false);
+      setModalType("UPDATE_EMAIL_NEW_EMAIL_CONFIRM_STEP");
+      setModalTitle("Update Email");
+      setModalHeader("Confirm your new email");
+      setModalBody(
+        "A confirmation code was sent to " +
+          newEmail +
+          ". Please enter the code below."
+      );
+      setModalInputFields([
+        {
+          label: "Verification code",
+          key: "UPDATE_EMAIL_NEW_EMAIL_VERIFICATION",
+        },
+      ]);
+      console.log("Success updating email");
+    } catch (error) {
+      setIsLoading(false);
+      setModalSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icons.errorIcon}
+          iconSize={16}
+          iconColor={THEME.colors.danger}
+          text="ERROR: Unable to update email, please try again."
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsModalSnackbarVisible(true);
+      console.log(error);
+    }
+  }
+}
+
+// Action that occurs when the user enters the confirmation code in the update email confirm modal
+export async function submitUpdateEmailConfirmNewEmailStep(props) {
+  const {
+    inputValues,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+    setIsLoading,
+  } = props;
+
   const verificationCode = inputValues[0];
+  console.log("Verification code: ", verificationCode);
   try {
     setIsLoading(true);
     await Auth.verifyCurrentUserAttributeSubmit("email", verificationCode);
-    setModalType("UPDATE_EMAIL_NEW_EMAIL_STEP");
-    setModalTitle("Update Email");
-    setModalHeader("Enter your new email");
-    setModalBody(null);
-    setModalInputFields([
-      { label: "New Email", key: "UPDATE_EMAIL_NEW_EMAIL" },
-      { label: "Confirm New Email", key: "UPDATE_EMAIL_CONFIRM_NEW_EMAIL" },
-    ]);
+    setIsLoading(false);
+    setSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.successIcon}
+        iconSize={THEME.icons.snackbarIconSize}
+        iconColor={THEME.colors.success}
+        text={"Successfully updated email."}
+        textColor={THEME.colors.success}
+      />
+    );
+    setIsSnackbarVisible(true);
+    cleanUpState(props);
   } catch (error) {
     setIsLoading(false);
     setModalSnackbarMessage(
@@ -421,7 +494,8 @@ export async function submitUpdateEmailModalVerificationStep(props) {
   }
 }
 
-export async function submitUpdateEmailModalNewEmailStep(props) {
+// Action that occurs when the user enters their new phone number in the modal
+export async function submitUpdatePhoneModal(props) {
   const {
     inputValues,
     setSnackbarMessage,
@@ -431,17 +505,23 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
     setIsLoading,
   } = props;
 
-  const newEmail = inputValues[0];
-  console.log("Email: ", inputValues[0], " Confirm email: ", inputValues[1]);
+  const newPhone = inputValues[0].toLowerCase();
+  const confirmNewPhone = inputValues[1].toLowerCase();
+  console.log(
+    "Phone Number: ",
+    inputValues[0],
+    " Confirm email: ",
+    inputValues[1]
+  );
 
   const user = await getCurrentUser();
-  if (inputValues[0] !== inputValues[1]) {
+  if (newPhone !== confirmNewPhone) {
     setModalSnackbarMessage(
       <SnackbarContent
         iconName={THEME.icons.errorIcon}
         iconSize={THEME.icons.snackbarIconSize}
         iconColor={THEME.colors.danger}
-        text="ERROR: Emails do not match."
+        text="ERROR: Phone numbers do not match."
         textColor={THEME.colors.danger}
       />
     );
@@ -449,19 +529,19 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
   } else {
     try {
       setIsLoading(true);
-      await Auth.updateUserAttributes(user, { email: newEmail });
+      await Auth.updateUserAttributes(user, { phone_number: newPhone });
       setSnackbarMessage(
         <SnackbarContent
           iconName={THEME.icons.successIcon}
           iconSize={THEME.icons.snackbarIconSize}
-          iconColor={THEME.colors.primary}
-          text={"SUCCESS: Email has been updated to " + newEmail + "."}
-          textColor={THEME.colors.primary}
+          iconColor={THEME.colors.success}
+          text={"Successfully updated phone number."}
+          textColor={THEME.colors.success}
         />
       );
-      setIsSnackbarVisible(true);
       cleanUpState(props);
-      console.log("Success updating email");
+      setIsSnackbarVisible(true);
+      console.log("Success updating phone number");
     } catch (error) {
       setIsLoading(false);
       setModalSnackbarMessage(
@@ -469,7 +549,7 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
           iconName={THEME.icons.errorIcon}
           iconSize={16}
           iconColor={THEME.colors.danger}
-          text="ERROR: Unable to update email, please try again."
+          text={"ERROR: " + error.message}
           textColor={THEME.colors.danger}
         />
       );
