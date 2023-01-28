@@ -6,6 +6,7 @@ import { signUpConfig } from "./src/authentication/SignUpConfig";
 import { CUSTOM_AUTH_THEME } from "./src/constants/CustomAuthTheme";
 import { NavigationContainer } from "@react-navigation/native";
 import BottomTabNavigaton from "./src/components/navigation/BottomTabNavigaton";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // Analytics disabled since it is unnecesary and causes an unhandled promise rejection warning
 Amplify.configure({ ...config, Analytics: { disabled: true } });
@@ -13,9 +14,11 @@ Amplify.configure({ ...config, Analytics: { disabled: true } });
 function App() {
   return (
     <Authenticator.Provider>
-      <NavigationContainer>
-        <BottomTabNavigaton />
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <BottomTabNavigaton />
+        </NavigationContainer>
+      </SafeAreaProvider>
     </Authenticator.Provider>
   );
 }

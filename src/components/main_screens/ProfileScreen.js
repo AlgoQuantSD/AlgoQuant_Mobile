@@ -5,6 +5,8 @@ import ProfileHeader from "../single_use_components/ProfileHeader";
 import TotalBalance from "../single_use_components/TotalBalance";
 import ProfileListOptions from "../single_use_components/ProfileListOptions";
 import CustomModal from "../reusable_components/CustomModal";
+import { Button, Snackbar } from "react-native-paper";
+import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 
 export default function ProfileScreen({ navigation }) {
   // Keep track of whether the modal is visible or not and what type of modal we should render
@@ -13,8 +15,12 @@ export default function ProfileScreen({ navigation }) {
   const [modalTitle, setModalTitle] = useState(null);
   const [modalHeader, setModalHeader] = useState(null);
   const [modalBody, setModalBody] = useState(null);
-  const [modalInputFields, setmodalInputFields] = useState(null);
+  const [modalInputFields, setModalInputFields] = useState(null);
   const [modalButtons, setModalButtons] = useState(null);
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
+  const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(false);
+  const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
   const [modalErrorMessage, setModalErrorMessage] = useState(null);
 
   return (
@@ -28,7 +34,7 @@ export default function ProfileScreen({ navigation }) {
         setIsModalVisible={setIsModalVisible}
         setModalType={setModalType}
         setModalTitle={setModalTitle}
-        setmodalInputFields={setmodalInputFields}
+        setModalInputFields={setModalInputFields}
         setModalButtons={setModalButtons}
         setModalErrorMessage={setModalErrorMessage}
       />
@@ -41,7 +47,7 @@ export default function ProfileScreen({ navigation }) {
         setModalTitle={setModalTitle}
         setModalHeader={setModalHeader}
         setModalBody={setModalBody}
-        setmodalInputFields={setmodalInputFields}
+        setModalInputFields={setModalInputFields}
         setModalButtons={setModalButtons}
       />
 
@@ -55,8 +61,10 @@ export default function ProfileScreen({ navigation }) {
         setModalTitle={setModalTitle}
         setModalHeader={setModalHeader}
         setModalBody={setModalBody}
-        setmodalInputFields={setmodalInputFields}
+        setModalInputFields={setModalInputFields}
         setModalButtons={setModalButtons}
+        setModalSnackbarMessage={setModalSnackbarMessage}
+        setIsModalSnackbarVisible={setIsModalSnackbarVisible}
       />
       <CustomModal
         isModalVisible={isModalVisible}
@@ -70,12 +78,44 @@ export default function ProfileScreen({ navigation }) {
         modalBody={modalBody}
         setModalBody={setModalBody}
         modalInputFields={modalInputFields}
-        setmodalInputFields={setmodalInputFields}
+        setModalInputFields={setModalInputFields}
         modalButtons={modalButtons}
         setModalButtons={setModalButtons}
+        snackbarMessage={snackbarMessage}
+        setSnackbarMessage={setSnackbarMessage}
+        isSnackbarVisible={isSnackbarVisible}
+        setIsSnackbarVisible={setIsSnackbarVisible}
+        modalSnackbarMessage={modalSnackbarMessage}
+        setModalSnackbarMessage={setModalSnackbarMessage}
+        isModalSnackbarVisible={isModalSnackbarVisible}
+        setIsModalSnackbarVisible={setIsModalSnackbarVisible}
         modalErrorMessage={modalErrorMessage}
         setModalErrorMessage={setModalErrorMessage}
       />
+      <View
+        style={{
+          position: "absolute",
+          bottom: -40,
+          width: "100%",
+        }}
+      >
+        <Snackbar
+          visible={isSnackbarVisible}
+          onDismiss={() =>
+            snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage)
+          }
+          duration={3500}
+          action={{
+            label: "Dismiss",
+            textColor: THEME.text.color,
+            onPress: () => {
+              snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
+            },
+          }}
+        >
+          {snackbarMessage}
+        </Snackbar>
+      </View>
     </View>
   );
 }

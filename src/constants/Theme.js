@@ -62,6 +62,11 @@ export const THEME = {
   loadingIndicator: {
     color: PALETTE.white,
   },
+  icons: {
+    successIcon: "shield-checkmark-outline",
+    errorIcon: "warning-outline",
+    snackbarIconSize: 16,
+  },
 };
 
 export const LIGHT_THEME = {

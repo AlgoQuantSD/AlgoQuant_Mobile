@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from "react-native";
-import { TextInput, Button } from "react-native-paper";
+import { TextInput, Button, Snackbar } from "react-native-paper";
 import Modal from "react-native-modal";
 import { Ionicons } from "@expo/vector-icons";
 import { THEME } from "../../constants/Theme";
@@ -18,7 +18,12 @@ import {
   submitResetBalanceModal,
   submitConnectAlpacaModal,
   submitDisconnectAlpacaModal,
+  submitResetPasswordModal,
+  submitUpdateEmailModalNewEmailStep,
+  submitUpdateEmailConfirmNewEmailStep,
+  submitUpdatePhoneModal,
 } from "../../helpers/modalSubmitActions";
+import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import TypewriterAnimatedText from "./TypewriterAnimatedText";
 
 export default function CustomModal(props) {
@@ -35,9 +40,17 @@ export default function CustomModal(props) {
     modalBody,
     setModalBody,
     modalInputFields,
-    setmodalInputFields,
+    setModalInputFields,
     modalButtons,
     setModalButtons,
+    snackbarMessage,
+    setSnackbarMessage,
+    isSnackbarVisible,
+    setIsSnackbarVisible,
+    modalSnackbarMessage,
+    setModalSnackbarMessage,
+    isModalSnackbarVisible,
+    setIsModalSnackbarVisible,
     modalErrorMessage,
     setModalErrorMessage,
   } = props;
@@ -49,10 +62,12 @@ export default function CustomModal(props) {
     setModalTitle(null);
     setModalHeader(null);
     setModalBody(null);
-    setmodalInputFields(null);
+    setModalInputFields(null);
     setModalButtons(null);
     setInputValues(null);
-    setModalErrorMessage(null);
+    setIsModalSnackbarVisible(false);
+    setModalSnackbarMessage(null);
+    setIsSensitiveTextHidden(true);
   }
 
   // Perform the appropriate action upon submitting based on which modal is open
@@ -68,8 +83,17 @@ export default function CustomModal(props) {
       setModalTitle,
       setModalHeader,
       setModalBody,
-      setmodalInputFields,
+      setModalInputFields,
       setModalButtons,
+      isSnackbarVisible,
+      setIsSnackbarVisible,
+      snackbarMessage,
+      setSnackbarMessage,
+      modalSnackbarMessage,
+      setModalSnackbarMessage,
+      isModalSnackbarVisible,
+      setIsModalSnackbarVisible,
+      modalErrorMessage,
       setModalErrorMessage,
       isLoading,
       setIsLoading,
@@ -88,6 +112,18 @@ export default function CustomModal(props) {
       case "DISCONNECT_ALPACA":
         submitDisconnectAlpacaModal(submitProps);
         break;
+      case "RESET_PASSWORD":
+        submitResetPasswordModal(submitProps);
+        break;
+      case "UPDATE_EMAIL_NEW_EMAIL_STEP":
+        submitUpdateEmailModalNewEmailStep(submitProps);
+        break;
+      case "UPDATE_EMAIL_NEW_EMAIL_CONFIRM_STEP":
+        submitUpdateEmailConfirmNewEmailStep(submitProps);
+        break;
+      case "UPDATE_PHONE":
+        submitUpdatePhoneModal(submitProps);
+        break;
       case "DELETE_ACCOUNT":
         submitDeleteAccountModal(submitProps);
         console.log("Account deleted!");
@@ -101,6 +137,8 @@ export default function CustomModal(props) {
     Array(modalInputFields?.length).fill("")
   );
   const [isLoading, setIsLoading] = useState(false);
+
+  const [isSensitiveTextHidden, setIsSensitiveTextHidden] = useState(true);
   // Refresh the component to get the correct amount of input values
   useEffect(() => {
     if (modalInputFields) {
@@ -112,7 +150,11 @@ export default function CustomModal(props) {
   // In some cases such as input fields and buttons we must loop through and render them because the number of input fields and buttons in a modal may vary
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <Modal isVisible={isModalVisible} style={styles.modalContainer}>
+      <Modal
+        isVisible={isModalVisible}
+        onBackdropPress={() => setIsModalVisible(false)}
+        style={styles.modalContainer}
+      >
         {isLoading ? (
           <View style={styles.loadingIndicator}>
             <ActivityIndicator
@@ -144,25 +186,58 @@ export default function CustomModal(props) {
           {modalInputFields ? (
             <View style={styles.modalInputFields} testID="modal-input-fields">
               {modalInputFields.map((item, index) => (
-                <TextInput
+                <View
                   key={item.key}
-                  label={item.label}
-                  defaultValue={item.defaultValue}
-                  onChangeText={(text) => {
-                    const newInputValues = [...inputValues];
-                    newInputValues[index] = text;
-                    setInputValues(newInputValues);
+                  style={{
+                    flexDirection: "row",
+                    width: "100%",
                   }}
-                  selectionColor={THEME.colors.foreground}
-                  underlineColor={THEME.colors.foreground}
-                  activeUnderlineColor={THEME.colors.foreground}
-                  outlineColor={THEME.colors.foreground}
-                  activeOutlineColor={THEME.colors.foreground}
-                  textColor={THEME.colors.foreground}
-                  placeholderTextColor={THEME.colors.foreground}
-                  contentStyle={{ color: THEME.colors.foreground }}
-                  style={{ backgroundColor: THEME.colors.transparent }}
-                ></TextInput>
+                >
+                  <TextInput
+                    label={item.label}
+                    secureTextEntry={
+                      modalType === "RESET_PASSWORD"
+                        ? isSensitiveTextHidden
+                        : false
+                    }
+                    defaultValue={item.defaultValue}
+                    onChangeText={(text) => {
+                      const newInputValues = [...inputValues];
+                      newInputValues[index] = text;
+                      setInputValues(newInputValues);
+                    }}
+                    selectionColor={THEME.colors.foreground}
+                    underlineColor={THEME.colors.foreground}
+                    activeUnderlineColor={THEME.colors.foreground}
+                    outlineColor={THEME.colors.foreground}
+                    activeOutlineColor={THEME.colors.foreground}
+                    textColor={THEME.colors.foreground}
+                    placeholderTextColor={THEME.colors.foreground}
+                    contentStyle={{ color: THEME.colors.foreground }}
+                    style={{
+                      backgroundColor: THEME.colors.transparent,
+                      width: "100%",
+                    }}
+                  />
+                  {modalType === "RESET_PASSWORD" ? (
+                    <TouchableOpacity
+                      style={{
+                        alignSelf: "center",
+                        position: "absolute",
+                        left: "90%",
+                      }}
+                      onPress={() =>
+                        setIsSensitiveTextHidden(!isSensitiveTextHidden)
+                      }
+                    >
+                      <Ionicons
+                        name="eye"
+                        size={20}
+                        color={THEME.colors.foreground}
+                      />
+                    </TouchableOpacity>
+                  ) : null}
+                </View>
               ))}
             </View>
           ) : null}
@@ -194,6 +269,36 @@ export default function CustomModal(props) {
             ))}
           </View>
         ) : null}
+        <View
+          style={{
+            position: "absolute",
+            bottom: -150,
+            width: "100%",
+          }}
+        >
+          <Snackbar
+            visible={isModalSnackbarVisible}
+            onDismiss={() =>
+              snackbarCleanUp(
+                setIsModalSnackbarVisible,
+                setModalSnackbarMessage
+              )
+            }
+            duration={3500}
+            action={{
+              label: "Dismiss",
+              textColor: THEME.text.color,
+              onPress: () => {
+                snackbarCleanUp(
+                  setIsModalSnackbarVisible,
+                  setModalSnackbarMessage
+                );
+              },
+            }}
+          >
+            {modalSnackbarMessage}
+          </Snackbar>
+        </View>
       </Modal>
     </TouchableWithoutFeedback>
   );
@@ -248,12 +353,12 @@ const styles = StyleSheet.create({
   modalBody: {
     flex: 0.25,
     alignItems: "flex-start",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     width: "90%",
   },
   modalInputFields: {
     flex: 0.45,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     width: "90%",
   },
   modalErrorMessage: {
@@ -276,5 +381,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "50%",
     alignItems: "center",
+  },
+  modalSnackbar: {
+    backgroundColor: THEME.colors.background,
   },
 });

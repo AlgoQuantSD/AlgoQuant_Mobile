@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { getCurrentUser } from "./user";
 import { Auth } from "aws-amplify";
-import { MOCK_USER } from "../constants/MockUser";
 import initAlgoQuantApi from "../constants/ApiUtils";
+import { THEME } from "../constants/Theme";
+import SnackbarContent from "../components/reusable_components/SnackbarContent";
 
 // Get access to the algoquant sdk api. Declaring an algoquant object and initializing it
 // This is done because React hooks cant be used here since this is a regular JS function
@@ -26,9 +27,11 @@ function cleanUpState(props) {
     setModalTitle,
     setModalHeader,
     setModalBody,
-    setmodalInputFields,
+    setModalInputFields,
     setModalButtons,
     setModalErrorMessage,
+    setIsModalSnackbarVisible,
+    setModalSnackbarMessage,
     setIsLoading,
   } = props;
 
@@ -36,17 +39,28 @@ function cleanUpState(props) {
   setModalTitle(null);
   setModalHeader(null);
   setModalBody(null);
-  setmodalInputFields(null);
+  setModalInputFields(null);
   setInputValues(null);
   setModalButtons(null);
   setModalErrorMessage(null);
   setIsLoading(false);
+  setIsModalSnackbarVisible(false);
+  setModalSnackbarMessage(null);
   setIsModalVisible(!isModalVisible);
 }
 
+// Action that occurs when the user submits the edit name modal
 export async function submitEditNameModal(props) {
   const user = await getCurrentUser();
-  const { inputValues, setModalErrorMessage, setIsLoading } = props;
+  const {
+    inputValues,
+    setModalErrorMessage,
+    setIsLoading,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+  } = props;
 
   // Currently the edit name fields are pre populated with the user's current first and last name
   // The problem is that when pressing submit without editing these fields it will pass empty strings as first and last name
@@ -65,7 +79,16 @@ export async function submitEditNameModal(props) {
     (inputValues[0] === user.attributes.given_name &&
       inputValues[1] === user.attributes.family_name)
   ) {
-    setModalErrorMessage("ERROR: Invalid name");
+    setModalSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.errorIcon}
+        iconSize={THEME.icons.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Invalid name."
+        textColor={THEME.colors.danger}
+      />
+    );
+    setIsModalSnackbarVisible(true);
     console.log("Invalid name");
   } else {
     try {
@@ -74,18 +97,35 @@ export async function submitEditNameModal(props) {
         given_name: inputValues[0],
         family_name: inputValues[1],
       });
+      setSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icons.successIcon}
+          iconSize={THEME.icons.snackbarIconSize}
+          iconColor={THEME.colors.primary}
+          text="SUCCESS: Name sucessfully updated."
+          textColor={THEME.colors.primary}
+        />
+      );
+      setIsSnackbarVisible(true);
       console.log("New name saved successfully: ", inputValues);
       // Clear state upon succesful submit
       cleanUpState(props);
     } catch (error) {
+      setIsLoading(false);
       console.log("Error updating name: ", error);
       setModalErrorMessage(error.message);
     }
   }
 }
 
+// Action that occurs when the user submits the delete account modal
 export async function submitDeleteAccountModal(props) {
-  const { inputValues, setModalErrorMessage, setIsLoading } = props;
+  const {
+    inputValues,
+    setIsLoading,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+  } = props;
 
   // Get the necessary info to submit to the sign in function
   const currentUser = await getCurrentUser();
@@ -93,6 +133,7 @@ export async function submitDeleteAccountModal(props) {
   const password = inputValues[0];
 
   try {
+    setIsLoading(true);
     // The sign in function is used as a verification with the user typing in their password to confirm account deletion
     const user = await Auth.signIn(username, password);
     if (
@@ -110,8 +151,18 @@ export async function submitDeleteAccountModal(props) {
       cleanUpState(props);
     }
   } catch (error) {
+    setIsLoading(false);
     console.log("Error signing in: ", error);
-    setModalErrorMessage("ERROR: " + error.message);
+    setModalSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.errorIcon}
+        iconSize={THEME.icons.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Incorrect password."
+        textColor={THEME.colors.danger}
+      />
+    );
+    setIsModalSnackbarVisible(true);
   }
 }
 
@@ -119,7 +170,15 @@ export async function submitDeleteAccountModal(props) {
 // Used for both resetting alpaca balance and simulated balance using the modal type prop passed in
 export async function submitResetBalanceModal(props) {
   // Modal type is based on the users account status on if they are connected with alpaca or not
-  const { setModalErrorMessage, inputValues, modalType } = props;
+  const {
+    inputValues,
+    modalType,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+    setIsLoading,
+  } = props;
 
   // Data that is sent with the request
   // based on the modal type users will be able to enter inputs or not,
@@ -135,27 +194,53 @@ export async function submitResetBalanceModal(props) {
 
   // Call algoquant api and send bodyData to update user information
   if (algoquant.token) {
+    setIsLoading(true);
     algoquant
       .resetBalance(bodyData)
       .then((resp) => {
-        console.log(resp);
+        setSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icons.successIcon}
+            iconSize={THEME.icons.snackbarIconSize}
+            iconColor={THEME.colors.primary}
+            text="SUCCESS: Balance reset."
+            textColor={THEME.colors.primary}
+          />
+        );
+        setIsSnackbarVisible(true);
         // Clear state upon successful submit
         cleanUpState(props);
       })
       .catch((err) => {
-        // TO-DO HANDLE ERROR
-        setModalErrorMessage(err.message);
-        console.log(err.code);
+        setIsLoading(false);
+        setModalSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icons.errorIcon}
+            iconSize={THEME.icons.snackbarIconSize}
+            iconColor={THEME.colors.danger}
+            text="ERROR: Unable to reset Alpaca balance, please try again."
+            textColor={THEME.colors.danger}
+          />
+        );
+        setIsModalSnackbarVisible(true);
       });
   }
 }
 
 // Async function that handles the submit button logic for the Connect to Alpaca modal.
 export async function submitConnectAlpacaModal(props) {
-  const { setModalErrorMessage, inputValues } = props;
+  const {
+    inputValues,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+    setIsLoading,
+  } = props;
 
   // Call algoquant api and send bodyData to update user information
   if (algoquant.token) {
+    setIsLoading(true);
     algoquant
       .resetBalance({
         alpaca_key: inputValues[0],
@@ -163,32 +248,313 @@ export async function submitConnectAlpacaModal(props) {
       })
       .then((resp) => {
         console.log(resp);
+        setSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icons.successIcon}
+            iconSize={THEME.icons.snackbarIconSize}
+            iconColor={THEME.colors.primary}
+            text="SUCCESS: Connected to Alpaca."
+            textColor={THEME.colors.primary}
+          />
+        );
+        setIsSnackbarVisible(true);
         // Clear state upon successful submit
         cleanUpState(props);
       })
       .catch((err) => {
-        // TO-DO HANDLE ERROR
-        setModalErrorMessage(err.message);
+        setIsLoading(false);
+        setModalSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icons.errorIcon}
+            iconSize={THEME.icons.snackbarIconSize}
+            iconColor={THEME.colors.danger}
+            text="ERROR: Unable to connect to Alpaca, please try again."
+            textColor={THEME.colors.danger}
+          />
+        );
+        setIsModalSnackbarVisible(true);
       });
   }
 }
 
+// Action that occurs when the user submits the disconnect from alpaca modal
 export async function submitDisconnectAlpacaModal(props) {
-  const { setModalErrorMessage } = props;
+  const {
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+    setIsLoading,
+  } = props;
   console.log("Disconnected from Alpaca");
   console.log(algoquant.token);
   if (algoquant.token) {
+    setIsLoading(true);
     algoquant
       .resetBalance({})
       .then((resp) => {
         console.log(resp);
+        setSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icons.successIcon}
+            iconSize={THEME.icons.snackbarIconSize}
+            iconColor={THEME.colors.primary}
+            text="SUCCESS: Disconnected from Alpaca."
+            textColor={THEME.colors.primary}
+          />
+        );
+        setIsSnackbarVisible(true);
         // Clear state upon successful submit
         cleanUpState(props);
       })
       .catch((err) => {
-        // TO-DO HANDLE ERROR
-        setModalErrorMessage(err.message);
+        setIsLoading(false);
+        setModalSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icons.errorIcon}
+            iconSize={THEME.icons.snackbarIconSize}
+            iconColor={THEME.colors.danger}
+            text="ERROR: Unable to disconnect from Alpaca, please try again."
+            textColor={THEME.colors.danger}
+          />
+        );
+        setIsModalSnackbarVisible(true);
         console.log(err);
       });
+  }
+}
+
+// Action that occurs when the user enters their new password in the modal
+export async function submitResetPasswordModal(props) {
+  const user = await getCurrentUser();
+  const {
+    inputValues,
+    setIsLoading,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+  } = props;
+
+  const oldPassword = inputValues[0];
+  const newPassword = inputValues[1];
+  const confirmPassword = inputValues[2];
+
+  if (newPassword !== confirmPassword) {
+    setModalSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.errorIcon}
+        iconSize={THEME.icons.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Passwords do not match."
+        textColor={THEME.colors.danger}
+      />
+    );
+    setIsModalSnackbarVisible(true);
+  } else {
+    try {
+      setIsLoading(true);
+      await Auth.changePassword(user, oldPassword, newPassword);
+      setSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icons.successIcon}
+          iconSize={THEME.icons.snackbarIconSize}
+          iconColor={THEME.colors.primary}
+          text="SUCCESS: Password reset."
+          textColor={THEME.colors.primary}
+        />
+      );
+      setIsSnackbarVisible(true);
+      // Clear state upon succesful submit
+      cleanUpState(props);
+    } catch (error) {
+      setIsLoading(false);
+      setModalSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icons.errorIcon}
+          iconSize={THEME.icons.snackbarIconSize}
+          iconColor={THEME.colors.danger}
+          text="ERROR: Incorrect old password."
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsModalSnackbarVisible(true);
+    }
+  }
+}
+
+// Action that occurs when the user enters their new email in the modal
+export async function submitUpdateEmailModalNewEmailStep(props) {
+  const {
+    inputValues,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalInputFields,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+    setIsLoading,
+  } = props;
+
+  const newEmail = inputValues[0].toLowerCase();
+  const confirmNewEmail = inputValues[1].toLowerCase();
+  console.log("Email: ", inputValues[0], " Confirm email: ", inputValues[1]);
+
+  const user = await getCurrentUser();
+  if (newEmail !== confirmNewEmail) {
+    setModalSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.errorIcon}
+        iconSize={THEME.icons.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Emails do not match."
+        textColor={THEME.colors.danger}
+      />
+    );
+    setIsModalSnackbarVisible(true);
+  } else {
+    try {
+      setIsLoading(true);
+      await Auth.updateUserAttributes(user, { email: newEmail });
+      setIsLoading(false);
+      setModalType("UPDATE_EMAIL_NEW_EMAIL_CONFIRM_STEP");
+      setModalTitle("Update Email");
+      setModalHeader("Confirm your new email");
+      setModalBody(
+        "A confirmation code was sent to " +
+          newEmail +
+          ". Please enter the code below."
+      );
+      setModalInputFields([
+        {
+          label: "Verification code",
+          key: "UPDATE_EMAIL_NEW_EMAIL_VERIFICATION",
+        },
+      ]);
+      console.log("Success updating email");
+    } catch (error) {
+      setIsLoading(false);
+      setModalSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icons.errorIcon}
+          iconSize={16}
+          iconColor={THEME.colors.danger}
+          text="ERROR: Unable to update email, please try again."
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsModalSnackbarVisible(true);
+      console.log(error);
+    }
+  }
+}
+
+// Action that occurs when the user enters the confirmation code in the update email confirm modal
+export async function submitUpdateEmailConfirmNewEmailStep(props) {
+  const {
+    inputValues,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+    setIsLoading,
+  } = props;
+
+  const verificationCode = inputValues[0];
+  console.log("Verification code: ", verificationCode);
+  try {
+    setIsLoading(true);
+    await Auth.verifyCurrentUserAttributeSubmit("email", verificationCode);
+    setIsLoading(false);
+    setSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.successIcon}
+        iconSize={THEME.icons.snackbarIconSize}
+        iconColor={THEME.colors.success}
+        text={"Successfully updated email."}
+        textColor={THEME.colors.success}
+      />
+    );
+    setIsSnackbarVisible(true);
+    cleanUpState(props);
+  } catch (error) {
+    setIsLoading(false);
+    setModalSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.errorIcon}
+        iconSize={16}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Incorrect verification code."
+        textColor={THEME.colors.danger}
+      />
+    );
+    setIsModalSnackbarVisible(true);
+    console.log("Error submitting verification code: ", error);
+  }
+}
+
+// Action that occurs when the user enters their new phone number in the modal
+export async function submitUpdatePhoneModal(props) {
+  const {
+    inputValues,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+    setIsLoading,
+  } = props;
+
+  const newPhone = inputValues[0].toLowerCase();
+  const confirmNewPhone = inputValues[1].toLowerCase();
+  console.log(
+    "Phone Number: ",
+    inputValues[0],
+    " Confirm email: ",
+    inputValues[1]
+  );
+
+  const user = await getCurrentUser();
+  if (newPhone !== confirmNewPhone) {
+    setModalSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icons.errorIcon}
+        iconSize={THEME.icons.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Phone numbers do not match."
+        textColor={THEME.colors.danger}
+      />
+    );
+    setIsModalSnackbarVisible(true);
+  } else {
+    try {
+      setIsLoading(true);
+      await Auth.updateUserAttributes(user, { phone_number: newPhone });
+      setSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icons.successIcon}
+          iconSize={THEME.icons.snackbarIconSize}
+          iconColor={THEME.colors.success}
+          text={"Successfully updated phone number."}
+          textColor={THEME.colors.success}
+        />
+      );
+      cleanUpState(props);
+      setIsSnackbarVisible(true);
+      console.log("Success updating phone number");
+    } catch (error) {
+      setIsLoading(false);
+      setModalSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icons.errorIcon}
+          iconSize={16}
+          iconColor={THEME.colors.danger}
+          text={"ERROR: " + error.message}
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsModalSnackbarVisible(true);
+      console.log(error);
+    }
   }
 }
