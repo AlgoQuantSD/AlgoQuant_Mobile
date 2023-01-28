@@ -112,6 +112,7 @@ export async function submitEditNameModal(props) {
       // Clear state upon succesful submit
       cleanUpState(props);
     } catch (error) {
+      setIsLoading(false);
       console.log("Error updating name: ", error);
       setModalErrorMessage(error.message);
     }
@@ -132,6 +133,7 @@ export async function submitDeleteAccountModal(props) {
   const password = inputValues[0];
 
   try {
+    setIsLoading(true);
     // The sign in function is used as a verification with the user typing in their password to confirm account deletion
     const user = await Auth.signIn(username, password);
     if (
@@ -149,6 +151,7 @@ export async function submitDeleteAccountModal(props) {
       cleanUpState(props);
     }
   } catch (error) {
+    setIsLoading(false);
     console.log("Error signing in: ", error);
     setModalSnackbarMessage(
       <SnackbarContent
@@ -174,6 +177,7 @@ export async function submitResetBalanceModal(props) {
     setIsSnackbarVisible,
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
+    setIsLoading,
   } = props;
 
   // Data that is sent with the request
@@ -190,10 +194,10 @@ export async function submitResetBalanceModal(props) {
 
   // Call algoquant api and send bodyData to update user information
   if (algoquant.token) {
+    setIsLoading(true);
     algoquant
       .resetBalance(bodyData)
       .then((resp) => {
-        console.log(resp);
         setSnackbarMessage(
           <SnackbarContent
             iconName={THEME.icons.successIcon}
@@ -208,6 +212,7 @@ export async function submitResetBalanceModal(props) {
         cleanUpState(props);
       })
       .catch((err) => {
+        setIsLoading(false);
         setModalSnackbarMessage(
           <SnackbarContent
             iconName={THEME.icons.errorIcon}
@@ -230,10 +235,12 @@ export async function submitConnectAlpacaModal(props) {
     setIsSnackbarVisible,
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
+    setIsLoading,
   } = props;
 
   // Call algoquant api and send bodyData to update user information
   if (algoquant.token) {
+    setIsLoading(true);
     algoquant
       .resetBalance({
         alpaca_key: inputValues[0],
@@ -255,6 +262,7 @@ export async function submitConnectAlpacaModal(props) {
         cleanUpState(props);
       })
       .catch((err) => {
+        setIsLoading(false);
         setModalSnackbarMessage(
           <SnackbarContent
             iconName={THEME.icons.errorIcon}
@@ -275,10 +283,12 @@ export async function submitDisconnectAlpacaModal(props) {
     setIsSnackbarVisible,
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
+    setIsLoading,
   } = props;
   console.log("Disconnected from Alpaca");
   console.log(algoquant.token);
   if (algoquant.token) {
+    setIsLoading(true);
     algoquant
       .resetBalance({})
       .then((resp) => {
@@ -297,6 +307,7 @@ export async function submitDisconnectAlpacaModal(props) {
         cleanUpState(props);
       })
       .catch((err) => {
+        setIsLoading(false);
         setModalSnackbarMessage(
           <SnackbarContent
             iconName={THEME.icons.errorIcon}
@@ -380,9 +391,11 @@ export async function submitUpdateEmailModalVerificationStep(props) {
     setModalInputFields,
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
+    setIsLoading,
   } = props;
   const verificationCode = inputValues[0];
   try {
+    setIsLoading(true);
     await Auth.verifyCurrentUserAttributeSubmit("email", verificationCode);
     setModalType("UPDATE_EMAIL_NEW_EMAIL_STEP");
     setModalTitle("Update Email");
@@ -393,6 +406,7 @@ export async function submitUpdateEmailModalVerificationStep(props) {
       { label: "Confirm New Email", key: "UPDATE_EMAIL_CONFIRM_NEW_EMAIL" },
     ]);
   } catch (error) {
+    setIsLoading(false);
     setModalSnackbarMessage(
       <SnackbarContent
         iconName={THEME.icons.errorIcon}
@@ -414,6 +428,7 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
     setIsSnackbarVisible,
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
+    setIsLoading,
   } = props;
 
   const newEmail = inputValues[0];
@@ -433,6 +448,7 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
     setIsModalSnackbarVisible(true);
   } else {
     try {
+      setIsLoading(true);
       await Auth.updateUserAttributes(user, { email: newEmail });
       setSnackbarMessage(
         <SnackbarContent
@@ -447,6 +463,7 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
       cleanUpState(props);
       console.log("Success updating email");
     } catch (error) {
+      setIsLoading(false);
       setModalSnackbarMessage(
         <SnackbarContent
           iconName={THEME.icons.errorIcon}
