@@ -65,6 +65,7 @@ export default function ProfileScreen({ navigation }) {
         setModalButtons={setModalButtons}
         setModalSnackbarMessage={setModalSnackbarMessage}
         setIsModalSnackbarVisible={setIsModalSnackbarVisible}
+        navigation={navigation}
       />
       <CustomModal
         isModalVisible={isModalVisible}

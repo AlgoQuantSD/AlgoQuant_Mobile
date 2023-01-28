@@ -24,7 +24,7 @@ export const THEME = {
     transparent: PALETTE.transparent,
   },
   text: {
-    fontSizeH1: 54 / PixelRatio.get(),
+    fontSizeH1: 42,
     fontSizeH2: 24 / PixelRatio.get(),
     fontSizeH3: 38 / PixelRatio.get(),
     fontSizeBold: 38 / PixelRatio.get(),
@@ -66,6 +66,10 @@ export const THEME = {
     successIcon: "shield-checkmark-outline",
     errorIcon: "warning-outline",
     snackbarIconSize: 16,
+  },
+  table: {
+    rowColor1: PALETTE.darkGray,
+    rowColor2: PALETTE.black,
   },
 };
 
