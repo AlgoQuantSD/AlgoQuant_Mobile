@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
   mainContentContainer: {
     flex: 0.75,
     width: "100%",
-    padding: "10%",
   },
   text: {
     fontSize: THEME.text.fontSizeBody,
