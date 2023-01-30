@@ -125,18 +125,7 @@ export default function CustomTable() {
     { label: "Date", id: "DATE" },
   ];
 
-  const [lastViewableIndex, setlastViewableIndex] = useState(0);
-  const [maxLastViewableIndex, setMaxLastViewableIndex] = useState(0);
-
-  const onViewableItemsChanged = ({ viewableItems }) => {
-    setlastViewableIndex(viewableItems[viewableItems.length - 1].index);
-  };
-
-  // Track the latest index that weve seen in the table to know when to make an API call for more data
-  if (lastViewableIndex > maxLastViewableIndex) {
-    setMaxLastViewableIndex(lastViewableIndex);
-    console.log("New last index: ", maxLastViewableIndex);
-  }
+  const [lastEvaluatedKey, setLastEvaluatedKey] = useState(null);
 
   return (
     <View style={{ height: "100%" }}>
@@ -160,10 +149,12 @@ export default function CustomTable() {
             }}
             viewabilityConfig={{
               waitForInteraction: true,
-              itemVisiblePercentThreshold: 50,
+              itemVisiblePercentThreshold: 100,
               minimumViewTime: 1000,
             }}
             onViewableItemsChanged={onViewableItemsChanged}
+            estimatedItemSize={data.length}
+            onEndReached={() => console.log("Reached bottom")}
             renderItem={({ item, index }) => (
               <DataTable.Row
                 key={item.ID}
@@ -180,7 +171,6 @@ export default function CustomTable() {
                 ))}
               </DataTable.Row>
             )}
-            estimatedItemSize={data.length}
           />
         </DataTable>
       </ScrollView>
