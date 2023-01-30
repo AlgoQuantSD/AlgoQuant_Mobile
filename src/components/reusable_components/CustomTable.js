@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { DataTable } from "react-native-paper";
 import { THEME } from "../../constants/Theme";
@@ -124,8 +124,6 @@ export default function CustomTable() {
     { label: "Amount", id: "AMOUNT" },
     { label: "Date", id: "DATE" },
   ];
-
-  const [lastEvaluatedKey, setLastEvaluatedKey] = useState(null);
 
   return (
     <View style={{ height: "100%" }}>
