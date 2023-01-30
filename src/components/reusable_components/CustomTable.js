@@ -150,7 +150,6 @@ export default function CustomTable() {
               itemVisiblePercentThreshold: 100,
               minimumViewTime: 1000,
             }}
-            onViewableItemsChanged={onViewableItemsChanged}
             estimatedItemSize={data.length}
             onEndReached={() => console.log("Reached bottom")}
             renderItem={({ item, index }) => (
