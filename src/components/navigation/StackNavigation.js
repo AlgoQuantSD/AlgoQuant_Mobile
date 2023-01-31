@@ -8,7 +8,6 @@ import BacktestingScreen from "../main_screens/BacktestingScreen";
 import CreateBacktestScreen from "../nested_screens/backtesting/CreateBacktestScreen";
 import BacktestResultsScreen from "../nested_screens/backtesting/BacktestResultsScreen";
 import ProfileScreen from "../main_screens/ProfileScreen";
-import UpdateCredentialsScreen from "../nested_screens/profile/UpdateCredentialsScreen";
 import TradeHistoryScreen from "../nested_screens/profile/TradeHistoryScreen";
 import { nestedScreenOptions } from "./NavigationHelpers";
 
@@ -99,11 +98,6 @@ export function ProfileScreenStackNavigator() {
         name="ProfileScreen"
         component={ProfileScreen}
         options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="UpdateCredentialsScreen"
-        component={UpdateCredentialsScreen}
-        options={nestedScreenOptions}
       />
       <Stack.Screen
         name="TradeHistoryScreen"

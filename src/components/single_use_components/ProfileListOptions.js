@@ -14,7 +14,7 @@ import {
 import { handleSignOut } from "../../helpers/signOut";
 import AlgoquantApiContext from "../../constants/ApiContext";
 
-export default function ProfileListOptions(props, { navigation }) {
+export default function ProfileListOptions(props) {
   // Get access to the algoquant object from parent component to use api
   const algoquantApi = useContext(AlgoquantApiContext);
 
@@ -25,6 +25,9 @@ export default function ProfileListOptions(props, { navigation }) {
   // (This will be extracted into a separate file containing all functions for setting information for different types of modals)
   function handleListItemPress(key) {
     switch (key) {
+      case "TRADE_HISTORY":
+        props.navigation.navigate("TradeHistoryScreen");
+        break;
       case "CONNECT_ALPACA":
         connectToAlpacaModalBuilder(props);
         break;
