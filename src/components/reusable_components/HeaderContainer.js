@@ -3,9 +3,9 @@ import { View, Text, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 
 export default function HeaderContainer(props) {
-  const { headerText, bodyText } = props;
+  const { headerText, bodyText, size } = props;
   return (
-    <View style={styles.headerContainer}>
+    <View style={[styles.headerContainer, { flex: size }]}>
       <Text style={styles.headerText}>{headerText}</Text>
       <Text style={styles.text}>{bodyText}</Text>
     </View>
@@ -14,7 +14,6 @@ export default function HeaderContainer(props) {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    flex: 0.25,
     width: "75%",
     padding: "10%",
     alignContent: "flex-start",
