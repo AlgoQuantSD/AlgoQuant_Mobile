@@ -71,14 +71,11 @@ export const THEME = {
     rowColor1: PALETTE.darkGray,
     rowColor2: PALETTE.black,
   },
-<<<<<<< HEAD
-=======
   flexboxSizes: {
     headerContainerSmall: 0.15,
     headerContainerMedium: 0.2,
     headerContainerLarge: 0.25,
   },
->>>>>>> main
 };
 
 export const LIGHT_THEME = {
