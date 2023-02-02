@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
-import { Searchbar } from "react-native-paper";
+import { View, Text, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  Searchbar,
+  ThemeProvider,
+} from "react-native-paper";
 import { THEME } from "../../constants/Theme";
+import { FlashList } from "@shopify/flash-list";
 
 export default function CustomSearch() {
   const mockData = [
-    { name: "Apple", abbreviation: "APPL", price: "$123.90" },
-    { name: "Amazon", abbreviation: "AMZN", price: "$112.21" },
-    { name: "Google", abbreviation: "GOOGL", price: "$99.21" },
-    { name: "Microsoft", abbreviation: "MSFT", price: "$78.21" },
-    { name: "Spotify", abbreviation: "SPOT", price: "$90.12" },
+    { name: "Apple", abbreviation: "APPL", price: "$123.90", id: 0 },
+    { name: "Amazon", abbreviation: "AMZN", price: "$112.21", id: 1 },
+    { name: "Google", abbreviation: "GOOGL", price: "$99.21", id: 2 },
+    { name: "Microsoft", abbreviation: "MSFT", price: "$78.21", id: 3 },
+    { name: "Spotify", abbreviation: "SPOT", price: "$90.12", id: 4 },
   ];
   const [searchQuery, setSearchQuery] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
@@ -30,7 +35,11 @@ export default function CustomSearch() {
     console.log("Search query: ", searchQuery);
     setTimeout(() => {
       let result = mockData.filter((item) => {
-        return item.name.includes(searchQuery);
+        if (searchQuery?.length > 0) {
+          return item.name.includes(searchQuery);
+        } else {
+          return null;
+        }
       });
       setSearchResults(result);
       setIsLoading(false);
@@ -61,12 +70,57 @@ export default function CustomSearch() {
           },
         }}
       />
-      <View style={styles.results}></View>
+      {searchResults && !isLoading ? (
+        <FlashList
+          data={searchResults}
+          keyExtractor={(item) => {
+            return item.id;
+          }}
+          viewabilityConfig={{
+            waitForInteraction: true,
+            itemVisiblePercentThreshold: 100,
+            minimumViewTime: 1000,
+          }}
+          estimatedItemSize={mockData.length}
+          onEndReached={() => console.log("Reached bottom")}
+          renderItem={({ item }) => (
+            <View style={styles.resultListItem}>
+              <View style={styles.textCell}>
+                <Text style={styles.text}>{item.abbreviation}</Text>
+              </View>
+              <View style={styles.textCell}>
+                <Text style={styles.text}>{item.name}</Text>
+              </View>
+            </View>
+          )}
+        />
+      ) : (
+        <View
+          style={{ flex: 0.5, alignItems: "center", justifyContent: "center" }}
+        >
+          <ActivityIndicator size="large" color={THEME.colors.primary} />
+        </View>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   searchbarAndResults: { flex: 1, width: "90%", marginTop: "20%" },
-  results: {},
+  text: { color: "white" },
+  resultListItem: {
+    flexDirection: "row",
+    paddingTop: "2%",
+    paddingBottom: "2%",
+    paddingLeft: "10%",
+    paddingRight: "10%",
+    height: 60,
+    alignItems: "center",
+    backgroundColor: THEME.table.rowColor1,
+    borderWidth: 0.5,
+    borderColor: "white",
+  },
+  textCell: {
+    width: "50%",
+  },
 });
