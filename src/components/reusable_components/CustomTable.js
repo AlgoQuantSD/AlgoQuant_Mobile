@@ -117,12 +117,12 @@ export default function CustomTable() {
   ];
 
   const columns = [
-    { label: "Job Name", id: "JOB_NAME" },
-    { label: "Shares", id: "SHARES" },
-    { label: "Company", id: "COMPANY" },
-    { label: "Type", id: "TYPE" },
-    { label: "Amount", id: "AMOUNT" },
-    { label: "Date", id: "DATE" },
+    { label: "Job Name", id: "jobName" },
+    { label: "Buy or Sell", id: "buyOrSell" },
+    { label: "Stock Ticker", id: "stockTicker" },
+    { label: "Shares", id: "shares" },
+    { label: "Amount", id: "amount" },
+    { label: "Date", id: "date" },
   ];
 
   return (
