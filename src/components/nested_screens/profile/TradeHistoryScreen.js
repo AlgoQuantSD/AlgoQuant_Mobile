@@ -9,7 +9,8 @@ export default function TradeHistoryScreen() {
     <View style={styles.container}>
       <HeaderContainer
         headerText="Trade History"
-        bodyText="A detailed view of all transactions made by your job."
+        bodyText="A detailed view of all transactions made by your jobs."
+        size={THEME.flexboxSizes.headerContainerLarge}
       />
       <View style={styles.mainContentContainer}>
         <CustomTable />
