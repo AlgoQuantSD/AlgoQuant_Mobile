@@ -1,16 +1,12 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
-import { Searchbar } from "react-native-paper";
 import CustomSearch from "../reusable_components/CustomSearch";
 
 export default function SearchScreen({ navigation }) {
-  function onChangeSearch() {
-    console.log("New text");
-  }
   return (
     <View style={styles.container}>
-      <CustomSearch />
+      <CustomSearch navigation={navigation} />
     </View>
   );
 }
