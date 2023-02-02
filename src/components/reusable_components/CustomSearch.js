@@ -4,7 +4,9 @@ import { ActivityIndicator, Searchbar } from "react-native-paper";
 import { THEME } from "../../constants/Theme";
 import { FlashList } from "@shopify/flash-list";
 
-export default function CustomSearch({ navigation }) {
+export default function CustomSearch(props) {
+  const { searchType, navigation } = props;
+  console.log("Search type", searchType);
   const mockData = [
     { name: "Apple", abbreviation: "APPL", price: "$123.90", id: 0 },
     { name: "Amazon", abbreviation: "AMZN", price: "$112.21", id: 1 },
@@ -84,7 +86,11 @@ export default function CustomSearch({ navigation }) {
             <TouchableOpacity
               style={styles.resultListItem}
               onPress={() =>
-                navigation.navigate("StockInfoScreen", { stockName: item.name })
+                searchType === "standard"
+                  ? navigation.navigate("StockInfoScreen", {
+                      stockName: item.name,
+                    })
+                  : null
               }
             >
               <View style={styles.textCell}>

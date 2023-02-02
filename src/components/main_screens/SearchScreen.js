@@ -6,7 +6,7 @@ import CustomSearch from "../reusable_components/CustomSearch";
 export default function SearchScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <CustomSearch navigation={navigation} />
+      <CustomSearch navigation={navigation} searchType="standard" />
     </View>
   );
 }
