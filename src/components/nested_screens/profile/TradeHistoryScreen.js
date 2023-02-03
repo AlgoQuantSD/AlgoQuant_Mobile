@@ -60,7 +60,7 @@ export default function TradeHistoryScreen() {
       }
     }
   };
-  console.log(history.length);
+
   useEffect(() => {
     const historyBuffer = [];
 
