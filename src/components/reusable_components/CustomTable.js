@@ -1,127 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { DataTable } from "react-native-paper";
 import { THEME } from "../../constants/Theme";
 import { FlashList } from "@shopify/flash-list";
+import { ActivityIndicator } from "react-native";
 
-export default function CustomTable() {
-  const data = [
-    {
-      JOB_NAME: "John",
-      SHARES: 20,
-      COMPANY: "AMZN",
-      TYPE: "Buy",
-      AMOUNT: "$134.21",
-      DATE: "01/28/2023",
-      ID: 1,
-    },
-    {
-      JOB_NAME: "John",
-      SHARES: 20,
-      COMPANY: "AMZN",
-      TYPE: "Buy",
-      AMOUNT: "$134.21",
-      DATE: "01/28/2023",
-      ID: 2,
-    },
-    {
-      JOB_NAME: "John",
-      SHARES: 20,
-      COMPANY: "AMZN",
-      TYPE: "Buy",
-      AMOUNT: "$134.21",
-      DATE: "01/28/2023",
-      ID: 3,
-    },
-    {
-      JOB_NAME: "John",
-      SHARES: 20,
-      COMPANY: "AMZN",
-      TYPE: "Buy",
-      AMOUNT: "$134.21",
-      DATE: "01/28/2023",
-      ID: 4,
-    },
-    {
-      JOB_NAME: "John",
-      SHARES: 20,
-      COMPANY: "AMZN",
-      TYPE: "Buy",
-      AMOUNT: "$134.21",
-      DATE: "01/28/2023",
-      ID: 5,
-    },
-    {
-      JOB_NAME: "John",
-      SHARES: 20,
-      COMPANY: "AMZN",
-      TYPE: "Buy",
-      AMOUNT: "$134.21",
-      DATE: "01/28/2023",
-      ID: 6,
-    },
-    {
-      JOB_NAME: "John",
-      SHARES: 20,
-      COMPANY: "AMZN",
-      TYPE: "Buy",
-      AMOUNT: "$134.21",
-      DATE: "01/28/2023",
-      ID: 7,
-    },
-    {
-      JOB_NAME: "Johnny",
-      SHARES: 20,
-      COMPANY: "AMZN",
-      TYPE: "Buy",
-      AMOUNT: "$134.21",
-      DATE: "01/28/2023",
-      ID: 8,
-    },
-    {
-      JOB_NAME: "Johnson",
-      SHARES: 20,
-      COMPANY: "AMZN",
-      TYPE: "Buy",
-      AMOUNT: "$134.21",
-      DATE: "01/28/2023",
-      ID: 9,
-    },
-    {
-      JOB_NAME: "John",
-      SHARES: 20,
-      COMPANY: "AMZN",
-      TYPE: "Buy",
-      AMOUNT: "$134.21",
-      DATE: "01/28/2023",
-      ID: 10,
-    },
-    {
-      JOB_NAME: "John",
-      SHARES: 20,
-      COMPANY: "AMZN",
-      TYPE: "Buy",
-      AMOUNT: "$134.21",
-      DATE: "01/28/2023",
-      ID: 11,
-    },
-    {
-      JOB_NAME: "John",
-      SHARES: 20,
-      COMPANY: "AMZN",
-      TYPE: "Buy",
-      AMOUNT: "$134.21",
-      DATE: "01/28/2023",
-      ID: 12,
-    },
-  ];
-
+export default function CustomTable(props) {
   const columns = [
     { label: "Job Name", id: "jobName" },
     { label: "Buy or Sell", id: "buyOrSell" },
     { label: "Stock Ticker", id: "stockTicker" },
     { label: "Shares", id: "shares" },
-    { label: "Amount", id: "amount" },
+    { label: "Amount", id: "avgPrice" },
     { label: "Date", id: "date" },
   ];
 
@@ -141,20 +31,19 @@ export default function CustomTable() {
             ))}
           </DataTable.Header>
           <FlashList
-            data={data}
-            keyExtractor={(item) => {
-              return item.ID;
-            }}
+            data={props.data}
+            keyExtractor={(item, index) => index.toString()}
             viewabilityConfig={{
               waitForInteraction: true,
               itemVisiblePercentThreshold: 100,
               minimumViewTime: 1000,
             }}
-            estimatedItemSize={data.length}
-            onEndReached={() => console.log("Reached bottom")}
+            estimatedItemSize={props.data.length}
+            onEndReached={() => props.onScrolledToBottom(true)}
+            onEndReachedThreshold={0.5}
             renderItem={({ item, index }) => (
               <DataTable.Row
-                key={item.ID}
+                key={index}
                 style={index % 2 === 0 ? styles.row : null}
               >
                 {columns.map((column) => (
@@ -168,6 +57,15 @@ export default function CustomTable() {
                 ))}
               </DataTable.Row>
             )}
+            ListFooterComponent={
+              props.loading ? (
+                <ActivityIndicator
+                  size="small"
+                  color="#3F9F30"
+                  style={styles.act}
+                />
+              ) : null
+            }
           />
         </DataTable>
       </ScrollView>
@@ -184,9 +82,13 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   column: {
-    width: 80,
+    width: 125,
   },
   cell: {
     width: 80,
+  },
+  act: {
+    paddingTop: "5%",
+    paddingRight: "40%",
   },
 });
