@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import { DataTable } from "react-native-paper";
 import { THEME } from "../../constants/Theme";
 import { FlashList } from "@shopify/flash-list";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, Text } from "react-native";
 
 export default function CustomTable(props) {
   const columns = [
@@ -30,43 +30,47 @@ export default function CustomTable(props) {
               </DataTable.Title>
             ))}
           </DataTable.Header>
-          <FlashList
-            data={props.data}
-            keyExtractor={(item, index) => index.toString()}
-            viewabilityConfig={{
-              waitForInteraction: true,
-              itemVisiblePercentThreshold: 100,
-              minimumViewTime: 1000,
-            }}
-            estimatedItemSize={props.data.length}
-            onEndReached={props.handleLoadMore}
-            onEndReachedThreshold={0.5}
-            renderItem={({ item, index }) => (
-              <DataTable.Row
-                key={index}
-                style={index % 2 === 0 ? styles.row : null}
-              >
-                {columns.map((column) => (
-                  <DataTable.Cell
-                    key={column.id}
-                    style={styles.cell}
-                    textStyle={{ color: "white" }}
-                  >
-                    {item[column.id]}
-                  </DataTable.Cell>
-                ))}
-              </DataTable.Row>
-            )}
-            ListFooterComponent={
-              props.loading ? (
-                <ActivityIndicator
-                  size="small"
-                  color="#3F9F30"
-                  style={styles.act}
-                />
-              ) : null
-            }
-          />
+          {props.data.length === 0 ? (
+            <Text style={styles.text}>No trades Currently</Text>
+          ) : (
+            <FlashList
+              data={props.data}
+              keyExtractor={(item, index) => index.toString()}
+              viewabilityConfig={{
+                waitForInteraction: true,
+                itemVisiblePercentThreshold: 100,
+                minimumViewTime: 1000,
+              }}
+              estimatedItemSize={props.data.length}
+              onEndReached={props.handleLoadMore}
+              onEndReachedThreshold={0.5}
+              renderItem={({ item, index }) => (
+                <DataTable.Row
+                  key={index}
+                  style={index % 2 === 0 ? styles.row : null}
+                >
+                  {columns.map((column) => (
+                    <DataTable.Cell
+                      key={column.id}
+                      style={styles.cell}
+                      textStyle={{ color: "white" }}
+                    >
+                      {item[column.id]}
+                    </DataTable.Cell>
+                  ))}
+                </DataTable.Row>
+              )}
+              ListFooterComponent={
+                props.loading ? (
+                  <ActivityIndicator
+                    size="small"
+                    color="#3F9F30"
+                    style={styles.act}
+                  />
+                ) : null
+              }
+            />
+          )}
         </DataTable>
       </ScrollView>
     </View>
