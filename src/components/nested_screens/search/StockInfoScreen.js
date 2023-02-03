@@ -1,11 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { THEME } from "../../../constants/Theme";
+import HeaderContainer from "../../reusable_components/HeaderContainer";
 
-export default function StockInfoScreen() {
+export default function StockInfoScreen(props) {
+  const { stockName } = props.route.params;
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the stock info screen!</Text>
+      <HeaderContainer
+        headerText={stockName}
+        size={THEME.flexboxSizes.headerContainerMedium}
+      />
     </View>
   );
 }
@@ -13,9 +18,14 @@ export default function StockInfoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     backgroundColor: THEME.colors.background,
+  },
+  headerText: {
+    fontSize: THEME.text.fontSizeH1,
+    color: THEME.text.color,
+    paddingBottom: "5%",
   },
   text: {
     fontSize: THEME.text.fontSizeBody,
