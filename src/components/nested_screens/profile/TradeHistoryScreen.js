@@ -189,7 +189,6 @@ export default function TradeHistoryScreen() {
       ID: 21,
     },
   ];
-  const [bottomOfList, setBottomOfList] = useState(true);
 
   const [history, setHistory] = useState([
     {
@@ -211,13 +210,13 @@ export default function TradeHistoryScreen() {
   const [transactions, setTransactions] = useState([]);
   const fetchTrades = () => {
     const historyBuffer = [];
-    if (!lastPage && bottomOfList) {
+    if (!lastPage) {
       setIsLoading(true);
     }
     // once its the last query do nothing
     // firt query always sends a last key of null
     // SET TO OR BECAUSE IF USER SCROLLS TO FAST ITLL TRIGGER
-    if (!lastPage && bottomOfList) {
+    if (!lastPage) {
       if (algoquantApi.token) {
         algoquantApi
           .getTrades(FETCH_AMOUNT, lastKey)
@@ -248,7 +247,6 @@ export default function TradeHistoryScreen() {
 
             setHistory(history.concat(historyBuffer));
             setIsLoading(false);
-            setBottomOfList(false);
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
@@ -265,7 +263,6 @@ export default function TradeHistoryScreen() {
   //   }
   //   fetchTrades(FETCH_AMOUNT);
   // }, [fetchTrades]);
-  console.log("bottom of page? ", bottomOfList);
   console.log("last query? " + lastPage);
   return (
     <View style={styles.container}>
@@ -275,9 +272,7 @@ export default function TradeHistoryScreen() {
         size={THEME.flexboxSizes.headerContainerLarge}
       />
       <View style={styles.mainContentContainer}>
-        {/* pass the callback function to set state variable: bottomOfList to child component */}
         <CustomTable
-          onScrolledToBottom={setBottomOfList}
           data={history}
           loading={isLoading}
           handleLoadMore={fetchTrades}

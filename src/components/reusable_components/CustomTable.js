@@ -39,7 +39,7 @@ export default function CustomTable(props) {
               minimumViewTime: 1000,
             }}
             estimatedItemSize={props.data.length}
-            onEndReached={() => props.onScrolledToBottom(true)}
+            onEndReached={props.handleLoadMore}
             onEndReachedThreshold={0.5}
             renderItem={({ item, index }) => (
               <DataTable.Row
