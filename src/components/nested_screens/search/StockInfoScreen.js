@@ -1,16 +1,20 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { THEME } from "../../../constants/Theme";
 import HeaderContainer from "../../reusable_components/HeaderContainer";
+import CustomGraph from "../../reusable_components/CustomGraph";
 
 export default function StockInfoScreen(props) {
   const { stockName } = props.route.params;
   return (
     <View style={styles.container}>
-      <HeaderContainer
-        headerText={stockName}
-        size={THEME.flexboxSizes.headerContainerMedium}
-      />
+      <ScrollView>
+        <HeaderContainer
+          headerText={stockName}
+          size={THEME.flexboxSizes.headerContainerMedium}
+        />
+        <CustomGraph />
+      </ScrollView>
     </View>
   );
 }
