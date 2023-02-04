@@ -18,7 +18,7 @@ export default function CustomSearch(props) {
     "GOOG",
     "POOP",
   ];
-  const [searchQuery, setSearchQuery] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
@@ -34,8 +34,8 @@ export default function CustomSearch(props) {
 
   // Simulates an api call with an artificial loading time
   function queryDatabase() {
-    console.log("letter: ", searchQuery);
-    if (algoquantApi.token) {
+    console.log("letter:", searchQuery, ":end");
+    if (algoquantApi.token && searchQuery !== "") {
       setIsLoading(true);
       algoquantApi
         .searchStock(searchQuery)
@@ -43,6 +43,9 @@ export default function CustomSearch(props) {
           setSearchResults(resp.data["stock-tickers"]);
           setIsLoading(false);
           console.log(resp.data["stock-tickers"]);
+          if (resp.data["stock-tickers"].length === 0) {
+            setSearchResults(["Ticker not found"]);
+          }
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
@@ -90,7 +93,8 @@ export default function CustomSearch(props) {
             <TouchableOpacity
               style={styles.resultListItem}
               onPress={() =>
-                searchType === "standard"
+                searchType === "standard" &&
+                !searchResults.includes("Ticker not found")
                   ? navigation.navigate("StockInfoScreen", {
                       stockName: item,
                     })
