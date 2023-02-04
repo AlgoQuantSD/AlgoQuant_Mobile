@@ -14,10 +14,12 @@ export default function CustomSearch(props) {
     // { name: "Google", abbreviation: "GOOGL", price: "$99.21", id: 2 },
     // { name: "Microsoft", abbreviation: "MSFT", price: "$78.21", id: 3 },
     // { name: "Spotify", abbreviation: "SPOT", price: "$90.12", id: 4 },
-    ["AAPL", "GOOG", "POOP"],
+    "AAPL",
+    "GOOG",
+    "POOP",
   ];
   const [searchQuery, setSearchQuery] = useState(null);
-  const [searchResults, setSearchResults] = useState([{}]);
+  const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
@@ -45,6 +47,7 @@ export default function CustomSearch(props) {
     //   setSearchResults(result);
     //   setIsLoading(false);
     // }, 500);
+    console.log("letter: ", searchQuery);
     if (algoquantApi.token) {
       setIsLoading(true);
       algoquantApi
@@ -52,6 +55,7 @@ export default function CustomSearch(props) {
         .then((resp) => {
           setSearchResults(resp.data["stock-tickers"]);
           setIsLoading(false);
+          console.log(resp.data["stock-tickers"]);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
@@ -59,7 +63,6 @@ export default function CustomSearch(props) {
         });
     }
   }
-  console.log(searchResults);
   return (
     <View style={styles.searchbarAndResults}>
       {/* Render the searchbar */}
@@ -85,7 +88,7 @@ export default function CustomSearch(props) {
         }}
       />
       {/* Render the list of results after loading is done */}
-      {searchResults && !isLoading ? (
+      {searchResults && !isLoading && searchQuery !== "" ? (
         <FlashList
           data={searchResults}
           keyExtractor={(item, index) => index.toString()}
