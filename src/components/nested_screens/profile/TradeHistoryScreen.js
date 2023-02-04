@@ -8,7 +8,7 @@ const FETCH_AMOUNT = 10;
 
 export default function TradeHistoryScreen() {
   const [history, setHistory] = useState([]);
-  const [lastPage, setLastPage] = useState(false);
+  const [lastQuery, setLastQuery] = useState(false);
 
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
@@ -18,26 +18,35 @@ export default function TradeHistoryScreen() {
     const historyBuffer = [];
 
     // once its the last query do nothing
-    // firt query always sends a last key of null
-    if (!lastPage) {
+    // first query always sends a last key of null
+    if (!lastQuery) {
       setIsLoading(true);
       if (algoquantApi.token) {
         algoquantApi
           .getTrades(FETCH_AMOUNT, lastKey)
           .then((resp) => {
-            setLastKey(null);
-            // last query
+            // Last query set to trie if there is no last evaluated key from response
             if (resp.data.LastEvaluatedKey === undefined) {
-              setLastPage(true);
-            }
-            if (resp.data.LastEvaluatedKey !== undefined) {
+              setLastQuery(true);
+            } else {
               setLastKey({
                 timestamp: resp.data.LastEvaluatedKey.timestamp,
                 user_id: resp.data.LastEvaluatedKey.user_id,
               });
             }
+
+            // Populate History array with trade history after each call using a buffer
             for (let i = 0; i < resp.data.Count; i++) {
               let timestamp = new Date(parseInt(resp.data.Items[i].timestamp));
+              const options = {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              };
+              const formattedTime = timestamp.toLocaleString([], options);
+
               let shares = parseFloat(resp.data.Items[i].qty).toFixed(3);
               historyBuffer.push({
                 jobName: resp.data.Items[i].job_name,
@@ -45,7 +54,7 @@ export default function TradeHistoryScreen() {
                 stockTicker: resp.data.Items[i].symbol,
                 shares: shares,
                 avgPrice: resp.data.Items[i].avg_price,
-                date: timestamp.toLocaleString(),
+                date: formattedTime,
               });
             }
             setHistory(history.concat(historyBuffer));
@@ -59,9 +68,12 @@ export default function TradeHistoryScreen() {
     }
   };
 
+  // Used to call fetchTrades during the beginning of the render once, to check if
+  // there are any trades in history and to populate the first few into the History array
   useEffect(() => {
     fetchTrades();
   }, []);
+
   return (
     <View style={styles.container}>
       <HeaderContainer

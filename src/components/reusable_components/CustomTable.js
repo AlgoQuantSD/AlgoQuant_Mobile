@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { DataTable } from "react-native-paper";
 import { THEME } from "../../constants/Theme";
@@ -6,6 +6,7 @@ import { FlashList } from "@shopify/flash-list";
 import { ActivityIndicator, Text } from "react-native";
 
 export default function CustomTable(props) {
+  // table headers
   const columns = [
     { label: "Job Name", id: "jobName" },
     { label: "Buy or Sell", id: "buyOrSell" },
@@ -30,6 +31,8 @@ export default function CustomTable(props) {
               </DataTable.Title>
             ))}
           </DataTable.Header>
+          {/* flashlist cant take a empty dataset, so if there is no trades then show 
+          text, once there is data available it will show the list */}
           {props.data.length === 0 ? (
             <Text style={styles.text}>No trades Currently</Text>
           ) : (
@@ -65,7 +68,7 @@ export default function CustomTable(props) {
                   <ActivityIndicator
                     size="small"
                     color="#3F9F30"
-                    style={styles.act}
+                    style={styles.activity}
                   />
                 ) : null
               }
@@ -91,7 +94,7 @@ const styles = StyleSheet.create({
   cell: {
     width: 80,
   },
-  act: {
+  activity: {
     paddingTop: "5%",
     paddingRight: "40%",
   },
