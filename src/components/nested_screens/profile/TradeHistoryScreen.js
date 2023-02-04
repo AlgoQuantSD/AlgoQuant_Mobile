@@ -16,13 +16,11 @@ export default function TradeHistoryScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const fetchTrades = () => {
     const historyBuffer = [];
-    if (!lastPage) {
-      setIsLoading(true);
-    }
+
     // once its the last query do nothing
     // firt query always sends a last key of null
-    // SET TO OR BECAUSE IF USER SCROLLS TO FAST ITLL TRIGGER
     if (!lastPage) {
+      setIsLoading(true);
       if (algoquantApi.token) {
         algoquantApi
           .getTrades(FETCH_AMOUNT, lastKey)
@@ -62,47 +60,10 @@ export default function TradeHistoryScreen() {
   };
 
   useEffect(() => {
-    const historyBuffer = [];
-
     if (!lastPage) {
       setIsLoading(true);
     }
-
-    if (algoquantApi.token) {
-      algoquantApi
-        .getTrades(FETCH_AMOUNT, lastKey)
-        .then((resp) => {
-          setLastKey(null);
-          // last query
-          if (resp.data.LastEvaluatedKey === undefined) {
-            setLastPage(true);
-          }
-          if (resp.data.LastEvaluatedKey !== undefined) {
-            setLastKey({
-              timestamp: resp.data.LastEvaluatedKey.timestamp,
-              user_id: resp.data.LastEvaluatedKey.user_id,
-            });
-          }
-          for (let i = 0; i < resp.data.Count; i++) {
-            let timestamp = new Date(parseInt(resp.data.Items[i].timestamp));
-            let shares = parseFloat(resp.data.Items[i].qty).toFixed(3);
-            historyBuffer.push({
-              jobName: resp.data.Items[i].job_name,
-              buyOrSell: resp.data.Items[i].side === "B" ? "Buy" : "Sell",
-              stockTicker: resp.data.Items[i].symbol,
-              shares: shares,
-              avgPrice: resp.data.Items[i].avg_price,
-              date: timestamp.toLocaleString(),
-            });
-          }
-          setHistory(history.concat(historyBuffer));
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          // TODO: Need to implement better error handling
-          console.log(err);
-        });
-    }
+    fetchTrades();
   }, []);
   return (
     <View style={styles.container}>
