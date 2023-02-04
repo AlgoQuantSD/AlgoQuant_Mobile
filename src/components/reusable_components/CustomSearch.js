@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { ActivityIndicator, Searchbar } from "react-native-paper";
 import { THEME } from "../../constants/Theme";
 import { FlashList } from "@shopify/flash-list";
@@ -7,17 +7,7 @@ import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function CustomSearch(props) {
   const { searchType, navigation } = props;
-  console.log("Search type", searchType);
-  const mockData = [
-    // { name: "Apple", abbreviation: "APPL", price: "$123.90", id: 0 },
-    // { name: "Amazon", abbreviation: "AMZN", price: "$112.21", id: 1 },
-    // { name: "Google", abbreviation: "GOOGL", price: "$99.21", id: 2 },
-    // { name: "Microsoft", abbreviation: "MSFT", price: "$78.21", id: 3 },
-    // { name: "Spotify", abbreviation: "SPOT", price: "$90.12", id: 4 },
-    "AAPL",
-    "GOOG",
-    "POOP",
-  ];
+
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +24,6 @@ export default function CustomSearch(props) {
 
   // Simulates an api call with an artificial loading time
   function queryDatabase() {
-    console.log("letter:", searchQuery, ":end");
     if (algoquantApi.token && searchQuery !== "") {
       setIsLoading(true);
       algoquantApi
@@ -42,7 +31,6 @@ export default function CustomSearch(props) {
         .then((resp) => {
           setSearchResults(resp.data["stock-tickers"]);
           setIsLoading(false);
-          console.log(resp.data["stock-tickers"]);
           if (resp.data["stock-tickers"].length === 0) {
             setSearchResults(["Ticker not found"]);
           }
@@ -88,7 +76,6 @@ export default function CustomSearch(props) {
             minimumViewTime: 1000,
           }}
           estimatedItemSize={searchResults.length}
-          onEndReached={() => console.log("Reached bottom")}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.resultListItem}
@@ -111,7 +98,11 @@ export default function CustomSearch(props) {
           )}
         />
       ) : (
-        <Text style={styles.text2}>Search stocks here!</Text>
+        <View>
+          <Text style={styles.text2}>
+            In order to search stocks here use the stock's ticker
+          </Text>
+        </View>
       )}
     </View>
   );
@@ -141,7 +132,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text2: {
-    fontSize: THEME.text.fontSizeH1,
+    fontSize: THEME.text.fontSizeH2,
     color: THEME.text.color,
+    padding: 20,
   },
 });
