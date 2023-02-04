@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { ActivityIndicator, Searchbar } from "react-native-paper";
 import { THEME } from "../../constants/Theme";
 import { FlashList } from "@shopify/flash-list";
+import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function CustomSearch(props) {
   const { searchType, navigation } = props;
   console.log("Search type", searchType);
   const mockData = [
-    { name: "Apple", abbreviation: "APPL", price: "$123.90", id: 0 },
-    { name: "Amazon", abbreviation: "AMZN", price: "$112.21", id: 1 },
-    { name: "Google", abbreviation: "GOOGL", price: "$99.21", id: 2 },
-    { name: "Microsoft", abbreviation: "MSFT", price: "$78.21", id: 3 },
-    { name: "Spotify", abbreviation: "SPOT", price: "$90.12", id: 4 },
+    // { name: "Apple", abbreviation: "APPL", price: "$123.90", id: 0 },
+    // { name: "Amazon", abbreviation: "AMZN", price: "$112.21", id: 1 },
+    // { name: "Google", abbreviation: "GOOGL", price: "$99.21", id: 2 },
+    // { name: "Microsoft", abbreviation: "MSFT", price: "$78.21", id: 3 },
+    // { name: "Spotify", abbreviation: "SPOT", price: "$90.12", id: 4 },
+    ["AAPL", "GOOG", "POOP"],
   ];
   const [searchQuery, setSearchQuery] = useState(null);
-  const [searchResults, setSearchResults] = useState(null);
+  const [searchResults, setSearchResults] = useState([{}]);
   const [isLoading, setIsLoading] = useState(false);
-
+  // State variables used to access algoquant SDK API and display/ keep state of user data from database
+  const algoquantApi = useContext(AlgoquantApiContext);
   // Filter results whenever we change the query
   useEffect(() => {
     queryDatabase();
@@ -29,21 +32,34 @@ export default function CustomSearch(props) {
 
   // Simulates an api call with an artificial loading time
   function queryDatabase() {
-    setIsLoading(true);
-    console.log("Search query: ", searchQuery);
-    setTimeout(() => {
-      let result = mockData.filter((item) => {
-        if (searchQuery?.length > 0) {
-          return item.name.includes(searchQuery);
-        } else {
-          return null;
-        }
-      });
-      setSearchResults(result);
-      setIsLoading(false);
-    }, 500);
+    // setIsLoading(true);
+    // console.log("Search query: ", searchQuery);
+    // setTimeout(() => {
+    //   let result = mockData.filter((item) => {
+    //     if (searchQuery?.length > 0) {
+    //       return item.name.includes(searchQuery);
+    //     } else {
+    //       return null;
+    //     }
+    //   });
+    //   setSearchResults(result);
+    //   setIsLoading(false);
+    // }, 500);
+    if (algoquantApi.token) {
+      setIsLoading(true);
+      algoquantApi
+        .searchStock(searchQuery)
+        .then((resp) => {
+          setSearchResults(resp.data["stock-tickers"]);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          // TODO: Need to implement better error handling
+          console.log(err);
+        });
+    }
   }
-
+  console.log(searchResults);
   return (
     <View style={styles.searchbarAndResults}>
       {/* Render the searchbar */}
@@ -72,15 +88,13 @@ export default function CustomSearch(props) {
       {searchResults && !isLoading ? (
         <FlashList
           data={searchResults}
-          keyExtractor={(item) => {
-            return item.id;
-          }}
+          keyExtractor={(item, index) => index.toString()}
           viewabilityConfig={{
             waitForInteraction: true,
             itemVisiblePercentThreshold: 100,
             minimumViewTime: 1000,
           }}
-          estimatedItemSize={mockData.length}
+          estimatedItemSize={searchResults.length}
           onEndReached={() => console.log("Reached bottom")}
           renderItem={({ item }) => (
             <TouchableOpacity
@@ -88,16 +102,16 @@ export default function CustomSearch(props) {
               onPress={() =>
                 searchType === "standard"
                   ? navigation.navigate("StockInfoScreen", {
-                      stockName: item.name,
+                      stockName: item,
                     })
                   : null
               }
             >
               <View style={styles.textCell}>
-                <Text style={styles.text}>{item.abbreviation}</Text>
+                <Text style={styles.text}>{item}</Text>
               </View>
               <View style={styles.textCell}>
-                <Text style={styles.text}>{item.name}</Text>
+                <Text style={styles.text}>{item}</Text>
               </View>
             </TouchableOpacity>
           )}

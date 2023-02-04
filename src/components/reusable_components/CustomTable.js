@@ -34,7 +34,7 @@ export default function CustomTable(props) {
           {/* flashlist cant take a empty dataset, so if there is no trades then show 
           text, once there is data available it will show the list */}
           {props.data.length === 0 ? (
-            <Text style={styles.text}>No trades Currently</Text>
+            <Text style={styles.text}>No trades currently</Text>
           ) : (
             <FlashList
               data={props.data}
