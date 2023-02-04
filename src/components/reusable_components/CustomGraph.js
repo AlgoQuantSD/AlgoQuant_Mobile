@@ -31,6 +31,23 @@ export default function CustomGraph() {
   ];
 
   const [graphData, setGraphData] = useState(mockData1);
+  const [selectedTimeframe, setSelectedTimeframe] = useState(1);
+
+  // Update graphdata and change the selected timeframe
+  function handleTimeframeChange(timeframe) {
+    setSelectedTimeframe(timeframe);
+    switch (timeframe) {
+      case 1:
+        setGraphData(mockData1);
+        break;
+      case 2:
+        setGraphData(mockData2);
+        break;
+      case 3:
+        setGraphData(mockData3);
+        break;
+    }
+  }
 
   return (
     <View>
@@ -68,12 +85,12 @@ export default function CustomGraph() {
       <View style={styles.graphDataChangeButtonRow}>
         <TouchableOpacity
           style={styles.graphDataChangeButton}
-          onPress={() => setGraphData(mockData1)}
+          onPress={() => handleTimeframeChange(1)}
         >
           <Button
             style={{ width: 50, minWidth: 0 }}
             buttonColor={
-              JSON.stringify(graphData) === JSON.stringify(mockData1)
+              selectedTimeframe === 1
                 ? THEME.colors.primary
                 : THEME.colors.transparent
             }
@@ -84,12 +101,12 @@ export default function CustomGraph() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.graphDataChangeButton}
-          onPress={() => setGraphData(mockData2)}
+          onPress={() => handleTimeframeChange(2)}
         >
           <Button
             style={{ width: 50, minWidth: 0 }}
             buttonColor={
-              JSON.stringify(graphData) === JSON.stringify(mockData2)
+              selectedTimeframe === 2
                 ? THEME.colors.primary
                 : THEME.colors.transparent
             }
@@ -100,12 +117,12 @@ export default function CustomGraph() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.graphDataChangeButton}
-          onPress={() => setGraphData(mockData3)}
+          onPress={() => handleTimeframeChange(3)}
         >
           <Button
             style={{ width: 50, minWidth: 0 }}
             buttonColor={
-              JSON.stringify(graphData) === JSON.stringify(mockData3)
+              selectedTimeframe === 3
                 ? THEME.colors.primary
                 : THEME.colors.transparent
             }
