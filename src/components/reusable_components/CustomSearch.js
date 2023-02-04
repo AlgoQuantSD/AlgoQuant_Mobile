@@ -34,19 +34,6 @@ export default function CustomSearch(props) {
 
   // Simulates an api call with an artificial loading time
   function queryDatabase() {
-    // setIsLoading(true);
-    // console.log("Search query: ", searchQuery);
-    // setTimeout(() => {
-    //   let result = mockData.filter((item) => {
-    //     if (searchQuery?.length > 0) {
-    //       return item.name.includes(searchQuery);
-    //     } else {
-    //       return null;
-    //     }
-    //   });
-    //   setSearchResults(result);
-    //   setIsLoading(false);
-    // }, 500);
     console.log("letter: ", searchQuery);
     if (algoquantApi.token) {
       setIsLoading(true);
@@ -120,9 +107,7 @@ export default function CustomSearch(props) {
           )}
         />
       ) : (
-        <View style={styles.activityIndicator}>
-          <ActivityIndicator size="large" color={THEME.colors.primary} />
-        </View>
+        <Text style={styles.text2}>Search stocks here!</Text>
       )}
     </View>
   );
@@ -150,5 +135,9 @@ const styles = StyleSheet.create({
     flex: 0.5,
     alignItems: "center",
     justifyContent: "center",
+  },
+  text2: {
+    fontSize: THEME.text.fontSizeH1,
+    color: THEME.text.color,
   },
 });
