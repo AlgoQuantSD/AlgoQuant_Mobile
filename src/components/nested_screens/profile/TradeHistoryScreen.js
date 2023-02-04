@@ -60,9 +60,6 @@ export default function TradeHistoryScreen() {
   };
 
   useEffect(() => {
-    if (!lastPage) {
-      setIsLoading(true);
-    }
     fetchTrades();
   }, []);
   return (
