@@ -8,13 +8,11 @@ export default function StockInfoScreen(props) {
   const { stockName } = props.route.params;
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <HeaderContainer
-          headerText={stockName}
-          size={THEME.flexboxSizes.headerContainerMedium}
-        />
-        <CustomGraph />
-      </ScrollView>
+      <HeaderContainer
+        headerText={stockName}
+        size={THEME.flexboxSizes.headerContainerMedium}
+      />
+      <CustomGraph />
     </View>
   );
 }

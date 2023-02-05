@@ -82,6 +82,11 @@ export const THEME = {
 // Customize the graph styling
 export const LINE_GRAPH_THEME = {
   ...VictoryTheme.grayscale,
+  area: {
+    style: {
+      labels: { fill: "red" },
+    },
+  },
   axis: {
     style: {
       axis: {
@@ -104,6 +109,7 @@ export const LINE_GRAPH_THEME = {
         }),
     },
   },
+  cursorLabel: { fill: "red" },
 };
 
 export const LIGHT_THEME = {

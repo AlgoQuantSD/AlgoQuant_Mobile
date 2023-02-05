@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { VictoryChart, VictoryLine } from "victory-native";
+import {
+  VictoryChart,
+  VictoryLine,
+  VictoryVoronoiContainer,
+  VictoryTooltip,
+} from "victory-native";
 import { Button } from "react-native-paper";
-
 import { THEME, LINE_GRAPH_THEME } from "../../constants/Theme";
 
 export default function CustomGraph() {
@@ -30,6 +34,14 @@ export default function CustomGraph() {
     { x: 8, y: 12 },
   ];
 
+  const mockData4 = [
+    { x: 0, y: 6 },
+    { x: 5, y: 1 },
+    { x: 6, y: 7 },
+    { x: 7, y: 4 },
+    { x: 8, y: 10 },
+  ];
+
   const [graphData, setGraphData] = useState(mockData1);
   const [selectedTimeframe, setSelectedTimeframe] = useState(1);
 
@@ -45,6 +57,9 @@ export default function CustomGraph() {
         break;
       case 3:
         setGraphData(mockData3);
+        break;
+      case 4:
+        setGraphData(mockData4);
         break;
     }
   }
@@ -62,6 +77,19 @@ export default function CustomGraph() {
             }),
           },
         }}
+        containerComponent={
+          <VictoryVoronoiContainer
+            labels={({ datum }) => `${Math.round(datum.y, 2)}`}
+            labelComponent={
+              <VictoryTooltip
+                flyoutStyle={{
+                  fill: THEME.colors.background,
+                }}
+                style={{ fill: THEME.colors.foreground }}
+              />
+            }
+          />
+        }
       >
         <VictoryLine
           animate={{
@@ -82,13 +110,13 @@ export default function CustomGraph() {
       </VictoryChart>
 
       {/* Buttons that control what data gets displayed in the graph */}
-      <View style={styles.graphDataChangeButtonRow}>
+      <View style={styles.timeframeButtonOuterButtonRow}>
         <TouchableOpacity
-          style={styles.graphDataChangeButton}
+          style={styles.timeframeButtonOuter}
           onPress={() => handleTimeframeChange(1)}
         >
           <Button
-            style={{ width: 50, minWidth: 0 }}
+            style={styles.timeframeButtonInner}
             buttonColor={
               selectedTimeframe === 1
                 ? THEME.colors.primary
@@ -96,15 +124,15 @@ export default function CustomGraph() {
             }
             textColor={THEME.text.color}
           >
-            1
+            D
           </Button>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.graphDataChangeButton}
+          style={styles.timeframeButtonOuter}
           onPress={() => handleTimeframeChange(2)}
         >
           <Button
-            style={{ width: 50, minWidth: 0 }}
+            style={styles.timeframeButtonInner}
             buttonColor={
               selectedTimeframe === 2
                 ? THEME.colors.primary
@@ -112,15 +140,15 @@ export default function CustomGraph() {
             }
             textColor={THEME.text.color}
           >
-            2
+            5D
           </Button>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.graphDataChangeButton}
+          style={styles.timeframeButtonOuter}
           onPress={() => handleTimeframeChange(3)}
         >
           <Button
-            style={{ width: 50, minWidth: 0 }}
+            style={styles.timeframeButtonInner}
             buttonColor={
               selectedTimeframe === 3
                 ? THEME.colors.primary
@@ -128,7 +156,23 @@ export default function CustomGraph() {
             }
             textColor={THEME.text.color}
           >
-            3
+            M
+          </Button>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.timeframeButtonOuter}
+          onPress={() => handleTimeframeChange(4)}
+        >
+          <Button
+            style={styles.timeframeButtonInner}
+            buttonColor={
+              selectedTimeframe === 4
+                ? THEME.colors.primary
+                : THEME.colors.transparent
+            }
+            textColor={THEME.text.color}
+          >
+            Y
           </Button>
         </TouchableOpacity>
       </View>
@@ -137,13 +181,17 @@ export default function CustomGraph() {
 }
 
 const styles = StyleSheet.create({
-  graphDataChangeButtonRow: {
+  timeframeButtonOuterButtonRow: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "center",
   },
-  graphDataChangeButton: {
+  timeframeButtonOuter: {
     paddingLeft: "2%",
     paddingRight: "2%",
+  },
+  timeframeButtonInner: {
+    width: 50,
+    minWidth: 0,
   },
 });
