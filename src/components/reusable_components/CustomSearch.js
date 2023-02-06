@@ -6,41 +6,15 @@ import { FlashList } from "@shopify/flash-list";
 import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function CustomSearch(props) {
-  const { searchType, navigation } = props;
+  const {
+    searchType,
+    navigation,
+    isLoading,
+    searchQuery,
+    searchResults,
+    onChangeSearch,
+  } = props;
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  // State variables used to access algoquant SDK API and display/ keep state of user data from database
-  const algoquantApi = useContext(AlgoquantApiContext);
-  // Filter results whenever we change the query
-  useEffect(() => {
-    queryDatabase();
-  }, [searchQuery]);
-
-  function onChangeSearch(query) {
-    setSearchQuery(query);
-  }
-
-  // Simulates an api call with an artificial loading time
-  function queryDatabase() {
-    if (algoquantApi.token && searchQuery !== "") {
-      setIsLoading(true);
-      algoquantApi
-        .searchStock(searchQuery)
-        .then((resp) => {
-          setSearchResults(resp.data["stock-tickers"]);
-          setIsLoading(false);
-          if (resp.data["stock-tickers"].length === 0) {
-            setSearchResults(["Ticker not found"]);
-          }
-        })
-        .catch((err) => {
-          // TODO: Need to implement better error handling
-          console.log(err);
-        });
-    }
-  }
   return (
     <View style={styles.searchbarAndResults}>
       {/* Render the searchbar */}
@@ -98,11 +72,7 @@ export default function CustomSearch(props) {
           )}
         />
       ) : (
-        <View>
-          <Text style={styles.text2}>
-            In order to search stocks here use the stock's ticker
-          </Text>
-        </View>
+        <View></View>
       )}
     </View>
   );
