@@ -8,16 +8,13 @@ import {
 } from "victory-native";
 import { Button } from "react-native-paper";
 import { THEME, LINE_GRAPH_THEME } from "../../constants/Theme";
+import { timeframeEnums } from "../../constants/graphEnums";
 
 export default function CustomGraph(props) {
-  const {
-    graphData,
-    setGraphData,
-    selectedTimeframe,
-    setSelectedTimeframe,
-    handleTimeframeChange,
-  } = props;
-
+  const { graphData, handleTimeframeChange } = props;
+  const [selectedTimeframe, setSelectedTimeframe] = useState(
+    timeframeEnums.DAY
+  );
   return (
     <View>
       <VictoryChart
@@ -68,13 +65,13 @@ export default function CustomGraph(props) {
         <TouchableOpacity
           style={styles.timeframeButtonOuter}
           onPress={() =>
-            handleTimeframeChange(1, setGraphData, setSelectedTimeframe)
+            handleTimeframeChange(timeframeEnums.DAY, setSelectedTimeframe)
           }
         >
           <Button
             style={styles.timeframeButtonInner}
             buttonColor={
-              selectedTimeframe === 1
+              selectedTimeframe === timeframeEnums.DAY
                 ? THEME.colors.primary
                 : THEME.colors.transparent
             }
@@ -86,13 +83,13 @@ export default function CustomGraph(props) {
         <TouchableOpacity
           style={styles.timeframeButtonOuter}
           onPress={() =>
-            handleTimeframeChange(2, setGraphData, setSelectedTimeframe)
+            handleTimeframeChange(timeframeEnums.FIVE, setSelectedTimeframe)
           }
         >
           <Button
             style={styles.timeframeButtonInner}
             buttonColor={
-              selectedTimeframe === 2
+              selectedTimeframe === timeframeEnums.FIVE
                 ? THEME.colors.primary
                 : THEME.colors.transparent
             }
@@ -104,13 +101,13 @@ export default function CustomGraph(props) {
         <TouchableOpacity
           style={styles.timeframeButtonOuter}
           onPress={() =>
-            handleTimeframeChange(3, setGraphData, setSelectedTimeframe)
+            handleTimeframeChange(timeframeEnums.MONTH, setSelectedTimeframe)
           }
         >
           <Button
             style={styles.timeframeButtonInner}
             buttonColor={
-              selectedTimeframe === 3
+              selectedTimeframe === timeframeEnums.MONTH
                 ? THEME.colors.primary
                 : THEME.colors.transparent
             }
@@ -122,13 +119,13 @@ export default function CustomGraph(props) {
         <TouchableOpacity
           style={styles.timeframeButtonOuter}
           onPress={() =>
-            handleTimeframeChange(4, setGraphData, setSelectedTimeframe)
+            handleTimeframeChange(timeframeEnums.YEAR, setSelectedTimeframe)
           }
         >
           <Button
             style={styles.timeframeButtonInner}
             buttonColor={
-              selectedTimeframe === 4
+              selectedTimeframe === timeframeEnums.YEAR
                 ? THEME.colors.primary
                 : THEME.colors.transparent
             }
