@@ -1,4 +1,5 @@
 import { PixelRatio } from "react-native";
+import { VictoryTheme } from "victory-native";
 
 const PALETTE = {
   primaryGreen: "#3F9F30",
@@ -76,6 +77,39 @@ export const THEME = {
     headerContainerMedium: 0.2,
     headerContainerLarge: 0.25,
   },
+};
+
+// Customize the graph styling
+export const LINE_GRAPH_THEME = {
+  ...VictoryTheme.grayscale,
+  area: {
+    style: {
+      labels: { fill: "red" },
+    },
+  },
+  axis: {
+    style: {
+      axis: {
+        stroke: "white",
+        strokeWidth: 1,
+      },
+      grid: {
+        fill: "transparent",
+        stroke: "transparent",
+      },
+      ticks: {
+        size: 5,
+        stroke: "white",
+        strokeWidth: 1,
+      },
+      tickLabels:
+        ({},
+        {
+          fill: "white",
+        }),
+    },
+  },
+  cursorLabel: { fill: "red" },
 };
 
 export const LIGHT_THEME = {
