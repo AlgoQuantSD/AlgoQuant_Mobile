@@ -7,8 +7,10 @@ import { FlashList } from "@shopify/flash-list";
 export default function CustomSearch(props) {
   const { onSelectStock, isLoading, searchResults, getSearchResults } = props;
 
+  // State variable to hold user search bar input
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Handle the querying of each time a user enters a new letter
   function onChangeSearch(query) {
     setSearchQuery(query);
     getSearchResults(query);
