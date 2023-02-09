@@ -11,10 +11,8 @@ import { THEME, LINE_GRAPH_THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 
 export default function CustomGraph(props) {
-  const { graphData, handleTimeframeChange } = props;
-  const [selectedTimeframe, setSelectedTimeframe] = useState(
-    timeframeEnums.DAY
-  );
+  const { graphData, handleTimeframeChange, selectedTimeframe } = props;
+
   return (
     <View>
       <VictoryChart
@@ -64,9 +62,7 @@ export default function CustomGraph(props) {
       <View style={styles.timeframeButtonOuterButtonRow}>
         <TouchableOpacity
           style={styles.timeframeButtonOuter}
-          onPress={() =>
-            handleTimeframeChange(timeframeEnums.DAY, setSelectedTimeframe)
-          }
+          onPress={() => handleTimeframeChange(timeframeEnums.DAY)}
         >
           <Button
             style={styles.timeframeButtonInner}
@@ -82,9 +78,7 @@ export default function CustomGraph(props) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.timeframeButtonOuter}
-          onPress={() =>
-            handleTimeframeChange(timeframeEnums.FIVE, setSelectedTimeframe)
-          }
+          onPress={() => handleTimeframeChange(timeframeEnums.FIVE)}
         >
           <Button
             style={styles.timeframeButtonInner}
@@ -100,9 +94,7 @@ export default function CustomGraph(props) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.timeframeButtonOuter}
-          onPress={() =>
-            handleTimeframeChange(timeframeEnums.MONTH, setSelectedTimeframe)
-          }
+          onPress={() => handleTimeframeChange(timeframeEnums.MONTH)}
         >
           <Button
             style={styles.timeframeButtonInner}
@@ -118,9 +110,7 @@ export default function CustomGraph(props) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.timeframeButtonOuter}
-          onPress={() =>
-            handleTimeframeChange(timeframeEnums.YEAR, setSelectedTimeframe)
-          }
+          onPress={() => handleTimeframeChange(timeframeEnums.YEAR)}
         >
           <Button
             style={styles.timeframeButtonInner}
