@@ -1,47 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { ActivityIndicator, Searchbar } from "react-native-paper";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Searchbar } from "react-native-paper";
 import { THEME } from "../../constants/Theme";
 import { FlashList } from "@shopify/flash-list";
 
 export default function CustomSearch(props) {
-  const { searchType, navigation } = props;
-  console.log("Search type", searchType);
-  const mockData = [
-    { name: "Apple", abbreviation: "APPL", price: "$123.90", id: 0 },
-    { name: "Amazon", abbreviation: "AMZN", price: "$112.21", id: 1 },
-    { name: "Google", abbreviation: "GOOGL", price: "$99.21", id: 2 },
-    { name: "Microsoft", abbreviation: "MSFT", price: "$78.21", id: 3 },
-    { name: "Spotify", abbreviation: "SPOT", price: "$90.12", id: 4 },
-  ];
-  const [searchQuery, setSearchQuery] = useState(null);
-  const [searchResults, setSearchResults] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const { onSelectStock, isLoading, searchResults, getSearchResults } = props;
 
-  // Filter results whenever we change the query
-  useEffect(() => {
-    queryDatabase();
-  }, [searchQuery]);
+  // State variable to hold user search bar input
+  const [searchQuery, setSearchQuery] = useState("");
 
+  // Handle the querying of each time a user enters a new letter
   function onChangeSearch(query) {
     setSearchQuery(query);
-  }
-
-  // Simulates an api call with an artificial loading time
-  function queryDatabase() {
-    setIsLoading(true);
-    console.log("Search query: ", searchQuery);
-    setTimeout(() => {
-      let result = mockData.filter((item) => {
-        if (searchQuery?.length > 0) {
-          return item.name.includes(searchQuery);
-        } else {
-          return null;
-        }
-      });
-      setSearchResults(result);
-      setIsLoading(false);
-    }, 500);
+    getSearchResults(query);
   }
 
   return (
@@ -69,43 +41,32 @@ export default function CustomSearch(props) {
         }}
       />
       {/* Render the list of results after loading is done */}
-      {searchResults && !isLoading ? (
+      {searchResults && !isLoading && searchQuery !== "" ? (
         <FlashList
           data={searchResults}
-          keyExtractor={(item) => {
-            return item.id;
-          }}
+          keyExtractor={(item, index) => index.toString()}
           viewabilityConfig={{
             waitForInteraction: true,
             itemVisiblePercentThreshold: 100,
             minimumViewTime: 1000,
           }}
-          estimatedItemSize={mockData.length}
-          onEndReached={() => console.log("Reached bottom")}
+          estimatedItemSize={searchResults.length}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.resultListItem}
-              onPress={() =>
-                searchType === "standard"
-                  ? navigation.navigate("StockInfoScreen", {
-                      stockName: item.name,
-                    })
-                  : null
-              }
+              onPress={() => onSelectStock(item)}
             >
               <View style={styles.textCell}>
-                <Text style={styles.text}>{item.abbreviation}</Text>
+                <Text style={styles.text}>{item}</Text>
               </View>
               <View style={styles.textCell}>
-                <Text style={styles.text}>{item.name}</Text>
+                <Text style={styles.text}>{item}</Text>
               </View>
             </TouchableOpacity>
           )}
         />
       ) : (
-        <View style={styles.activityIndicator}>
-          <ActivityIndicator size="large" color={THEME.colors.primary} />
-        </View>
+        <View></View>
       )}
     </View>
   );
@@ -133,5 +94,10 @@ const styles = StyleSheet.create({
     flex: 0.5,
     alignItems: "center",
     justifyContent: "center",
+  },
+  text2: {
+    fontSize: THEME.text.fontSizeH2,
+    color: THEME.text.color,
+    padding: 20,
   },
 });
