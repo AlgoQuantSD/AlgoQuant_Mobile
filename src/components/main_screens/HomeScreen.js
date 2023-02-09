@@ -5,6 +5,7 @@ import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 import CustomGraph from "../reusable_components/CustomGraph";
 import GraphDetailsHeader from "../reusable_components/GraphDetailsHeader";
+import InvestContainer from "../single_use_components/InvestContainer";
 
 export default function HomeScreen({ navigation }) {
   // Get the current user and only refresh the component if user is updated
@@ -89,6 +90,7 @@ export default function HomeScreen({ navigation }) {
           selectedTimeframe={selectedTimeframe}
           handleTimeframeChange={handleTimeframeChange}
         />
+        <InvestContainer />
       </ScrollView>
     </View>
   );

@@ -47,7 +47,7 @@ export default function GraphDetailsHeader(props) {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    width: "75%",
+    width: "100%",
     paddingTop: "10%",
     paddingLeft: "10%",
     alignContent: "flex-start",
