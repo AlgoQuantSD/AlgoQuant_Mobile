@@ -26,8 +26,8 @@ export const THEME = {
   },
   text: {
     fontSizeH1: 42,
-    fontSizeH2: 24 / PixelRatio.get(),
-    fontSizeH3: 38 / PixelRatio.get(),
+    fontSizeH2: 36,
+    fontSizeH3: 28,
     fontSizeBold: 38 / PixelRatio.get(),
     fontSizeBody: 30 / PixelRatio.get(),
     fontSizeButton: 30 / PixelRatio.get(),

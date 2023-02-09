@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { THEME } from "../../../constants/Theme";
-import HeaderContainer from "../../reusable_components/HeaderContainer";
+import StockDetailsHeader from "../../reusable_components/StockDetailsHeader";
 import CustomGraph from "../../reusable_components/CustomGraph";
+import StockDetailsFooter from "../../reusable_components/StockDetailsFooter";
 import { timeframeEnums } from "../../../constants/graphEnums";
 
 export default function StockInfoScreen(props) {
@@ -40,10 +41,24 @@ export default function StockInfoScreen(props) {
     { x: 8, y: 10 },
   ];
 
+  const stockData = {
+    recentPrice: 152.01,
+    open: 150.64,
+    high: 153.19,
+    low: 150.64,
+    yearlyHigh: 176.15,
+    yearlyLow: 124.17,
+    priceDifferenceRaw: 1.47,
+    priceDifferencePercent: 0.8,
+  };
+
   const [graphData, setGraphData] = useState(mockData1);
+  const [selectedTimeframe, setSelectedTimeframe] = useState(
+    timeframeEnums.DAY
+  );
 
   // Update graphdata and change the selected timeframe
-  function handleTimeframeChange(timeframe, setSelectedTimeframe) {
+  function handleTimeframeChange(timeframe) {
     setSelectedTimeframe(timeframe);
     switch (timeframe) {
       case timeframeEnums.DAY:
@@ -63,14 +78,17 @@ export default function StockInfoScreen(props) {
 
   return (
     <View style={styles.container}>
-      <HeaderContainer
-        headerText={stockName}
-        size={THEME.flexboxSizes.headerContainerMedium}
+      <StockDetailsHeader
+        stockName={stockName}
+        stockData={stockData}
+        selectedTimeframe={selectedTimeframe}
       />
       <CustomGraph
         graphData={graphData}
+        selectedTimeframe={selectedTimeframe}
         handleTimeframeChange={handleTimeframeChange}
       />
+      <StockDetailsFooter stockData={stockData} />
     </View>
   );
 }
