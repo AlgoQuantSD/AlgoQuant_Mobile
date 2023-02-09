@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import CustomSearch from "../reusable_components/CustomSearch";
 import AlgoquantApiContext from "../../constants/ApiContext";
+import StockInfoScreen from "../nested_screens/search/StockInfoScreen";
 
 export default function SearchScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -43,7 +44,7 @@ export default function SearchScreen({ navigation }) {
     <View style={styles.container}>
       <CustomSearch
         navigation={navigation}
-        searchType="standard"
+        redirectPage={"StockInfoScreen"}
         searchQuery={searchQuery}
         isLoading={isLoading}
         searchResults={searchResults}

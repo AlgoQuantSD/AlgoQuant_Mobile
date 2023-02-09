@@ -7,8 +7,8 @@ import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function CustomSearch(props) {
   const {
-    searchType,
     navigation,
+    redirectPage,
     isLoading,
     searchQuery,
     searchResults,
@@ -54,9 +54,8 @@ export default function CustomSearch(props) {
             <TouchableOpacity
               style={styles.resultListItem}
               onPress={() =>
-                searchType === "standard" &&
                 !searchResults.includes("Ticker not found")
-                  ? navigation.navigate("StockInfoScreen", {
+                  ? navigation.navigate(redirectPage, {
                       stockName: item,
                     })
                   : null
