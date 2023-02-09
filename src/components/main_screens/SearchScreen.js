@@ -6,22 +6,23 @@ import AlgoquantApiContext from "../../constants/ApiContext";
 import StockInfoScreen from "../nested_screens/search/StockInfoScreen";
 
 export default function SearchScreen({ navigation }) {
-  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
   // Filter results whenever we change the query
-  useEffect(() => {
-    queryDatabase();
-  }, [searchQuery]);
 
-  function onChangeSearch(query) {
-    setSearchQuery(query);
+  function onSelectStock(item) {
+    console.log(item);
+    !searchResults.includes("Ticker not found")
+      ? navigation.navigate("StockInfoScreen", {
+          stockName: item,
+        })
+      : null;
   }
 
   // Simulates an api call with an artificial loading time
-  function queryDatabase() {
+  function getSearchResults(searchQuery) {
     if (algoquantApi.token && searchQuery !== "") {
       setIsLoading(true);
       algoquantApi
@@ -43,12 +44,10 @@ export default function SearchScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <CustomSearch
-        navigation={navigation}
-        redirectPage={"StockInfoScreen"}
-        searchQuery={searchQuery}
+        onSelectStock={onSelectStock}
         isLoading={isLoading}
         searchResults={searchResults}
-        onChangeSearch={onChangeSearch}
+        getSearchResults={getSearchResults}
       />
     </View>
   );

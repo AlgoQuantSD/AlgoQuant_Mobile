@@ -1,19 +1,18 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { ActivityIndicator, Searchbar } from "react-native-paper";
+import { Searchbar } from "react-native-paper";
 import { THEME } from "../../constants/Theme";
 import { FlashList } from "@shopify/flash-list";
-import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function CustomSearch(props) {
-  const {
-    navigation,
-    redirectPage,
-    isLoading,
-    searchQuery,
-    searchResults,
-    onChangeSearch,
-  } = props;
+  const { onSelectStock, isLoading, searchResults, getSearchResults } = props;
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  function onChangeSearch(query) {
+    setSearchQuery(query);
+    getSearchResults(query);
+  }
 
   return (
     <View style={styles.searchbarAndResults}>
@@ -53,13 +52,7 @@ export default function CustomSearch(props) {
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.resultListItem}
-              onPress={() =>
-                !searchResults.includes("Ticker not found")
-                  ? navigation.navigate(redirectPage, {
-                      stockName: item,
-                    })
-                  : null
-              }
+              onPress={() => onSelectStock(item)}
             >
               <View style={styles.textCell}>
                 <Text style={styles.text}>{item}</Text>
