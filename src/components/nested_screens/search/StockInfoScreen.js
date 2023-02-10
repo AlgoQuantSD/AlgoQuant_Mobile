@@ -1,13 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import { THEME } from "../../../constants/Theme";
 import StockDetailsHeader from "../../reusable_components/StockDetailsHeader";
 import CustomGraph from "../../reusable_components/CustomGraph";
 import StockDetailsFooter from "../../reusable_components/StockDetailsFooter";
 import { timeframeEnums } from "../../../constants/graphEnums";
+import AlgoquantApiContext from "../../../constants/ApiContext";
 
 export default function StockInfoScreen(props) {
   const { stockName } = props.route.params;
+  // State variables used to access algoquant SDK API and display/ keep state of user data from database
+  const algoquantApi = useContext(AlgoquantApiContext);
+
+  useEffect(() => {
+    if (algoquantApi.token) {
+      algoquantApi
+        .getStockInfo(stockName)
+        .then((resp) => {
+          console.log(resp.data);
+        })
+        .catch((err) => {
+          // TODO: Need to implement better error handling
+          console.log(err);
+        });
+    }
+  }, [algoquantApi, stockName]);
 
   // Filler data until we connect to the backend
   const mockData1 = [
