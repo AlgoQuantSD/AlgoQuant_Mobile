@@ -61,7 +61,7 @@ export const THEME = {
     dividerColor: PALETTE.mediumGray,
   },
   loadingIndicator: {
-    color: PALETTE.white,
+    color: PALETTE.primaryGreen,
   },
   icons: {
     successIcon: "shield-checkmark-outline",
