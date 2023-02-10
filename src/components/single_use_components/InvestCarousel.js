@@ -14,16 +14,22 @@ export default function InvestCarousel() {
   const mockInvestors = [
     {
       name: "Warren Buffet",
+      indicators: ["RSI", "MACD", "OBV"],
+      stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
       imageId: 1,
       id: 0,
     },
     {
       name: "Bill Gates",
+      indicators: ["RSI", "MACD", "OBV"],
+      stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
       imageId: 2,
       id: 1,
     },
     {
       name: "Your Mom",
+      indicators: ["RSI", "MACD", "OBV"],
+      stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
       imageId: 1,
       id: 2,
     },
