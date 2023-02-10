@@ -16,14 +16,14 @@ export default function InvestCarousel() {
       name: "Warren Buffet",
       indicators: ["RSI", "MACD", "OBV"],
       stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
-      imageId: 1,
+      imageId: 0,
       id: 0,
     },
     {
-      name: "Bill Gates",
+      name: "Heinous Investor",
       indicators: ["RSI", "MACD", "OBV"],
       stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
-      imageId: 2,
+      imageId: 1,
       id: 1,
     },
     {
