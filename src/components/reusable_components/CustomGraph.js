@@ -5,14 +5,41 @@ import {
   VictoryLine,
   VictoryVoronoiContainer,
   VictoryTooltip,
+  VictoryAxis,
 } from "victory-native";
 import { Button } from "react-native-paper";
 import { THEME, LINE_GRAPH_THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
+import { format } from "d3-format";
 
 export default function CustomGraph(props) {
-  const { graphData, handleTimeframeChange, selectedTimeframe } = props;
+  const { graphData, handleTimeframeChange, selectedTimeframe, yVals } = props;
+  const formatter = format(".2f");
 
+  const determineTimeFrame = (x) => {
+    switch (selectedTimeframe) {
+      case timeframeEnums.DAY:
+        return new Date(x * 1000).toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      case timeframeEnums.FIVE:
+        return new Date(x * 1000).toLocaleDateString("en-US", {
+          month: "numeric",
+          day: "numeric",
+        });
+      case timeframeEnums.MONTH:
+        return new Date(x * 1000).toLocaleDateString("en-US", {
+          month: "numeric",
+          day: "numeric",
+        });
+      case timeframeEnums.YEAR:
+        return new Date(x * 1000).toLocaleDateString("en-US", {
+          month: "numeric",
+          year: "numeric",
+        });
+    }
+  };
   return (
     <View>
       <VictoryChart
@@ -28,7 +55,7 @@ export default function CustomGraph(props) {
         }}
         containerComponent={
           <VictoryVoronoiContainer
-            labels={({ datum }) => `${Math.round(datum.y, 2)}`}
+            labels={({ datum }) => `${formatter(datum.y)}`}
             labelComponent={
               <VictoryTooltip
                 flyoutStyle={{
@@ -55,6 +82,17 @@ export default function CustomGraph(props) {
           style={{
             data: { stroke: THEME.colors.primary },
           }}
+        />
+        <VictoryAxis
+          dependentAxis
+          tickValues={yVals}
+          tickFormat={(y) => formatter(y)}
+          tickCount={4}
+        />
+        <VictoryAxis
+          dependentAxis={false}
+          tickFormat={(x) => determineTimeFrame(x)}
+          tickCount={4}
         />
       </VictoryChart>
 
