@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import InvestItemList from "../reusable_components/InvestItemList";
+import JobsAndHistoryItemList from "../reusable_components/JobsAndHistoryItemList";
 import { THEME } from "../../constants/Theme";
 
 export default function InvestCarousel() {
@@ -37,20 +38,23 @@ export default function InvestCarousel() {
   const mockJobs = [
     {
       name: "Job1",
-      investorName: "Warren Buffet",
-      imageId: 1,
+      investor: { name: "Warren Buffet", imageId: 0 },
+      balance: 191.41,
+      percentChange: 4.1,
       id: 0,
     },
     {
       name: "Job2",
-      investorName: "Bill Gates",
-      imageId: 2,
+      investor: { name: "Heinous Investor", imageId: 1 },
+      balance: 252.23,
+      percentChange: 5.2,
       id: 1,
     },
     {
       name: "Job3",
-      investorName: "Your Mom",
-      imageId: 1,
+      investor: { name: "Warren Buffet", imageId: 0 },
+      balance: 90.21,
+      percentChange: -3.1,
       id: 2,
     },
   ];
@@ -58,20 +62,23 @@ export default function InvestCarousel() {
   const mockHistory = [
     {
       name: "Job3",
-      investorName: "Warren Buffet",
-      imageId: 1,
+      investor: { name: "Warren Buffet", imageId: 0 },
+      balance: 90.21,
+      percentChange: -3.1,
       id: 0,
     },
     {
       name: "Job2",
-      investorName: "Bill Gates",
-      imageId: 2,
+      investor: { name: "Heinous Investor", imageId: 1 },
+      balance: 252.23,
+      percentChange: 5.2,
       id: 1,
     },
     {
       name: "Job1",
-      investorName: "Your Mom",
-      imageId: 1,
+      investor: { name: "Warren Buffet", imageId: 0 },
+      balance: 191.41,
+      percentChange: 4.1,
       id: 2,
     },
   ];
@@ -125,7 +132,11 @@ export default function InvestCarousel() {
           </TouchableOpacity>
         ))}
       </View>
-      <InvestItemList listData={listData} isLoading={isLoading} />
+      {selectedCarouselOption === "CAROUSEL_TAB_INVESTORS" ? (
+        <InvestItemList listData={listData} isLoading={isLoading} />
+      ) : (
+        <JobsAndHistoryItemList listData={listData} isLoading={isLoading} />
+      )}
     </View>
   );
 }

@@ -111,7 +111,7 @@ export default function InvestItemList(props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: "5%",
+    marginTop: "5%",
     alignItems: "center",
   },
   text: {
