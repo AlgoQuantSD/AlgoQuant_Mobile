@@ -135,7 +135,11 @@ export default function InvestCarousel() {
       {selectedCarouselOption === "CAROUSEL_TAB_INVESTORS" ? (
         <InvestItemList listData={listData} isLoading={isLoading} />
       ) : (
-        <JobsAndHistoryItemList listData={listData} isLoading={isLoading} />
+        <JobsAndHistoryItemList
+          listData={listData}
+          isLoading={isLoading}
+          type={selectedCarouselOption}
+        />
       )}
     </View>
   );

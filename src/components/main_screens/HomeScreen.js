@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
-import { useAuthenticator } from "@aws-amplify/ui-react-native";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 import CustomGraph from "../reusable_components/CustomGraph";

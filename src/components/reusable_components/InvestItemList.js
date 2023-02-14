@@ -28,81 +28,90 @@ export default function InvestItemList(props) {
         </View>
       ) : (
         <View style={styles.listItems}>
-          <ScrollView>
-            {listData.map((item) => {
-              return (
-                <TouchableWithoutFeedback
-                  key={item.id}
-                  onPress={() => console.log("Opening: ", item.name)}
-                >
-                  <View style={styles.listItem}>
-                    <View style={styles.nameContainer}>
-                      <Text style={styles.listItemName}>{item.name}</Text>
-                    </View>
-                    <View style={styles.imageContainer}>
-                      <Image
-                        style={styles.investorImage}
-                        source={investorImagePathList[item.imageId]}
-                      />
-                    </View>
-                    <View style={styles.indicatorAndStockContainer}>
-                      <View style={styles.indicatorCol}>
-                        <Text style={styles.indictorAndStockHeaderText}>
-                          Indicators
-                        </Text>
-                        <ScrollView>
-                          <View style={styles.indicatorAndStockItems}>
-                            {item.indicators.map((item) => {
-                              return (
-                                <Text
-                                  key={item}
-                                  style={styles.indictorAndStockText}
-                                >
-                                  {item}
-                                </Text>
-                              );
-                            })}
-                          </View>
-                        </ScrollView>
+          {listData.length === 0 ? (
+            <View style={styles.noResultsContainer}>
+              <Text style={styles.text}>
+                You don't have any investors yet. Press the plus icon above to
+                create one.
+              </Text>
+            </View>
+          ) : (
+            <ScrollView>
+              {listData.map((item) => {
+                return (
+                  <TouchableWithoutFeedback
+                    key={item.id}
+                    onPress={() => console.log("Opening: ", item.name)}
+                  >
+                    <View style={styles.listItem}>
+                      <View style={styles.nameContainer}>
+                        <Text style={styles.listItemName}>{item.name}</Text>
                       </View>
-                      <View style={styles.stockCol}>
-                        <Text style={styles.indictorAndStockHeaderText}>
-                          Stocks
-                        </Text>
-                        <ScrollView>
-                          <View style={styles.indicatorAndStockItems}>
-                            {item.stocks.map((item) => {
-                              return (
-                                <Text
-                                  key={item}
-                                  style={styles.indictorAndStockText}
-                                >
-                                  {item}
-                                </Text>
-                              );
-                            })}
-                          </View>
-                        </ScrollView>
-                      </View>
-                    </View>
-                    <View style={styles.startJobContainer}>
-                      <TouchableOpacity
-                        hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
-                        style={styles.startJobButton}
-                      >
-                        <Text style={styles.text}>Start Job</Text>
-                        <Ionicons
-                          name="arrow-forward"
-                          size={16}
-                          color={THEME.colors.foreground}
+                      <View style={styles.imageContainer}>
+                        <Image
+                          style={styles.investorImage}
+                          source={investorImagePathList[item.imageId]}
                         />
-                      </TouchableOpacity>
+                      </View>
+                      <View style={styles.indicatorAndStockContainer}>
+                        <View style={styles.indicatorCol}>
+                          <Text style={styles.indictorAndStockHeaderText}>
+                            Indicators
+                          </Text>
+                          <ScrollView>
+                            <View style={styles.indicatorAndStockItems}>
+                              {item.indicators.map((item) => {
+                                return (
+                                  <Text
+                                    key={item}
+                                    style={styles.indictorAndStockText}
+                                  >
+                                    {item}
+                                  </Text>
+                                );
+                              })}
+                            </View>
+                          </ScrollView>
+                        </View>
+                        <View style={styles.stockCol}>
+                          <Text style={styles.indictorAndStockHeaderText}>
+                            Stocks
+                          </Text>
+                          <ScrollView>
+                            <View style={styles.indicatorAndStockItems}>
+                              {item.stocks.map((item) => {
+                                return (
+                                  <Text
+                                    key={item}
+                                    style={styles.indictorAndStockText}
+                                  >
+                                    {item}
+                                  </Text>
+                                );
+                              })}
+                            </View>
+                          </ScrollView>
+                        </View>
+                      </View>
+                      <View style={styles.startJobContainer}>
+                        <TouchableOpacity
+                          hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+                          style={styles.startJobButton}
+                        >
+                          <Text style={styles.text}>Start Job</Text>
+                          <Ionicons
+                            name="arrow-forward"
+                            size={16}
+                            color={THEME.colors.foreground}
+                          />
+                        </TouchableOpacity>
+                      </View>
                     </View>
-                  </View>
-                </TouchableWithoutFeedback>
-              );
-            })}
-          </ScrollView>
+                  </TouchableWithoutFeedback>
+                );
+              })}
+            </ScrollView>
+          )}
         </View>
       )}
     </View>
@@ -123,7 +132,6 @@ const styles = StyleSheet.create({
   },
   listItems: {
     alignItems: "center",
-
     height: 600,
     width: "100%",
   },
@@ -134,9 +142,13 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: "10%",
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: THEME.colors.primary,
     backgroundColor: THEME.investCard.backgroundColor,
+  },
+  noResultsContainer: {
+    flex: 1,
+    width: "80%",
+    alignItems: "center",
+    marginTop: "5%",
   },
   nameContainer: {
     flex: 0.2,
