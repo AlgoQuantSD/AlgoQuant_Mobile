@@ -11,6 +11,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { investorImagePathList } from "../../constants/InvestorImagePaths";
 import { THEME } from "../../constants/Theme";
+import Animated, { SlideInDown, SlideInUp } from "react-native-reanimated";
 
 export default function JobsAndHistoryItemList(props) {
   const { listData, isLoading, type } = props;
@@ -40,51 +41,55 @@ export default function JobsAndHistoryItemList(props) {
             </View>
           ) : (
             <ScrollView>
-              {listData.map((item) => {
-                return (
-                  <TouchableWithoutFeedback key={item.id}>
-                    <View style={styles.listItem}>
-                      <View style={styles.itemName}>
-                        <Text style={styles.text}>{item.name}</Text>
-                      </View>
-                      <View style={styles.itemBalance}>
-                        <Text style={styles.text}>${item.balance}</Text>
-                        <Text
-                          style={
-                            item.percentChange >= 0
-                              ? styles.percentChangeUpText
-                              : styles.percentChangeDownText
-                          }
-                        >
-                          ({item.percentChange}%)
-                        </Text>
-                        {item.percentChange >= 0 ? (
-                          <Ionicons
-                            name="caret-up-outline"
-                            size={12}
-                            color={THEME.colors.primary}
+              <Animated.View entering={SlideInDown}>
+                {listData.map((item) => {
+                  return (
+                    <TouchableWithoutFeedback key={item.id}>
+                      <View style={styles.listItem}>
+                        <View style={styles.itemName}>
+                          <Text style={styles.text}>{item.name}</Text>
+                        </View>
+                        <View style={styles.itemBalance}>
+                          <Text style={styles.text}>${item.balance}</Text>
+                          <Text
+                            style={
+                              item.percentChange >= 0
+                                ? styles.percentChangeUpText
+                                : styles.percentChangeDownText
+                            }
+                          >
+                            ({item.percentChange}%)
+                          </Text>
+                          {item.percentChange >= 0 ? (
+                            <Ionicons
+                              name="caret-up-outline"
+                              size={12}
+                              color={THEME.colors.primary}
+                            />
+                          ) : (
+                            <Ionicons
+                              name="caret-down-outline"
+                              size={12}
+                              color={THEME.colors.danger}
+                            />
+                          )}
+                        </View>
+                        <View style={styles.itemInvestor}>
+                          <Image
+                            style={styles.investorImage}
+                            source={
+                              investorImagePathList[item.investor.imageId]
+                            }
                           />
-                        ) : (
-                          <Ionicons
-                            name="caret-down-outline"
-                            size={12}
-                            color={THEME.colors.danger}
-                          />
-                        )}
+                          <Text style={styles.investorNameText}>
+                            {item.investor.name}
+                          </Text>
+                        </View>
                       </View>
-                      <View style={styles.itemInvestor}>
-                        <Image
-                          style={styles.investorImage}
-                          source={investorImagePathList[item.investor.imageId]}
-                        />
-                        <Text style={styles.investorNameText}>
-                          {item.investor.name}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableWithoutFeedback>
-                );
-              })}
+                    </TouchableWithoutFeedback>
+                  );
+                })}
+              </Animated.View>
             </ScrollView>
           )}
         </View>
