@@ -121,6 +121,7 @@ export default function HomeScreen({ navigation }) {
         <InvestContainer
           handlePressInTouchableElement={handlePressInTouchableElement}
           handlePressOutTouchableElement={handlePressOutTouchableElement}
+          navigation={navigation}
         />
       </ScrollView>
     </View>

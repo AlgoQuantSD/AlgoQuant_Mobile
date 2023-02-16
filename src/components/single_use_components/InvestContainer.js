@@ -4,14 +4,18 @@ import { THEME } from "../../constants/Theme";
 import InvestCarousel from "./InvestCarousel";
 
 export default function InvestContainer(props) {
-  const { handlePressInTouchableElement, handlePressOutTouchableElement } =
-    props;
+  const {
+    handlePressInTouchableElement,
+    handlePressOutTouchableElement,
+    navigation,
+  } = props;
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Invest</Text>
       <InvestCarousel
         handlePressInTouchableElement={handlePressInTouchableElement}
         handlePressOutTouchableElement={handlePressOutTouchableElement}
+        navigation={navigation}
       />
     </View>
   );

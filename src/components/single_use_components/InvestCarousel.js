@@ -10,8 +10,11 @@ import JobsAndHistoryItemList from "../reusable_components/JobsAndHistoryItemLis
 import { THEME } from "../../constants/Theme";
 
 export default function InvestCarousel(props) {
-  const { handlePressInTouchableElement, handlePressOutTouchableElement } =
-    props;
+  const {
+    handlePressInTouchableElement,
+    handlePressOutTouchableElement,
+    navigation,
+  } = props;
   // Options for the carousel tabs
   const carouselOptions = [
     { name: "Investors", key: "CAROUSEL_TAB_INVESTORS", index: 0 },
@@ -24,6 +27,8 @@ export default function InvestCarousel(props) {
       name: "Warren Buffet",
       indicators: ["RSI", "MACD", "OBV"],
       stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
+      profitStop: "20%",
+      lossStop: "30%",
       imageId: 0,
       id: 0,
     },
@@ -31,6 +36,8 @@ export default function InvestCarousel(props) {
       name: "Heinous Investor",
       indicators: ["RSI", "MACD", "OBV"],
       stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
+      profitStop: "50%",
+      lossStop: "90%",
       imageId: 1,
       id: 1,
     },
@@ -38,6 +45,8 @@ export default function InvestCarousel(props) {
       name: "Your Mom",
       indicators: ["RSI", "MACD", "OBV"],
       stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
+      profitStop: "20%",
+      lossStop: "30%",
       imageId: 1,
       id: 2,
     },
@@ -194,6 +203,7 @@ export default function InvestCarousel(props) {
                 isLoading={isLoading}
                 handlePressInTouchableElement={handlePressInTouchableElement}
                 handlePressOutTouchableElement={handlePressOutTouchableElement}
+                navigation={navigation}
               />
             ) : (
               <JobsAndHistoryItemList

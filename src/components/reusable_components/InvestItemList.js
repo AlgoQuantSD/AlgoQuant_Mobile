@@ -16,7 +16,7 @@ import Animated, { SlideInDown } from "react-native-reanimated";
 
 // Renders the list of investors, jobs, or history
 export default function InvestItemList(props) {
-  const { listData, isLoading } = props;
+  const { listData, isLoading, navigation } = props;
 
   return (
     <View style={styles.container}>
@@ -43,7 +43,11 @@ export default function InvestItemList(props) {
                   return (
                     <TouchableWithoutFeedback
                       key={item.id}
-                      onPress={() => console.log("Opening: ", item.name)}
+                      onPress={() =>
+                        navigation.navigate("InvestorScreen", {
+                          investor: item,
+                        })
+                      }
                     >
                       <View style={styles.listItem}>
                         <View style={styles.nameContainer}>
