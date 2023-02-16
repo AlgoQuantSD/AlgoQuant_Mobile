@@ -12,11 +12,9 @@ export default function HomeScreen({ navigation }) {
   const [isScrollEnabled, setIsScrollEnabled] = useState(true);
 
   function handlePressInTouchableElement() {
-    console.log("PRESS IN");
     setIsScrollEnabled(false);
   }
   function handlePressOutTouchableElement() {
-    console.log("PRESS OUT");
     setIsScrollEnabled(true);
   }
 
