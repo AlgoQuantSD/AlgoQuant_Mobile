@@ -3,11 +3,16 @@ import { View, Text, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import InvestCarousel from "./InvestCarousel";
 
-export default function InvestContainer() {
+export default function InvestContainer(props) {
+  const { handlePressInTouchableElement, handlePressOutTouchableElement } =
+    props;
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Invest</Text>
-      <InvestCarousel />
+      <InvestCarousel
+        handlePressInTouchableElement={handlePressInTouchableElement}
+        handlePressOutTouchableElement={handlePressOutTouchableElement}
+      />
     </View>
   );
 }

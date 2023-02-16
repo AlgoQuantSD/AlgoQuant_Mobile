@@ -9,6 +9,16 @@ import InvestContainer from "../single_use_components/InvestContainer";
 export default function HomeScreen({ navigation }) {
   const scrollViewRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [isScrollEnabled, setIsScrollEnabled] = useState(true);
+
+  function handlePressInTouchableElement() {
+    console.log("PRESS IN");
+    setIsScrollEnabled(false);
+  }
+  function handlePressOutTouchableElement() {
+    console.log("PRESS OUT");
+    setIsScrollEnabled(true);
+  }
 
   const handleContentSizeChange = (contentWidth, contentHeight) => {
     scrollViewRef.current.scrollTo({
@@ -91,10 +101,12 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView
+        scrollEnabled={isScrollEnabled}
         ref={scrollViewRef}
         onContentSizeChange={handleContentSizeChange}
         onScroll={handleScroll}
         scrollEventThrottle={10000}
+        keyboardShouldPersistTaps="never"
       >
         <GraphDetailsHeader
           graphTitle="Your Assets"
@@ -105,8 +117,13 @@ export default function HomeScreen({ navigation }) {
           graphData={graphData}
           selectedTimeframe={selectedTimeframe}
           handleTimeframeChange={handleTimeframeChange}
+          handlePressInTouchableElement={handlePressInTouchableElement}
+          handlePressOutTouchableElement={handlePressOutTouchableElement}
         />
-        <InvestContainer />
+        <InvestContainer
+          handlePressInTouchableElement={handlePressInTouchableElement}
+          handlePressOutTouchableElement={handlePressOutTouchableElement}
+        />
       </ScrollView>
     </View>
   );

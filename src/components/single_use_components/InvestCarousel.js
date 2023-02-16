@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  StyleSheet,
+} from "react-native";
 import InvestItemList from "../reusable_components/InvestItemList";
 import JobsAndHistoryItemList from "../reusable_components/JobsAndHistoryItemList";
 import { THEME } from "../../constants/Theme";
 
-export default function InvestCarousel() {
+export default function InvestCarousel(props) {
   // Options for the carousel tabs
   const carouselOptions = [
     { name: "Investors", key: "CAROUSEL_TAB_INVESTORS" },
@@ -112,35 +118,37 @@ export default function InvestCarousel() {
 
   return (
     <View>
-      <View style={styles.carouselOptionRow}>
-        {carouselOptions.map((item) => (
-          <TouchableOpacity
-            key={item.key}
-            onPress={() => handleCarouselOptionPress(item.key)}
-            hitSlop={{ top: 30, bottom: 30 }}
-            style={styles.carouselHeader}
-          >
-            <Text
-              style={
-                item.key === selectedCarouselOption
-                  ? styles.selectedCarouselOption
-                  : styles.text
-              }
+      <View style={{ backgroundColor: "red" }}>
+        <View style={styles.carouselOptionRow}>
+          {carouselOptions.map((item) => (
+            <TouchableOpacity
+              key={item.key}
+              onPress={() => handleCarouselOptionPress(item.key)}
+              hitSlop={{ top: 30, bottom: 30 }}
+              style={styles.carouselHeader}
             >
-              {item.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text
+                style={
+                  item.key === selectedCarouselOption
+                    ? styles.selectedCarouselOption
+                    : styles.text
+                }
+              >
+                {item.name}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        {selectedCarouselOption === "CAROUSEL_TAB_INVESTORS" ? (
+          <InvestItemList listData={listData} isLoading={isLoading} />
+        ) : (
+          <JobsAndHistoryItemList
+            listData={listData}
+            isLoading={isLoading}
+            type={selectedCarouselOption}
+          />
+        )}
       </View>
-      {selectedCarouselOption === "CAROUSEL_TAB_INVESTORS" ? (
-        <InvestItemList listData={listData} isLoading={isLoading} />
-      ) : (
-        <JobsAndHistoryItemList
-          listData={listData}
-          isLoading={isLoading}
-          type={selectedCarouselOption}
-        />
-      )}
     </View>
   );
 }
