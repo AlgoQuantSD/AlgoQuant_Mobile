@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 
@@ -25,7 +25,17 @@ export default function StockDetailsHeader(props) {
     <View style={styles.headerContainer}>
       <Text style={styles.headerText}>{stockName}</Text>
       <View>
-        <Text style={styles.recentPriceText}>${stockData.recentPrice}</Text>
+        <Text style={styles.recentPriceText}>
+          {stockData.recentPrice === null ? (
+            <ActivityIndicator
+              size="small"
+              color="#3F9F30"
+              style={styles.activity}
+            />
+          ) : (
+            "$" + stockData.recentPrice
+          )}
+        </Text>
         <View style={styles.priceDifferenceContainer}>
           <Text
             style={
@@ -77,5 +87,9 @@ const styles = StyleSheet.create({
     fontSize: THEME.text.fontSizeBody,
     color: THEME.colors.danger,
     paddingRight: "2%",
+  },
+  activity: {
+    paddingTop: "5%",
+    paddingRight: "40%",
   },
 });

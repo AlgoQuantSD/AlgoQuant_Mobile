@@ -6,7 +6,6 @@ import CustomGraph from "../../reusable_components/CustomGraph";
 import StockDetailsFooter from "../../reusable_components/StockDetailsFooter";
 import { timeframeEnums } from "../../../constants/graphEnums";
 import AlgoquantApiContext from "../../../constants/ApiContext";
-import { useScrollToTop } from "@react-navigation/native";
 
 export default function StockInfoScreen(props) {
   const { stockName } = props.route.params;
@@ -14,13 +13,13 @@ export default function StockInfoScreen(props) {
   const algoquantApi = useContext(AlgoquantApiContext);
 
   // State variables to store the ticker the user searched information
-  const [high52w, setHigh52w] = useState();
-  const [low52w, setLow52w] = useState();
-  const [high, setHigh] = useState();
-  const [low, setLow] = useState();
-  const [open, setOpen] = useState();
-  const [recentPrice, setRecentPrice] = useState();
-  const [priceDifferenceRaw, setPriceDifferenceRaw] = useState();
+  const [high52w, setHigh52w] = useState(null);
+  const [low52w, setLow52w] = useState(null);
+  const [high, setHigh] = useState(null);
+  const [low, setLow] = useState(null);
+  const [open, setOpen] = useState(null);
+  const [recentPrice, setRecentPrice] = useState(null);
+  const [priceDifferenceRaw, setPriceDifferenceRaw] = useState(null);
 
   const [graphData, setGraphData] = useState();
   const [selectedTimeframe, setSelectedTimeframe] = useState(
@@ -54,7 +53,7 @@ export default function StockInfoScreen(props) {
     },
     [algoquantApi, setGraphData, setYValues]
   );
-
+  // fix graphj tick spacing and make graph larger
   useEffect(() => {
     if (algoquantApi.token) {
       algoquantApi
