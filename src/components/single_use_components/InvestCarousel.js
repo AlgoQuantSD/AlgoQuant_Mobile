@@ -1,29 +1,43 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  PanGestureHandler,
+  State,
+  GestureHandlerRootView,
+} from "react-native-gesture-handler";
 import InvestItemList from "../reusable_components/InvestItemList";
+import JobsAndHistoryItemList from "../reusable_components/JobsAndHistoryItemList";
 import { THEME } from "../../constants/Theme";
 
-export default function InvestCarousel() {
+export default function InvestCarousel(props) {
+  const { handlePressInTouchableElement, handlePressOutTouchableElement } =
+    props;
   // Options for the carousel tabs
   const carouselOptions = [
-    { name: "Investors", key: "CAROUSEL_TAB_INVESTORS" },
-    { name: "Jobs", key: "CAROUSEL_TAB_JOBS" },
-    { name: "History", key: "CAROUSEL_TAB_HISTORY" },
+    { name: "Investors", key: "CAROUSEL_TAB_INVESTORS", index: 0 },
+    { name: "Jobs", key: "CAROUSEL_TAB_JOBS", index: 1 },
+    { name: "History", key: "CAROUSEL_TAB_HISTORY", index: 2 },
   ];
   // Filler data until we can get real data through API
   const mockInvestors = [
     {
       name: "Warren Buffet",
-      imageId: 1,
+      indicators: ["RSI", "MACD", "OBV"],
+      stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
+      imageId: 0,
       id: 0,
     },
     {
-      name: "Bill Gates",
-      imageId: 2,
+      name: "Heinous Investor",
+      indicators: ["RSI", "MACD", "OBV"],
+      stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
+      imageId: 1,
       id: 1,
     },
     {
       name: "Your Mom",
+      indicators: ["RSI", "MACD", "OBV"],
+      stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
       imageId: 1,
       id: 2,
     },
@@ -31,20 +45,23 @@ export default function InvestCarousel() {
   const mockJobs = [
     {
       name: "Job1",
-      investorName: "Warren Buffet",
-      imageId: 1,
+      investor: { name: "Warren Buffet", imageId: 0 },
+      balance: 191.41,
+      percentChange: 4.1,
       id: 0,
     },
     {
       name: "Job2",
-      investorName: "Bill Gates",
-      imageId: 2,
+      investor: { name: "Heinous Investor", imageId: 1 },
+      balance: 252.23,
+      percentChange: 5.2,
       id: 1,
     },
     {
       name: "Job3",
-      investorName: "Your Mom",
-      imageId: 1,
+      investor: { name: "Warren Buffet", imageId: 0 },
+      balance: 90.21,
+      percentChange: -3.1,
       id: 2,
     },
   ];
@@ -52,41 +69,48 @@ export default function InvestCarousel() {
   const mockHistory = [
     {
       name: "Job3",
-      investorName: "Warren Buffet",
-      imageId: 1,
+      investor: { name: "Warren Buffet", imageId: 0 },
+      balance: 90.21,
+      percentChange: -3.1,
       id: 0,
     },
     {
       name: "Job2",
-      investorName: "Bill Gates",
-      imageId: 2,
+      investor: { name: "Heinous Investor", imageId: 1 },
+      balance: 252.23,
+      percentChange: 5.2,
       id: 1,
     },
     {
       name: "Job1",
-      investorName: "Your Mom",
-      imageId: 1,
+      investor: { name: "Warren Buffet", imageId: 0 },
+      balance: 191.41,
+      percentChange: 4.1,
       id: 2,
     },
   ];
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedCarouselOption, setSelectedCarouselOption] = useState(
-    "CAROUSEL_TAB_INVESTORS"
-  );
+  // Keeps track of which carousel option is selected
+  const [selectedCarouselOptionIndex, setSelectedCarouselOptionIndex] =
+    useState(0);
+  // Keeps track of what data we should pass into either the investor card or job and history list
   const [listData, setListData] = useState(mockInvestors);
+  const [swipeDirection, setSwipeDirection] = useState(null);
+  // Track the swipe translation in the x direction
+  const [translationX, setTranslationX] = useState(0);
 
-  // When the user switches carousel tabs
-  function handleCarouselOptionPress(option) {
+  // Handles what happens when the user presses one of the carousel tabs or swipes left or right inside of the component
+  function handleCarouselOptionChange(index) {
     setIsLoading(true);
-    setSelectedCarouselOption(option);
-    switch (option) {
-      case "CAROUSEL_TAB_INVESTORS":
+    setSelectedCarouselOptionIndex(index);
+    switch (index) {
+      case 0:
         setListData(mockInvestors);
         break;
-      case "CAROUSEL_TAB_JOBS":
+      case 1:
         setListData(mockJobs);
         break;
-      case "CAROUSEL_TAB_HISTORY":
+      case 2:
         setListData(mockHistory);
         break;
       default:
@@ -96,30 +120,93 @@ export default function InvestCarousel() {
       setIsLoading(false);
     }, 500);
   }
-
   return (
     <View>
-      <View style={styles.carouselOptionRow}>
-        {carouselOptions.map((item) => (
-          <TouchableOpacity
-            key={item.key}
-            onPress={() => handleCarouselOptionPress(item.key)}
-            hitSlop={{ top: 30, bottom: 30 }}
-            style={styles.carouselHeader}
-          >
-            <Text
-              style={
-                item.key === selectedCarouselOption
-                  ? styles.selectedCarouselOption
-                  : styles.text
+      {/* Handles left and right swipe interactions on the carousel */}
+      <GestureHandlerRootView>
+        <PanGestureHandler
+          onGestureEvent={(event) => {
+            setTranslationX(event.nativeEvent.translationX);
+          }}
+          onHandlerStateChange={(event) => {
+            if (event.nativeEvent.state === State.END) {
+              if (
+                translationX > 0 &&
+                Math.abs(translationX) >
+                  Math.abs(event.nativeEvent.translationY) &&
+                swipeDirection !== "right"
+              ) {
+                console.log("RIGHT SWIPE");
+                setSwipeDirection("right");
+                if (selectedCarouselOptionIndex === 0) {
+                  handleCarouselOptionChange(carouselOptions.length - 1);
+                } else {
+                  handleCarouselOptionChange(selectedCarouselOptionIndex - 1);
+                }
+              } else if (
+                translationX < 0 &&
+                Math.abs(translationX) >
+                  Math.abs(event.nativeEvent.translationY) &&
+                swipeDirection !== "left"
+              ) {
+                console.log("LEFT SWIPE");
+                setSwipeDirection("left");
+                if (
+                  selectedCarouselOptionIndex ===
+                  carouselOptions.length - 1
+                ) {
+                  handleCarouselOptionChange(0);
+                } else {
+                  handleCarouselOptionChange(selectedCarouselOptionIndex + 1);
+                }
               }
-            >
-              {item.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      <InvestItemList listData={listData} isLoading={isLoading} />
+              setSwipeDirection(null);
+              setTranslationX(0);
+            }
+          }}
+        >
+          <View>
+            <View style={styles.carouselOptionRow}>
+              {carouselOptions.map((item) => (
+                <TouchableOpacity
+                  key={item.key}
+                  onPress={() => handleCarouselOptionChange(item.index)}
+                  hitSlop={{ top: 30, bottom: 30 }}
+                  style={styles.carouselHeader}
+                >
+                  <Text
+                    style={
+                      item.key ===
+                      carouselOptions[selectedCarouselOptionIndex].key
+                        ? styles.selectedCarouselOption
+                        : styles.text
+                    }
+                  >
+                    {item.name}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            {carouselOptions[selectedCarouselOptionIndex].key ===
+            "CAROUSEL_TAB_INVESTORS" ? (
+              <InvestItemList
+                listData={listData}
+                isLoading={isLoading}
+                handlePressInTouchableElement={handlePressInTouchableElement}
+                handlePressOutTouchableElement={handlePressOutTouchableElement}
+              />
+            ) : (
+              <JobsAndHistoryItemList
+                listData={listData}
+                isLoading={isLoading}
+                type={carouselOptions[selectedCarouselOptionIndex].key}
+                handlePressInTouchableElement={handlePressInTouchableElement}
+                handlePressOutTouchableElement={handlePressOutTouchableElement}
+              />
+            )}
+          </View>
+        </PanGestureHandler>
+      </GestureHandlerRootView>
     </View>
   );
 }

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
-import { useAuthenticator } from "@aws-amplify/ui-react-native";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 import CustomGraph from "../reusable_components/CustomGraph";
@@ -8,8 +7,28 @@ import GraphDetailsHeader from "../reusable_components/GraphDetailsHeader";
 import InvestContainer from "../single_use_components/InvestContainer";
 
 export default function HomeScreen({ navigation }) {
-  // Get the current user and only refresh the component if user is updated
-  const { user } = useAuthenticator((context) => [context.user]);
+  const scrollViewRef = useRef(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [isScrollEnabled, setIsScrollEnabled] = useState(true);
+
+  function handlePressInTouchableElement() {
+    setIsScrollEnabled(false);
+  }
+  function handlePressOutTouchableElement() {
+    setIsScrollEnabled(true);
+  }
+
+  const handleContentSizeChange = (contentWidth, contentHeight) => {
+    scrollViewRef.current.scrollTo({
+      x: 0,
+      y: scrollPosition,
+      animated: false,
+    });
+  };
+
+  const handleScroll = (event) => {
+    setScrollPosition(event.nativeEvent.contentOffset.y);
+  };
 
   // Filler data until we connect to the backend
   const mockData1 = [
@@ -79,7 +98,14 @@ export default function HomeScreen({ navigation }) {
   }
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        scrollEnabled={isScrollEnabled}
+        ref={scrollViewRef}
+        onContentSizeChange={handleContentSizeChange}
+        onScroll={handleScroll}
+        scrollEventThrottle={10000}
+        keyboardShouldPersistTaps="never"
+      >
         <GraphDetailsHeader
           graphTitle="Your Assets"
           graphTrendData={portfolioData}
@@ -89,8 +115,13 @@ export default function HomeScreen({ navigation }) {
           graphData={graphData}
           selectedTimeframe={selectedTimeframe}
           handleTimeframeChange={handleTimeframeChange}
+          handlePressInTouchableElement={handlePressInTouchableElement}
+          handlePressOutTouchableElement={handlePressOutTouchableElement}
         />
-        <InvestContainer />
+        <InvestContainer
+          handlePressInTouchableElement={handlePressInTouchableElement}
+          handlePressOutTouchableElement={handlePressOutTouchableElement}
+        />
       </ScrollView>
     </View>
   );
