@@ -20,6 +20,8 @@ export default function StockInfoScreen(props) {
   const [open, setOpen] = useState(null);
   const [recentPrice, setRecentPrice] = useState(null);
   const [priceDifferenceRaw, setPriceDifferenceRaw] = useState(null);
+  const [percentChanged, setPercentChanged] = useState(null);
+  const [marketClosed, setMarketClosed] = useState(false);
 
   const [graphData, setGraphData] = useState();
   const [selectedTimeframe, setSelectedTimeframe] = useState(
@@ -44,6 +46,9 @@ export default function StockInfoScreen(props) {
 
             setYValues(yTickValues);
             setPriceDifferenceRaw(resp.data["interval_price_change"]);
+            setPercentChanged(resp.data["percent_change"]);
+            setMarketClosed(resp.data["is_market_closed"]);
+            console.log(resp.data);
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
@@ -65,6 +70,7 @@ export default function StockInfoScreen(props) {
           setLow(resp.data["low"]);
           setOpen(resp.data["open"]);
           setRecentPrice(resp.data["recent_price"]);
+          console.log(resp.data);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
@@ -82,7 +88,8 @@ export default function StockInfoScreen(props) {
     yearlyHigh: high52w,
     yearlyLow: low52w,
     priceDifferenceRaw: priceDifferenceRaw,
-    priceDifferencePercent: 0.8,
+    priceDifferencePercent: percentChanged,
+    marketClosed: marketClosed,
   };
 
   // Update graphdata and change the selected timeframe

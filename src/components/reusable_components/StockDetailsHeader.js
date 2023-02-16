@@ -21,6 +21,10 @@ export default function StockDetailsHeader(props) {
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = stockData.priceDifferenceRaw >= 0;
 
+  const roundTwoDecimalPlaces = (value) => {
+    return value === null ? value : value.toFixed(2);
+  };
+
   return (
     <View style={styles.headerContainer}>
       <Text style={styles.headerText}>{stockName}</Text>
@@ -42,7 +46,8 @@ export default function StockDetailsHeader(props) {
               isTrendingUp ? styles.trendingUpText : styles.trendingDownText
             }
           >
-            ${stockData.priceDifferenceRaw} ({stockData.priceDifferencePercent}
+            ${stockData.priceDifferenceRaw} (
+            {roundTwoDecimalPlaces(stockData.priceDifferencePercent)}
             %)
           </Text>
           <Text style={styles.text}>{timeframeText}</Text>
