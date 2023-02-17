@@ -1,13 +1,21 @@
-import React from "react";
-import { View, Text, Image, Dimensions, StyleSheet } from "react-native";
-import { investorImagePathList } from "../../../constants/InvestorImagePaths";
+import React, { useState } from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import Animated, {
+  BounceIn,
+  BounceInLeft,
+  BounceInRight,
+  BounceOut,
+} from "react-native-reanimated";
+import { Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
-import Carousel from "react-native-reanimated-carousel";
+import { investorImagePathList } from "../../../constants/InvestorImagePaths";
+import CustomParallaxCarousel from "../../reusable_components/CustomParallaxCarousel";
+import IndicatorsOrStocksListView from "../../reusable_components/IndicatorsOrStocksListView";
+import { chunker } from "../../../helpers/chunker";
 import { THEME } from "../../../constants/Theme";
 
 export default function InvestorScreen(props, { navigation }) {
   const { investor } = props.route.params;
-  const width = Dimensions.get("window").width;
 
   const indicators = [
     {
@@ -20,6 +28,43 @@ export default function InvestorScreen(props, { navigation }) {
       name: "MACD",
     },
   ];
+  const stocks = [
+    {
+      name: "AMD",
+      id: "STOCK_AMD",
+    },
+    {
+      name: "AMZN",
+      id: "STOCK_AMZN",
+    },
+    {
+      name: "APPL",
+      id: "STOCK_APPL",
+    },
+    {
+      name: "GOOGL",
+      id: "STOCK_GOOGL",
+    },
+    {
+      name: "NVDA",
+      id: "STOCK_NVDA",
+    },
+  ];
+
+  const chunkedIndicators = chunker(indicators, 3, "indicatorChunks");
+  const chunkedStocks = chunker(stocks, 3, "stocksChunks");
+
+  const [isIndicatorSetToCarouselView, setIsIndicatorSetToCarouselView] =
+    useState(true);
+  const [isStockSetToCarouselView, setIsStockSetToCarouselView] =
+    useState(true);
+
+  function handleIndicatorViewChange() {
+    setIsIndicatorSetToCarouselView(!isIndicatorSetToCarouselView);
+  }
+  function handleStockViewChange() {
+    setIsStockSetToCarouselView(!isStockSetToCarouselView);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -56,31 +101,45 @@ export default function InvestorScreen(props, { navigation }) {
         </View>
       </View>
       <View style={styles.indicatorsContainer}>
-        <Text style={styles.sectionTitleText}>Indicators</Text>
-        <View style={{ flex: 1, backgroundColor: "purple" }}>
-          <Carousel
-            loop
-            width={width}
-            height={width / 2}
-            mode="parallax"
-            data={indicators}
-            scrollAnimationDuration={1000}
-            onSnapToItem={(index) => console.log("current index:", index)}
-            renderItem={({ item, index }) => (
-              <View
-                style={{
-                  borderWidth: 1,
-                  justifyContent: "center",
-                  backgroundColor: "blue",
-                }}
-              >
-                <Text style={{ textAlign: "center", fontSize: 30 }}>
-                  {item.name}
-                </Text>
-              </View>
-            )}
-          />
+        <View style={styles.indicatorsHeaderRow}>
+          <Text style={styles.sectionTitleText}>Indicators</Text>
+          <Button
+            style={styles.changeView}
+            buttonColor={THEME.button.backgroundColor}
+            textColor={THEME.text.color}
+            onPress={handleIndicatorViewChange}
+          >
+            {isIndicatorSetToCarouselView ? "List View" : "Carousel View"}
+          </Button>
         </View>
+        {isIndicatorSetToCarouselView ? (
+          <CustomParallaxCarousel data={indicators} />
+        ) : (
+          <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
+            <IndicatorsOrStocksListView data={chunkedIndicators} />
+          </Animated.View>
+        )}
+      </View>
+      <View style={styles.stocksContainer}>
+        <View style={styles.stocksHeaderRow}>
+          <Text style={styles.sectionTitleText}>Stocks</Text>
+          <Button
+            style={styles.changeView}
+            buttonColor={THEME.button.backgroundColor}
+            textColor={THEME.text.color}
+            onPress={handleStockViewChange}
+          >
+            {isStockSetToCarouselView ? "List View" : "Carousel View"}
+          </Button>
+        </View>
+
+        {isStockSetToCarouselView ? (
+          <CustomParallaxCarousel data={stocks} />
+        ) : (
+          <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
+            <IndicatorsOrStocksListView data={chunkedStocks} />
+          </Animated.View>
+        )}
       </View>
       <Text
         style={styles.text}
@@ -152,5 +211,23 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginRight: "5%",
     backgroundColor: "green",
+  },
+  indicatorsHeaderRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  stocksContainer: {
+    flex: 0.15,
+    width: "90%",
+    marginTop: "2%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    backgroundColor: "green",
+  },
+  stocksHeaderRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
