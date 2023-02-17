@@ -20,10 +20,12 @@ export default function CustomGraph(props) {
     selectedTimeframe,
     yVals,
   } = props;
+
   const formatter = format(".2f");
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = percentChanged >= 0;
 
+  // Helper function used to determine what date / time format to show for independent (y) axis
   const determineTimeFrame = (x) => {
     switch (selectedTimeframe) {
       case timeframeEnums.DAY:
@@ -88,6 +90,7 @@ export default function CustomGraph(props) {
           interpolation="natural"
           data={graphData}
           style={
+            // If the graph is trending downwards show red otherwise show primary color
             isTrendingUp
               ? {
                   data: { stroke: THEME.colors.primary },
@@ -97,12 +100,14 @@ export default function CustomGraph(props) {
                 }
           }
         />
+        // X-axis
         <VictoryAxis
           dependentAxis
           tickValues={yVals}
           tickFormat={(y) => formatter(y)}
           tickCount={4}
         />
+        // Y-axis
         <VictoryAxis
           dependentAxis={false}
           tickFormat={(x) => determineTimeFrame(x)}

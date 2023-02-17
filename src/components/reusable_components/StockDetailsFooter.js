@@ -5,6 +5,8 @@ import { THEME } from "../../constants/Theme";
 export default function StockDetailsFooter(props) {
   const { stockData } = props;
 
+  // stockData's data members are initially null dont convert to float or round the value since its null
+  // Helper function to round existing stock data to 2 decimal places
   const roundTwoDecimalPlaces = (value) => {
     return value == null ? value : parseFloat(value).toFixed(2);
   };

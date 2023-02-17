@@ -6,10 +6,9 @@ import { timeframeEnums } from "../../constants/graphEnums";
 export default function StockDetailsHeader(props) {
   const { stockName, stockData, selectedTimeframe } = props;
 
-  // Set the text that should display next to the perecent change based on the timeframe
-  let timeframeText = null;
+  // Format the unix timestamp recieved from parent component and convert it to date string to show on screen.
+  // Date is when the market closed
   let formattedDateClosed = "";
-
   if (stockData.dateClosed !== null) {
     formattedDateClosed = new Date(
       stockData.dateClosed * 1000
@@ -19,6 +18,9 @@ export default function StockDetailsHeader(props) {
       day: "numeric",
     });
   }
+
+  // Set the text that should display next to the perecent change based on the timeframe
+  let timeframeText = null;
   if (selectedTimeframe === timeframeEnums.DAY) {
     !stockData.marketClosed
       ? (timeframeText = "Today")
@@ -40,6 +42,8 @@ export default function StockDetailsHeader(props) {
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = stockData.priceDifferenceRaw >= 0;
 
+  // stockData's data members are initially null dont convert to float or round the value since its null
+  // Helper function to round existing stock data to 2 decimal places
   const roundTwoDecimalPlaces = (value) => {
     return value == null ? value : parseFloat(value).toFixed(2);
   };
