@@ -8,21 +8,40 @@ export default function StockDetailsHeader(props) {
 
   // Set the text that should display next to the perecent change based on the timeframe
   let timeframeText = null;
+  let formattedDateClosed = "";
+
+  if (stockData.dateClosed !== null) {
+    formattedDateClosed = new Date(
+      stockData.dateClosed * 1000
+    ).toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "numeric",
+      day: "numeric",
+    });
+  }
   if (selectedTimeframe === timeframeEnums.DAY) {
-    timeframeText = "Today";
+    !stockData.marketClosed
+      ? (timeframeText = "Today")
+      : (timeframeText = "Today - Closed on " + formattedDateClosed);
   } else if (selectedTimeframe === timeframeEnums.FIVE) {
-    timeframeText = "Past 5 days";
+    !stockData.marketClosed
+      ? (timeframeText = "Past 5 days")
+      : (timeframeText = "Past 5 days - Closed on " + formattedDateClosed);
   } else if (selectedTimeframe === timeframeEnums.MONTH) {
-    timeframeText = "Past month";
+    !stockData.marketClosed
+      ? (timeframeText = "Past month")
+      : (timeframeText = "Past month - Closed on " + formattedDateClosed);
   } else if (selectedTimeframe === timeframeEnums.YEAR) {
-    timeframeText = "Past year";
+    !stockData.marketClosed
+      ? (timeframeText = "Past year")
+      : (timeframeText = "Past year - Closed on " + formattedDateClosed);
   }
 
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = stockData.priceDifferenceRaw >= 0;
 
   const roundTwoDecimalPlaces = (value) => {
-    return value === null ? value : value.toFixed(2);
+    return value == null ? value : parseFloat(value).toFixed(2);
   };
 
   return (
@@ -37,7 +56,7 @@ export default function StockDetailsHeader(props) {
               style={styles.activity}
             />
           ) : (
-            "$" + stockData.recentPrice
+            "$" + roundTwoDecimalPlaces(stockData.recentPrice)
           )}
         </Text>
         <View style={styles.priceDifferenceContainer}>
@@ -46,7 +65,7 @@ export default function StockDetailsHeader(props) {
               isTrendingUp ? styles.trendingUpText : styles.trendingDownText
             }
           >
-            ${stockData.priceDifferenceRaw} (
+            ${roundTwoDecimalPlaces(stockData.priceDifferenceRaw)} (
             {roundTwoDecimalPlaces(stockData.priceDifferencePercent)}
             %)
           </Text>

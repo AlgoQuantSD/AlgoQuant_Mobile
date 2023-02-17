@@ -22,8 +22,9 @@ export default function StockInfoScreen(props) {
   const [priceDifferenceRaw, setPriceDifferenceRaw] = useState(null);
   const [percentChanged, setPercentChanged] = useState(null);
   const [marketClosed, setMarketClosed] = useState(false);
+  const [dateClosed, setDateClosed] = useState(false);
 
-  const [graphData, setGraphData] = useState();
+  const [graphData, setGraphData] = useState(0);
   const [selectedTimeframe, setSelectedTimeframe] = useState(
     timeframeEnums.DAY
   );
@@ -48,7 +49,10 @@ export default function StockInfoScreen(props) {
             setPriceDifferenceRaw(resp.data["interval_price_change"]);
             setPercentChanged(resp.data["percent_change"]);
             setMarketClosed(resp.data["is_market_closed"]);
-            console.log(resp.data);
+
+            if (timeframe === "D") {
+              setDateClosed(resp.data["timestamp"][0]);
+            }
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
@@ -70,7 +74,6 @@ export default function StockInfoScreen(props) {
           setLow(resp.data["low"]);
           setOpen(resp.data["open"]);
           setRecentPrice(resp.data["recent_price"]);
-          console.log(resp.data);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
@@ -90,6 +93,7 @@ export default function StockInfoScreen(props) {
     priceDifferenceRaw: priceDifferenceRaw,
     priceDifferencePercent: percentChanged,
     marketClosed: marketClosed,
+    dateClosed: dateClosed,
   };
 
   // Update graphdata and change the selected timeframe
@@ -120,6 +124,7 @@ export default function StockInfoScreen(props) {
       />
       <CustomGraph
         graphData={graphData}
+        percentChanged={percentChanged}
         yVals={yValues}
         selectedTimeframe={selectedTimeframe}
         handleTimeframeChange={handleTimeframeChange}

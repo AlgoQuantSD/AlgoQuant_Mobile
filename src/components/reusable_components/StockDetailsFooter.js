@@ -4,21 +4,32 @@ import { THEME } from "../../constants/Theme";
 
 export default function StockDetailsFooter(props) {
   const { stockData } = props;
+
+  const roundTwoDecimalPlaces = (value) => {
+    return value == null ? value : parseFloat(value).toFixed(2);
+  };
+
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.headerText}>Stock Info</Text>
       <View style={styles.stockInfoRow}>
         <View style={styles.stockInfoCol}>
-          <Text style={styles.stockInfoTextItem}>Open: ${stockData.open}</Text>
-          <Text style={styles.stockInfoTextItem}>High: ${stockData.high}</Text>
-          <Text style={styles.stockInfoTextItem}>Low: ${stockData.low}</Text>
+          <Text style={styles.stockInfoTextItem}>
+            Open: ${roundTwoDecimalPlaces(stockData.open)}
+          </Text>
+          <Text style={styles.stockInfoTextItem}>
+            High: ${roundTwoDecimalPlaces(stockData.high)}
+          </Text>
+          <Text style={styles.stockInfoTextItem}>
+            Low: ${roundTwoDecimalPlaces(stockData.low)}
+          </Text>
         </View>
         <View style={styles.stockInfoCol}>
           <Text style={styles.stockInfoTextItem}>
-            52 Week High: ${stockData.yearlyHigh}
+            52 Week High: ${roundTwoDecimalPlaces(stockData.yearlyHigh)}
           </Text>
           <Text style={styles.stockInfoTextItem}>
-            52 Week Low: ${stockData.yearlyLow}
+            52 Week Low: ${roundTwoDecimalPlaces(stockData.yearlyLow)}
           </Text>
         </View>
       </View>

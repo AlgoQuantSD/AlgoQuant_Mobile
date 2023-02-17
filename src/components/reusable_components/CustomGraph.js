@@ -13,8 +13,16 @@ import { timeframeEnums } from "../../constants/graphEnums";
 import { format } from "d3-format";
 
 export default function CustomGraph(props) {
-  const { graphData, handleTimeframeChange, selectedTimeframe, yVals } = props;
+  const {
+    graphData,
+    percentChanged,
+    handleTimeframeChange,
+    selectedTimeframe,
+    yVals,
+  } = props;
   const formatter = format(".2f");
+  // This is used to conditionally style the text ot be green or red based on the stock trend
+  const isTrendingUp = percentChanged >= 0;
 
   const determineTimeFrame = (x) => {
     switch (selectedTimeframe) {
@@ -79,9 +87,15 @@ export default function CustomGraph(props) {
           }}
           interpolation="natural"
           data={graphData}
-          style={{
-            data: { stroke: THEME.colors.primary },
-          }}
+          style={
+            isTrendingUp
+              ? {
+                  data: { stroke: THEME.colors.primary },
+                }
+              : {
+                  data: { stroke: THEME.colors.danger },
+                }
+          }
         />
         <VictoryAxis
           dependentAxis
