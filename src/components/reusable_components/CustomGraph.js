@@ -100,14 +100,14 @@ export default function CustomGraph(props) {
                 }
           }
         />
-        // X-axis
+        {/* // X-axis */}
         <VictoryAxis
           dependentAxis
           tickValues={yVals}
           tickFormat={(y) => formatter(y)}
           tickCount={4}
         />
-        // Y-axis
+        {/* // Y-axis */}
         <VictoryAxis
           dependentAxis={false}
           tickFormat={(x) => determineTimeFrame(x)}

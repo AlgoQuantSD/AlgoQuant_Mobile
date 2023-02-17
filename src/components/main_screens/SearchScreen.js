@@ -29,7 +29,7 @@ export default function SearchScreen({ navigation }) {
     if (algoquantApi.token && searchQuery !== "") {
       setIsLoading(true);
       algoquantApi
-        .searchStock(searchQuery)
+        .searchStock(searchQuery.toUpperCase())
         .then((resp) => {
           setSearchResults(resp.data["stock-tickers"]);
           setIsLoading(false);
