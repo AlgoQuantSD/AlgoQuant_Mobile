@@ -11,47 +11,9 @@ import { THEME } from "../../../constants/Theme";
 
 export default function InvestorScreen(props, { navigation }) {
   const { investor } = props.route.params;
-  // console.log("INVESTOR: ", investor);
 
-  const indicators = [
-    {
-      name: "RSI",
-      id: "INDICATOR_RSI",
-    },
-    {
-      name: "OBV",
-      id: "INDICATOR_OBV",
-    },
-    {
-      name: "MACD",
-      id: "INDICATOR_MACD",
-    },
-  ];
-  const stocks = [
-    {
-      name: "AMD",
-      id: "STOCK_AMD",
-    },
-    {
-      name: "AMZN",
-      id: "STOCK_AMZN",
-    },
-    {
-      name: "APPL",
-      id: "STOCK_APPL",
-    },
-    {
-      name: "GOOGL",
-      id: "STOCK_GOOGL",
-    },
-    {
-      name: "NVDA",
-      id: "STOCK_NVDA",
-    },
-  ];
-
-  const chunkedIndicators = chunker(indicators, 3);
-  const chunkedStocks = chunker(stocks, 3);
+  const chunkedIndicators = chunker(investor.indicators, 3);
+  const chunkedStocks = chunker(investor.stocks, 3);
 
   const [isIndicatorSetToCarouselView, setIsIndicatorSetToCarouselView] =
     useState(true);
@@ -112,7 +74,7 @@ export default function InvestorScreen(props, { navigation }) {
           </Button>
         </View>
         {isIndicatorSetToCarouselView ? (
-          <CustomParallaxCarousel data={indicators} />
+          <CustomParallaxCarousel data={investor.indicators} />
         ) : (
           <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
             <IndicatorsOrStocksListView data={chunkedIndicators} />
@@ -133,7 +95,7 @@ export default function InvestorScreen(props, { navigation }) {
         </View>
 
         {isStockSetToCarouselView ? (
-          <CustomParallaxCarousel data={stocks} />
+          <CustomParallaxCarousel data={investor.stocks} />
         ) : (
           <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
             <IndicatorsOrStocksListView data={chunkedStocks} />
