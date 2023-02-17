@@ -17,6 +17,7 @@ import Animated, { SlideInDown } from "react-native-reanimated";
 // Renders the list of investors, jobs, or history
 export default function InvestItemList(props) {
   const { listData, isLoading, navigation } = props;
+  console.log("List data: ", listData[0].indicators);
 
   return (
     <View style={styles.container}>
@@ -69,10 +70,10 @@ export default function InvestItemList(props) {
                                 {item.indicators.map((item) => {
                                   return (
                                     <Text
-                                      key={item}
+                                      key={item.id}
                                       style={styles.indictorAndStockText}
                                     >
-                                      {item}
+                                      {item.name}
                                     </Text>
                                   );
                                 })}
@@ -88,10 +89,10 @@ export default function InvestItemList(props) {
                                 {item.stocks.map((item) => {
                                   return (
                                     <Text
-                                      key={item}
+                                      key={item.id}
                                       style={styles.indictorAndStockText}
                                     >
-                                      {item}
+                                      {item.name}
                                     </Text>
                                   );
                                 })}

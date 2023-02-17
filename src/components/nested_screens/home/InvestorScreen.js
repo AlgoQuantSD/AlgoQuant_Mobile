@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import Animated, {
-  BounceIn,
-  BounceInLeft,
-  BounceInRight,
-  BounceOut,
-} from "react-native-reanimated";
+import { View, Text, Image, StyleSheet } from "react-native";
+import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
 import { Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { investorImagePathList } from "../../../constants/InvestorImagePaths";
@@ -16,16 +11,20 @@ import { THEME } from "../../../constants/Theme";
 
 export default function InvestorScreen(props, { navigation }) {
   const { investor } = props.route.params;
+  // console.log("INVESTOR: ", investor);
 
   const indicators = [
     {
       name: "RSI",
+      id: "INDICATOR_RSI",
     },
     {
       name: "OBV",
+      id: "INDICATOR_OBV",
     },
     {
       name: "MACD",
+      id: "INDICATOR_MACD",
     },
   ];
   const stocks = [
@@ -51,8 +50,8 @@ export default function InvestorScreen(props, { navigation }) {
     },
   ];
 
-  const chunkedIndicators = chunker(indicators, 3, "indicatorChunks");
-  const chunkedStocks = chunker(stocks, 3, "stocksChunks");
+  const chunkedIndicators = chunker(indicators, 3);
+  const chunkedStocks = chunker(stocks, 3);
 
   const [isIndicatorSetToCarouselView, setIsIndicatorSetToCarouselView] =
     useState(true);

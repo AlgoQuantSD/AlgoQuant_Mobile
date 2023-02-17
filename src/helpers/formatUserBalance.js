@@ -1,5 +1,5 @@
 import React from "react";
-import { MOCK_USER } from "../constants/MockUser";
+import { MOCK_USER } from "../constants/MockData";
 
 const formattingOptions = {
   style: "currency",

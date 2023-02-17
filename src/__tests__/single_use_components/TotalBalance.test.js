@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import TotalBalance from "../../components/single_use_components/TotalBalance";
-import { MOCK_USER } from "../../constants/MockUser";
+import { MOCK_USER } from "../../constants/MockData";
 
 describe("TotalBalance", () => {
   it("Should render", () => {

@@ -7,6 +7,11 @@ import {
 } from "react-native-gesture-handler";
 import InvestItemList from "../reusable_components/InvestItemList";
 import JobsAndHistoryItemList from "../reusable_components/JobsAndHistoryItemList";
+import {
+  MOCK_INVESTORS,
+  MOCK_JOBS,
+  MOCK_HISTORY,
+} from "../../constants/MockData";
 import { THEME } from "../../constants/Theme";
 
 export default function InvestCarousel(props) {
@@ -21,89 +26,13 @@ export default function InvestCarousel(props) {
     { name: "Jobs", key: "CAROUSEL_TAB_JOBS", index: 1 },
     { name: "History", key: "CAROUSEL_TAB_HISTORY", index: 2 },
   ];
-  // Filler data until we can get real data through API
-  const mockInvestors = [
-    {
-      name: "Warren Buffet",
-      indicators: ["RSI", "MACD", "OBV"],
-      stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
-      profitStop: "20%",
-      lossStop: "30%",
-      imageId: 0,
-      id: 0,
-    },
-    {
-      name: "Heinous Investor",
-      indicators: ["RSI", "MACD", "OBV"],
-      stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
-      profitStop: "50%",
-      lossStop: "90%",
-      imageId: 1,
-      id: 1,
-    },
-    {
-      name: "Your Mom",
-      indicators: ["RSI", "MACD", "OBV"],
-      stocks: ["AMZN", "APPL", "GOOGL", "SPOT"],
-      profitStop: "20%",
-      lossStop: "30%",
-      imageId: 1,
-      id: 2,
-    },
-  ];
-  const mockJobs = [
-    {
-      name: "Job1",
-      investor: { name: "Warren Buffet", imageId: 0 },
-      balance: 191.41,
-      percentChange: 4.1,
-      id: 0,
-    },
-    {
-      name: "Job2",
-      investor: { name: "Heinous Investor", imageId: 1 },
-      balance: 252.23,
-      percentChange: 5.2,
-      id: 1,
-    },
-    {
-      name: "Job3",
-      investor: { name: "Warren Buffet", imageId: 0 },
-      balance: 90.21,
-      percentChange: -3.1,
-      id: 2,
-    },
-  ];
 
-  const mockHistory = [
-    {
-      name: "Job3",
-      investor: { name: "Warren Buffet", imageId: 0 },
-      balance: 90.21,
-      percentChange: -3.1,
-      id: 0,
-    },
-    {
-      name: "Job2",
-      investor: { name: "Heinous Investor", imageId: 1 },
-      balance: 252.23,
-      percentChange: 5.2,
-      id: 1,
-    },
-    {
-      name: "Job1",
-      investor: { name: "Warren Buffet", imageId: 0 },
-      balance: 191.41,
-      percentChange: 4.1,
-      id: 2,
-    },
-  ];
   const [isLoading, setIsLoading] = useState(false);
   // Keeps track of which carousel option is selected
   const [selectedCarouselOptionIndex, setSelectedCarouselOptionIndex] =
     useState(0);
   // Keeps track of what data we should pass into either the investor card or job and history list
-  const [listData, setListData] = useState(mockInvestors);
+  const [listData, setListData] = useState(MOCK_INVESTORS);
   const [swipeDirection, setSwipeDirection] = useState(null);
   // Track the swipe translation in the x direction
   const [translationX, setTranslationX] = useState(0);
@@ -114,16 +43,16 @@ export default function InvestCarousel(props) {
     setSelectedCarouselOptionIndex(index);
     switch (index) {
       case 0:
-        setListData(mockInvestors);
+        setListData(MOCK_INVESTORS);
         break;
       case 1:
-        setListData(mockJobs);
+        setListData(MOCK_JOBS);
         break;
       case 2:
-        setListData(mockHistory);
+        setListData(MOCK_HISTORY);
         break;
       default:
-        setListData(mockInvestors);
+        setListData(MOCK_INVESTORS);
     }
     setTimeout(() => {
       setIsLoading(false);
