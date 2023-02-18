@@ -1,16 +1,28 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
 import { Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { investorImagePathList } from "../../../constants/InvestorImagePaths";
 import CustomParallaxCarousel from "../../reusable_components/CustomParallaxCarousel";
 import IndicatorsOrStocksListView from "../../reusable_components/IndicatorsOrStocksListView";
+import JobsAndHistoryItemList from "../../reusable_components/JobsAndHistoryItemList";
+import CustomModal from "../../reusable_components/CustomModal";
+import { deleteInvestorModalBuilder } from "../../../helpers/modalFactory";
+import { MOCK_JOBS } from "../../../constants/MockData";
 import { chunker } from "../../../helpers/chunker";
 import { THEME } from "../../../constants/Theme";
 
-export default function InvestorScreen(props, { navigation }) {
-  const { investor } = props.route.params;
+export default function InvestorScreen(props) {
+  const { investor, setSnackbarMessage, setIsSnackbarVisible, navigation } =
+    props.route.params;
 
   const chunkedIndicators = chunker(investor.indicators, 3);
   const chunkedStocks = chunker(investor.stocks, 3);
@@ -19,6 +31,24 @@ export default function InvestorScreen(props, { navigation }) {
     useState(true);
   const [isStockSetToCarouselView, setIsStockSetToCarouselView] =
     useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalType, setModalType] = useState(null);
+  const [modalTitle, setModalTitle] = useState(null);
+  const [modalHeader, setModalHeader] = useState(null);
+  const [modalBody, setModalBody] = useState(null);
+  const [modalButtons, setModalButtons] = useState(null);
+  // This state variable tells will only be true if we just deleted an investor so we can navigate back home
+  const [shouldNavigateBack, setShouldNavigateBack] = useState(false);
+
+  const modalProps = {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalButtons,
+  };
 
   function handleIndicatorViewChange() {
     setIsIndicatorSetToCarouselView(!isIndicatorSetToCarouselView);
@@ -26,26 +56,46 @@ export default function InvestorScreen(props, { navigation }) {
   function handleStockViewChange() {
     setIsStockSetToCarouselView(!isStockSetToCarouselView);
   }
+  function handleTrashIconPress() {
+    deleteInvestorModalBuilder(modalProps);
+  }
   return (
     <View style={styles.container}>
+      {shouldNavigateBack ? props.navigation.navigate("HomeScreen") : null}
+      <CustomModal
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        modalType={modalType}
+        setModalType={setModalType}
+        modalTitle={modalTitle}
+        setModalTitle={setModalTitle}
+        modalHeader={modalHeader}
+        setModalHeader={setModalHeader}
+        modalBody={modalBody}
+        setModalBody={setModalBody}
+        modalButtons={modalButtons}
+        setModalButtons={setModalButtons}
+        setSnackbarMessage={setSnackbarMessage}
+        setIsSnackbarVisible={setIsSnackbarVisible}
+        setShouldNavigateBack={setShouldNavigateBack}
+      />
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>{investor.name}</Text>
         <Image
           style={styles.investorImage}
           source={investorImagePathList[investor.imageId]}
         />
-        <Ionicons
+        <TouchableOpacity
           style={styles.trashIcon}
-          name="trash"
-          size={32}
-          color="white"
-        />
+          onPress={handleTrashIconPress}
+        >
+          <Ionicons name="trash" size={32} color="white" />
+        </TouchableOpacity>
       </View>
       <View style={styles.investorConfigurationContainer}>
         <Text style={styles.sectionTitleText}>Investor Configuration</Text>
         <View style={styles.investorConfigurationDetailsRow}>
           <View style={styles.investorConfigurationDetailsCol}>
-            <Text style={styles.text}>Investor name:</Text>
             <Text style={styles.text}>Profit stop:</Text>
             <Text style={styles.text}>Loss stop:</Text>
           </View>
@@ -55,7 +105,6 @@ export default function InvestorScreen(props, { navigation }) {
               { alignItems: "flex-end" },
             ]}
           >
-            <Text style={styles.text}>{investor.name}</Text>
             <Text style={styles.text}>{investor.profitStop}</Text>
             <Text style={styles.text}>{investor.lossStop}</Text>
           </View>
@@ -102,12 +151,16 @@ export default function InvestorScreen(props, { navigation }) {
           </Animated.View>
         )}
       </View>
-      <Text
-        style={styles.text}
-        onPress={() => props.navigation.navigate("JobScreen")}
-      >
-        Press here to view one of {investor.name}'s jobs
-      </Text>
+      <View style={styles.jobsContainer}>
+        <Text style={styles.sectionTitleText}>Jobs</Text>
+        <View style={styles.jobList}>
+          <JobsAndHistoryItemList
+            listData={MOCK_JOBS}
+            isLoading={false}
+            type={"CAROUSEL_TAB_JOBS"}
+          />
+        </View>
+      </View>
     </View>
   );
 }
@@ -117,7 +170,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    backgroundColor: "red",
+    backgroundColor: THEME.colors.background,
   },
   text: {
     fontSize: THEME.text.fontSizeBody,
@@ -128,9 +181,9 @@ const styles = StyleSheet.create({
     width: "90%",
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "blue",
+
     marginLeft: "5%",
-    marginTop: "5%",
+    marginTop: "2%",
     marginRight: "5%",
   },
   headerText: {
@@ -143,11 +196,11 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
   },
   investorConfigurationContainer: {
-    flex: 0.13,
+    flex: 0.1,
     width: "90%",
+    marginTop: "5%",
     marginLeft: "5%",
     marginRight: "5%",
-    backgroundColor: "green",
   },
   sectionTitleText: {
     fontSize: THEME.text.fontSizeH4,
@@ -158,20 +211,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
-    backgroundColor: "blue",
   },
   investorConfigurationDetailsCol: {
     height: "100%",
     justifyContent: "space-between",
-    backgroundColor: "purple",
   },
   indicatorsContainer: {
     flex: 0.15,
     width: "90%",
-    marginTop: "2%",
+    marginTop: "10%",
     marginLeft: "5%",
     marginRight: "5%",
-    backgroundColor: "green",
   },
   indicatorsHeaderRow: {
     flexDirection: "row",
@@ -181,14 +231,24 @@ const styles = StyleSheet.create({
   stocksContainer: {
     flex: 0.15,
     width: "90%",
-    marginTop: "2%",
+    marginTop: "10%",
     marginLeft: "5%",
     marginRight: "5%",
-    backgroundColor: "green",
   },
   stocksHeaderRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  jobsContainer: {
+    flex: 0.47,
+    width: "90%",
+    marginTop: "10%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    marginBottom: "5%",
+  },
+  jobList: {
+    width: "100%",
   },
 });

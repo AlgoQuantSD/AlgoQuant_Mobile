@@ -22,6 +22,7 @@ import {
   submitUpdateEmailModalNewEmailStep,
   submitUpdateEmailConfirmNewEmailStep,
   submitUpdatePhoneModal,
+  submitDeleteInvestorModal,
 } from "../../helpers/modalSubmitActions";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import TypewriterAnimatedText from "./TypewriterAnimatedText";
@@ -53,6 +54,7 @@ export default function CustomModal(props) {
     setIsModalSnackbarVisible,
     modalErrorMessage,
     setModalErrorMessage,
+    setShouldNavigateBack,
   } = props;
 
   // Close the modal and clear the modal information
@@ -62,12 +64,22 @@ export default function CustomModal(props) {
     setModalTitle(null);
     setModalHeader(null);
     setModalBody(null);
-    setModalInputFields(null);
+    if (setModalInputFields) {
+      setModalInputFields(null);
+    }
     setModalButtons(null);
-    setInputValues(null);
-    setIsModalSnackbarVisible(false);
-    setModalSnackbarMessage(null);
-    setIsSensitiveTextHidden(true);
+    if (setInputValues) {
+      setInputValues(null);
+    }
+    if (setIsModalSnackbarVisible) {
+      setIsModalSnackbarVisible(false);
+    }
+    if (setModalSnackbarMessage) {
+      setModalSnackbarMessage(null);
+    }
+    if (setIsSensitiveTextHidden) {
+      setIsSensitiveTextHidden(true);
+    }
   }
 
   // Perform the appropriate action upon submitting based on which modal is open
@@ -97,6 +109,7 @@ export default function CustomModal(props) {
       setModalErrorMessage,
       isLoading,
       setIsLoading,
+      setShouldNavigateBack,
     };
     switch (modalType) {
       case "EDIT_NAME":
@@ -127,6 +140,10 @@ export default function CustomModal(props) {
       case "DELETE_ACCOUNT":
         submitDeleteAccountModal(submitProps);
         console.log("Account deleted!");
+        break;
+      case "DELETE_INVESTOR":
+        console.log("Investor Deleted");
+        submitDeleteInvestorModal(submitProps);
         break;
       default:
     }

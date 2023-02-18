@@ -18,6 +18,8 @@ export default function InvestCarousel(props) {
   const {
     handlePressInTouchableElement,
     handlePressOutTouchableElement,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
     navigation,
   } = props;
   // Options for the carousel tabs
@@ -74,7 +76,6 @@ export default function InvestCarousel(props) {
                   Math.abs(event.nativeEvent.translationY) &&
                 swipeDirection !== "right"
               ) {
-                console.log("RIGHT SWIPE");
                 setSwipeDirection("right");
                 if (selectedCarouselOptionIndex === 0) {
                   handleCarouselOptionChange(carouselOptions.length - 1);
@@ -87,7 +88,6 @@ export default function InvestCarousel(props) {
                   Math.abs(event.nativeEvent.translationY) &&
                 swipeDirection !== "left"
               ) {
-                console.log("LEFT SWIPE");
                 setSwipeDirection("left");
                 if (
                   selectedCarouselOptionIndex ===
@@ -132,6 +132,8 @@ export default function InvestCarousel(props) {
                 isLoading={isLoading}
                 handlePressInTouchableElement={handlePressInTouchableElement}
                 handlePressOutTouchableElement={handlePressOutTouchableElement}
+                setSnackbarMessage={setSnackbarMessage}
+                setIsSnackbarVisible={setIsSnackbarVisible}
                 navigation={navigation}
               />
             ) : (

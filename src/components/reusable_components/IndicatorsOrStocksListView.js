@@ -8,7 +8,6 @@ export default function IndicatorsOrStocksListView(props) {
     <View
       style={{
         flexDirection: "row",
-        backgroundColor: "purple",
       }}
     >
       {data.map((chunk, i) => (
@@ -16,7 +15,6 @@ export default function IndicatorsOrStocksListView(props) {
           key={i}
           style={{
             marginRight: "10%",
-            backgroundColor: "blue",
           }}
         >
           {chunk.map((item) => (

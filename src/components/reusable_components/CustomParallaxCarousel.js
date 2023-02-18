@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Dimensions } from "react-native";
 import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
+import { THEME } from "../../constants/Theme";
 
 export default function CustomParallaxCarousel(props) {
   const { data } = props;
@@ -10,7 +11,7 @@ export default function CustomParallaxCarousel(props) {
     <Animated.View
       entering={BounceIn.delay(500)}
       exiting={BounceOut}
-      style={{ flex: 1, backgroundColor: "purple" }}
+      style={{ flex: 1 }}
     >
       <Carousel
         loop
@@ -25,10 +26,16 @@ export default function CustomParallaxCarousel(props) {
             style={{
               borderWidth: 1,
               justifyContent: "center",
-              backgroundColor: "blue",
+              borderColor: THEME.colors.foreground,
             }}
           >
-            <Text style={{ textAlign: "center", fontSize: 30 }}>
+            <Text
+              style={{
+                textAlign: "center",
+                color: THEME.text.color,
+                fontSize: THEME.text.fontSizeH3,
+              }}
+            >
               {item.name}
             </Text>
           </View>

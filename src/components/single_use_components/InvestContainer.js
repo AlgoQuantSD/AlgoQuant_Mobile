@@ -7,6 +7,8 @@ export default function InvestContainer(props) {
   const {
     handlePressInTouchableElement,
     handlePressOutTouchableElement,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
     navigation,
   } = props;
   return (
@@ -15,6 +17,8 @@ export default function InvestContainer(props) {
       <InvestCarousel
         handlePressInTouchableElement={handlePressInTouchableElement}
         handlePressOutTouchableElement={handlePressOutTouchableElement}
+        setSnackbarMessage={setSnackbarMessage}
+        setIsSnackbarVisible={setIsSnackbarVisible}
         navigation={navigation}
       />
     </View>
@@ -23,6 +27,7 @@ export default function InvestContainer(props) {
 
 const styles = StyleSheet.create({
   container: {
+    height: "50%",
     paddingLeft: "10%",
     paddingRight: "10%",
   },
