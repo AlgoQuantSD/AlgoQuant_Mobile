@@ -1,12 +1,22 @@
-import React, { useState, useRef } from "react";
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useContext,
+  useEffect,
+} from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 import CustomGraph from "../reusable_components/CustomGraph";
 import GraphDetailsHeader from "../reusable_components/GraphDetailsHeader";
 import InvestContainer from "../single_use_components/InvestContainer";
+import AlgoquantApiContext from "../../constants/ApiContext";
+import { Marker } from "react-native-svg";
 
 export default function HomeScreen({ navigation }) {
+  // State variables used to access algoquant SDK API and display/ keep state of user data from database
+  const algoquantApi = useContext(AlgoquantApiContext);
   const scrollViewRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isScrollEnabled, setIsScrollEnabled] = useState(true);
@@ -76,26 +86,71 @@ export default function HomeScreen({ navigation }) {
   const [selectedTimeframe, setSelectedTimeframe] = useState(
     timeframeEnums.DAY
   );
-  const [graphData, setGraphData] = useState(mockData1);
+  const [graphData, setGraphData] = useState(0);
+  const [yValues, setYValues] = useState();
+  const [marketClosed, setMarketClosed] = useState(false);
+  const [priceDifferenceRaw, setPriceDifferenceRaw] = useState(false);
+  const [percentChanged, setPercentChanged] = useState(null);
+  const [dateClosed, setDateClosed] = useState(0);
 
   // Update graphdata and change the selected timeframe
   function handleTimeframeChange(timeframe) {
     setSelectedTimeframe(timeframe);
     switch (timeframe) {
       case timeframeEnums.DAY:
-        setGraphData(mockData1);
+        getGraphData("D");
         break;
       case timeframeEnums.FIVE:
-        setGraphData(mockData2);
+        getGraphData("5D");
         break;
       case timeframeEnums.MONTH:
-        setGraphData(mockData3);
+        getGraphData("M");
         break;
       case timeframeEnums.YEAR:
-        setGraphData(mockData4);
+        getGraphData("Y");
         break;
     }
   }
+
+  // Callback function to get the graph data from the Algoquant API
+  const getGraphData = useCallback(
+    (timeframe) => {
+      if (algoquantApi.token) {
+        algoquantApi
+          .getPerformance(timeframe, null)
+          .then((resp) => {
+            console.log(resp.data);
+            // const combinedData = resp.data["timestamp"].map((x, i) => ({
+            //   x,
+            //   y: resp.data["close"][i],
+            // }));
+            // setGraphData(combinedData);
+            // // putting y values in acsending order for y ticks on graph
+            // const yTickValues = resp.data["close"]
+            //   .map((datum) => datum)
+            //   .sort((a, b) => a - b);
+
+            // setYValues(yTickValues);
+            // setPriceDifferenceRaw(resp.data["interval_price_change"]);
+            // setPercentChanged(resp.data["percent_change"]);
+            // setMarketClosed(resp.data["is_market_closed"]);
+
+            // // Grab the first timestamp from day graph to store a date for when the date closed
+            // if (timeframe === "D") {
+            //   setDateClosed(resp.data["timestamp"][0]);
+            // }
+          })
+          .catch((err) => {
+            // TODO: Need to implement better error handling
+            console.log(err);
+          });
+      }
+    },
+    [algoquantApi, setGraphData, setYValues]
+  );
+  // useEffect(() => {
+  //   getGraphData("D");
+  // }, []);
   return (
     <View style={styles.container}>
       <ScrollView
