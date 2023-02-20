@@ -1,32 +1,67 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 
 export default function GraphDetailsHeader(props) {
   const { graphTitle, graphTrendData, selectedTimeframe } = props;
 
+  // Format the unix timestamp recieved from parent component and convert it to date string to show on screen.
+  // Date is when the market closed
+  let formattedDateClosed = "";
+  if (graphTrendData.dateClosed !== null) {
+    formattedDateClosed = new Date(
+      graphTrendData.dateClosed * 1000
+    ).toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "numeric",
+      day: "numeric",
+    });
+  }
+
   // Set the text that should display next to the perecent change based on the timeframe
   let timeframeText = null;
   if (selectedTimeframe === timeframeEnums.DAY) {
-    timeframeText = "Today";
+    !graphTrendData.marketClosed
+      ? (timeframeText = "Today")
+      : (timeframeText = "Today - Closed on " + formattedDateClosed);
   } else if (selectedTimeframe === timeframeEnums.FIVE) {
-    timeframeText = "Past 5 days";
+    !graphTrendData.marketClosed
+      ? (timeframeText = "Past 5 days")
+      : (timeframeText = "Past 5 days - Closed on " + formattedDateClosed);
   } else if (selectedTimeframe === timeframeEnums.MONTH) {
-    timeframeText = "Past month";
+    !graphTrendData.marketClosed
+      ? (timeframeText = "Past month")
+      : (timeframeText = "Past month - Closed on " + formattedDateClosed);
   } else if (selectedTimeframe === timeframeEnums.YEAR) {
-    timeframeText = "Past year";
+    !graphTrendData.marketClosed
+      ? (timeframeText = "Past year")
+      : (timeframeText = "Past year - Closed on " + formattedDateClosed);
   }
 
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = graphTrendData.priceDifferenceRaw >= 0;
+
+  // graphTrendData's data members are initially null dont convert to float or round the value since its null
+  // Helper function to round existing stock data to 2 decimal places
+  const roundTwoDecimalPlaces = (value) => {
+    return value == null ? value : parseFloat(value).toFixed(2);
+  };
 
   return (
     <View style={styles.headerContainer}>
       <Text style={styles.headerText}>{graphTitle}</Text>
       <View>
         <Text style={styles.recentPriceText}>
-          ${graphTrendData.recentPrice}
+          {graphTrendData.recentPrice === null ? (
+            <ActivityIndicator
+              size="small"
+              color="#3F9F30"
+              style={styles.activity}
+            />
+          ) : (
+            "$" + roundTwoDecimalPlaces(graphTrendData.recentPrice)
+          )}
         </Text>
         <View style={styles.priceDifferenceContainer}>
           <Text
@@ -34,8 +69,8 @@ export default function GraphDetailsHeader(props) {
               isTrendingUp ? styles.trendingUpText : styles.trendingDownText
             }
           >
-            ${graphTrendData.priceDifferenceRaw} (
-            {graphTrendData.priceDifferencePercent}
+            ${roundTwoDecimalPlaces(graphTrendData.priceDifferenceRaw)} (
+            {roundTwoDecimalPlaces(graphTrendData.priceDifferencePercent)}
             %)
           </Text>
           <Text style={styles.text}>{timeframeText}</Text>
@@ -80,5 +115,9 @@ const styles = StyleSheet.create({
     fontSize: THEME.text.fontSizeBody,
     color: THEME.colors.danger,
     paddingRight: "2%",
+  },
+  activity: {
+    paddingTop: "5%",
+    paddingRight: "40%",
   },
 });
