@@ -86,12 +86,19 @@ export default function InvestorScreen(props) {
           source={investorImagePathList[investor.imageId]}
         />
         <TouchableOpacity
-          style={styles.trashIcon}
+          style={styles.headerRowIcon}
+          onPress={() => console.log("Start new job")}
+        >
+          <Ionicons name="construct" size={32} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.headerRowIcon}
           onPress={handleTrashIconPress}
         >
           <Ionicons name="trash" size={32} color="white" />
         </TouchableOpacity>
       </View>
+
       <View style={styles.investorConfigurationContainer}>
         <Text style={styles.sectionTitleText}>Investor Configuration</Text>
         <View style={styles.investorConfigurationDetailsRow}>
@@ -114,7 +121,6 @@ export default function InvestorScreen(props) {
         <View style={styles.indicatorsHeaderRow}>
           <Text style={styles.sectionTitleText}>Indicators</Text>
           <Button
-            style={styles.changeView}
             buttonColor={THEME.button.backgroundColor}
             textColor={THEME.text.color}
             onPress={handleIndicatorViewChange}
@@ -134,7 +140,6 @@ export default function InvestorScreen(props) {
         <View style={styles.stocksHeaderRow}>
           <Text style={styles.sectionTitleText}>Stocks</Text>
           <Button
-            style={styles.changeView}
             buttonColor={THEME.button.backgroundColor}
             textColor={THEME.text.color}
             onPress={handleStockViewChange}
@@ -192,7 +197,7 @@ const styles = StyleSheet.create({
     paddingRight: "2%",
   },
   investorImage: { height: 45, width: 30 },
-  trashIcon: {
+  headerRowIcon: {
     marginLeft: "auto",
   },
   investorConfigurationContainer: {
