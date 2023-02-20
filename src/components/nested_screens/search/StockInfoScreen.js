@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import { View, StyleSheet } from "react-native";
 import { THEME } from "../../../constants/Theme";
-import StockDetailsHeader from "../../reusable_components/StockDetailsHeader";
+import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
 import CustomGraph from "../../reusable_components/CustomGraph";
 import StockDetailsFooter from "../../reusable_components/StockDetailsFooter";
 import { timeframeEnums } from "../../../constants/graphEnums";
@@ -131,9 +131,9 @@ export default function StockInfoScreen(props) {
 
   return (
     <View style={styles.container}>
-      <StockDetailsHeader
-        stockName={stockName}
-        stockData={stockData}
+      <GraphDetailsHeader
+        graphTitle={stockName}
+        graphTrendData={stockData}
         selectedTimeframe={selectedTimeframe}
       />
       <CustomGraph

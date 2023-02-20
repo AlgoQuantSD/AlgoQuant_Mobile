@@ -3,15 +3,15 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 
-export default function StockDetailsHeader(props) {
-  const { stockName, stockData, selectedTimeframe } = props;
+export default function GraphDetailsHeader(props) {
+  const { graphTitle, graphTrendData, selectedTimeframe } = props;
 
   // Format the unix timestamp recieved from parent component and convert it to date string to show on screen.
   // Date is when the market closed
   let formattedDateClosed = "";
-  if (stockData.dateClosed !== null) {
+  if (graphTrendData.dateClosed !== null) {
     formattedDateClosed = new Date(
-      stockData.dateClosed * 1000
+      graphTrendData.dateClosed * 1000
     ).toLocaleDateString("en-US", {
       weekday: "long",
       month: "numeric",
@@ -22,27 +22,27 @@ export default function StockDetailsHeader(props) {
   // Set the text that should display next to the perecent change based on the timeframe
   let timeframeText = null;
   if (selectedTimeframe === timeframeEnums.DAY) {
-    !stockData.marketClosed
+    !graphTrendData.marketClosed
       ? (timeframeText = "Today")
       : (timeframeText = "Today - Closed on " + formattedDateClosed);
   } else if (selectedTimeframe === timeframeEnums.FIVE) {
-    !stockData.marketClosed
+    !graphTrendData.marketClosed
       ? (timeframeText = "Past 5 days")
       : (timeframeText = "Past 5 days - Closed on " + formattedDateClosed);
   } else if (selectedTimeframe === timeframeEnums.MONTH) {
-    !stockData.marketClosed
+    !graphTrendData.marketClosed
       ? (timeframeText = "Past month")
       : (timeframeText = "Past month - Closed on " + formattedDateClosed);
   } else if (selectedTimeframe === timeframeEnums.YEAR) {
-    !stockData.marketClosed
+    !graphTrendData.marketClosed
       ? (timeframeText = "Past year")
       : (timeframeText = "Past year - Closed on " + formattedDateClosed);
   }
 
   // This is used to conditionally style the text ot be green or red based on the stock trend
-  const isTrendingUp = stockData.priceDifferenceRaw >= 0;
+  const isTrendingUp = graphTrendData.priceDifferenceRaw >= 0;
 
-  // stockData's data members are initially null dont convert to float or round the value since its null
+  // graphTrendData's data members are initially null dont convert to float or round the value since its null
   // Helper function to round existing stock data to 2 decimal places
   const roundTwoDecimalPlaces = (value) => {
     return value == null ? value : parseFloat(value).toFixed(2);
@@ -50,17 +50,17 @@ export default function StockDetailsHeader(props) {
 
   return (
     <View style={styles.headerContainer}>
-      <Text style={styles.headerText}>{stockName}</Text>
+      <Text style={styles.headerText}>{graphTitle}</Text>
       <View>
         <Text style={styles.recentPriceText}>
-          {stockData.recentPrice === null ? (
+          {graphTrendData.recentPrice === null ? (
             <ActivityIndicator
               size="small"
               color="#3F9F30"
               style={styles.activity}
             />
           ) : (
-            "$" + roundTwoDecimalPlaces(stockData.recentPrice)
+            "$" + roundTwoDecimalPlaces(graphTrendData.recentPrice)
           )}
         </Text>
         <View style={styles.priceDifferenceContainer}>
@@ -69,8 +69,8 @@ export default function StockDetailsHeader(props) {
               isTrendingUp ? styles.trendingUpText : styles.trendingDownText
             }
           >
-            ${roundTwoDecimalPlaces(stockData.priceDifferenceRaw)} (
-            {roundTwoDecimalPlaces(stockData.priceDifferencePercent)}
+            ${roundTwoDecimalPlaces(graphTrendData.priceDifferenceRaw)} (
+            {roundTwoDecimalPlaces(graphTrendData.priceDifferencePercent)}
             %)
           </Text>
           <Text style={styles.text}>{timeframeText}</Text>
@@ -82,7 +82,7 @@ export default function StockDetailsHeader(props) {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    width: "75%",
+    width: "100%",
     paddingTop: "10%",
     paddingLeft: "10%",
     alignContent: "flex-start",

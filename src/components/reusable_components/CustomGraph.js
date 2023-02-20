@@ -1,5 +1,10 @@
-import React, { useState } from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import React from "react";
+import {
+  View,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  StyleSheet,
+} from "react-native";
 import {
   VictoryChart,
   VictoryLine,
@@ -19,6 +24,8 @@ export default function CustomGraph(props) {
     handleTimeframeChange,
     selectedTimeframe,
     yVals,
+    handlePressInTouchableElement,
+    handlePressOutTouchableElement,
   } = props;
 
   const formatter = format(".2f");
@@ -52,136 +59,149 @@ export default function CustomGraph(props) {
   };
   return (
     <View>
-      <VictoryChart
-        theme={LINE_GRAPH_THEME}
-        animate={{
-          onExit: {
-            duration: 500,
-            before: () => ({
-              _y: 0,
-              fill: THEME.colors.primary,
-            }),
-          },
-        }}
-        containerComponent={
-          <VictoryVoronoiContainer
-            labels={({ datum }) => `${formatter(datum.y)}`}
-            labelComponent={
-              <VictoryTooltip
-                flyoutStyle={{
-                  fill: THEME.colors.background,
-                }}
-                style={{ fill: THEME.colors.foreground }}
-              />
-            }
-          />
-        }
+      <TouchableWithoutFeedback
+        onPressIn={handlePressInTouchableElement}
+        onPressOut={handlePressOutTouchableElement}
       >
-        <VictoryLine
-          animate={{
-            onExit: {
-              duration: 500,
-              before: () => ({
-                _y: 0,
-                fill: THEME.colors.primary,
-              }),
-            },
-          }}
-          interpolation="natural"
-          data={graphData}
-          style={
-            // If the graph is trending downwards show red otherwise show primary color
-            isTrendingUp
-              ? {
-                  data: { stroke: THEME.colors.primary },
+        <View>
+          <View>
+            <VictoryChart
+              onTouchStart={handlePressInTouchableElement}
+              onTouchEnd={handlePressOutTouchableElement}
+              theme={LINE_GRAPH_THEME}
+              animate={{
+                onExit: {
+                  duration: 500,
+                  before: () => ({
+                    _y: 0,
+                    fill: THEME.colors.primary,
+                  }),
+                },
+              }}
+              containerComponent={
+                <VictoryVoronoiContainer
+                  onTouchStart={handlePressInTouchableElement}
+                  onTouchEnd={handlePressOutTouchableElement}
+                  labels={({ datum }) => `${formatter(datum.y)}`}
+                  labelComponent={
+                    <VictoryTooltip
+                      flyoutStyle={{
+                        fill: THEME.colors.background,
+                      }}
+                      style={{ fill: THEME.colors.foreground }}
+                    />
+                  }
+                />
+              }
+            >
+              <VictoryLine
+                animate={{
+                  onExit: {
+                    duration: 500,
+                    before: () => ({
+                      _y: 0,
+                      fill: THEME.colors.primary,
+                    }),
+                  },
+                }}
+                interpolation="natural"
+                data={graphData}
+                style={
+                  // If the graph is trending downwards show red otherwise show primary color
+                  isTrendingUp
+                    ? {
+                        data: { stroke: THEME.colors.primary },
+                      }
+                    : {
+                        data: { stroke: THEME.colors.danger },
+                      }
                 }
-              : {
-                  data: { stroke: THEME.colors.danger },
-                }
-          }
-        />
-        {/* // X-axis */}
-        <VictoryAxis
-          dependentAxis
-          tickValues={yVals}
-          tickFormat={(y) => formatter(y)}
-          tickCount={4}
-        />
-        {/* // Y-axis */}
-        <VictoryAxis
-          dependentAxis={false}
-          tickFormat={(x) => determineTimeFrame(x)}
-          tickCount={4}
-        />
-      </VictoryChart>
+              />
+              {/* // X-axis */}
+              <VictoryAxis
+                dependentAxis
+                tickValues={yVals}
+                tickFormat={(y) => formatter(y)}
+                tickCount={4}
+              />
+              {/* // Y-axis */}
+              <VictoryAxis
+                dependentAxis={false}
+                tickFormat={(x) => determineTimeFrame(x)}
+                tickCount={4}
+              />
+            </VictoryChart>
+          </View>
 
-      {/* Buttons that control what data gets displayed in the graph */}
-      <View style={styles.timeframeButtonOuterButtonRow}>
-        <TouchableOpacity
-          style={styles.timeframeButtonOuter}
-          onPress={() => handleTimeframeChange(timeframeEnums.DAY)}
-        >
-          <Button
-            style={styles.timeframeButtonInner}
-            buttonColor={
-              selectedTimeframe === timeframeEnums.DAY
-                ? THEME.colors.primary
-                : THEME.colors.transparent
-            }
-            textColor={THEME.text.color}
-          >
-            D
-          </Button>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.timeframeButtonOuter}
-          onPress={() => handleTimeframeChange(timeframeEnums.FIVE)}
-        >
-          <Button
-            style={styles.timeframeButtonInner}
-            buttonColor={
-              selectedTimeframe === timeframeEnums.FIVE
-                ? THEME.colors.primary
-                : THEME.colors.transparent
-            }
-            textColor={THEME.text.color}
-          >
-            5D
-          </Button>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.timeframeButtonOuter}
-          onPress={() => handleTimeframeChange(timeframeEnums.MONTH)}
-        >
-          <Button
-            style={styles.timeframeButtonInner}
-            buttonColor={
-              selectedTimeframe === timeframeEnums.MONTH
-                ? THEME.colors.primary
-                : THEME.colors.transparent
-            }
-            textColor={THEME.text.color}
-          >
-            M
-          </Button>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.timeframeButtonOuter}
-          onPress={() => handleTimeframeChange(timeframeEnums.YEAR)}
-        >
-          <Button
-            style={styles.timeframeButtonInner}
-            buttonColor={
-              selectedTimeframe === timeframeEnums.YEAR
-                ? THEME.colors.primary
-                : THEME.colors.transparent
-            }
-            textColor={THEME.text.color}
-          >
-            Y
-          </Button>
-        </TouchableOpacity>
-      </View>
+          {/* Buttons that control what data gets displayed in the graph */}
+          <View style={styles.timeframeButtonOuterButtonRow}>
+            <TouchableOpacity
+              style={styles.timeframeButtonOuter}
+              onPress={() => handleTimeframeChange(timeframeEnums.DAY)}
+            >
+              <Button
+                style={styles.timeframeButtonInner}
+                buttonColor={
+                  selectedTimeframe === timeframeEnums.DAY
+                    ? THEME.colors.primary
+                    : THEME.colors.transparent
+                }
+                textColor={THEME.text.color}
+              >
+                D
+              </Button>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.timeframeButtonOuter}
+              onPress={() => handleTimeframeChange(timeframeEnums.FIVE)}
+            >
+              <Button
+                style={styles.timeframeButtonInner}
+                buttonColor={
+                  selectedTimeframe === timeframeEnums.FIVE
+                    ? THEME.colors.primary
+                    : THEME.colors.transparent
+                }
+                textColor={THEME.text.color}
+              >
+                5D
+              </Button>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.timeframeButtonOuter}
+              onPress={() => handleTimeframeChange(timeframeEnums.MONTH)}
+            >
+              <Button
+                style={styles.timeframeButtonInner}
+                buttonColor={
+                  selectedTimeframe === timeframeEnums.MONTH
+                    ? THEME.colors.primary
+                    : THEME.colors.transparent
+                }
+                textColor={THEME.text.color}
+              >
+                M
+              </Button>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.timeframeButtonOuter}
+              onPress={() => handleTimeframeChange(timeframeEnums.YEAR)}
+            >
+              <Button
+                style={styles.timeframeButtonInner}
+                buttonColor={
+                  selectedTimeframe === timeframeEnums.YEAR
+                    ? THEME.colors.primary
+                    : THEME.colors.transparent
+                }
+                textColor={THEME.text.color}
+              >
+                Y
+              </Button>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 }

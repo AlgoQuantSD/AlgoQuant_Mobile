@@ -28,6 +28,7 @@ export const THEME = {
     fontSizeH1: 42,
     fontSizeH2: 36,
     fontSizeH3: 28,
+    fontSizeH4: 22,
     fontSizeBold: 38 / PixelRatio.get(),
     fontSizeBody: 30 / PixelRatio.get(),
     fontSizeButton: 30 / PixelRatio.get(),
@@ -61,7 +62,7 @@ export const THEME = {
     dividerColor: PALETTE.mediumGray,
   },
   loadingIndicator: {
-    color: PALETTE.white,
+    color: PALETTE.primaryGreen,
   },
   icons: {
     successIcon: "shield-checkmark-outline",
@@ -76,6 +77,9 @@ export const THEME = {
     headerContainerSmall: 0.15,
     headerContainerMedium: 0.2,
     headerContainerLarge: 0.25,
+  },
+  investCard: {
+    backgroundColor: PALETTE.darkGray,
   },
 };
 
