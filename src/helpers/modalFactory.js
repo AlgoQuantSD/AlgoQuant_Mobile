@@ -347,3 +347,35 @@ export function deleteAccountModalBuilder(props) {
   ]);
   setIsModalVisible(!isModalVisible);
 }
+
+export function deleteInvestorModalBuilder(props) {
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalButtons,
+  } = props;
+  setModalType("DELETE_INVESTOR");
+  setModalTitle("Delete Investor");
+  setModalHeader("Are you sure you want to delete your investor?");
+  setModalBody("You will not be able to recover your investor upon deletion.");
+
+  setModalButtons([
+    {
+      label: "Submit",
+      buttonColor: THEME.colors.primary,
+      textColor: THEME.text.color,
+      key: "SUBMIT_BUTTON",
+    },
+    {
+      label: "Cancel",
+      buttonColor: THEME.colors.danger,
+      textColor: THEME.text.color,
+      key: "CANCEL_BUTTON",
+    },
+  ]);
+  setIsModalVisible(!isModalVisible);
+}

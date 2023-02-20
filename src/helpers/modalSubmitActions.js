@@ -39,13 +39,27 @@ function cleanUpState(props) {
   setModalTitle(null);
   setModalHeader(null);
   setModalBody(null);
-  setModalInputFields(null);
-  setInputValues(null);
-  setModalButtons(null);
-  setModalErrorMessage(null);
-  setIsLoading(false);
-  setIsModalSnackbarVisible(false);
-  setModalSnackbarMessage(null);
+  if (setModalInputFields) {
+    setModalInputFields(null);
+  }
+  if (setInputValues) {
+    setInputValues(null);
+  }
+  if (setModalButtons) {
+    setModalButtons(null);
+  }
+  if (setModalErrorMessage) {
+    setModalErrorMessage(null);
+  }
+  if (setIsLoading) {
+    setIsLoading(false);
+  }
+  if (setIsModalSnackbarVisible) {
+    setIsModalSnackbarVisible(false);
+  }
+  if (setModalSnackbarMessage) {
+    setModalSnackbarMessage(null);
+  }
   setIsModalVisible(!isModalVisible);
 }
 
@@ -557,4 +571,31 @@ export async function submitUpdatePhoneModal(props) {
       console.log(error);
     }
   }
+}
+
+export async function submitDeleteInvestorModal(props) {
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalButtons,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setShouldNavigateBack,
+  } = props;
+  setSnackbarMessage(
+    <SnackbarContent
+      iconName={THEME.icons.successIcon}
+      iconSize={THEME.icons.snackbarIconSize}
+      iconColor={THEME.colors.success}
+      text={"Successfully deleted investor."}
+      textColor={THEME.colors.success}
+    />
+  );
+  setIsSnackbarVisible(true);
+  cleanUpState(props);
+  setShouldNavigateBack(true);
 }

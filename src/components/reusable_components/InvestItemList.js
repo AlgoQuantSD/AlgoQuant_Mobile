@@ -16,7 +16,13 @@ import Animated, { SlideInDown } from "react-native-reanimated";
 
 // Renders the list of investors, jobs, or history
 export default function InvestItemList(props) {
-  const { listData, isLoading } = props;
+  const {
+    listData,
+    isLoading,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    navigation,
+  } = props;
 
   return (
     <View style={styles.container}>
@@ -43,7 +49,13 @@ export default function InvestItemList(props) {
                   return (
                     <TouchableWithoutFeedback
                       key={item.id}
-                      onPress={() => console.log("Opening: ", item.name)}
+                      onPress={() =>
+                        navigation.navigate("InvestorScreen", {
+                          investor: item,
+                          setSnackbarMessage: setSnackbarMessage,
+                          setIsSnackbarVisible: setIsSnackbarVisible,
+                        })
+                      }
                     >
                       <View style={styles.listItem}>
                         <View style={styles.nameContainer}>
@@ -65,10 +77,10 @@ export default function InvestItemList(props) {
                                 {item.indicators.map((item) => {
                                   return (
                                     <Text
-                                      key={item}
+                                      key={item.id}
                                       style={styles.indictorAndStockText}
                                     >
-                                      {item}
+                                      {item.name}
                                     </Text>
                                   );
                                 })}
@@ -84,10 +96,10 @@ export default function InvestItemList(props) {
                                 {item.stocks.map((item) => {
                                   return (
                                     <Text
-                                      key={item}
+                                      key={item.id}
                                       style={styles.indictorAndStockText}
                                     >
-                                      {item}
+                                      {item.name}
                                     </Text>
                                   );
                                 })}

@@ -100,6 +100,7 @@ export default function JobsAndHistoryItemList(props) {
 
 const styles = StyleSheet.create({
   container: {
+    height: "90%",
     marginTop: "5%",
   },
   text: {
@@ -109,8 +110,8 @@ const styles = StyleSheet.create({
     paddingTop: "10%",
   },
   listItems: {
+    height: "100%",
     alignItems: "center",
-    height: 600,
     width: "100%",
   },
   listItem: {

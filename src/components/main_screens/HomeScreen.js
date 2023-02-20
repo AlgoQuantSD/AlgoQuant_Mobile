@@ -6,6 +6,8 @@ import React, {
   useEffect,
 } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
+import { Snackbar } from "react-native-paper";
+import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 import CustomGraph from "../reusable_components/CustomGraph";
@@ -20,6 +22,8 @@ export default function HomeScreen({ navigation }) {
   const scrollViewRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isScrollEnabled, setIsScrollEnabled] = useState(true);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
 
   function handlePressInTouchableElement() {
     setIsScrollEnabled(false);
@@ -176,8 +180,35 @@ export default function HomeScreen({ navigation }) {
         <InvestContainer
           handlePressInTouchableElement={handlePressInTouchableElement}
           handlePressOutTouchableElement={handlePressOutTouchableElement}
+          setSnackbarMessage={setSnackbarMessage}
+          setIsSnackbarVisible={setIsSnackbarVisible}
+          navigation={navigation}
         />
       </ScrollView>
+      <View
+        style={{
+          position: "absolute",
+          bottom: -40,
+          width: "100%",
+        }}
+      >
+        <Snackbar
+          visible={isSnackbarVisible}
+          onDismiss={() =>
+            snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage)
+          }
+          duration={3500}
+          action={{
+            label: "Dismiss",
+            textColor: THEME.text.color,
+            onPress: () => {
+              snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
+            },
+          }}
+        >
+          {snackbarMessage}
+        </Snackbar>
+      </View>
     </View>
   );
 }
