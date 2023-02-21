@@ -146,26 +146,32 @@ export default function HomeScreen({ navigation }) {
         scrollEventThrottle={10000}
         keyboardShouldPersistTaps="never"
       >
-        <GraphDetailsHeader
-          graphTitle="Your Assets"
-          graphTrendData={portfolioData}
-          selectedTimeframe={selectedTimeframe}
-        />
-        <CustomGraph
-          graphData={graphData}
-          getGraphData={getGraphData}
-          setSelectedTimeframe={setSelectedTimeframe}
-          selectedTimeframe={selectedTimeframe}
-          handlePressInTouchableElement={handlePressInTouchableElement}
-          handlePressOutTouchableElement={handlePressOutTouchableElement}
-        />
-        <InvestContainer
-          handlePressInTouchableElement={handlePressInTouchableElement}
-          handlePressOutTouchableElement={handlePressOutTouchableElement}
-          setSnackbarMessage={setSnackbarMessage}
-          setIsSnackbarVisible={setIsSnackbarVisible}
-          navigation={navigation}
-        />
+        <View style={styles.graphDetailsContainer}>
+          <GraphDetailsHeader
+            graphTitle="Your Assets"
+            graphTrendData={portfolioData}
+            selectedTimeframe={selectedTimeframe}
+          />
+        </View>
+        <View style={styles.graphContainer}>
+          <CustomGraph
+            graphData={graphData}
+            getGraphData={getGraphData}
+            setSelectedTimeframe={setSelectedTimeframe}
+            selectedTimeframe={selectedTimeframe}
+            handlePressInTouchableElement={handlePressInTouchableElement}
+            handlePressOutTouchableElement={handlePressOutTouchableElement}
+          />
+        </View>
+        <View style={styles.investContainer}>
+          <InvestContainer
+            handlePressInTouchableElement={handlePressInTouchableElement}
+            handlePressOutTouchableElement={handlePressOutTouchableElement}
+            setSnackbarMessage={setSnackbarMessage}
+            setIsSnackbarVisible={setIsSnackbarVisible}
+            navigation={navigation}
+          />
+        </View>
       </ScrollView>
       <View
         style={{
@@ -205,5 +211,28 @@ const styles = StyleSheet.create({
   text: {
     fontSize: THEME.text.fontSizeBody,
     color: THEME.text.color,
+  },
+  graphDetailsContainer: {
+    flex: 0.2,
+    width: "90%",
+    marginLeft: "5%",
+    marginTop: "5%",
+    marginRight: "5%",
+  },
+  graphContainer: {
+    flex: 0.3,
+    alignItems: "center",
+    width: "90%",
+    marginLeft: "5%",
+    marginTop: "2%",
+    marginRight: "5%",
+  },
+  investContainer: {
+    flex: 0.5,
+    alignItems: "center",
+    width: "90%",
+    marginLeft: "5%",
+    marginTop: "2%",
+    marginRight: "5%",
   },
 });

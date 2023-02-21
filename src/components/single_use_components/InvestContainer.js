@@ -27,9 +27,7 @@ export default function InvestContainer(props) {
 
 const styles = StyleSheet.create({
   container: {
-    height: "50%",
-    paddingLeft: "10%",
-    paddingRight: "10%",
+    
   },
   text: {
     fontSize: THEME.text.fontSizeBody,
