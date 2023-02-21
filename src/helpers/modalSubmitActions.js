@@ -611,8 +611,20 @@ export async function submitStopJobModal(props) {
     setModalHeader,
     setModalBody,
     setModalButtons,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
   } = props;
   // Enter logic here to stop the job
 
+  setSnackbarMessage(
+    <SnackbarContent
+      iconName={THEME.icons.successIcon}
+      iconSize={THEME.icons.snackbarIconSize}
+      iconColor={THEME.colors.success}
+      text={"Successfully stopped job."}
+      textColor={THEME.colors.success}
+    />
+  );
+  setIsSnackbarVisible(true);
   cleanUpState(props);
 }

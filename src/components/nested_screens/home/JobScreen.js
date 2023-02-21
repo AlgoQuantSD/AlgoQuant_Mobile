@@ -1,9 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Snackbar } from "react-native-paper";
 import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
 import CustomGraph from "../../reusable_components/CustomGraph";
 import CustomTable from "../../reusable_components/CustomTable";
+import CustomModal from "../../reusable_components/CustomModal";
 import AlgoquantApiContext from "../../../constants/ApiContext";
 import {
   mockGraphHeaderData,
@@ -14,24 +16,29 @@ import {
 } from "../../../constants/MockData";
 import { timeframeEnums } from "../../../constants/graphEnums";
 import { stopJobModalBuilder } from "../../../helpers/modalFactory";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
 import { THEME } from "../../../constants/Theme";
-import CustomModal from "../../reusable_components/CustomModal";
-
 export default function JobScreen(props) {
   const { job } = props.route.params;
+
+  // Graph state
   const [graphData, setGraphData] = useState(mockGraphData1);
   const [selectedTimeframe, setSelectedTimeframe] = useState(
     timeframeEnums.DAY
   );
-  // Modal stuff
+  // Modal state
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [modalTitle, setModalTitle] = useState(null);
   const [modalHeader, setModalHeader] = useState(null);
   const [modalBody, setModalBody] = useState(null);
   const [modalButtons, setModalButtons] = useState(null);
+  // Snackbar state
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
 
+  // Stuff that we need to set to create the stop job modal
   const modalProps = {
     isModalVisible,
     setIsModalVisible,
@@ -42,8 +49,8 @@ export default function JobScreen(props) {
     setModalButtons,
   };
 
+  // Get the appropriate graphdata according to what timeframe the user has selected
   function getGraphData(timeframe) {
-    console.log("Timeframe: ", timeframe);
     switch (timeframe) {
       case timeframeEnums.DAY:
         setGraphData(mockGraphData1);
@@ -60,10 +67,12 @@ export default function JobScreen(props) {
     }
   }
 
+  // Build the stop job modal when the user presses the stop icon
   function handleStopIconPress() {
-    console.log("AAA");
     stopJobModalBuilder(modalProps);
   }
+
+  // INTEGRATION CODE
   const [history, setHistory] = useState([]);
   const [lastQuery, setLastQuery] = useState(false);
 
@@ -146,6 +155,8 @@ export default function JobScreen(props) {
         setModalBody={setModalBody}
         modalButtons={modalButtons}
         setModalButtons={setModalButtons}
+        setSnackbarMessage={setSnackbarMessage}
+        setIsSnackbarVisible={setIsSnackbarVisible}
       />
       {/* Header Row */}
       <View style={styles.headerContainer}>
@@ -202,6 +213,31 @@ export default function JobScreen(props) {
           loading={isLoading}
           handleLoadMore={fetchTrades}
         />
+      </View>
+      {/* Snackbar */}
+      <View
+        style={{
+          position: "absolute",
+          bottom: -40,
+          width: "100%",
+        }}
+      >
+        <Snackbar
+          visible={isSnackbarVisible}
+          onDismiss={() =>
+            snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage)
+          }
+          duration={3500}
+          action={{
+            label: "Dismiss",
+            textColor: THEME.text.color,
+            onPress: () => {
+              snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
+            },
+          }}
+        >
+          {snackbarMessage}
+        </Snackbar>
       </View>
     </View>
   );
