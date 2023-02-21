@@ -13,8 +13,10 @@ import {
   mockGraphData4,
 } from "../../../constants/MockData";
 import { timeframeEnums } from "../../../constants/graphEnums";
+import { stopJobModalBuilder } from "../../../helpers/modalFactory";
 import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
 import { THEME } from "../../../constants/Theme";
+import CustomModal from "../../reusable_components/CustomModal";
 
 export default function JobScreen(props) {
   const { job } = props.route.params;
@@ -22,6 +24,23 @@ export default function JobScreen(props) {
   const [selectedTimeframe, setSelectedTimeframe] = useState(
     timeframeEnums.DAY
   );
+  // Modal stuff
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalType, setModalType] = useState(null);
+  const [modalTitle, setModalTitle] = useState(null);
+  const [modalHeader, setModalHeader] = useState(null);
+  const [modalBody, setModalBody] = useState(null);
+  const [modalButtons, setModalButtons] = useState(null);
+
+  const modalProps = {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalButtons,
+  };
 
   function getGraphData(timeframe) {
     console.log("Timeframe: ", timeframe);
@@ -39,6 +58,11 @@ export default function JobScreen(props) {
         setGraphData(mockGraphData4);
         break;
     }
+  }
+
+  function handleStopIconPress() {
+    console.log("AAA");
+    stopJobModalBuilder(modalProps);
   }
   const [history, setHistory] = useState([]);
   const [lastQuery, setLastQuery] = useState(false);
@@ -108,6 +132,21 @@ export default function JobScreen(props) {
   }, []);
   return (
     <View style={styles.container}>
+      {/* Modal */}
+      <CustomModal
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        modalType={modalType}
+        setModalType={setModalType}
+        modalTitle={modalTitle}
+        setModalTitle={setModalTitle}
+        modalHeader={modalHeader}
+        setModalHeader={setModalHeader}
+        modalBody={modalBody}
+        setModalBody={setModalBody}
+        modalButtons={modalButtons}
+        setModalButtons={setModalButtons}
+      />
       {/* Header Row */}
       <View style={styles.headerContainer}>
         <GraphDetailsHeader
@@ -116,7 +155,10 @@ export default function JobScreen(props) {
           selectedTimeframe={selectedTimeframe}
         />
         {job.isActive ? (
-          <TouchableOpacity style={styles.headerRowIcon}>
+          <TouchableOpacity
+            style={styles.headerRowIcon}
+            onPress={handleStopIconPress}
+          >
             <Ionicons name="stop" color={THEME.colors.foreground} size={32} />
           </TouchableOpacity>
         ) : (
@@ -138,14 +180,19 @@ export default function JobScreen(props) {
       </View>
       {/* Graph */}
       <View style={styles.graphContainer}>
-        <CustomGraph
-          graphData={graphData}
-          getGraphData={getGraphData}
-          percentChanged={"0.1"}
-          yVals={[1, 2, 3, 4]}
-          selectedTimeframe={selectedTimeframe}
-          setSelectedTimeframe={setSelectedTimeframe}
-        />
+        {/* This is was added to enhance the performance of the modal. 
+        If the graph is in the background while we activate the modal, 
+        the modal will have a laggy enter and exit animation */}
+        {isModalVisible ? null : (
+          <CustomGraph
+            graphData={graphData}
+            getGraphData={getGraphData}
+            percentChanged={"0.1"}
+            yVals={[1, 2, 3, 4]}
+            selectedTimeframe={selectedTimeframe}
+            setSelectedTimeframe={setSelectedTimeframe}
+          />
+        )}
       </View>
       {/* Recent Trades */}
       <View style={styles.recentTradesContainer}>
@@ -172,7 +219,7 @@ const styles = StyleSheet.create({
     color: THEME.text.color,
   },
   sectionTitleText: {
-    fontSize: THEME.text.fontSizeH4,
+    fontSize: THEME.text.fontSizeH2,
     color: THEME.text.color,
   },
   headerContainer: {
@@ -182,7 +229,6 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginTop: "2%",
     marginRight: "5%",
-    backgroundColor: "red",
   },
   headerText: {
     fontSize: THEME.text.fontSizeH2,
@@ -194,24 +240,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: "auto",
     marginLeft: "auto",
-    backgroundColor: "blue",
   },
   graphContainer: {
     flex: 0.5,
     width: "90%",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: "2%",
     marginLeft: "5%",
     marginRight: "5%",
-    backgroundColor: "blue",
   },
   recentTradesContainer: {
     flex: 0.3,
     width: "90%",
     marginLeft: "5%",
-    marginTop: "2%",
+    marginTop: "10%",
     marginRight: "5%",
-    backgroundColor: "green",
+    marginBottom: "1%",
   },
 });

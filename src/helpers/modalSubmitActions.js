@@ -586,6 +586,8 @@ export async function submitDeleteInvestorModal(props) {
     setIsSnackbarVisible,
     setShouldNavigateBack,
   } = props;
+  // Enter logic here to delete the investor
+
   setSnackbarMessage(
     <SnackbarContent
       iconName={THEME.icons.successIcon}
@@ -598,4 +600,19 @@ export async function submitDeleteInvestorModal(props) {
   setIsSnackbarVisible(true);
   cleanUpState(props);
   setShouldNavigateBack(true);
+}
+
+export async function submitStopJobModal(props) {
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalButtons,
+  } = props;
+  // Enter logic here to stop the job
+
+  cleanUpState(props);
 }
