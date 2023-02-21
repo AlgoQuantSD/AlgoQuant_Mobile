@@ -111,23 +111,6 @@ export default function StockInfoScreen(props) {
   }, []);
 
   // Update graph data / information based on selected timeframe and change the selected timeframe
-  function handleTimeframeChange(timeframe) {
-    setSelectedTimeframe(timeframe);
-    switch (timeframe) {
-      case timeframeEnums.DAY:
-        getGraphData("D");
-        break;
-      case timeframeEnums.FIVE:
-        getGraphData("5D");
-        break;
-      case timeframeEnums.MONTH:
-        getGraphData("M");
-        break;
-      case timeframeEnums.YEAR:
-        getGraphData("Y");
-        break;
-    }
-  }
 
   return (
     <View style={styles.container}>
@@ -138,10 +121,11 @@ export default function StockInfoScreen(props) {
       />
       <CustomGraph
         graphData={graphData}
+        getGraphData={getGraphData}
+        setSelectedTimeframe={setSelectedTimeframe}
+        selectedTimeframe={selectedTimeframe}
         percentChanged={percentChanged}
         yVals={yValues}
-        selectedTimeframe={selectedTimeframe}
-        handleTimeframeChange={handleTimeframeChange}
       />
       <StockDetailsFooter stockData={stockData} />
     </View>

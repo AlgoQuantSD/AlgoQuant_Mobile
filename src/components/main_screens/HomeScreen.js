@@ -97,25 +97,6 @@ export default function HomeScreen({ navigation }) {
   const [percentChanged, setPercentChanged] = useState(null);
   const [dateClosed, setDateClosed] = useState(0);
 
-  // Update graphdata and change the selected timeframe
-  function handleTimeframeChange(timeframe) {
-    setSelectedTimeframe(timeframe);
-    switch (timeframe) {
-      case timeframeEnums.DAY:
-        getGraphData("D");
-        break;
-      case timeframeEnums.FIVE:
-        getGraphData("5D");
-        break;
-      case timeframeEnums.MONTH:
-        getGraphData("M");
-        break;
-      case timeframeEnums.YEAR:
-        getGraphData("Y");
-        break;
-    }
-  }
-
   // Callback function to get the graph data from the Algoquant API
   const getGraphData = useCallback(
     (timeframe) => {
@@ -172,8 +153,9 @@ export default function HomeScreen({ navigation }) {
         />
         <CustomGraph
           graphData={graphData}
+          getGraphData={getGraphData}
+          setSelectedTimeframe={setSelectedTimeframe}
           selectedTimeframe={selectedTimeframe}
-          handleTimeframeChange={handleTimeframeChange}
           handlePressInTouchableElement={handlePressInTouchableElement}
           handlePressOutTouchableElement={handlePressOutTouchableElement}
         />

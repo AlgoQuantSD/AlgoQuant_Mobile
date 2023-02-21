@@ -250,3 +250,45 @@ export const MOCK_HISTORY = [
     id: 2,
   },
 ];
+
+export const mockGraphData1 = [
+  { x: 1, y: 2 },
+  { x: 2, y: 3 },
+  { x: 3, y: 5 },
+  { x: 4, y: 4 },
+  { x: 5, y: 7 },
+];
+export const mockGraphData2 = [
+  { x: 2, y: 6 },
+  { x: 3, y: 2 },
+  { x: 4, y: 9 },
+  { x: 6, y: 2 },
+  { x: 8, y: 1 },
+];
+
+export const mockGraphData3 = [
+  { x: 0, y: 6 },
+  { x: 5, y: 10 },
+  { x: 6, y: 7 },
+  { x: 7, y: 9 },
+  { x: 8, y: 12 },
+];
+
+export const mockGraphData4 = [
+  { x: 0, y: 6 },
+  { x: 5, y: 1 },
+  { x: 6, y: 7 },
+  { x: 7, y: 4 },
+  { x: 8, y: 10 },
+];
+
+export const mockGraphHeaderData = {
+  recentPrice: 152.01,
+  open: 150.64,
+  high: 153.19,
+  low: 150.64,
+  yearlyHigh: 176.15,
+  yearlyLow: 124.17,
+  priceDifferenceRaw: 1.47,
+  priceDifferencePercent: 0.8,
+};
