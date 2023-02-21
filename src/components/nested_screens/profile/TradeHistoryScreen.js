@@ -4,7 +4,7 @@ import { THEME } from "../../../constants/Theme";
 import HeaderContainer from "../../reusable_components/HeaderContainer";
 import CustomTable from "../../reusable_components/CustomTable";
 import AlgoquantApiContext from "../../../constants/ApiContext";
-const FETCH_AMOUNT = 10;
+import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
 
 export default function TradeHistoryScreen() {
   const [history, setHistory] = useState([]);
@@ -23,7 +23,7 @@ export default function TradeHistoryScreen() {
       setIsLoading(true);
       if (algoquantApi.token) {
         algoquantApi
-          .getTrades(FETCH_AMOUNT, lastKey)
+          .getTrades(TRADE_HISTORY_FETCH_AMOUNT, lastKey)
           .then((resp) => {
             // Last query set to trie if there is no last evaluated key from response
             if (resp.data.LastEvaluatedKey === undefined) {
