@@ -55,10 +55,10 @@ export const THEME = {
     disabledBackgroundColor: PALETTE.primaryGreenOpacity35,
   },
   bottomTab: {
-    backgroundColor: PALETTE.black,
-    tabActiveColor: PALETTE.white,
+    backgroundColor: PALETTE.primaryGreen,
+    tabActiveColor: PALETTE.cokeWhite,
     tabInactiveColor: PALETTE.mediumGray,
-    topBorderColor: PALETTE.darkGray,
+    topBorderColor: PALETTE.cokeWhite,
     topBorderWidth: 1,
   },
   modal: {
@@ -93,7 +93,7 @@ export const THEME = {
 // Customize the graph styling
 export const LINE_GRAPH_THEME = {
   ...VictoryTheme.grayscale,
-  
+
   axis: {
     style: {
       axis: {
