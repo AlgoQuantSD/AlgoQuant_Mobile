@@ -31,6 +31,21 @@ export const THEME = {
     transparent: PALETTE.transparent,
   },
   text: {
+    color: {
+      primary: PALETTE.primaryGreen,
+      secondary: PALETTE.cokeWhite,
+      disabled: PALETTE.mediumGray,
+    },
+    fontSize: {
+      H1: 42,
+      H2: 36,
+      H3: 28,
+      H4: 22,
+      bold: 38 / PixelRatio.get(),
+      body: 30 / PixelRatio.get(),
+      button: 30 / PixelRatio.get(),
+      modalBody: 26 / PixelRatio.get(),
+    },
     fontSizeH1: 42,
     fontSizeH2: 36,
     fontSizeH3: 28,
@@ -72,24 +87,32 @@ export const THEME = {
   loadingIndicator: {
     color: PALETTE.primaryGreen,
   },
-  icons: {
-    successIcon: "shield-checkmark-outline",
-    errorIcon: "warning-outline",
-    investorStartJobIcon: "play",
-    deleteInvestorIcon: "trash",
-    primaryColor: PALETTE.primaryGreen,
-    secondaryColor: PALETTE.cokeWhite,
-    iconSizeXSmall: 12,
-    iconSizeSmall: 16,
-    iconSizeMedium: 24,
-    iconSizeLarge: 32,
-    snackbarIconSize: 16,
+  icon: {
+    name: {
+      success: "shield-checkmark-outline",
+      error: "warning-outline",
+      investorStartJob: "play",
+      deleteInvestor: "trash",
+      stopJob: "stop",
+      inactiveJob: "lock-closed",
+    },
+    color: {
+      primary: PALETTE.primaryGreen,
+      secondary: PALETTE.cokeWhite,
+    },
+    size: {
+      xSmall: 12,
+      small: 16,
+      medium: 24,
+      large: 32,
+      snackbarIconSize: 16,
+    },
   },
   indicatorAndStockCards: {
     backgroundColor: PALETTE.primaryGreen,
   },
   table: {
-    rowColor1: PALETTE.darkGray,
+    rowColor1: PALETTE.primaryGreen,
     rowColor2: PALETTE.black,
   },
   flexboxSizes: {
@@ -99,6 +122,11 @@ export const THEME = {
   },
   investCard: {
     backgroundColor: "#1F302B",
+  },
+  activityIndicator: {
+    color: {
+      primary: PALETTE.primaryGreen,
+    },
   },
 };
 

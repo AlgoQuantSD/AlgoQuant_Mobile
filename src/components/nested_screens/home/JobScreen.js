@@ -170,7 +170,11 @@ export default function JobScreen(props) {
             style={styles.headerRowIcon}
             onPress={handleStopIconPress}
           >
-            <Ionicons name="stop" color={THEME.colors.foreground} size={32} />
+            <Ionicons
+              name={THEME.icon.name.stopJob}
+              color={THEME.icon.color.primary}
+              size={THEME.icon.size.large}
+            />
           </TouchableOpacity>
         ) : (
           <View style={styles.headerRowIcon}>
@@ -182,8 +186,8 @@ export default function JobScreen(props) {
             </View>
 
             <Ionicons
-              name="lock-closed"
-              color={THEME.colors.foreground}
+              name={THEME.icon.name.inactiveJob}
+              color={THEME.icon.color.primary}
               size={32}
             />
           </View>
@@ -230,7 +234,7 @@ export default function JobScreen(props) {
           duration={3500}
           action={{
             label: "Dismiss",
-            textColor: THEME.text.color,
+            textColor: THEME.text.color.primary,
             onPress: () => {
               snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
             },
@@ -251,12 +255,12 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.colors.background,
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
   },
   sectionTitleText: {
-    fontSize: THEME.text.fontSizeH2,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.H2,
+    color: THEME.text.color.primary,
   },
   headerContainer: {
     flex: 0.2,
@@ -267,8 +271,8 @@ const styles = StyleSheet.create({
     marginRight: "5%",
   },
   headerText: {
-    fontSize: THEME.text.fontSizeH2,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.H2,
+    color: THEME.text.color.primary,
     paddingRight: "2%",
   },
   headerRowIcon: {
