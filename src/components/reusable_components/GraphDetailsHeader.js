@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function GraphDetailsHeader(props) {
   const { graphTitle, graphTrendData, selectedTimeframe } = props;
@@ -73,6 +74,22 @@ export default function GraphDetailsHeader(props) {
             {roundTwoDecimalPlaces(graphTrendData.priceDifferencePercent)}
             %)
           </Text>
+          <View style={styles.trendingIcon}>
+            {isTrendingUp ? (
+              <Ionicons
+                name="caret-up-outline"
+                size={12}
+                color={THEME.colors.primary}
+              />
+            ) : (
+              <Ionicons
+                name="caret-down-outline"
+                size={12}
+                color={THEME.colors.danger}
+              />
+            )}
+          </View>
+
           <Text style={styles.text}>{timeframeText}</Text>
         </View>
       </View>
@@ -83,8 +100,6 @@ export default function GraphDetailsHeader(props) {
 const styles = StyleSheet.create({
   headerContainer: {
     width: "100%",
-    paddingTop: "10%",
-    paddingLeft: "10%",
     alignContent: "flex-start",
     alignItems: "flex-start",
     justifyContent: "flex-start",
@@ -109,12 +124,13 @@ const styles = StyleSheet.create({
   trendingUpText: {
     fontSize: THEME.text.fontSizeBody,
     color: THEME.colors.primary,
-    paddingRight: "2%",
   },
   trendingDownText: {
     fontSize: THEME.text.fontSizeBody,
     color: THEME.colors.danger,
-    paddingRight: "2%",
+  },
+  trendingIcon: {
+    marginRight: "2%",
   },
   activity: {
     paddingTop: "5%",

@@ -44,37 +44,6 @@ export default function HomeScreen({ navigation }) {
     setScrollPosition(event.nativeEvent.contentOffset.y);
   };
 
-  // Filler data until we connect to the backend
-  const mockData1 = [
-    { x: 1, y: 2 },
-    { x: 2, y: 3 },
-    { x: 3, y: 5 },
-    { x: 4, y: 4 },
-    { x: 5, y: 7 },
-  ];
-  const mockData2 = [
-    { x: 2, y: 6 },
-    { x: 3, y: 2 },
-    { x: 4, y: 9 },
-    { x: 6, y: 2 },
-    { x: 8, y: 1 },
-  ];
-
-  const mockData3 = [
-    { x: 0, y: 6 },
-    { x: 5, y: 10 },
-    { x: 6, y: 7 },
-    { x: 7, y: 9 },
-    { x: 8, y: 12 },
-  ];
-
-  const mockData4 = [
-    { x: 0, y: 6 },
-    { x: 5, y: 1 },
-    { x: 6, y: 7 },
-    { x: 7, y: 4 },
-    { x: 8, y: 10 },
-  ];
 
   const portfolioData = {
     recentPrice: 152.01,
@@ -96,25 +65,6 @@ export default function HomeScreen({ navigation }) {
   const [priceDifferenceRaw, setPriceDifferenceRaw] = useState(false);
   const [percentChanged, setPercentChanged] = useState(null);
   const [dateClosed, setDateClosed] = useState(0);
-
-  // Update graphdata and change the selected timeframe
-  function handleTimeframeChange(timeframe) {
-    setSelectedTimeframe(timeframe);
-    switch (timeframe) {
-      case timeframeEnums.DAY:
-        getGraphData("D");
-        break;
-      case timeframeEnums.FIVE:
-        getGraphData("5D");
-        break;
-      case timeframeEnums.MONTH:
-        getGraphData("M");
-        break;
-      case timeframeEnums.YEAR:
-        getGraphData("Y");
-        break;
-    }
-  }
 
   // Callback function to get the graph data from the Algoquant API
   const getGraphData = useCallback(
@@ -165,25 +115,32 @@ export default function HomeScreen({ navigation }) {
         scrollEventThrottle={10000}
         keyboardShouldPersistTaps="never"
       >
-        <GraphDetailsHeader
-          graphTitle="Your Assets"
-          graphTrendData={portfolioData}
-          selectedTimeframe={selectedTimeframe}
-        />
-        <CustomGraph
-          graphData={graphData}
-          selectedTimeframe={selectedTimeframe}
-          handleTimeframeChange={handleTimeframeChange}
-          handlePressInTouchableElement={handlePressInTouchableElement}
-          handlePressOutTouchableElement={handlePressOutTouchableElement}
-        />
-        <InvestContainer
-          handlePressInTouchableElement={handlePressInTouchableElement}
-          handlePressOutTouchableElement={handlePressOutTouchableElement}
-          setSnackbarMessage={setSnackbarMessage}
-          setIsSnackbarVisible={setIsSnackbarVisible}
-          navigation={navigation}
-        />
+        <View style={styles.graphDetailsContainer}>
+          <GraphDetailsHeader
+            graphTitle="Your Assets"
+            graphTrendData={portfolioData}
+            selectedTimeframe={selectedTimeframe}
+          />
+        </View>
+        <View style={styles.graphContainer}>
+          <CustomGraph
+            graphData={graphData}
+            getGraphData={getGraphData}
+            setSelectedTimeframe={setSelectedTimeframe}
+            selectedTimeframe={selectedTimeframe}
+            handlePressInTouchableElement={handlePressInTouchableElement}
+            handlePressOutTouchableElement={handlePressOutTouchableElement}
+          />
+        </View>
+        <View style={styles.investContainer}>
+          <InvestContainer
+            handlePressInTouchableElement={handlePressInTouchableElement}
+            handlePressOutTouchableElement={handlePressOutTouchableElement}
+            setSnackbarMessage={setSnackbarMessage}
+            setIsSnackbarVisible={setIsSnackbarVisible}
+            navigation={navigation}
+          />
+        </View>
       </ScrollView>
       <View
         style={{
@@ -223,5 +180,28 @@ const styles = StyleSheet.create({
   text: {
     fontSize: THEME.text.fontSizeBody,
     color: THEME.text.color,
+  },
+  graphDetailsContainer: {
+    flex: 0.2,
+    width: "90%",
+    marginLeft: "5%",
+    marginTop: "5%",
+    marginRight: "5%",
+  },
+  graphContainer: {
+    flex: 0.3,
+    alignItems: "center",
+    width: "90%",
+    marginLeft: "5%",
+    marginTop: "2%",
+    marginRight: "5%",
+  },
+  investContainer: {
+    flex: 0.5,
+    alignItems: "center",
+    width: "90%",
+    marginLeft: "5%",
+    marginTop: "2%",
+    marginRight: "5%",
   },
 });

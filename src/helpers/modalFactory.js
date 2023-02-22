@@ -379,3 +379,36 @@ export function deleteInvestorModalBuilder(props) {
   ]);
   setIsModalVisible(!isModalVisible);
 }
+
+export function stopJobModalBuilder(props) {
+ const {
+   isModalVisible,
+   setIsModalVisible,
+   setModalType,
+   setModalTitle,
+   setModalHeader,
+   setModalBody,
+   setModalButtons,
+ } = props;
+ setModalType("STOP_JOB");
+ setModalTitle("Stop Job");
+ setModalHeader("Are you sure you want to stop this job?");
+ setModalBody("All holdings from this job will be sold upon submit.");
+
+ setModalButtons([
+   {
+     label: "Submit",
+     buttonColor: THEME.colors.primary,
+     textColor: THEME.text.color,
+     key: "SUBMIT_BUTTON",
+   },
+   {
+     label: "Cancel",
+     buttonColor: THEME.colors.danger,
+     textColor: THEME.text.color,
+     key: "CANCEL_BUTTON",
+   },
+ ]);
+ setIsModalVisible(!isModalVisible);
+
+}

@@ -7,6 +7,7 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
 import { Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
@@ -21,8 +22,9 @@ import { chunker } from "../../../helpers/chunker";
 import { THEME } from "../../../constants/Theme";
 
 export default function InvestorScreen(props) {
-  const { investor, setSnackbarMessage, setIsSnackbarVisible, navigation } =
+  const { investor, setSnackbarMessage, setIsSnackbarVisible } =
     props.route.params;
+  const navigation = useNavigation();
 
   const chunkedIndicators = chunker(investor.indicators, 3);
   const chunkedStocks = chunker(investor.stocks, 3);
@@ -61,7 +63,7 @@ export default function InvestorScreen(props) {
   }
   return (
     <View style={styles.container}>
-      {shouldNavigateBack ? props.navigation.navigate("HomeScreen") : null}
+      {shouldNavigateBack ? navigation.navigate("HomeScreen") : null}
       <CustomModal
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}

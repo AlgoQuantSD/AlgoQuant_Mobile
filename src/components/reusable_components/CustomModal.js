@@ -23,6 +23,7 @@ import {
   submitUpdateEmailConfirmNewEmailStep,
   submitUpdatePhoneModal,
   submitDeleteInvestorModal,
+  submitStopJobModal,
 } from "../../helpers/modalSubmitActions";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import TypewriterAnimatedText from "./TypewriterAnimatedText";
@@ -144,6 +145,10 @@ export default function CustomModal(props) {
       case "DELETE_INVESTOR":
         console.log("Investor Deleted");
         submitDeleteInvestorModal(submitProps);
+        break;
+      case "STOP_JOB":
+        console.log("Job Stopped");
+        submitStopJobModal(submitProps);
         break;
       default:
     }

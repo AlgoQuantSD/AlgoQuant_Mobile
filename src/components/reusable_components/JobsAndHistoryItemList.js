@@ -8,6 +8,7 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { investorImagePathList } from "../../constants/InvestorImagePaths";
 import { THEME } from "../../constants/Theme";
@@ -15,6 +16,8 @@ import Animated, { SlideInDown, SlideInUp } from "react-native-reanimated";
 
 export default function JobsAndHistoryItemList(props) {
   const { listData, isLoading, type } = props;
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -44,7 +47,12 @@ export default function JobsAndHistoryItemList(props) {
               <Animated.View entering={SlideInDown}>
                 {listData.map((item) => {
                   return (
-                    <TouchableWithoutFeedback key={item.id}>
+                    <TouchableWithoutFeedback
+                      key={item.id}
+                      onPress={() =>
+                        navigation.navigate("JobScreen", { job: item })
+                      }
+                    >
                       <View style={styles.listItem}>
                         <View style={styles.itemName}>
                           <Text style={styles.text}>{item.name}</Text>

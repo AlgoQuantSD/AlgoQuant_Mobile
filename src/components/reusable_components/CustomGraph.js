@@ -20,17 +20,39 @@ import { format } from "d3-format";
 export default function CustomGraph(props) {
   const {
     graphData,
+    getGraphData,
     percentChanged,
-    handleTimeframeChange,
     selectedTimeframe,
+    setSelectedTimeframe,
     yVals,
     handlePressInTouchableElement,
     handlePressOutTouchableElement,
   } = props;
 
+  console.log("GRaph data: ", graphData);
+
   const formatter = format(".2f");
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = percentChanged >= 0;
+
+  // Update graphdata and change the selected timeframe
+  function handleTimeframeChange(timeframe) {
+    setSelectedTimeframe(timeframe);
+    switch (timeframe) {
+      case timeframeEnums.DAY:
+        getGraphData("D");
+        break;
+      case timeframeEnums.FIVE:
+        getGraphData("5D");
+        break;
+      case timeframeEnums.MONTH:
+        getGraphData("M");
+        break;
+      case timeframeEnums.YEAR:
+        getGraphData("Y");
+        break;
+    }
+  }
 
   // Helper function used to determine what date / time format to show for independent (y) axis
   const determineTimeFrame = (x) => {

@@ -143,6 +143,7 @@ export default function InvestCarousel(props) {
                 type={carouselOptions[selectedCarouselOptionIndex].key}
                 handlePressInTouchableElement={handlePressInTouchableElement}
                 handlePressOutTouchableElement={handlePressOutTouchableElement}
+                navigation={navigation}
               />
             )}
           </View>
