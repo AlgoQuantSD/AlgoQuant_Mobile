@@ -79,6 +79,7 @@ export default function CustomGraph(props) {
         });
     }
   };
+
   return (
     <View>
       <TouchableWithoutFeedback
@@ -132,10 +133,10 @@ export default function CustomGraph(props) {
                   // If the graph is trending downwards show red otherwise show primary color
                   isTrendingUp
                     ? {
-                        data: { stroke: THEME.colors.primary },
+                        data: { stroke: THEME.colors.trendingUp },
                       }
                     : {
-                        data: { stroke: THEME.colors.danger },
+                        data: { stroke: THEME.colors.trendingDown },
                       }
                 }
               />
@@ -168,7 +169,11 @@ export default function CustomGraph(props) {
                     ? THEME.colors.primary
                     : THEME.colors.transparent
                 }
-                textColor={THEME.text.color}
+                textColor={
+                  selectedTimeframe === timeframeEnums.DAY
+                    ? THEME.text.secondaryColor
+                    : THEME.text.primaryColor
+                }
               >
                 D
               </Button>
@@ -184,7 +189,11 @@ export default function CustomGraph(props) {
                     ? THEME.colors.primary
                     : THEME.colors.transparent
                 }
-                textColor={THEME.text.color}
+                textColor={
+                  selectedTimeframe === timeframeEnums.FIVE
+                    ? THEME.text.secondaryColor
+                    : THEME.text.primaryColor
+                }
               >
                 5D
               </Button>
@@ -200,7 +209,11 @@ export default function CustomGraph(props) {
                     ? THEME.colors.primary
                     : THEME.colors.transparent
                 }
-                textColor={THEME.text.color}
+                textColor={
+                  selectedTimeframe === timeframeEnums.MONTH
+                    ? THEME.text.secondaryColor
+                    : THEME.text.primaryColor
+                }
               >
                 M
               </Button>
@@ -216,7 +229,11 @@ export default function CustomGraph(props) {
                     ? THEME.colors.primary
                     : THEME.colors.transparent
                 }
-                textColor={THEME.text.color}
+                textColor={
+                  selectedTimeframe === timeframeEnums.YEAR
+                    ? THEME.text.secondaryColor
+                    : THEME.text.primaryColor
+                }
               >
                 Y
               </Button>

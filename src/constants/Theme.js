@@ -93,15 +93,11 @@ export const THEME = {
 // Customize the graph styling
 export const LINE_GRAPH_THEME = {
   ...VictoryTheme.grayscale,
-  area: {
-    style: {
-      labels: { fill: "red" },
-    },
-  },
+  
   axis: {
     style: {
       axis: {
-        stroke: "white",
+        stroke: THEME.colors.primary,
         strokeWidth: 1,
       },
       grid: {
@@ -110,13 +106,13 @@ export const LINE_GRAPH_THEME = {
       },
       ticks: {
         size: 5,
-        stroke: "white",
+        stroke: THEME.colors.primary,
         strokeWidth: 1,
       },
       tickLabels:
         ({},
         {
-          fill: "white",
+          fill: THEME.colors.primary,
         }),
     },
   },
