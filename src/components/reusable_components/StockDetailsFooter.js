@@ -12,7 +12,7 @@ export default function StockDetailsFooter(props) {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <View>
       <Text style={styles.headerText}>Stock Info</Text>
       <View style={styles.stockInfoRow}>
         <View style={styles.stockInfoCol}>
@@ -41,20 +41,13 @@ export default function StockDetailsFooter(props) {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
   },
-  mainContainer: {
-    width: "100%",
-    padding: "10%",
-    alignContent: "flex-start",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    alignSelf: "flex-start",
-  },
+
   headerText: {
-    fontSize: THEME.text.fontSizeH1,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.H1,
+    color: THEME.text.color.primary,
     paddingBottom: "5%",
   },
   stockInfoRow: {
@@ -69,7 +62,7 @@ const styles = StyleSheet.create({
   },
   stockInfoTextItem: {
     fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    color: THEME.text.color.primary,
     paddingBottom: "3%",
   },
 });

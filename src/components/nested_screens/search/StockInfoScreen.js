@@ -114,20 +114,26 @@ export default function StockInfoScreen(props) {
 
   return (
     <View style={styles.container}>
-      <GraphDetailsHeader
-        graphTitle={stockName}
-        graphTrendData={stockData}
-        selectedTimeframe={selectedTimeframe}
-      />
-      <CustomGraph
-        graphData={graphData}
-        getGraphData={getGraphData}
-        setSelectedTimeframe={setSelectedTimeframe}
-        selectedTimeframe={selectedTimeframe}
-        percentChanged={percentChanged}
-        yVals={yValues}
-      />
-      <StockDetailsFooter stockData={stockData} />
+      <View style={styles.graphDetailsContainer}>
+        <GraphDetailsHeader
+          graphTitle={stockName}
+          graphTrendData={stockData}
+          selectedTimeframe={selectedTimeframe}
+        />
+      </View>
+      <View style={styles.graphContainer}>
+        <CustomGraph
+          graphData={graphData}
+          getGraphData={getGraphData}
+          setSelectedTimeframe={setSelectedTimeframe}
+          selectedTimeframe={selectedTimeframe}
+          percentChanged={percentChanged}
+          yVals={yValues}
+        />
+      </View>
+      <View style={styles.stockDetailsFooterContainer}>
+        <StockDetailsFooter stockData={stockData} />
+      </View>
     </View>
   );
 }
@@ -139,13 +145,34 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     backgroundColor: THEME.colors.background,
   },
+  graphDetailsContainer: {
+    flex: 0.2,
+    width: "90%",
+    marginTop: "5%",
+    marginLeft: "5%",
+    marginRight: "5%",
+  },
+  graphContainer: {
+    flex: 0.5,
+    width: "90%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: "5%",
+    marginRight: "5%",
+  },
+  stockDetailsFooterContainer: {
+    flex: 0.3,
+    marginTop: "5%",
+    marginLeft: "5%",
+    marginRight: "5%",
+  },
   headerText: {
-    fontSize: THEME.text.fontSizeH1,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.H1,
+    color: THEME.text.color.primary,
     paddingBottom: "5%",
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
   },
 });
