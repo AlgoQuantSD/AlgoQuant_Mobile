@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Dimensions } from "react-native";
+import { View, Text, Dimensions, StyleSheet } from "react-native";
 import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import { THEME } from "../../constants/Theme";
@@ -22,25 +22,25 @@ export default function CustomParallaxCarousel(props) {
         scrollAnimationDuration={1000}
         onSnapToItem={(index) => console.log("current index:", index)}
         renderItem={({ item, index }) => (
-          <View
-            style={{
-              borderWidth: 1,
-              justifyContent: "center",
-              borderColor: THEME.colors.foreground,
-            }}
-          >
-            <Text
-              style={{
-                textAlign: "center",
-                color: THEME.text.color,
-                fontSize: THEME.text.fontSizeH3,
-              }}
-            >
-              {item.name}
-            </Text>
+          <View style={styles.card}>
+            <Text style={styles.text}>{item.name}</Text>
           </View>
         )}
       />
     </Animated.View>
   );
 }
+
+const styles = StyleSheet.create({
+  card: {
+    borderWidth: 1,
+    justifyContent: "center",
+    borderColor: THEME.colors.primary,
+    backgroundColor: THEME.indicatorAndStockCards.backgroundColor,
+  },
+  text: {
+    textAlign: "center",
+    color: THEME.text.secondaryColor,
+    fontSize: THEME.text.fontSizeH3,
+  },
+});

@@ -64,6 +64,7 @@ export default function InvestorScreen(props) {
   return (
     <View style={styles.container}>
       {shouldNavigateBack ? navigation.navigate("HomeScreen") : null}
+      {/* Modal */}
       <CustomModal
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
@@ -81,6 +82,7 @@ export default function InvestorScreen(props) {
         setIsSnackbarVisible={setIsSnackbarVisible}
         setShouldNavigateBack={setShouldNavigateBack}
       />
+      {/* Header (name, image, start/delete buttons) */}
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>{investor.name}</Text>
         <Image
@@ -91,16 +93,24 @@ export default function InvestorScreen(props) {
           style={styles.headerRowIcon}
           onPress={() => console.log("Start new job")}
         >
-          <Ionicons name="construct" size={32} color="white" />
+          <Ionicons
+            name={THEME.icons.investorStartJobIcon}
+            size={THEME.icons.iconSizeLarge}
+            color={THEME.icons.primaryColor}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.headerRowIcon}
           onPress={handleTrashIconPress}
         >
-          <Ionicons name="trash" size={32} color="white" />
+          <Ionicons
+            name="trash"
+            size={THEME.icons.iconSizeLarge}
+            color={THEME.icons.primaryColor}
+          />
         </TouchableOpacity>
       </View>
-
+      {/* Investor Configuration */}
       <View style={styles.investorConfigurationContainer}>
         <Text style={styles.sectionTitleText}>Investor Configuration</Text>
         <View style={styles.investorConfigurationDetailsRow}>
@@ -119,12 +129,13 @@ export default function InvestorScreen(props) {
           </View>
         </View>
       </View>
+      {/* Indicators */}
       <View style={styles.indicatorsContainer}>
         <View style={styles.indicatorsHeaderRow}>
           <Text style={styles.sectionTitleText}>Indicators</Text>
           <Button
-            buttonColor={THEME.button.backgroundColor}
-            textColor={THEME.text.color}
+            buttonColor={THEME.button.primaryColorBackground}
+            textColor={THEME.text.secondaryColor}
             onPress={handleIndicatorViewChange}
           >
             {isIndicatorSetToCarouselView ? "List View" : "Carousel View"}
@@ -138,12 +149,13 @@ export default function InvestorScreen(props) {
           </Animated.View>
         )}
       </View>
+      {/* Stocks */}
       <View style={styles.stocksContainer}>
         <View style={styles.stocksHeaderRow}>
           <Text style={styles.sectionTitleText}>Stocks</Text>
           <Button
-            buttonColor={THEME.button.backgroundColor}
-            textColor={THEME.text.color}
+            buttonColor={THEME.button.primaryColorBackground}
+            textColor={THEME.text.secondaryColor}
             onPress={handleStockViewChange}
           >
             {isStockSetToCarouselView ? "List View" : "Carousel View"}
@@ -158,6 +170,7 @@ export default function InvestorScreen(props) {
           </Animated.View>
         )}
       </View>
+      {/* Jobs */}
       <View style={styles.jobsContainer}>
         <Text style={styles.sectionTitleText}>Jobs</Text>
         <View style={styles.jobList}>
@@ -181,7 +194,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    color: THEME.text.primaryColor,
   },
   headerContainer: {
     flex: 0.1,
@@ -195,7 +208,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: THEME.text.fontSizeH2,
-    color: THEME.text.color,
+    color: THEME.text.primaryColor,
     paddingRight: "2%",
   },
   investorImage: { height: 45, width: 30 },
@@ -211,7 +224,7 @@ const styles = StyleSheet.create({
   },
   sectionTitleText: {
     fontSize: THEME.text.fontSizeH4,
-    color: THEME.text.color,
+    color: THEME.text.primaryColor,
   },
   investorConfigurationDetailsRow: {
     flex: 1,

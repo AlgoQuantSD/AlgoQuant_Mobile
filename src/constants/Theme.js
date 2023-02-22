@@ -51,7 +51,8 @@ export const THEME = {
     marginHorizontal: 20,
     borderRadius: 10,
     padding: 3,
-    backgroundColor: PALETTE.primaryGreen,
+    primaryColorBackground: PALETTE.primaryGreen,
+    secondaryColorBackground: PALETTE.cokeWhite,
     disabledBackgroundColor: PALETTE.primaryGreenOpacity35,
   },
   bottomTab: {
@@ -74,7 +75,18 @@ export const THEME = {
   icons: {
     successIcon: "shield-checkmark-outline",
     errorIcon: "warning-outline",
+    investorStartJobIcon: "play",
+    deleteInvestorIcon: "trash",
+    primaryColor: PALETTE.primaryGreen,
+    secondaryColor: PALETTE.cokeWhite,
+    iconSizeXSmall: 12,
+    iconSizeSmall: 16,
+    iconSizeMedium: 24,
+    iconSizeLarge: 32,
     snackbarIconSize: 16,
+  },
+  indicatorAndStockCards: {
+    backgroundColor: PALETTE.primaryGreen,
   },
   table: {
     rowColor1: PALETTE.darkGray,
