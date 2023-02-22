@@ -82,6 +82,11 @@ export const THEME = {
     topBorderColor: PALETTE.cokeWhite,
     topBorderWidth: 1,
   },
+  topTabNavigator: {
+    color: {
+      background: PALETTE.primaryGreen,
+    },
+  },
   modal: {
     backgroundColor: PALETTE.darkGrayOpacity95,
   },

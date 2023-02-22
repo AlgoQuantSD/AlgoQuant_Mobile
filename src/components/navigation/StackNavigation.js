@@ -10,6 +10,7 @@ import BacktestResultsScreen from "../nested_screens/backtesting/BacktestResults
 import ProfileScreen from "../main_screens/ProfileScreen";
 import TradeHistoryScreen from "../nested_screens/profile/TradeHistoryScreen";
 import { nestedScreenOptions } from "./NavigationHelpers";
+import { THEME } from "../../constants/Theme";
 
 const Stack = createStackNavigator();
 
@@ -18,7 +19,10 @@ export function HomeScreenStackNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: "black", borderBottomWidth: 0 },
+        headerStyle: {
+          backgroundColor: THEME.topTabNavigator.color.background,
+          borderBottomWidth: 0,
+        },
       }}
     >
       <Stack.Screen
