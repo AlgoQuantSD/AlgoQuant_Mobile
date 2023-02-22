@@ -128,6 +128,19 @@ export const THEME = {
   investCard: {
     backgroundColor: "#1F302B",
   },
+  searchbar: {
+    color: {
+      background: PALETTE.smokeWhite,
+      borderBottom: PALETTE.primaryGreen,
+    },
+    borderBottomWidth: 1,
+  },
+  searchResults: {
+    color: {
+      background: PALETTE.primaryGreen,
+      border: PALETTE.smokeWhite,
+    },
+  },
   activityIndicator: {
     color: {
       primary: PALETTE.primaryGreen,

@@ -24,21 +24,10 @@ export default function CustomSearch(props) {
         onChangeText={onChangeSearch}
         value={searchQuery}
         loading={isLoading}
-        style={{
-          backgroundColor: THEME.colors.background,
-          borderBottomWidth: 1,
-          borderBottomColor: THEME.colors.foreground,
-        }}
-        inputStyle={{ color: THEME.colors.foreground }}
-        iconColor={THEME.colors.foreground}
+        style={styles.searchbar}
+        inputStyle={{ color: THEME.text.color.primary }}
+        iconColor={THEME.icon.color.primary}
         placeholderTextColor={THEME.text.disabledColor}
-        theme={{
-          colors: {
-            text: THEME.colors.foreground,
-            primary: THEME.colors.primary,
-            underlineColor: "transparent",
-          },
-        }}
       />
       {/* Render the list of results after loading is done */}
       {searchResults && !isLoading && searchQuery !== "" ? (
@@ -74,7 +63,12 @@ export default function CustomSearch(props) {
 
 const styles = StyleSheet.create({
   searchbarAndResults: { flex: 1, width: "90%", marginTop: "20%" },
-  text: { color: "white" },
+  searchbar: {
+    backgroundColor: THEME.searchbar.color.background,
+    borderBottomWidth: THEME.searchbar.borderBottomWidth,
+    borderBottomColor: THEME.searchbar.color.borderBottom,
+  },
+  text: { color: THEME.text.color.secondary },
   resultListItem: {
     flexDirection: "row",
     paddingTop: "2%",
@@ -83,9 +77,9 @@ const styles = StyleSheet.create({
     paddingRight: "10%",
     height: 60,
     alignItems: "center",
-    backgroundColor: THEME.table.rowColor1,
+    backgroundColor: THEME.searchResults.color.background,
     borderWidth: 0.5,
-    borderColor: "white",
+    borderColor: THEME.searchResults.color.border,
   },
   textCell: {
     width: "50%",
@@ -94,10 +88,5 @@ const styles = StyleSheet.create({
     flex: 0.5,
     alignItems: "center",
     justifyContent: "center",
-  },
-  text2: {
-    fontSize: THEME.text.fontSizeH2,
-    color: THEME.text.color,
-    padding: 20,
   },
 });
