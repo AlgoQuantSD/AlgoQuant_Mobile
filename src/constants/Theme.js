@@ -86,8 +86,8 @@ export const THEME = {
     backgroundColor: PALETTE.darkGrayOpacity95,
   },
   profileScreen: {
-    profilePicBackgroundColor: PALETTE.mediumGray,
-    dividerColor: PALETTE.mediumGray,
+    profilePicBackgroundColor: PALETTE.primaryGreen,
+    dividerColor: PALETTE.primaryGreen,
   },
   loadingIndicator: {
     color: PALETTE.primaryGreen,
@@ -100,6 +100,9 @@ export const THEME = {
       deleteInvestor: "trash",
       stopJob: "stop",
       inactiveJob: "lock-closed",
+      editPencil: "pencil",
+      refresh: "refresh",
+      arrowRight: "arrow-forward",
     },
     color: {
       primary: PALETTE.primaryGreen,

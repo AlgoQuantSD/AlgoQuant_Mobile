@@ -1,11 +1,9 @@
 import { React, useContext, useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AlgoquantApiContext from "../../constants/ApiContext";
-import LoadSpinner from "../reusable_components/LoadSpinner";
-import { formattedBalance } from "../../helpers/formatUserBalance";
 import { resetBalanceModalBuilder } from "../../helpers/modalFactory";
 
 export default function TotalBalance(props) {
@@ -54,16 +52,23 @@ export default function TotalBalance(props) {
       </Text>
       <View style={styles.balance}>
         <Text style={styles.balanceText} testID="total-balance">
-          {isLoading ? <LoadSpinner /> : dollarString.format(balance)}
+          {isLoading ? (
+            <ActivityIndicator
+              size="medium"
+              color={THEME.activityIndicator.color.primary}
+            />
+          ) : (
+            dollarString.format(balance)
+          )}
         </Text>
         <TouchableOpacity
           hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
           onPress={handleResetButtonPress}
         >
           <Ionicons
-            name="refresh"
-            size={THEME.text.fontSizeBold}
-            color={THEME.colors.foreground}
+            name={THEME.icon.name.refresh}
+            size={THEME.icon.size.small}
+            color={THEME.icon.color.primary}
             testID="reset-icon"
           />
         </TouchableOpacity>
@@ -84,14 +89,14 @@ const styles = StyleSheet.create({
     paddingTop: "1%",
   },
   balanceText: {
-    fontSize: THEME.text.fontSizeBold,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.bold,
+    color: THEME.text.color.primary,
     fontWeight: "bold",
     paddingRight: "1%",
     paddingLeft: "1%",
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
   },
 });

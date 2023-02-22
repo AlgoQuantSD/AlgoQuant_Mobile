@@ -39,9 +39,9 @@ export default function ProfileHeader(props) {
           onPress={handlePencilIconPress}
         >
           <Ionicons
-            name="pencil"
-            size={THEME.text.fontSizeBody}
-            color={THEME.colors.foreground}
+            name={THEME.icon.name.editPencil}
+            size={THEME.icon.size.small}
+            color={THEME.icon.color}
             testID="pencil-icon"
           />
         </TouchableOpacity>
@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
     borderBottomColor: THEME.profileScreen.dividerColor,
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
   },
   userInitialsText: {
-    fontSize: THEME.text.fontSizeH1,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.H1,
+    color: THEME.text.color.secondary,
   },
   userInitials: {
     alignItems: "center",
