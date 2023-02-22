@@ -228,14 +228,14 @@ export default function CustomModal(props) {
                       newInputValues[index] = text;
                       setInputValues(newInputValues);
                     }}
-                    selectionColor={THEME.colors.foreground}
-                    underlineColor={THEME.colors.foreground}
-                    activeUnderlineColor={THEME.colors.foreground}
-                    outlineColor={THEME.colors.foreground}
-                    activeOutlineColor={THEME.colors.foreground}
-                    textColor={THEME.colors.foreground}
-                    placeholderTextColor={THEME.colors.foreground}
-                    contentStyle={{ color: THEME.colors.foreground }}
+                    selectionColor={THEME.colors.background}
+                    underlineColor={THEME.colors.background}
+                    activeUnderlineColor={THEME.colors.background}
+                    outlineColor={THEME.colors.background}
+                    activeOutlineColor={THEME.colors.background}
+                    textColor={THEME.colors.background}
+                    placeholderTextColor={THEME.colors.background}
+                    contentStyle={{ color: THEME.colors.background }}
                     style={{
                       backgroundColor: THEME.colors.transparent,
                       width: "100%",
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: THEME.modal.backgroundColor,
+    backgroundColor: THEME.modal.color.background,
     flex: 0.75,
     marginTop: "50%",
     borderRadius: 10,
@@ -350,20 +350,20 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   titleText: {
-    color: THEME.colors.primary,
-    fontSize: THEME.text.fontSizeH1,
+    color: THEME.text.color.secondary,
+    fontSize: THEME.text.fontSize.H1,
   },
   bodyText: {
-    color: THEME.text.color,
+    color: THEME.text.color.secondary,
     fontSize: THEME.text.fontSizeModalBody,
   },
   headerText: {
-    color: THEME.text.color,
-    fontSize: THEME.text.fontSizeH3,
+    color: THEME.text.color.secondary,
+    fontSize: THEME.text.fontSize.H3,
   },
   modalErrorMessageText: {
     color: THEME.colors.danger,
-    fontSize: THEME.text.fontSizeModalBody,
+    fontSize: THEME.text.fontSize.modalBody,
   },
   closeButton: { position: "absolute", top: 0, right: 0, padding: 10 },
   modalHeader: {

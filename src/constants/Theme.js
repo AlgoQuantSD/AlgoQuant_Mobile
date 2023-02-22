@@ -3,7 +3,7 @@ import { VictoryTheme } from "victory-native";
 
 const PALETTE = {
   primaryGreen: "#1F302B",
-  primaryGreenOpacity35: "#3F9F3059",
+  primaryGreenOpacity95: "#1F302BF2",
   brightGreen: "#00FF38",
   mediumGreen: "#33CA47",
   red: "#B11818",
@@ -88,7 +88,9 @@ export const THEME = {
     },
   },
   modal: {
-    backgroundColor: PALETTE.darkGrayOpacity95,
+    color: {
+      background: PALETTE.primaryGreenOpacity95,
+    },
   },
   profileScreen: {
     profilePicBackgroundColor: PALETTE.primaryGreen,

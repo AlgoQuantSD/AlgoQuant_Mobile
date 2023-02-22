@@ -54,7 +54,7 @@ export default function TotalBalance(props) {
         <Text style={styles.balanceText} testID="total-balance">
           {isLoading ? (
             <ActivityIndicator
-              size="medium"
+              size="small"
               color={THEME.activityIndicator.color.primary}
             />
           ) : (
