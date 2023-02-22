@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    color: THEME.text.primaryColor,
   },
   graphDetailsContainer: {
     flex: 0.2,

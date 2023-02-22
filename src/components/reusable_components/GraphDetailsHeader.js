@@ -79,13 +79,13 @@ export default function GraphDetailsHeader(props) {
               <Ionicons
                 name="caret-up-outline"
                 size={12}
-                color={THEME.colors.primary}
+                color={THEME.colors.trendingUp}
               />
             ) : (
               <Ionicons
                 name="caret-down-outline"
                 size={12}
-                color={THEME.colors.danger}
+                color={THEME.colors.trendingDown}
               />
             )}
           </View>
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    color: THEME.text.primaryColor,
   },
   headerText: {
     fontSize: THEME.text.fontSizeH1,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   trendingUpText: {
     fontSize: THEME.text.fontSizeBody,
-    color: THEME.colors.primary,
+    color: THEME.colors.trendingUp,
   },
   trendingDownText: {
     fontSize: THEME.text.fontSizeBody,

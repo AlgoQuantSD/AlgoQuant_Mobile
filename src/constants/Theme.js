@@ -2,14 +2,18 @@ import { PixelRatio } from "react-native";
 import { VictoryTheme } from "victory-native";
 
 const PALETTE = {
-  primaryGreen: "#3F9F30",
+  primaryGreen: "#1F302B",
   primaryGreenOpacity35: "#3F9F3059",
+  brightGreen: "#00FF38",
+  mediumGreen: "#33CA47",
   red: "#B11818",
   lightGray: "#C7C7C7",
   mediumGray: "#747272",
   darkGray: "#323232",
   darkGrayOpacity95: "#323232F2",
   white: "#FFFFFF",
+  cokeWhite: "#FAFAFA",
+  smokeWhite: "#F0F0F0",
   whiteOpacity35: "FFFFFFE6",
   black: "#000000",
   transparent: "#ffffff00",
@@ -17,11 +21,13 @@ const PALETTE = {
 
 export const THEME = {
   colors: {
-    background: PALETTE.black,
-    foreground: PALETTE.white,
+    background: PALETTE.cokeWhite,
+    foreground: PALETTE.primaryGreen,
     primary: PALETTE.primaryGreen,
-    success: PALETTE.primaryGreen,
+    success: PALETTE.brightGreen,
     danger: PALETTE.red,
+    trendingUp: PALETTE.mediumGreen,
+    trendingDown: PALETTE.red,
     transparent: PALETTE.transparent,
   },
   text: {
@@ -33,7 +39,8 @@ export const THEME = {
     fontSizeBody: 30 / PixelRatio.get(),
     fontSizeButton: 30 / PixelRatio.get(),
     fontSizeModalBody: 26 / PixelRatio.get(),
-    color: PALETTE.white,
+    primaryColor: PALETTE.primaryGreen,
+    secondaryColor: PALETTE.cokeWhite,
     disabledColor: PALETTE.mediumGray,
   },
   button: {
@@ -79,7 +86,7 @@ export const THEME = {
     headerContainerLarge: 0.25,
   },
   investCard: {
-    backgroundColor: PALETTE.darkGray,
+    backgroundColor: "#1F302B",
   },
 };
 
