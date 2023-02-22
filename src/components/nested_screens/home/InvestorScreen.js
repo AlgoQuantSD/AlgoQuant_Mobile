@@ -94,9 +94,9 @@ export default function InvestorScreen(props) {
           onPress={() => console.log("Start new job")}
         >
           <Ionicons
-            name={THEME.icons.investorStartJobIcon}
-            size={THEME.icons.iconSizeLarge}
-            color={THEME.icons.primaryColor}
+            name={THEME.icon.name.investorStartJob}
+            size={THEME.icon.size.large}
+            color={THEME.icon.color.primary}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -105,8 +105,8 @@ export default function InvestorScreen(props) {
         >
           <Ionicons
             name="trash"
-            size={THEME.icons.iconSizeLarge}
-            color={THEME.icons.primaryColor}
+            size={THEME.icon.size.large}
+            color={THEME.icon.color.primary}
           />
         </TouchableOpacity>
       </View>
@@ -154,8 +154,8 @@ export default function InvestorScreen(props) {
         <View style={styles.stocksHeaderRow}>
           <Text style={styles.sectionTitleText}>Stocks</Text>
           <Button
-            buttonColor={THEME.button.primaryColorBackground}
-            textColor={THEME.text.secondaryColor}
+            buttonColor={THEME.button.color.primary}
+            textColor={THEME.text.color.secondary}
             onPress={handleStockViewChange}
           >
             {isStockSetToCarouselView ? "List View" : "Carousel View"}
@@ -193,8 +193,8 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.colors.background,
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.primaryColor,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
   },
   headerContainer: {
     flex: 0.1,
@@ -207,8 +207,8 @@ const styles = StyleSheet.create({
     marginRight: "5%",
   },
   headerText: {
-    fontSize: THEME.text.fontSizeH2,
-    color: THEME.text.primaryColor,
+    fontSize: THEME.text.fontSize.H2,
+    color: THEME.text.color.primary,
     paddingRight: "2%",
   },
   investorImage: { height: 45, width: 30 },
@@ -223,8 +223,8 @@ const styles = StyleSheet.create({
     marginRight: "5%",
   },
   sectionTitleText: {
-    fontSize: THEME.text.fontSizeH4,
-    color: THEME.text.primaryColor,
+    fontSize: THEME.text.fontSize.H4,
+    color: THEME.text.color.primary,
   },
   investorConfigurationDetailsRow: {
     flex: 1,

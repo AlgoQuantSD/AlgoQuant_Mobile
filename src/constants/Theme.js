@@ -59,6 +59,11 @@ export const THEME = {
     disabledColor: PALETTE.mediumGray,
   },
   button: {
+    color: {
+      primary: PALETTE.primaryGreen,
+      secondary: PALETTE.cokeWhite,
+      disabled: PALETTE.primaryGreenOpacity35,
+    },
     alignItems: "center",
     justifyContent: "center",
     width: 120,
