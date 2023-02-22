@@ -204,4 +204,27 @@ const styles = StyleSheet.create({
     marginTop: "2%",
     marginRight: "5%",
   },
+  graphDetailsContainer: {
+    flex: 0.2,
+    width: "90%",
+    marginLeft: "5%",
+    marginTop: "5%",
+    marginRight: "5%",
+  },
+  graphContainer: {
+    flex: 0.3,
+    alignItems: "center",
+    width: "90%",
+    marginLeft: "5%",
+    marginTop: "2%",
+    marginRight: "5%",
+  },
+  investContainer: {
+    flex: 0.5,
+    alignItems: "center",
+    width: "90%",
+    marginLeft: "5%",
+    marginTop: "2%",
+    marginRight: "5%",
+  },
 });
