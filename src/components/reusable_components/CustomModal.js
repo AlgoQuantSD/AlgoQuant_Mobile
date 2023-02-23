@@ -309,7 +309,7 @@ export default function CustomModal(props) {
             duration={3500}
             action={{
               label: "Dismiss",
-              textColor: THEME.text.color,
+              textColor: THEME.text.color.secondary,
               onPress: () => {
                 snackbarCleanUp(
                   setIsModalSnackbarVisible,
@@ -317,6 +317,7 @@ export default function CustomModal(props) {
                 );
               },
             }}
+            style={styles.snackbar}
           >
             {modalSnackbarMessage}
           </Snackbar>
@@ -406,5 +407,8 @@ const styles = StyleSheet.create({
   },
   modalSnackbar: {
     backgroundColor: THEME.colors.background,
+  },
+  snackbar: {
+    backgroundColor: THEME.snackbar.color.background,
   },
 });

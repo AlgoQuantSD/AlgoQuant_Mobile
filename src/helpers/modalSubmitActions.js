@@ -95,8 +95,8 @@ export async function submitEditNameModal(props) {
   ) {
     setModalSnackbarMessage(
       <SnackbarContent
-        iconName={THEME.icons.errorIcon}
-        iconSize={THEME.icons.snackbarIconSize}
+        iconName={THEME.icon.name.error}
+        iconSize={THEME.icon.size.snackbarIconSize}
         iconColor={THEME.colors.danger}
         text="ERROR: Invalid name."
         textColor={THEME.colors.danger}
@@ -113,11 +113,11 @@ export async function submitEditNameModal(props) {
       });
       setSnackbarMessage(
         <SnackbarContent
-          iconName={THEME.icons.successIcon}
-          iconSize={THEME.icons.snackbarIconSize}
-          iconColor={THEME.colors.primary}
+          iconName={THEME.icon.name.success}
+          iconSize={THEME.icon.size.snackbarIconSize}
+          iconColor={THEME.colors.success}
           text="SUCCESS: Name sucessfully updated."
-          textColor={THEME.colors.primary}
+          textColor={THEME.colors.success}
         />
       );
       setIsSnackbarVisible(true);
@@ -169,8 +169,8 @@ export async function submitDeleteAccountModal(props) {
     console.log("Error signing in: ", error);
     setModalSnackbarMessage(
       <SnackbarContent
-        iconName={THEME.icons.errorIcon}
-        iconSize={THEME.icons.snackbarIconSize}
+        iconName={THEME.icon.name.error}
+        iconSize={THEME.icon.size.snackbarIconSize}
         iconColor={THEME.colors.danger}
         text="ERROR: Incorrect password."
         textColor={THEME.colors.danger}
@@ -214,11 +214,11 @@ export async function submitResetBalanceModal(props) {
       .then((resp) => {
         setSnackbarMessage(
           <SnackbarContent
-            iconName={THEME.icons.successIcon}
-            iconSize={THEME.icons.snackbarIconSize}
-            iconColor={THEME.colors.primary}
+            iconName={THEME.icon.name.success}
+            iconSize={THEME.icon.size.snackbarIconSize}
+            iconColor={THEME.icon.color.primary}
             text="SUCCESS: Balance reset."
-            textColor={THEME.colors.primary}
+            textColor={THEME.colors.success}
           />
         );
         setIsSnackbarVisible(true);
@@ -229,8 +229,8 @@ export async function submitResetBalanceModal(props) {
         setIsLoading(false);
         setModalSnackbarMessage(
           <SnackbarContent
-            iconName={THEME.icons.errorIcon}
-            iconSize={THEME.icons.snackbarIconSize}
+            iconName={THEME.icon.errorIcon}
+            iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.colors.danger}
             text="ERROR: Unable to reset Alpaca balance, please try again."
             textColor={THEME.colors.danger}
@@ -264,11 +264,11 @@ export async function submitConnectAlpacaModal(props) {
         console.log(resp);
         setSnackbarMessage(
           <SnackbarContent
-            iconName={THEME.icons.successIcon}
-            iconSize={THEME.icons.snackbarIconSize}
-            iconColor={THEME.colors.primary}
+            iconName={THEME.icon.name.success}
+            iconSize={THEME.icon.size.snackbarIconSize}
+            iconColor={THEME.colors.success}
             text="SUCCESS: Connected to Alpaca."
-            textColor={THEME.colors.primary}
+            textColor={THEME.colors.success}
           />
         );
         setIsSnackbarVisible(true);
@@ -279,8 +279,8 @@ export async function submitConnectAlpacaModal(props) {
         setIsLoading(false);
         setModalSnackbarMessage(
           <SnackbarContent
-            iconName={THEME.icons.errorIcon}
-            iconSize={THEME.icons.snackbarIconSize}
+            iconName={THEME.icon.name.error}
+            iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.colors.danger}
             text="ERROR: Unable to connect to Alpaca, please try again."
             textColor={THEME.colors.danger}
@@ -310,11 +310,11 @@ export async function submitDisconnectAlpacaModal(props) {
         console.log(resp);
         setSnackbarMessage(
           <SnackbarContent
-            iconName={THEME.icons.successIcon}
-            iconSize={THEME.icons.snackbarIconSize}
-            iconColor={THEME.colors.primary}
+            iconName={THEME.icon.name.success}
+            iconSize={THEME.icon.size.snackbarIconSize}
+            iconColor={THEME.colors.success}
             text="SUCCESS: Disconnected from Alpaca."
-            textColor={THEME.colors.primary}
+            textColor={THEME.colors.success}
           />
         );
         setIsSnackbarVisible(true);
@@ -325,8 +325,8 @@ export async function submitDisconnectAlpacaModal(props) {
         setIsLoading(false);
         setModalSnackbarMessage(
           <SnackbarContent
-            iconName={THEME.icons.errorIcon}
-            iconSize={THEME.icons.snackbarIconSize}
+            iconName={THEME.icon.name.error}
+            iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.colors.danger}
             text="ERROR: Unable to disconnect from Alpaca, please try again."
             textColor={THEME.colors.danger}
@@ -357,8 +357,8 @@ export async function submitResetPasswordModal(props) {
   if (newPassword !== confirmPassword) {
     setModalSnackbarMessage(
       <SnackbarContent
-        iconName={THEME.icons.errorIcon}
-        iconSize={THEME.icons.snackbarIconSize}
+        iconName={THEME.icon.name.error}
+        iconSize={THEME.icon.size.snackbarIconSize}
         iconColor={THEME.colors.danger}
         text="ERROR: Passwords do not match."
         textColor={THEME.colors.danger}
@@ -371,11 +371,11 @@ export async function submitResetPasswordModal(props) {
       await Auth.changePassword(user, oldPassword, newPassword);
       setSnackbarMessage(
         <SnackbarContent
-          iconName={THEME.icons.successIcon}
-          iconSize={THEME.icons.snackbarIconSize}
-          iconColor={THEME.colors.primary}
+          iconName={THEME.icon.name.success}
+          iconSize={THEME.icon.size.snackbarIconSize}
+          iconColor={THEME.colors.success}
           text="SUCCESS: Password reset."
-          textColor={THEME.colors.primary}
+          textColor={THEME.colors.success}
         />
       );
       setIsSnackbarVisible(true);
@@ -385,8 +385,8 @@ export async function submitResetPasswordModal(props) {
       setIsLoading(false);
       setModalSnackbarMessage(
         <SnackbarContent
-          iconName={THEME.icons.errorIcon}
-          iconSize={THEME.icons.snackbarIconSize}
+          iconName={THEME.icon.name.error}
+          iconSize={THEME.icon.size.snackbarIconSize}
           iconColor={THEME.colors.danger}
           text="ERROR: Incorrect old password."
           textColor={THEME.colors.danger}
@@ -419,8 +419,8 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
   if (newEmail !== confirmNewEmail) {
     setModalSnackbarMessage(
       <SnackbarContent
-        iconName={THEME.icons.errorIcon}
-        iconSize={THEME.icons.snackbarIconSize}
+        iconName={THEME.icon.name.error}
+        iconSize={THEME.icon.size.snackbarIconSize}
         iconColor={THEME.colors.danger}
         text="ERROR: Emails do not match."
         textColor={THEME.colors.danger}
@@ -451,7 +451,7 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
       setIsLoading(false);
       setModalSnackbarMessage(
         <SnackbarContent
-          iconName={THEME.icons.errorIcon}
+          iconName={THEME.icon.name.error}
           iconSize={16}
           iconColor={THEME.colors.danger}
           text="ERROR: Unable to update email, please try again."
@@ -483,8 +483,8 @@ export async function submitUpdateEmailConfirmNewEmailStep(props) {
     setIsLoading(false);
     setSnackbarMessage(
       <SnackbarContent
-        iconName={THEME.icons.successIcon}
-        iconSize={THEME.icons.snackbarIconSize}
+        iconName={THEME.icon.name.success}
+        iconSize={THEME.icon.size.snackbarIconSize}
         iconColor={THEME.colors.success}
         text={"Successfully updated email."}
         textColor={THEME.colors.success}
@@ -496,7 +496,7 @@ export async function submitUpdateEmailConfirmNewEmailStep(props) {
     setIsLoading(false);
     setModalSnackbarMessage(
       <SnackbarContent
-        iconName={THEME.icons.errorIcon}
+        iconName={THEME.icon.name.error}
         iconSize={16}
         iconColor={THEME.colors.danger}
         text="ERROR: Incorrect verification code."
@@ -532,8 +532,8 @@ export async function submitUpdatePhoneModal(props) {
   if (newPhone !== confirmNewPhone) {
     setModalSnackbarMessage(
       <SnackbarContent
-        iconName={THEME.icons.errorIcon}
-        iconSize={THEME.icons.snackbarIconSize}
+        iconName={THEME.icon.name.error}
+        iconSize={THEME.icon.size.snackbarIconSize}
         iconColor={THEME.colors.danger}
         text="ERROR: Phone numbers do not match."
         textColor={THEME.colors.danger}
@@ -546,8 +546,8 @@ export async function submitUpdatePhoneModal(props) {
       await Auth.updateUserAttributes(user, { phone_number: newPhone });
       setSnackbarMessage(
         <SnackbarContent
-          iconName={THEME.icons.successIcon}
-          iconSize={THEME.icons.snackbarIconSize}
+          iconName={THEME.icon.name.success}
+          iconSize={THEME.icon.size.snackbarIconSize}
           iconColor={THEME.colors.success}
           text={"Successfully updated phone number."}
           textColor={THEME.colors.success}
@@ -560,7 +560,7 @@ export async function submitUpdatePhoneModal(props) {
       setIsLoading(false);
       setModalSnackbarMessage(
         <SnackbarContent
-          iconName={THEME.icons.errorIcon}
+          iconName={THEME.icon.name.error}
           iconSize={16}
           iconColor={THEME.colors.danger}
           text={"ERROR: " + error.message}
@@ -590,8 +590,8 @@ export async function submitDeleteInvestorModal(props) {
 
   setSnackbarMessage(
     <SnackbarContent
-      iconName={THEME.icons.successIcon}
-      iconSize={THEME.icons.snackbarIconSize}
+      iconName={THEME.icon.name.success}
+      iconSize={THEME.icon.size.snackbarIconSize}
       iconColor={THEME.colors.success}
       text={"Successfully deleted investor."}
       textColor={THEME.colors.success}
@@ -618,8 +618,8 @@ export async function submitStopJobModal(props) {
 
   setSnackbarMessage(
     <SnackbarContent
-      iconName={THEME.icons.successIcon}
-      iconSize={THEME.icons.snackbarIconSize}
+      iconName={THEME.icon.name.success}
+      iconSize={THEME.icon.size.snackbarIconSize}
       iconColor={THEME.colors.success}
       text={"Successfully stopped job."}
       textColor={THEME.colors.success}

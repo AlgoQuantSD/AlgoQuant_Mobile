@@ -4,7 +4,7 @@ import { VictoryTheme } from "victory-native";
 const PALETTE = {
   primaryGreen: "#1F302B",
   primaryGreenOpacity95: "#1F302BF2",
-  brightGreen: "#00FF38",
+  brightGreen: "#4BB543",
   mediumGreen: "#33CA47",
   red: "#B11818",
   lightGray: "#C7C7C7",
@@ -62,7 +62,7 @@ export const THEME = {
     color: {
       primary: PALETTE.primaryGreen,
       secondary: PALETTE.cokeWhite,
-      disabled: PALETTE.primaryGreenOpacity35,
+      disabled: PALETTE.primaryGreenOpacity95,
     },
     alignItems: "center",
     justifyContent: "center",
@@ -120,7 +120,7 @@ export const THEME = {
       small: 16,
       medium: 24,
       large: 32,
-      snackbarIconSize: 16,
+      snackbarIconSize: 24,
     },
   },
   indicatorAndStockCards: {
@@ -149,6 +149,15 @@ export const THEME = {
     color: {
       background: PALETTE.primaryGreen,
       border: PALETTE.smokeWhite,
+    },
+  },
+  snackbar: {
+    color: {
+      background: PALETTE.primaryGreen,
+      border: PALETTE.smokeWhite,
+    },
+    text: {
+      color: PALETTE.smokeWhite,
     },
   },
   activityIndicator: {

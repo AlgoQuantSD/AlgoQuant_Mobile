@@ -234,11 +234,12 @@ export default function JobScreen(props) {
           duration={3500}
           action={{
             label: "Dismiss",
-            textColor: THEME.text.color.primary,
+            textColor: THEME.snackbar.text.color,
             onPress: () => {
               snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
             },
           }}
+          style={styles.snackbar}
         >
           {snackbarMessage}
         </Snackbar>
@@ -296,5 +297,8 @@ const styles = StyleSheet.create({
     marginTop: "10%",
     marginRight: "5%",
     marginBottom: "1%",
+  },
+  snackbar: {
+    backgroundColor: THEME.snackbar.color.background,
   },
 });

@@ -108,11 +108,12 @@ export default function ProfileScreen({ navigation }) {
           duration={3500}
           action={{
             label: "Dismiss",
-            textColor: THEME.text.color,
+            textColor: THEME.snackbar.text.color,
             onPress: () => {
               snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
             },
           }}
+          style={styles.snackbar}
         >
           {snackbarMessage}
         </Snackbar>
@@ -127,5 +128,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: THEME.colors.background,
+  },
+  snackbar: {
+    backgroundColor: THEME.snackbar.color.background,
   },
 });
