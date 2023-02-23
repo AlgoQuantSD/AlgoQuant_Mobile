@@ -1,36 +1,69 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { THEME } from "../../constants/Theme";
+import {
+  StyleProp,
+  ViewStyle,
+  Animated,
+  StyleSheet,
+  Platform,
+  ScrollView,
+  Text,
+  SafeAreaView,
+  I18nManager,
+} from "react-native";
+import { AnimatedFAB } from "react-native-paper";
 
-export default function BacktestingScreen({ navigation }) {
+const MyComponent = ({
+  animatedValue,
+  visible,
+  extended,
+  label,
+  animateFrom,
+  style,
+  iconMode,
+}) => {
+  const [isExtended, setIsExtended] = React.useState(true);
+
+  const isIOS = Platform.OS === "ios";
+
+  const onScroll = ({ nativeEvent }) => {
+    const currentScrollPosition =
+      Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
+
+    setIsExtended(currentScrollPosition <= 0);
+  };
+
+  const fabStyle = { [animateFrom]: 16 };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the backtesting screen!</Text>
-      <Text
-        style={styles.text}
-        onPress={() => navigation.navigate("CreateBacktestScreen")}
-      >
-        Press here to create a backtest
-      </Text>
-      <Text
-        style={styles.text}
-        onPress={() => navigation.navigate("BacktestResultsScreen")}
-      >
-        Press here to view one of your previous backtests.
-      </Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView onScroll={onScroll} scrollEventThrottle={100}>
+        {[...new Array(100).keys()].map((_, i) => (
+          <Text>{i}</Text>
+        ))}
+      </ScrollView>
+      <AnimatedFAB
+        icon={"plus"}
+        label={"Create Investor"}
+        extended={isExtended}
+        onPress={() => console.log("Pressed")}
+        visible={visible}
+        animateFrom={"right"}
+        iconMode={"static"}
+        style={[styles.fabStyle, fabStyle]}
+      />
+    </SafeAreaView>
   );
-}
+};
+
+export default MyComponent;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: THEME.colors.background,
+    flexGrow: 1,
   },
-  text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+  fabStyle: {
+    bottom: 16,
+    right: 16,
+    position: "absolute",
   },
 });

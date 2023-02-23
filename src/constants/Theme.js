@@ -160,6 +160,9 @@ export const THEME = {
       color: PALETTE.smokeWhite,
     },
   },
+  animatedFAB: {
+    color: { background: PALETTE.smokeWhite },
+  },
   activityIndicator: {
     color: {
       primary: PALETTE.primaryGreen,
