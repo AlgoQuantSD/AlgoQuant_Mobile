@@ -1,5 +1,6 @@
 import { PixelRatio } from "react-native";
 import { VictoryTheme } from "victory-native";
+import { MD3LightTheme as DefaultTheme } from "react-native-paper";
 
 const PALETTE = {
   primaryGreen: "#1F302B",
@@ -197,6 +198,14 @@ export const LINE_GRAPH_THEME = {
     },
   },
   cursorLabel: { fill: "red" },
+};
+
+export const customRNPaperTheme = {
+  ...DefaultTheme,
+
+  colors: {
+    primary: PALETTE.primaryGreen,
+  },
 };
 
 export const LIGHT_THEME = {

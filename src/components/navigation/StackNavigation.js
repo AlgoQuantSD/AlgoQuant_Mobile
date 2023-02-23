@@ -9,6 +9,10 @@ import CreateBacktestScreen from "../nested_screens/backtesting/CreateBacktestSc
 import BacktestResultsScreen from "../nested_screens/backtesting/BacktestResultsScreen";
 import ProfileScreen from "../main_screens/ProfileScreen";
 import TradeHistoryScreen from "../nested_screens/profile/TradeHistoryScreen";
+import CreateInvestorStep1Screen from "../nested_screens/home/CreateInvestorStep1Screen";
+import CreateInvestorStep2Screen from "../nested_screens/home/CreateInvestorStep2Screen";
+import CreateInvestorStep3Screen from "../nested_screens/home/CreateInvestorStep3Screen";
+import CreateInvestorStep4Screen from "../nested_screens/home/CreateInvestorStep4Screen";
 import { nestedScreenOptions } from "./NavigationHelpers";
 import { THEME } from "../../constants/Theme";
 
@@ -33,6 +37,26 @@ export function HomeScreenStackNavigator() {
       <Stack.Screen
         name="InvestorScreen"
         component={InvestorScreen}
+        options={nestedScreenOptions}
+      />
+      <Stack.Screen
+        name="CreateInvestorStep1Screen"
+        component={CreateInvestorStep1Screen}
+        options={nestedScreenOptions}
+      />
+      <Stack.Screen
+        name="CreateInvestorStep2Screen"
+        component={CreateInvestorStep2Screen}
+        options={nestedScreenOptions}
+      />
+      <Stack.Screen
+        name="CreateInvestorStep3Screen"
+        component={CreateInvestorStep3Screen}
+        options={nestedScreenOptions}
+      />
+      <Stack.Screen
+        name="CreateInvestorStep4Screen"
+        component={CreateInvestorStep4Screen}
         options={nestedScreenOptions}
       />
       <Stack.Screen

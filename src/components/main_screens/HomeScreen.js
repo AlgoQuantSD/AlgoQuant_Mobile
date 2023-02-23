@@ -35,7 +35,9 @@ export default function HomeScreen({ navigation }) {
   function handlePressOutTouchableElement() {
     setIsScrollEnabled(true);
   }
-
+  function handlePressCreateInvestor() {
+    navigation.navigate("CreateInvestorStep1Screen");
+  }
   const handleContentSizeChange = (contentWidth, contentHeight) => {
     scrollViewRef.current.scrollTo({
       x: 0,
@@ -178,7 +180,7 @@ export default function HomeScreen({ navigation }) {
         icon={"plus"}
         label={"Create Investor"}
         extended={isExtended}
-        onPress={() => console.log("Pressed")}
+        onPress={handlePressCreateInvestor}
         visible={true}
         animateFrom={"right"}
         iconMode={"static"}
