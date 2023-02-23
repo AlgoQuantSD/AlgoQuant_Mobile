@@ -57,7 +57,7 @@ export default function GraphDetailsHeader(props) {
           {graphTrendData.recentPrice === null ? (
             <ActivityIndicator
               size="small"
-              color="#3F9F30"
+              color={THEME.activityIndicator.color.primary}
               style={styles.activity}
             />
           ) : (
@@ -78,14 +78,14 @@ export default function GraphDetailsHeader(props) {
             {isTrendingUp ? (
               <Ionicons
                 name="caret-up-outline"
-                size={12}
-                color={THEME.colors.primary}
+                size={THEME.icon.size.xSmall}
+                color={THEME.colors.trendingUp}
               />
             ) : (
               <Ionicons
                 name="caret-down-outline"
-                size={12}
-                color={THEME.colors.danger}
+                size={THEME.icon.size.xSmall}
+                color={THEME.colors.trendingDown}
               />
             )}
           </View>
@@ -109,25 +109,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.primaryColor,
   },
   headerText: {
     fontSize: THEME.text.fontSizeH1,
-    color: THEME.text.color,
+    color: THEME.text.primaryColor,
     paddingBottom: "2%",
   },
   recentPriceText: {
     fontSize: THEME.text.fontSizeH3,
-    color: THEME.text.color,
+    color: THEME.text.primaryColor,
   },
   trendingUpText: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.colors.primary,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.colors.trendingUp,
   },
   trendingDownText: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.colors.danger,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.colors.trendingDown,
   },
   trendingIcon: {
     marginRight: "2%",

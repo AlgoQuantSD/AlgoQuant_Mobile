@@ -97,9 +97,9 @@ export default function ProfileListOptions(props) {
         >
           <Text style={styles.text}>{label}</Text>
           <Ionicons
-            name="arrow-forward"
-            size={THEME.text.fontSizeBody}
-            color={THEME.colors.foreground}
+            name={THEME.icon.name.arrowRight}
+            size={THEME.icon.size.small}
+            color={THEME.icon.color.primary}
           />
         </TouchableOpacity>
       ))}
@@ -117,8 +117,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
     paddingRight: "1%",
   },
   listItem: {

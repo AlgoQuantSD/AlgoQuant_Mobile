@@ -161,11 +161,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
-  },
-  headerText: {
-    fontSize: THEME.text.fontSizeH1,
-    color: THEME.text.color,
+    color: THEME.text.primaryColor,
   },
   carouselHeader: {
     paddingLeft: "4%",
@@ -173,7 +169,7 @@ const styles = StyleSheet.create({
   },
   selectedCarouselOption: {
     fontSize: THEME.text.fontSizeBody,
-    color: THEME.colors.primary,
+    color: THEME.colors.primaryColor,
     textDecorationLine: "underline",
   },
 });

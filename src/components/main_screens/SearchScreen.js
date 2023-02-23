@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { THEME } from "../../constants/Theme";
 import CustomSearch from "../reusable_components/CustomSearch";
 import AlgoquantApiContext from "../../constants/ApiContext";
-import StockInfoScreen from "../nested_screens/search/StockInfoScreen";
 
 export default function SearchScreen({ navigation }) {
   // State variable to hold the values of the latest query
@@ -67,9 +66,5 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "80%",
     marginTop: "30%",
-  },
-  text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
   },
 });

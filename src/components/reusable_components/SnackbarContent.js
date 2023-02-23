@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function SnackbarContent(props) {
   const { iconName, iconSize, iconColor, text, textColor } = props;
   return (
-    <View style={{ flexDirection: "row" }}>
+    <View style={{ flexDirection: "row", alignItems: "center" }}>
       <Ionicons
         name={iconName}
         size={iconSize}

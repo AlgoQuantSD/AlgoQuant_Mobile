@@ -38,13 +38,13 @@ export async function editNameModalBuilder(props) {
     {
       label: "Submit",
       buttonColor: THEME.colors.success,
-      textColor: THEME.text.color,
+      textColor: THEME.text.color.secondary,
       key: "SUBMIT_BUTTON",
     },
     {
       label: "Cancel",
       buttonColor: THEME.colors.danger,
-      textColor: THEME.text.color,
+      textColor: THEME.text.color.secondary,
       key: "CANCEL_BUTTON",
     },
   ]);
@@ -90,14 +90,14 @@ export function resetBalanceModalBuilder(props) {
   setModalButtons([
     {
       label: "Submit",
-      buttonColor: THEME.colors.primary,
-      textColor: THEME.text.color,
+      buttonColor: THEME.colors.success,
+      textColor: THEME.text.color.secondary,
       key: "SUBMIT_BUTTON",
     },
     {
       label: "Cancel",
       buttonColor: THEME.colors.danger,
-      textColor: THEME.text.color,
+      textColor: THEME.text.color.secondary,
       key: "CANCEL_BUTTON",
     },
   ]);
@@ -123,7 +123,7 @@ export function connectToAlpacaModalBuilder(props) {
     <View>
       <Text
         style={{
-          color: THEME.text.color,
+          color: THEME.text.color.secondary,
           fontSize: THEME.text.fontSizeModalBody,
         }}
       >
@@ -132,12 +132,12 @@ export function connectToAlpacaModalBuilder(props) {
       <TouchableOpacity
         onPress={() => Linking.openURL("https://app.alpaca.markets/signup")}
       >
-        <Text style={{ color: THEME.colors.primary, paddingTop: "1%" }}>
+        <Text style={{ color: THEME.text.color.secondary, paddingTop: "1%" }}>
           Sign up here{" "}
           <FontAwesome
             name="external-link"
             size={THEME.text.fontSizeModalBody}
-            color={THEME.colors.primary}
+            color={THEME.colors.secondary}
           />
         </Text>
       </TouchableOpacity>
@@ -153,14 +153,14 @@ export function connectToAlpacaModalBuilder(props) {
   setModalButtons([
     {
       label: "Submit",
-      buttonColor: THEME.colors.primary,
-      textColor: THEME.text.color,
+      buttonColor: THEME.colors.success,
+      textColor: THEME.text.color.secondary,
       key: "SUBMIT_BUTTON",
     },
     {
       label: "Cancel",
       buttonColor: THEME.colors.danger,
-      textColor: THEME.text.color,
+      textColor: THEME.text.color.secondary,
       key: "CANCEL_BUTTON",
     },
   ]);
@@ -186,14 +186,14 @@ export function disconnectFromAlpacaModalBuilder(props) {
   setModalButtons([
     {
       label: "Submit",
-      buttonColor: THEME.colors.primary,
-      textColor: THEME.text.color,
+      buttonColor: THEME.colors.success,
+      textColor: THEME.text.color.secondary,
       key: "SUBMIT_BUTTON",
     },
     {
       label: "Cancel",
       buttonColor: THEME.colors.danger,
-      textColor: THEME.text.color,
+      textColor: THEME.text.color.secondary,
       key: "CANCEL_BUTTON",
     },
   ]);
@@ -220,14 +220,14 @@ export function resetPasswordModalBuilder(props) {
   setModalButtons([
     {
       label: "Submit",
-      buttonColor: THEME.colors.primary,
-      textColor: THEME.text.color,
+      buttonColor: THEME.colors.success,
+      textColor: THEME.text.color.secondary,
       key: "SUBMIT_BUTTON",
     },
     {
       label: "Cancel",
       buttonColor: THEME.colors.danger,
-      textColor: THEME.text.color,
+      textColor: THEME.text.color.secondary,
       key: "CANCEL_BUTTON",
     },
   ]);
@@ -257,14 +257,14 @@ export function updateEmailModalBuilder(props) {
   setModalButtons([
     {
       label: "Submit",
-      buttonColor: THEME.colors.primary,
-      textColor: THEME.text.color,
+      buttonColor: THEME.colors.success,
+      textColor: THEME.text.color.secondary,
       key: "SUBMIT_BUTTON",
     },
     {
       label: "Cancel",
       buttonColor: THEME.colors.danger,
-      textColor: THEME.text.color,
+      textColor: THEME.text.color.secondary,
       key: "CANCEL_BUTTON",
     },
   ]);
@@ -297,14 +297,14 @@ export function updatePhoneModalBuilder(props) {
   setModalButtons([
     {
       label: "Submit",
-      buttonColor: THEME.colors.primary,
-      textColor: THEME.text.color,
+      buttonColor: THEME.colors.success,
+      textColor: THEME.text.color.secondary,
       key: "SUBMIT_BUTTON",
     },
     {
       label: "Cancel",
       buttonColor: THEME.colors.danger,
-      textColor: THEME.text.color,
+      textColor: THEME.text.color.secondary,
       key: "CANCEL_BUTTON",
     },
   ]);
@@ -334,14 +334,14 @@ export function deleteAccountModalBuilder(props) {
   setModalButtons([
     {
       label: "Submit",
-      buttonColor: THEME.colors.primary,
-      textColor: THEME.text.color,
+      buttonColor: THEME.colors.success,
+      textColor: THEME.text.color.secondary,
       key: "SUBMIT_BUTTON",
     },
     {
       label: "Cancel",
       buttonColor: THEME.colors.danger,
-      textColor: THEME.text.color,
+      textColor: THEME.text.color.secondary,
       key: "CANCEL_BUTTON",
     },
   ]);
@@ -366,14 +366,14 @@ export function deleteInvestorModalBuilder(props) {
   setModalButtons([
     {
       label: "Submit",
-      buttonColor: THEME.colors.primary,
-      textColor: THEME.text.color,
+      buttonColor: THEME.colors.success,
+      textColor: THEME.text.color.secondary,
       key: "SUBMIT_BUTTON",
     },
     {
       label: "Cancel",
       buttonColor: THEME.colors.danger,
-      textColor: THEME.text.color,
+      textColor: THEME.text.color.secondary,
       key: "CANCEL_BUTTON",
     },
   ]);
@@ -381,34 +381,33 @@ export function deleteInvestorModalBuilder(props) {
 }
 
 export function stopJobModalBuilder(props) {
- const {
-   isModalVisible,
-   setIsModalVisible,
-   setModalType,
-   setModalTitle,
-   setModalHeader,
-   setModalBody,
-   setModalButtons,
- } = props;
- setModalType("STOP_JOB");
- setModalTitle("Stop Job");
- setModalHeader("Are you sure you want to stop this job?");
- setModalBody("All holdings from this job will be sold upon submit.");
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalButtons,
+  } = props;
+  setModalType("STOP_JOB");
+  setModalTitle("Stop Job");
+  setModalHeader("Are you sure you want to stop this job?");
+  setModalBody("All holdings from this job will be sold upon submit.");
 
- setModalButtons([
-   {
-     label: "Submit",
-     buttonColor: THEME.colors.primary,
-     textColor: THEME.text.color,
-     key: "SUBMIT_BUTTON",
-   },
-   {
-     label: "Cancel",
-     buttonColor: THEME.colors.danger,
-     textColor: THEME.text.color,
-     key: "CANCEL_BUTTON",
-   },
- ]);
- setIsModalVisible(!isModalVisible);
-
+  setModalButtons([
+    {
+      label: "Submit",
+      buttonColor: THEME.colors.success,
+      textColor: THEME.text.color.secondary,
+      key: "SUBMIT_BUTTON",
+    },
+    {
+      label: "Cancel",
+      buttonColor: THEME.colors.danger,
+      textColor: THEME.text.color.secondary,
+      key: "CANCEL_BUTTON",
+    },
+  ]);
+  setIsModalVisible(!isModalVisible);
 }

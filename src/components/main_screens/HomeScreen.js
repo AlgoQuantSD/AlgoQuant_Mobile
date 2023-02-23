@@ -44,7 +44,6 @@ export default function HomeScreen({ navigation }) {
     setScrollPosition(event.nativeEvent.contentOffset.y);
   };
 
-
   const portfolioData = {
     recentPrice: 152.01,
     open: 150.64,
@@ -157,11 +156,12 @@ export default function HomeScreen({ navigation }) {
           duration={3500}
           action={{
             label: "Dismiss",
-            textColor: THEME.text.color,
+            textColor: THEME.snackbar.text.color,
             onPress: () => {
               snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
             },
           }}
+          style={styles.snackbar}
         >
           {snackbarMessage}
         </Snackbar>
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    color: THEME.text.primaryColor,
   },
   graphDetailsContainer: {
     flex: 0.2,
@@ -203,5 +203,8 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginTop: "2%",
     marginRight: "5%",
+  },
+  snackbar: {
+    backgroundColor: THEME.snackbar.color.background,
   },
 });

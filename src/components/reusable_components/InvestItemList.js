@@ -37,7 +37,7 @@ export default function InvestItemList(props) {
         <View style={styles.listItems}>
           {listData.length === 0 ? (
             <View style={styles.noResultsContainer}>
-              <Text style={styles.text}>
+              <Text style={styles.primaryText}>
                 You don't have any investors yet. Press the plus icon above to
                 create one.
               </Text>
@@ -117,11 +117,11 @@ export default function InvestItemList(props) {
                             }}
                             style={styles.startJobButton}
                           >
-                            <Text style={styles.text}>Start Job</Text>
+                            <Text style={styles.secondaryText}>Start Job</Text>
                             <Ionicons
                               name="arrow-forward"
                               size={16}
-                              color={THEME.colors.foreground}
+                              color={THEME.colors.background}
                             />
                           </TouchableOpacity>
                         </View>
@@ -143,9 +143,13 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     alignItems: "center",
   },
-  text: {
+  primaryText: {
     fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    color: THEME.text.primaryColor,
+  },
+  secondaryText: {
+    fontSize: THEME.text.fontSizeBody,
+    color: THEME.text.secondaryColor,
   },
   activityIndicator: {
     paddingTop: "10%",
@@ -176,7 +180,7 @@ const styles = StyleSheet.create({
   },
   listItemName: {
     fontSize: THEME.text.fontSizeH3,
-    color: THEME.text.color,
+    color: THEME.text.secondaryColor,
   },
   imageContainer: {
     flex: 0.4,
@@ -190,11 +194,11 @@ const styles = StyleSheet.create({
   },
   indictorAndStockHeaderText: {
     fontSize: THEME.text.fontSizeH4,
-    color: THEME.text.color,
+    color: THEME.text.secondaryColor,
   },
   indictorAndStockText: {
     fontSize: THEME.text.fontSizeBody,
-    color: THEME.colors.primary,
+    color: THEME.text.secondaryColor,
   },
   indicatorCol: {
     flexDirection: "col",

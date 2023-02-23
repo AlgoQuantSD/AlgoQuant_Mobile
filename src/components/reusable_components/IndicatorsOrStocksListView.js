@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
+import { THEME } from "../../constants/Theme";
 
 // Renders the listview of either the indicators or stocks
 export default function IndicatorsOrStocksListView(props) {
@@ -18,7 +19,7 @@ export default function IndicatorsOrStocksListView(props) {
           }}
         >
           {chunk.map((item) => (
-            <Text key={item.id} style={{ color: "white" }}>
+            <Text key={item.id} style={{ color: THEME.text.primaryColor }}>
               {item.name}
             </Text>
           ))}

@@ -1,9 +1,14 @@
 import React from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  Text,
+  ScrollView,
+} from "react-native";
 import { DataTable } from "react-native-paper";
-import { THEME } from "../../constants/Theme";
 import { FlashList } from "@shopify/flash-list";
-import { ActivityIndicator, Text } from "react-native";
+import { THEME } from "../../constants/Theme";
 
 export default function CustomTable(props) {
   // table headers
@@ -25,7 +30,7 @@ export default function CustomTable(props) {
               <DataTable.Title
                 key={column.id}
                 style={styles.column}
-                textStyle={{ color: "white" }}
+                textStyle={{ color: THEME.text.color.primary }}
               >
                 {column.label}
               </DataTable.Title>
@@ -56,7 +61,7 @@ export default function CustomTable(props) {
                     <DataTable.Cell
                       key={column.id}
                       style={styles.cell}
-                      textStyle={{ color: "white" }}
+                      textStyle={{ color: THEME.text.color.secondary }}
                     >
                       {item[column.id]}
                     </DataTable.Cell>
@@ -67,7 +72,7 @@ export default function CustomTable(props) {
                 props.loading ? (
                   <ActivityIndicator
                     size="small"
-                    color="#3F9F30"
+                    color={THEME.activityIndicator.color.primary}
                     style={styles.activity}
                   />
                 ) : null
@@ -82,7 +87,7 @@ export default function CustomTable(props) {
 
 const styles = StyleSheet.create({
   text: {
-    color: THEME.text.color,
+    color: THEME.text.color.primary,
   },
   row: {
     backgroundColor: THEME.table.rowColor1,

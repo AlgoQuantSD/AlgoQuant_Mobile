@@ -12,7 +12,7 @@ export default function InvestContainer(props) {
     navigation,
   } = props;
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.headerText}>Invest</Text>
       <InvestCarousel
         handlePressInTouchableElement={handlePressInTouchableElement}
@@ -26,16 +26,9 @@ export default function InvestContainer(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    
-  },
-  text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
-  },
   headerText: {
     fontSize: THEME.text.fontSizeH1,
-    color: THEME.text.color,
+    color: THEME.text.primaryColor,
     paddingTop: "5%",
     paddingBottom: "5%",
   },

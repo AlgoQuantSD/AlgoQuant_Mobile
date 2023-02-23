@@ -72,13 +72,13 @@ export default function JobsAndHistoryItemList(props) {
                             <Ionicons
                               name="caret-up-outline"
                               size={12}
-                              color={THEME.colors.primary}
+                              color={THEME.colors.trendingUp}
                             />
                           ) : (
                             <Ionicons
                               name="caret-down-outline"
                               size={12}
-                              color={THEME.colors.danger}
+                              color={THEME.colors.trendingDown}
                             />
                           )}
                         </View>
@@ -159,16 +159,16 @@ const styles = StyleSheet.create({
   investorImage: { height: 30, width: 20 },
   investorNameText: {
     fontSize: 10,
-    color: THEME.text.color,
+    color: THEME.text.secondaryColor,
   },
   percentChangeUpText: {
     fontSize: THEME.text.fontSizeBody,
-    color: THEME.colors.primary,
+    color: THEME.colors.trendingUp,
     marginLeft: "2%",
   },
   percentChangeDownText: {
     fontSize: THEME.text.fontSizeBody,
-    color: THEME.colors.danger,
+    color: THEME.colors.trendingDown,
     marginLeft: "2%",
   },
 });

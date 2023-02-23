@@ -64,6 +64,7 @@ export default function InvestorScreen(props) {
   return (
     <View style={styles.container}>
       {shouldNavigateBack ? navigation.navigate("HomeScreen") : null}
+      {/* Modal */}
       <CustomModal
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
@@ -81,6 +82,7 @@ export default function InvestorScreen(props) {
         setIsSnackbarVisible={setIsSnackbarVisible}
         setShouldNavigateBack={setShouldNavigateBack}
       />
+      {/* Header (name, image, start/delete buttons) */}
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>{investor.name}</Text>
         <Image
@@ -91,16 +93,24 @@ export default function InvestorScreen(props) {
           style={styles.headerRowIcon}
           onPress={() => console.log("Start new job")}
         >
-          <Ionicons name="construct" size={32} color="white" />
+          <Ionicons
+            name={THEME.icon.name.investorStartJob}
+            size={THEME.icon.size.large}
+            color={THEME.icon.color.primary}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.headerRowIcon}
           onPress={handleTrashIconPress}
         >
-          <Ionicons name="trash" size={32} color="white" />
+          <Ionicons
+            name="trash"
+            size={THEME.icon.size.large}
+            color={THEME.icon.color.primary}
+          />
         </TouchableOpacity>
       </View>
-
+      {/* Investor Configuration */}
       <View style={styles.investorConfigurationContainer}>
         <Text style={styles.sectionTitleText}>Investor Configuration</Text>
         <View style={styles.investorConfigurationDetailsRow}>
@@ -119,12 +129,13 @@ export default function InvestorScreen(props) {
           </View>
         </View>
       </View>
+      {/* Indicators */}
       <View style={styles.indicatorsContainer}>
         <View style={styles.indicatorsHeaderRow}>
           <Text style={styles.sectionTitleText}>Indicators</Text>
           <Button
-            buttonColor={THEME.button.backgroundColor}
-            textColor={THEME.text.color}
+            buttonColor={THEME.button.primaryColorBackground}
+            textColor={THEME.text.secondaryColor}
             onPress={handleIndicatorViewChange}
           >
             {isIndicatorSetToCarouselView ? "List View" : "Carousel View"}
@@ -138,12 +149,13 @@ export default function InvestorScreen(props) {
           </Animated.View>
         )}
       </View>
+      {/* Stocks */}
       <View style={styles.stocksContainer}>
         <View style={styles.stocksHeaderRow}>
           <Text style={styles.sectionTitleText}>Stocks</Text>
           <Button
-            buttonColor={THEME.button.backgroundColor}
-            textColor={THEME.text.color}
+            buttonColor={THEME.button.color.primary}
+            textColor={THEME.text.color.secondary}
             onPress={handleStockViewChange}
           >
             {isStockSetToCarouselView ? "List View" : "Carousel View"}
@@ -158,6 +170,7 @@ export default function InvestorScreen(props) {
           </Animated.View>
         )}
       </View>
+      {/* Jobs */}
       <View style={styles.jobsContainer}>
         <Text style={styles.sectionTitleText}>Jobs</Text>
         <View style={styles.jobList}>
@@ -180,8 +193,8 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.colors.background,
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
   },
   headerContainer: {
     flex: 0.1,
@@ -194,8 +207,8 @@ const styles = StyleSheet.create({
     marginRight: "5%",
   },
   headerText: {
-    fontSize: THEME.text.fontSizeH2,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.H2,
+    color: THEME.text.color.primary,
     paddingRight: "2%",
   },
   investorImage: { height: 45, width: 30 },
@@ -210,8 +223,8 @@ const styles = StyleSheet.create({
     marginRight: "5%",
   },
   sectionTitleText: {
-    fontSize: THEME.text.fontSizeH4,
-    color: THEME.text.color,
+    fontSize: THEME.text.fontSize.H4,
+    color: THEME.text.color.primary,
   },
   investorConfigurationDetailsRow: {
     flex: 1,
