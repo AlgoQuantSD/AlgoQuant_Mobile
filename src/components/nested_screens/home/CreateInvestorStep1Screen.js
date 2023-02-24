@@ -6,7 +6,7 @@ import { THEME } from "../../../constants/Theme";
 
 export default function CreateInvestorStep1Screen({ navigation }) {
   const [investorName, setInvestorName] = useState("");
-  const [investorType, setInvestorType] = useState("STANDARD");
+  const [investorType, setInvestorType] = useState("ALGORITHMIC");
   const investorObject = {
     name: investorName,
     type: investorType,
@@ -46,12 +46,12 @@ export default function CreateInvestorStep1Screen({ navigation }) {
       {/* Investor type selector */}
       <View style={styles.investorTypeContainer}>
         <View style={styles.investorType}>
-          <Text style={styles.investorTitleText}>Standard Investor</Text>
+          <Text style={styles.investorTitleText}>Algorithmic Investor</Text>
           <Text style={styles.text}>
             Choose indicators and stocks to create your own custom investor.
           </Text>
-          <TouchableOpacity onPress={(e) => setInvestorType("STANDARD")}>
-            {investorType === "STANDARD" ? (
+          <TouchableOpacity onPress={(e) => setInvestorType("ALGORITHMIC")}>
+            {investorType === "ALGORITHMIC" ? (
               <Ionicons
                 name="ellipse"
                 color={THEME.icon.color.primary}
@@ -67,13 +67,13 @@ export default function CreateInvestorStep1Screen({ navigation }) {
           </TouchableOpacity>
         </View>
         <View style={styles.investorType}>
-          <Text style={styles.investorTitleText}>Algorithmic Investor</Text>
+          <Text style={styles.investorTitleText}>Smart Investor</Text>
           <Text style={styles.text}>
             Use AlgoQuant's Smart Trading tool powered by atrificial
             intelligence.
           </Text>
-          <TouchableOpacity onPress={(e) => setInvestorType("ALGORITHMIC")}>
-            {investorType === "ALGORITHMIC" ? (
+          <TouchableOpacity onPress={(e) => setInvestorType("SMART")}>
+            {investorType === "SMART" ? (
               <Ionicons
                 name="ellipse"
                 color={THEME.icon.color.primary}
@@ -94,11 +94,15 @@ export default function CreateInvestorStep1Screen({ navigation }) {
         <Button
           buttonColor={THEME.button.primaryColorBackground}
           textColor={THEME.text.secondaryColor}
-          onPress={() =>
-            navigation.navigate("CreateInvestorStep2Screen", {
-              investorObject: investorObject,
-            })
-          }
+          onPress={() => {
+            investorType === "ALGORITHMIC"
+              ? navigation.navigate("CreateInvestorStep2Screen", {
+                  investorObject: investorObject,
+                })
+              : navigation.navigate("CreateInvestorSmartStep2Screen", {
+                  investorObject: investorObject,
+                });
+          }}
         >
           Next
         </Button>
