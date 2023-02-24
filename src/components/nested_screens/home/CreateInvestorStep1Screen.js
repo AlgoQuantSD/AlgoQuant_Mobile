@@ -8,13 +8,13 @@ export default function CreateInvestorStep1Screen({ navigation }) {
   const [investorName, setInvestorName] = useState("");
   const [investorType, setInvestorType] = useState("ALGORITHMIC");
   const investorObject = {
-    name: investorName,
+    investor_name: investorName,
     type: investorType,
     indicators: [],
-    tradeFrequency: null,
-    profitStop: null,
-    lossStop: null,
-    stocks: [],
+    period: null,
+    profit_stop: null,
+    loss_stop: null,
+    assets_to_track: [],
   };
 
   return (
@@ -72,8 +72,8 @@ export default function CreateInvestorStep1Screen({ navigation }) {
             Use AlgoQuant's Smart Trading tool powered by atrificial
             intelligence.
           </Text>
-          <TouchableOpacity onPress={(e) => setInvestorType("SMART")}>
-            {investorType === "SMART" ? (
+          <TouchableOpacity onPress={(e) => setInvestorType("AI")}>
+            {investorType === "AI" ? (
               <Ionicons
                 name={THEME.icon.name.selectOptionCircleFilledIn}
                 color={THEME.icon.color.primary}

@@ -1,0 +1,119 @@
+import React from "react";
+import {
+  View,
+  Text,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+} from "react-native";
+import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
+import Carousel from "react-native-reanimated-carousel";
+import { Ionicons } from "@expo/vector-icons";
+import { investorImagePathList } from "../../constants/InvestorImagePaths";
+import { THEME } from "../../constants/Theme";
+
+export default function InvestorTradeFrequencyCarousel(props) {
+  const { data, selectedFrequency, setSelectedFrequency } = props;
+  const width = Dimensions.get("window").width;
+  console.log("Selected frequency: ", selectedFrequency);
+  return (
+    <Animated.View
+      entering={BounceIn.delay(500)}
+      exiting={BounceOut}
+      style={{ flex: 1 }}
+    >
+      <Carousel
+        loop
+        width={width}
+        height={width / 1.2}
+        mode="parallax"
+        data={data}
+        scrollAnimationDuration={1000}
+        onSnapToItem={(index) => console.log("current index:", index)}
+        renderItem={({ item, index }) => (
+          <View style={styles.card}>
+            <View style={styles.headerRowContainer}>
+              <Text style={styles.headerText}>{item.name}</Text>
+            </View>
+            <View style={styles.investorImageContainer}>
+              <Image
+                style={styles.investorImage}
+                source={investorImagePathList[1]}
+              />
+            </View>
+            <View style={styles.tradeFrequencyDescriptionContainer}>
+              <Text style={styles.text}>{item.description}</Text>
+            </View>
+            <View style={styles.footerRow}>
+              <TouchableOpacity
+                hitSlop={{ top: 30, bottom: 30, left: 30 }}
+                onPress={() => setSelectedFrequency(item.value)}
+              >
+                {item.value === selectedFrequency ? (
+                  <Ionicons
+                    name={THEME.icon.name.selectOptionCircleFilledIn}
+                    color={THEME.icon.color.secondary}
+                    size={THEME.icon.size.medium}
+                  />
+                ) : (
+                  <Ionicons
+                    name={THEME.icon.name.selectOptionCircleOutline}
+                    color={THEME.icon.color.secondary}
+                    size={THEME.icon.size.medium}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      />
+    </Animated.View>
+  );
+}
+
+const styles = StyleSheet.create({
+  card: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: THEME.colors.primary,
+    backgroundColor: THEME.indicatorAndStockCards.backgroundColor,
+  },
+  text: {
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.secondary,
+  },
+  headerText: {
+    textAlign: "center",
+    color: THEME.text.secondaryColor,
+    fontSize: THEME.text.fontSizeH3,
+  },
+  headerRowContainer: {
+    flex: 0.15,
+    justifyContent: "center",
+    backgroundColor: "red",
+  },
+  investorImageContainer: {
+    flex: 0.5,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "green",
+  },
+  investorImage: {
+    justifyContent: "center",
+    height: "100%",
+    width: "25%",
+  },
+  tradeFrequencyDescriptionContainer: {
+    flexGrow: 0.2,
+    paddingLeft: "1%",
+    paddingRight: "1%",
+    backgroundColor: "blue",
+  },
+  footerRow: {
+    flex: 0.2,
+    justifyContent: "center",
+    alignItems: "flex-end",
+    paddingRight: "1%",
+  },
+});

@@ -1,15 +1,25 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { INDICATOR_LIST } from "../../../constants/IndicatorList";
+import InvestorTradeFrequencyCarousel from "../../reusable_components/InvestorTradeFrequencyCarousel";
+import {
+  INDICATOR_LIST,
+  PERIOD_LIST,
+} from "../../../constants/CreateInvestorConstants";
 import { THEME } from "../../../constants/Theme";
 
 export default function CreateInvestorAlgorithmicStep2Screen(props) {
   const { investorObject } = props.route.params;
   const navigation = useNavigation();
-
+  console.log("Invesor object: ", investorObject);
   // Indicator selection state management
   const [isMACDSelected, setIsMACDSelected] = useState(false);
   const [isRSISelected, setIsRSISelected] = useState(false);
@@ -17,6 +27,10 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
   const [isOBVSelected, setIsOBVSelected] = useState(false);
   const [isBBSelected, setIsBBSelected] = useState(false);
   const [isSOSelected, setIsSOSelected] = useState(false);
+
+  const [selectedFrequency, setSelectedFrequency] = useState(
+    PERIOD_LIST[0].value
+  );
 
   // Set indicator to selected or unselected when one of them are pressed
   function setIsIndicatorSelected(indicatorId) {
@@ -66,9 +80,10 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
   }
 
   // Add or remove indicators that will be passed to the next screen based on the state of which indicators are selected
-  function finalizeIndicators() {
+  function handlePressNext() {
     addIndicators();
     removeIndicators();
+    addTradeFrequency();
 
     navigation.navigate("CreateInvestorAlgorithmicStep3Screen", {
       investorObject: investorObject,
@@ -131,49 +146,67 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
     }
   }
 
+  function addTradeFrequency() {
+    investorObject.period = selectedFrequency;
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Configure Investor</Text>
-      </View>
-
-      <View style={styles.indicatorsContainer}>
-        <Text style={styles.sectionTitleText}>Indicators</Text>
-        {INDICATOR_LIST.map((indicator) => (
-          <View key={indicator.id} style={styles.indicatorItem}>
-            <Text style={styles.text}>{indicator.abbreviation}</Text>
-            {isIndactorSelected(indicator.id) ? (
-              <TouchableOpacity
-                onPress={() => setIsIndicatorSelected(indicator.id)}
-              >
-                <Ionicons
-                  name={THEME.icon.name.selectOptionCircleFilledIn}
-                  color={THEME.icon.color.primary}
-                  size={THEME.icon.size.medium}
-                />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={() => setIsIndicatorSelected(indicator.id)}
-              >
-                <Ionicons
-                  name={THEME.icon.name.selectOptionCircleOutline}
-                  color={THEME.icon.color.primary}
-                  size={THEME.icon.size.medium}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
-        ))}
-      </View>
-
-      <Button
-        buttonColor={THEME.button.primaryColorBackground}
-        textColor={THEME.text.secondaryColor}
-        onPress={finalizeIndicators}
-      >
-        Next
-      </Button>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        {/* Header */}
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerText}>Configure Investor</Text>
+        </View>
+        {/* Indicators */}
+        <View style={styles.indicatorsContainer}>
+          <Text style={styles.sectionTitleText}>Indicators</Text>
+          {INDICATOR_LIST.map((indicator) => (
+            <View key={indicator.id} style={styles.indicatorItem}>
+              <Text style={styles.text}>{indicator.abbreviation}</Text>
+              {isIndactorSelected(indicator.id) ? (
+                <TouchableOpacity
+                  onPress={() => setIsIndicatorSelected(indicator.id)}
+                >
+                  <Ionicons
+                    name={THEME.icon.name.selectOptionCircleFilledIn}
+                    color={THEME.icon.color.primary}
+                    size={THEME.icon.size.medium}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => setIsIndicatorSelected(indicator.id)}
+                >
+                  <Ionicons
+                    name={THEME.icon.name.selectOptionCircleOutline}
+                    color={THEME.icon.color.primary}
+                    size={THEME.icon.size.medium}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
+          ))}
+        </View>
+        {/* Trade Frequency */}
+        <View style={styles.tradeFrequencyContainer}>
+          <Text style={styles.sectionTitleText}>Trade frequency</Text>
+          <InvestorTradeFrequencyCarousel
+            data={PERIOD_LIST}
+            selectedFrequency={selectedFrequency}
+            setSelectedFrequency={setSelectedFrequency}
+          />
+        </View>
+        {/* Next */}
+        <View style={styles.nextButtonContainer}>
+          <Button
+            buttonColor={THEME.button.primaryColorBackground}
+            textColor={THEME.text.secondaryColor}
+            onPress={handlePressNext}
+          >
+            Next
+          </Button>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -194,7 +227,6 @@ const styles = StyleSheet.create({
     color: THEME.text.color.primary,
   },
   headerContainer: {
-    flex: 0.1,
     justifyContent: "center",
     backgroundColor: "red",
   },
@@ -203,7 +235,6 @@ const styles = StyleSheet.create({
     color: THEME.text.color.primary,
   },
   indicatorsContainer: {
-    flex: 0.4,
     justifyContent: "space-between",
     backgroundColor: "blue",
   },
@@ -212,5 +243,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: "green",
+  },
+  tradeFrequencyContainer: {
+    backgroundColor: "purple",
+  },
+  nextButtonContainer: {
+    justifyContent: "center",
+    alignItems: "flex-end",
   },
 });
