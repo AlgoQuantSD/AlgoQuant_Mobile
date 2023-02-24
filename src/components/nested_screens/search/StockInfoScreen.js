@@ -27,7 +27,8 @@ export default function StockInfoScreen(props) {
   // Store the unix timestamp of the day the market closed
   const [dateClosed, setDateClosed] = useState(0);
   // Store the graph x and y values of the selected stock
-  const [graphData, setGraphData] = useState(0);
+  // initial value is an array because victorycharts takes data prop as array or objects only
+  const [graphData, setGraphData] = useState([0]);
   // Store the Y Values we get in ascending order, work around to victory graphs default behavior of having y ticks on the graph in order its being read
   // this prevents the ticks from being out of order
   const [yValues, setYValues] = useState();

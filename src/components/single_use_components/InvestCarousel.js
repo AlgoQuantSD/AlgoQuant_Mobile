@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import {
   PanGestureHandler,
@@ -13,6 +13,7 @@ import {
   MOCK_HISTORY,
 } from "../../constants/MockData";
 import { THEME } from "../../constants/Theme";
+import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function InvestCarousel(props) {
   const {
@@ -22,6 +23,8 @@ export default function InvestCarousel(props) {
     setIsSnackbarVisible,
     navigation,
   } = props;
+  // State variables used to access algoquant SDK API and display/ keep state of user data from database
+  const algoquantApi = useContext(AlgoquantApiContext);
   // Options for the carousel tabs
   const carouselOptions = [
     { name: "Investors", key: "CAROUSEL_TAB_INVESTORS", index: 0 },
@@ -39,13 +42,82 @@ export default function InvestCarousel(props) {
   // Track the swipe translation in the x direction
   const [translationX, setTranslationX] = useState(0);
 
+  // State variable to store an array of investor objects
+  const [investorList, setInvestorList] = useState([]);
+
+  // State variable to hold array of job objects
+  const [jobList, setJobList] = useState([]);
+
+  // Used for pagination of the job list data
+  // last evaluated key - used for the api to know if there is more data to fetch
+  // lastQUery - true if last evaluated key comes back undefined, aka no more queries
+  const [lekJobId, setlekJobId] = useState(null);
+  const [lastQuery, setLastQuery] = useState(false);
+
+  // CallBack function to get list of investors in bulk
+  const getInvestorList = useCallback(() => {
+    if (algoquantApi.token) {
+      algoquantApi
+        .getInvestorList()
+        .then((resp) => {
+          console.log(resp.data);
+          setInvestorList(resp.data["investors"]);
+        })
+        .catch((err) => {
+          // TODO: Need to implement better error handling
+          console.log(err);
+        });
+    }
+  }, [setInvestorList, algoquantApi]);
+
+  // CallBack function that fetchs for job list data in a paginiated manner
+  const getjobList = useCallback(() => {
+    if (!lastQuery) {
+      if (algoquantApi.token) {
+        let fetchType = "active";
+        if (selectedCarouselOptionIndex === 2) {
+          fetchType = "complete";
+        }
+        setIsLoading(true);
+        algoquantApi
+          .getJobList(fetchType, null, lekJobId)
+          .then((resp) => {
+            console.log("job endpoint");
+            setlekJobId(resp.data.LEK_job_id);
+            setJobList(jobList.concat(resp.data.jobs));
+
+            if (resp.data.LEK_job_id === undefined) {
+              setLastQuery(true);
+            } else {
+              setlekJobId(resp.data.LEK_job_id);
+            }
+
+            setIsLoading(false);
+          })
+          .catch((err) => {
+            // TODO: Need to implement better error handling
+            console.log(err.body);
+          });
+      }
+    }
+  }, [
+    algoquantApi,
+    setlekJobId,
+    setLastQuery,
+    setJobList,
+    setIsLoading,
+    jobList,
+    lekJobId,
+    selectedCarouselOptionIndex,
+  ]);
+
   // Handles what happens when the user presses one of the carousel tabs or swipes left or right inside of the component
   function handleCarouselOptionChange(index) {
     setIsLoading(true);
     setSelectedCarouselOptionIndex(index);
     switch (index) {
       case 0:
-        setListData(MOCK_INVESTORS);
+        getInvestorList();
         break;
       case 1:
         setListData(MOCK_JOBS);
@@ -60,6 +132,13 @@ export default function InvestCarousel(props) {
       setIsLoading(false);
     }, 500);
   }
+
+  console.log(investorList);
+  // Call investorlist when home page is loaded so investors are loaded when home page is
+  useEffect(() => {
+    getInvestorList();
+  }, []);
+
   return (
     <View>
       {/* Handles left and right swipe interactions on the carousel */}
@@ -128,7 +207,7 @@ export default function InvestCarousel(props) {
             {carouselOptions[selectedCarouselOptionIndex].key ===
             "CAROUSEL_TAB_INVESTORS" ? (
               <InvestItemList
-                listData={listData}
+                listData={investorList}
                 isLoading={isLoading}
                 handlePressInTouchableElement={handlePressInTouchableElement}
                 handlePressOutTouchableElement={handlePressOutTouchableElement}

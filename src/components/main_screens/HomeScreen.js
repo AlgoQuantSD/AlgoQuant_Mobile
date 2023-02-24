@@ -44,54 +44,64 @@ export default function HomeScreen({ navigation }) {
     setScrollPosition(event.nativeEvent.contentOffset.y);
   };
 
-  const portfolioData = {
-    recentPrice: 152.01,
-    open: 150.64,
-    high: 153.19,
-    low: 150.64,
-    yearlyHigh: 176.15,
-    yearlyLow: 124.17,
-    priceDifferenceRaw: 1.47,
-    priceDifferencePercent: 0.8,
-  };
-
   const [selectedTimeframe, setSelectedTimeframe] = useState(
     timeframeEnums.DAY
   );
-  const [graphData, setGraphData] = useState(0);
-  const [yValues, setYValues] = useState();
-  const [marketClosed, setMarketClosed] = useState(false);
-  const [priceDifferenceRaw, setPriceDifferenceRaw] = useState(false);
+
+  // initial value is an array because victorycharts takes data prop as array or objects only
+  const [graphData, setGraphData] = useState([0]);
+  const [yValues, setYValues] = useState([]);
+
+  // All state variables for stock related data / statistics
   const [percentChanged, setPercentChanged] = useState(null);
-  const [dateClosed, setDateClosed] = useState(0);
+  const [priceChange, setPriceChange] = useState(null);
+  const [dateClosed, setDateClosed] = useState(null);
+  const [marketClosed, setMarketClosed] = useState(false);
+  const [recentPrice, setRecentPrice] = useState(0);
+  const [graphLoading, setGraphLoading] = useState(true);
+
+  const portfolioData = {
+    recentPrice: recentPrice,
+    priceDifferenceRaw: priceChange,
+    priceDifferencePercent: percentChanged,
+    marketClosed: marketClosed,
+    dateClosed: dateClosed,
+  };
 
   // Callback function to get the graph data from the Algoquant API
   const getGraphData = useCallback(
     (timeframe) => {
       if (algoquantApi.token) {
         algoquantApi
-          .getPerformance(timeframe, null)
+          .getPerformance(timeframe)
           .then((resp) => {
             console.log(resp.data);
-            // const combinedData = resp.data["timestamp"].map((x, i) => ({
-            //   x,
-            //   y: resp.data["close"][i],
-            // }));
-            // setGraphData(combinedData);
-            // // putting y values in acsending order for y ticks on graph
-            // const yTickValues = resp.data["close"]
-            //   .map((datum) => datum)
-            //   .sort((a, b) => a - b);
+            const combinedData = resp.data["timestamp"].map((x, i) => ({
+              x,
+              y: resp.data["close"][i],
+            }));
+            setGraphData(combinedData);
+            // putting y values in acsending order for y ticks on graph
+            const yTickValues = resp.data["close"]
+              .map((datum) => datum)
+              .sort((a, b) => a - b);
+            setYValues(yTickValues);
 
-            // setYValues(yTickValues);
-            // setPriceDifferenceRaw(resp.data["interval_price_change"]);
-            // setPercentChanged(resp.data["percent_change"]);
-            // setMarketClosed(resp.data["is_market_closed"]);
+            setPercentChanged(resp.data["percent_change"].toFixed(2));
+            setPriceChange(
+              parseFloat(resp.data["interval_price_change"]).toFixed(2)
+            );
+            setRecentPrice(resp.data["recent_price"].toFixed(2));
+            setMarketClosed(resp.data["is_market_closed"]);
 
-            // // Grab the first timestamp from day graph to store a date for when the date closed
-            // if (timeframe === "D") {
-            //   setDateClosed(resp.data["timestamp"][0]);
-            // }
+            // If the timeframe selected was day, store the first timeframe (yVal) to keep track of the day the market was open,
+            // DateClosed variable will then used to show the date the market is closed, if it is.
+            if (timeframe === "D") {
+              console.log("here");
+              setDateClosed(resp.data["timestamp"][0]);
+            }
+
+            setGraphLoading(false);
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
@@ -99,11 +109,12 @@ export default function HomeScreen({ navigation }) {
           });
       }
     },
-    [algoquantApi, setGraphData, setYValues]
+    [algoquantApi]
   );
-  // useEffect(() => {
-  //   getGraphData("D");
-  // }, []);
+  useEffect(() => {
+    getGraphData("D");
+  }, [algoquantApi]);
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -127,8 +138,8 @@ export default function HomeScreen({ navigation }) {
             getGraphData={getGraphData}
             setSelectedTimeframe={setSelectedTimeframe}
             selectedTimeframe={selectedTimeframe}
-            handlePressInTouchableElement={handlePressInTouchableElement}
-            handlePressOutTouchableElement={handlePressOutTouchableElement}
+            percentChanged={percentChanged}
+            yVals={yValues}
           />
         </View>
         <View style={styles.investContainer}>
