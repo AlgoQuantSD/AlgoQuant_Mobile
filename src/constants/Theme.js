@@ -111,6 +111,8 @@ export const THEME = {
       editPencil: "pencil",
       refresh: "refresh",
       arrowRight: "arrow-forward",
+      selectOptionCircleOutline: "ellipse-outline",
+      selectOptionCircleFilledIn: "ellipse",
     },
     color: {
       primary: PALETTE.primaryGreen,

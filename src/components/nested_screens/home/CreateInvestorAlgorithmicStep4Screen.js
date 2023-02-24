@@ -4,16 +4,15 @@ import { useNavigation } from "@react-navigation/native";
 import { Button } from "react-native-paper";
 import { THEME } from "../../../constants/Theme";
 
-export default function CreateInvestorStep3Screen(props) {
-  const { investorObject } = props.route.params;
+export default function CreateInvestorAlgorithmicStep4Screen(props) {
   const navigation = useNavigation();
   return (
     <View>
-      <Text>Create investor screen step 3</Text>
+      <Text>Create investor screen step 4</Text>
       <Button
         buttonColor={THEME.button.primaryColorBackground}
         textColor={THEME.text.secondaryColor}
-        onPress={() => navigation.navigate("CreateInvestorStep4Screen")}
+        onPress={() => navigation.navigate("HomeScreen")}
       >
         Next
       </Button>

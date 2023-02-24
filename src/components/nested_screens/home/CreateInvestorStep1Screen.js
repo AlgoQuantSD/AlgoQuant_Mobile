@@ -75,13 +75,13 @@ export default function CreateInvestorStep1Screen({ navigation }) {
           <TouchableOpacity onPress={(e) => setInvestorType("SMART")}>
             {investorType === "SMART" ? (
               <Ionicons
-                name="ellipse"
+                name={THEME.icon.name.selectOptionCircleFilledIn}
                 color={THEME.icon.color.primary}
                 size={THEME.icon.size.medium}
               />
             ) : (
               <Ionicons
-                name="ellipse-outline"
+                name={THEME.icon.name.selectOptionCircleOutline}
                 color={THEME.icon.color.primary}
                 size={THEME.icon.size.medium}
               />
@@ -96,7 +96,7 @@ export default function CreateInvestorStep1Screen({ navigation }) {
           textColor={THEME.text.secondaryColor}
           onPress={() => {
             investorType === "ALGORITHMIC"
-              ? navigation.navigate("CreateInvestorStep2Screen", {
+              ? navigation.navigate("CreateInvestorAlgorithmicStep2Screen", {
                   investorObject: investorObject,
                 })
               : navigation.navigate("CreateInvestorSmartStep2Screen", {
