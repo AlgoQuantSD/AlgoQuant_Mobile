@@ -6,21 +6,24 @@ import { THEME } from "../../../constants/Theme";
 
 export default function CreateInvestorStep1Screen({ navigation }) {
   const [investorName, setInvestorName] = useState("");
-  const [selectedInvestorType, setSelectedInvestorType] = useState("STANDARD");
-  console.log(
-    "Investor name: ",
-    investorName,
-    " Investor type: ",
-    selectedInvestorType
-  );
-  function hasErrors() {
-    return !selectedInvestorType.includes("@");
-  }
+  const [investorType, setInvestorType] = useState("STANDARD");
+  const investorObject = {
+    name: investorName,
+    type: investorType,
+    indicators: [],
+    tradeFrequency: null,
+    profitStop: null,
+    lossStop: null,
+    stocks: [],
+  };
+
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Create Your Investor</Text>
       </View>
+      {/* Investor name text input field */}
       <View style={styles.investorNameInputContainer}>
         <TextInput
           label="Investor name"
@@ -40,16 +43,15 @@ export default function CreateInvestorStep1Screen({ navigation }) {
           }}
         />
       </View>
+      {/* Investor type selector */}
       <View style={styles.investorTypeContainer}>
         <View style={styles.investorType}>
           <Text style={styles.investorTitleText}>Standard Investor</Text>
           <Text style={styles.text}>
             Choose indicators and stocks to create your own custom investor.
           </Text>
-          <TouchableOpacity
-            onPress={(e) => setSelectedInvestorType("STANDARD")}
-          >
-            {selectedInvestorType === "STANDARD" ? (
+          <TouchableOpacity onPress={(e) => setInvestorType("STANDARD")}>
+            {investorType === "STANDARD" ? (
               <Ionicons
                 name="ellipse"
                 color={THEME.icon.color.primary}
@@ -70,10 +72,8 @@ export default function CreateInvestorStep1Screen({ navigation }) {
             Use AlgoQuant's Smart Trading tool powered by atrificial
             intelligence.
           </Text>
-          <TouchableOpacity
-            onPress={(e) => setSelectedInvestorType("ALGORITHMIC")}
-          >
-            {selectedInvestorType === "ALGORITHMIC" ? (
+          <TouchableOpacity onPress={(e) => setInvestorType("ALGORITHMIC")}>
+            {investorType === "ALGORITHMIC" ? (
               <Ionicons
                 name="ellipse"
                 color={THEME.icon.color.primary}
@@ -89,13 +89,20 @@ export default function CreateInvestorStep1Screen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-      <Button
-        buttonColor={THEME.button.primaryColorBackground}
-        textColor={THEME.text.secondaryColor}
-        onPress={() => navigation.navigate("CreateInvestorStep2Screen")}
-      >
-        Next
-      </Button>
+      {/* Next button */}
+      <View style={styles.nextButtonContainer}>
+        <Button
+          buttonColor={THEME.button.primaryColorBackground}
+          textColor={THEME.text.secondaryColor}
+          onPress={() =>
+            navigation.navigate("CreateInvestorStep2Screen", {
+              investorObject: investorObject,
+            })
+          }
+        >
+          Next
+        </Button>
+      </View>
     </View>
   );
 }
@@ -114,7 +121,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     flex: 0.1,
     justifyContent: "center",
-    backgroundColor: "blue",
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
@@ -123,20 +129,22 @@ const styles = StyleSheet.create({
   investorNameInputContainer: {
     flex: 0.1,
     justifyContent: "center",
-    backgroundColor: "green",
   },
   investorTypeContainer: {
     flex: 0.6,
     justifyContent: "center",
-    backgroundColor: "red",
   },
   investorType: {
     flex: 0.5,
     justifyContent: "center",
-    backgroundColor: "blue",
   },
   investorTitleText: {
     fontSize: THEME.text.fontSize.H4,
     color: THEME.text.color.primary,
+  },
+  nextButtonContainer: {
+    flex: 0.3,
+    justifyContent: "center",
+    alignItems: "flex-end",
   },
 });

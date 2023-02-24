@@ -1,9 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Button } from "react-native-paper";
 import { THEME } from "../../../constants/Theme";
 
-export default function CreateInvestorStep3Screen({ navigation }) {
+export default function CreateInvestorStep3Screen(props) {
+  const { investorObject } = props.route.params;
+  const navigation = useNavigation();
   return (
     <View>
       <Text>Create investor screen step 3</Text>
