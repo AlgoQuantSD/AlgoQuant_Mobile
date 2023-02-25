@@ -60,7 +60,6 @@ export default function InvestCarousel(props) {
       algoquantApi
         .getInvestorList()
         .then((resp) => {
-          console.log(resp.data);
           setInvestorList(resp.data["investors"]);
         })
         .catch((err) => {
@@ -71,45 +70,54 @@ export default function InvestCarousel(props) {
   }, [setInvestorList, algoquantApi]);
 
   // CallBack function that fetchs for job list data in a paginiated manner
-  const getjobList = useCallback(() => {
-    if (!lastQuery) {
-      if (algoquantApi.token) {
-        let fetchType = "active";
-        if (selectedCarouselOptionIndex === 2) {
-          fetchType = "complete";
-        }
-        setIsLoading(true);
-        algoquantApi
-          .getJobList(fetchType, null, lekJobId)
-          .then((resp) => {
-            console.log("job endpoint");
-            setlekJobId(resp.data.LEK_job_id);
-            setJobList(jobList.concat(resp.data.jobs));
-
-            if (resp.data.LEK_job_id === undefined) {
-              setLastQuery(true);
-            } else {
+  const getjobList = useCallback(
+    (fetchType) => {
+      console.log("outside of job");
+      if (!lastQuery) {
+        if (algoquantApi.token) {
+          algoquantApi
+            .getJobList(fetchType, null, lekJobId)
+            .then((resp) => {
+              console.log("job endpoint");
               setlekJobId(resp.data.LEK_job_id);
-            }
+              setJobList(jobList.concat(resp.data.jobs));
 
-            setIsLoading(false);
-          })
-          .catch((err) => {
-            // TODO: Need to implement better error handling
-            console.log(err.body);
-          });
+              if (resp.data.LEK_job_id === undefined) {
+                setLastQuery(true);
+              } else {
+                setlekJobId(resp.data.LEK_job_id);
+              }
+            })
+            .catch((err) => {
+              // TODO: Need to implement better error handling
+              console.log(err.body);
+            });
+        }
       }
-    }
-  }, [
-    algoquantApi,
-    setlekJobId,
-    setLastQuery,
-    setJobList,
-    setIsLoading,
-    jobList,
-    lekJobId,
-    selectedCarouselOptionIndex,
-  ]);
+    },
+    [
+      algoquantApi,
+      setlekJobId,
+      setLastQuery,
+      setJobList,
+      jobList,
+      lekJobId,
+      selectedCarouselOptionIndex,
+    ]
+  );
+  function resetJobList() {
+    return new Promise((resolve, reject) => {
+      try {
+        console.log("resetting now");
+        setJobList([]);
+        setLastQuery(false);
+        setlekJobId(null);
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
 
   // Handles what happens when the user presses one of the carousel tabs or swipes left or right inside of the component
   function handleCarouselOptionChange(index) {
@@ -120,20 +128,35 @@ export default function InvestCarousel(props) {
         getInvestorList();
         break;
       case 1:
-        setListData(MOCK_JOBS);
+        resetJobList()
+          .then(() => {
+            console.log("JobList reset successfully");
+            getjobList("active");
+          })
+          .catch((err) => {
+            console.error("An error occurred while resetting JobList:", err);
+          });
         break;
       case 2:
-        setListData(MOCK_HISTORY);
+        console.log("case 2");
+        resetJobList()
+          .then(() => {
+            console.log("JobList reset successfully");
+            getjobList("complete");
+          })
+          .catch((err) => {
+            console.error("An error occurred while resetting JobList:", err);
+          });
+        break;
         break;
       default:
-        setListData(MOCK_INVESTORS);
+        break;
     }
     setTimeout(() => {
       setIsLoading(false);
     }, 500);
   }
 
-  console.log(investorList);
   // Call investorlist when home page is loaded so investors are loaded when home page is
   useEffect(() => {
     getInvestorList();
@@ -217,8 +240,9 @@ export default function InvestCarousel(props) {
               />
             ) : (
               <JobsAndHistoryItemList
-                listData={listData}
+                listData={jobList}
                 isLoading={isLoading}
+                handleFetchMoreData={getjobList}
                 type={carouselOptions[selectedCarouselOptionIndex].key}
                 handlePressInTouchableElement={handlePressInTouchableElement}
                 handlePressOutTouchableElement={handlePressOutTouchableElement}

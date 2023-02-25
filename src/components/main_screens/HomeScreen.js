@@ -75,7 +75,6 @@ export default function HomeScreen({ navigation }) {
         algoquantApi
           .getPerformance(timeframe)
           .then((resp) => {
-            console.log(resp.data);
             const combinedData = resp.data["timestamp"].map((x, i) => ({
               x,
               y: resp.data["close"][i],
@@ -97,7 +96,6 @@ export default function HomeScreen({ navigation }) {
             // If the timeframe selected was day, store the first timeframe (yVal) to keep track of the day the market was open,
             // DateClosed variable will then used to show the date the market is closed, if it is.
             if (timeframe === "D") {
-              console.log("here");
               setDateClosed(resp.data["timestamp"][0]);
             }
 
