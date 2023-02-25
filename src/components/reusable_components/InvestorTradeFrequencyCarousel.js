@@ -39,7 +39,7 @@ export default function InvestorTradeFrequencyCarousel(props) {
             <View style={styles.investorImageContainer}>
               <Image
                 style={styles.investorImage}
-                source={investorImagePathList[1]}
+                source={investorImagePathList[item.imageId]}
               />
             </View>
             <View style={styles.tradeFrequencyDescriptionContainer}>
