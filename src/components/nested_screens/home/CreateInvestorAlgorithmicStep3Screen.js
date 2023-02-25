@@ -10,7 +10,7 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
   const navigation = useNavigation();
   return (
     <View>
-      <Text>Create investor screen step 3 {investorObject.indicators[0]}</Text>
+      <Text>Create investor screen step 3</Text>
       <Button
         buttonColor={THEME.button.primaryColorBackground}
         textColor={THEME.text.secondaryColor}

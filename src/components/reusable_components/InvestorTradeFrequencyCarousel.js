@@ -91,13 +91,13 @@ const styles = StyleSheet.create({
   headerRowContainer: {
     flex: 0.15,
     justifyContent: "center",
-    backgroundColor: "red",
   },
   investorImageContainer: {
     flex: 0.5,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "green",
+    borderBottomWidth: 1,
+    borderColor: THEME.colors.background,
   },
   investorImage: {
     justifyContent: "center",
@@ -105,13 +105,13 @@ const styles = StyleSheet.create({
     width: "25%",
   },
   tradeFrequencyDescriptionContainer: {
-    flexGrow: 0.2,
+    flex: 0.2,
+    justifyContent: "center",
     paddingLeft: "1%",
     paddingRight: "1%",
-    backgroundColor: "blue",
   },
   footerRow: {
-    flex: 0.2,
+    flex: 0.15,
     justifyContent: "center",
     alignItems: "flex-end",
     paddingRight: "1%",

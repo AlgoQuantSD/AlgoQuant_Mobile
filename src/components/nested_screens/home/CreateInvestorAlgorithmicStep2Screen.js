@@ -4,9 +4,11 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
 } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, TextInput } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import InvestorTradeFrequencyCarousel from "../../reusable_components/InvestorTradeFrequencyCarousel";
@@ -28,9 +30,13 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
   const [isBBSelected, setIsBBSelected] = useState(false);
   const [isSOSelected, setIsSOSelected] = useState(false);
 
+  // Frequency selection state management
   const [selectedFrequency, setSelectedFrequency] = useState(
     PERIOD_LIST[0].value
   );
+
+  const [profitStop, setProfitStop] = useState("0");
+  const [lossStop, setLossStop] = useState("0");
 
   // Set indicator to selected or unselected when one of them are pressed
   function setIsIndicatorSelected(indicatorId) {
@@ -84,7 +90,7 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
     addIndicators();
     removeIndicators();
     addTradeFrequency();
-
+    addProfitAndLossStop();
     navigation.navigate("CreateInvestorAlgorithmicStep3Screen", {
       investorObject: investorObject,
     });
@@ -149,63 +155,120 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
   function addTradeFrequency() {
     investorObject.period = selectedFrequency;
   }
+  function addProfitAndLossStop() {
+    investorObject.profit_stop = profitStop;
+    investorObject.loss_stop = lossStop;
+  }
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        {/* Header */}
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>Configure Investor</Text>
-        </View>
-        {/* Indicators */}
-        <View style={styles.indicatorsContainer}>
-          <Text style={styles.sectionTitleText}>Indicators</Text>
-          {INDICATOR_LIST.map((indicator) => (
-            <View key={indicator.id} style={styles.indicatorItem}>
-              <Text style={styles.text}>{indicator.abbreviation}</Text>
-              {isIndactorSelected(indicator.id) ? (
-                <TouchableOpacity
-                  onPress={() => setIsIndicatorSelected(indicator.id)}
-                >
-                  <Ionicons
-                    name={THEME.icon.name.selectOptionCircleFilledIn}
-                    color={THEME.icon.color.primary}
-                    size={THEME.icon.size.medium}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  onPress={() => setIsIndicatorSelected(indicator.id)}
-                >
-                  <Ionicons
-                    name={THEME.icon.name.selectOptionCircleOutline}
-                    color={THEME.icon.color.primary}
-                    size={THEME.icon.size.medium}
-                  />
-                </TouchableOpacity>
-              )}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="position">
+          {/* Header */}
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>Configure Investor</Text>
+          </View>
+          {/* Indicators */}
+          <View style={styles.indicatorsContainer}>
+            <Text style={styles.sectionTitleText}>Indicators</Text>
+            {INDICATOR_LIST.map((indicator) => (
+              <View key={indicator.id} style={styles.indicatorItem}>
+                <Text style={styles.text}>{indicator.abbreviation}</Text>
+                {isIndactorSelected(indicator.id) ? (
+                  <TouchableOpacity
+                    onPress={() => setIsIndicatorSelected(indicator.id)}
+                  >
+                    <Ionicons
+                      name={THEME.icon.name.selectOptionCircleFilledIn}
+                      color={THEME.icon.color.primary}
+                      size={THEME.icon.size.medium}
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => setIsIndicatorSelected(indicator.id)}
+                  >
+                    <Ionicons
+                      name={THEME.icon.name.selectOptionCircleOutline}
+                      color={THEME.icon.color.primary}
+                      size={THEME.icon.size.medium}
+                    />
+                  </TouchableOpacity>
+                )}
+              </View>
+            ))}
+          </View>
+          {/* Trade Frequency */}
+          <View style={styles.tradeFrequencyContainer}>
+            <Text style={styles.sectionTitleText}>Trade frequency</Text>
+            <InvestorTradeFrequencyCarousel
+              data={PERIOD_LIST}
+              selectedFrequency={selectedFrequency}
+              setSelectedFrequency={setSelectedFrequency}
+            />
+          </View>
+          {/* Conditions */}
+          <View style={styles.conditionsContainer}>
+            <Text style={styles.sectionTitleText}>Conditions</Text>
+            <View style={styles.conditionsRow}>
+              <Text>Profit stop</Text>
+              <TextInput
+                value={profitStop}
+                onChangeText={(text) => {
+                  setProfitStop(text);
+                }}
+                selectionColor={THEME.colors.foreground}
+                underlineColor={THEME.colors.transparent}
+                activeUnderlineColor={THEME.colors.transparent}
+                outlineColor={THEME.colors.foreground}
+                activeOutlineColor={THEME.colors.foreground}
+                textColor={THEME.colors.foreground}
+                placeholderTextColor={THEME.colors.foreground}
+                contentStyle={{ color: THEME.colors.foreground }}
+                maxLength={2}
+                style={styles.percentTextInput}
+              />
+              <View style={styles.percentMark}>
+                <Text style={styles.text}>%</Text>
+              </View>
             </View>
-          ))}
-        </View>
-        {/* Trade Frequency */}
-        <View style={styles.tradeFrequencyContainer}>
-          <Text style={styles.sectionTitleText}>Trade frequency</Text>
-          <InvestorTradeFrequencyCarousel
-            data={PERIOD_LIST}
-            selectedFrequency={selectedFrequency}
-            setSelectedFrequency={setSelectedFrequency}
-          />
-        </View>
-        {/* Next */}
-        <View style={styles.nextButtonContainer}>
-          <Button
-            buttonColor={THEME.button.primaryColorBackground}
-            textColor={THEME.text.secondaryColor}
-            onPress={handlePressNext}
-          >
-            Next
-          </Button>
-        </View>
+            <View style={styles.conditionsRow}>
+              <Text>Loss stop</Text>
+              <TextInput
+                value={lossStop}
+                onChangeText={(text) => {
+                  setLossStop(text);
+                }}
+                selectionColor={THEME.colors.foreground}
+                underlineColor={THEME.colors.transparent}
+                activeUnderlineColor={THEME.colors.transparent}
+                outlineColor={THEME.colors.foreground}
+                activeOutlineColor={THEME.colors.foreground}
+                textColor={THEME.colors.foreground}
+                placeholderTextColor={THEME.colors.foreground}
+                contentStyle={{ color: THEME.colors.foreground }}
+                maxLength={2}
+                style={styles.percentTextInput}
+              />
+              <View style={styles.percentMark}>
+                <Text style={styles.text}>%</Text>
+              </View>
+            </View>
+          </View>
+          {/* Next */}
+          <View style={styles.nextButtonContainer}>
+            <Button
+              buttonColor={THEME.button.primaryColorBackground}
+              textColor={THEME.text.secondaryColor}
+              onPress={handlePressNext}
+            >
+              Next
+            </Button>
+          </View>
+        </KeyboardAvoidingView>
       </ScrollView>
     </View>
   );
@@ -228,27 +291,53 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     justifyContent: "center",
-    backgroundColor: "red",
+    marginTop: "5%",
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
     color: THEME.text.color.primary,
   },
   indicatorsContainer: {
+    marginTop: "5%",
     justifyContent: "space-between",
-    backgroundColor: "blue",
   },
   indicatorItem: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "green",
   },
   tradeFrequencyContainer: {
-    backgroundColor: "purple",
+    marginTop: "5%",
   },
+  conditionsContainer: {
+    flex: 1,
+  },
+  conditionsRow: {
+    flex: 0.5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  percentTextInput: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: "auto",
+    borderBottomWidth: 1,
+    borderColor: THEME.colors.foreground,
+    backgroundColor: THEME.colors.transparent,
+    width: "15%",
+  },
+  percentMark: {
+    height: "100%",
+    justifyContent: "center",
+    borderBottomWidth: 1,
+    borderColor: THEME.colors.foreground,
+  },
+
   nextButtonContainer: {
     justifyContent: "center",
+    paddingTop: "10%",
+    paddingBottom: "10%",
     alignItems: "flex-end",
   },
 });
