@@ -90,7 +90,7 @@ export default function InvestCarousel(props) {
             })
             .catch((err) => {
               // TODO: Need to implement better error handling
-              console.log(err.body);
+              console.log(err);
             });
         }
       }
