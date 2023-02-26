@@ -70,84 +70,71 @@ export default function InvestCarousel(props) {
   }, [setInvestorList, algoquantApi]);
 
   // CallBack function that fetchs for job list data in a paginiated manner
-  const getjobList = useCallback(
-    (fetchType) => {
-      console.log("outside of job");
-      if (!lastQuery) {
-        if (algoquantApi.token) {
-          algoquantApi
-            .getJobList(fetchType, null, lekJobId)
-            .then((resp) => {
-              console.log("job endpoint");
-              setlekJobId(resp.data.LEK_job_id);
-              setJobList(jobList.concat(resp.data.jobs));
+  const getjobList = (fetchType) => {
+    console.log("outside of job");
 
-              if (resp.data.LEK_job_id === undefined) {
-                setLastQuery(true);
-              } else {
-                setlekJobId(resp.data.LEK_job_id);
-              }
-            })
-            .catch((err) => {
-              // TODO: Need to implement better error handling
-              console.log(err);
-            });
-        }
+    if (!lastQuery) {
+      if (algoquantApi.token) {
+        algoquantApi
+          .getJobList(fetchType, null, lekJobId)
+          .then((resp) => {
+            console.log("job endpoint");
+            setlekJobId(resp.data.LEK_job_id);
+            setJobList(jobList.concat(resp.data.jobs));
+
+            if (resp.data.LEK_job_id === undefined) {
+              setLastQuery(true);
+            } else {
+              setlekJobId(resp.data.LEK_job_id);
+            }
+          })
+          .catch((err) => {
+            // TODO: Need to implement better error handling
+            console.log(err);
+          });
       }
-    },
-    [
-      algoquantApi,
-      setlekJobId,
-      setLastQuery,
-      setJobList,
-      jobList,
-      lekJobId,
-      selectedCarouselOptionIndex,
-    ]
-  );
+    }
+  };
   function resetJobList() {
     return new Promise((resolve, reject) => {
-      try {
-        console.log("resetting now");
-        setJobList([]);
-        setLastQuery(false);
-        setlekJobId(null);
-        resolve();
-      } catch (err) {
-        reject(err);
-      }
+      console.log("resetting now");
+      setJobList([]);
+      setLastQuery(false);
+      setlekJobId(null);
+      resolve();
     });
   }
 
+  useEffect(() => {
+    if (!lastQuery && jobList.length === 0 && lekJobId === null)
+      if (selectedCarouselOptionIndex === 1) {
+        getjobList("active");
+      } else {
+        getjobList("complete");
+      }
+  }, [selectedCarouselOptionIndex, lastQuery, lekJobId, jobList]);
+
   // Handles what happens when the user presses one of the carousel tabs or swipes left or right inside of the component
-  function handleCarouselOptionChange(index) {
+  async function handleCarouselOptionChange(index) {
     setIsLoading(true);
+    console.log("index ", index);
     setSelectedCarouselOptionIndex(index);
     switch (index) {
       case 0:
         getInvestorList();
         break;
       case 1:
-        resetJobList()
-          .then(() => {
-            console.log("JobList reset successfully");
-            getjobList("active");
-          })
-          .catch((err) => {
-            console.error("An error occurred while resetting JobList:", err);
-          });
+        setJobList([]);
+        setLastQuery(false);
+        setlekJobId(null);
+        console.log("==========JobList reset successfully");
         break;
       case 2:
         console.log("case 2");
-        resetJobList()
-          .then(() => {
-            console.log("JobList reset successfully");
-            getjobList("complete");
-          })
-          .catch((err) => {
-            console.error("An error occurred while resetting JobList:", err);
-          });
-        break;
+        setJobList([]);
+        setLastQuery(false);
+        setlekJobId(null);
+        console.log("==========JobList reset successfully");
         break;
       default:
         break;

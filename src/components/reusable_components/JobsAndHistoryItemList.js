@@ -27,12 +27,13 @@ export default function JobsAndHistoryItemList(props) {
     const contentHeight = event.nativeEvent.contentSize.height;
 
     if (contentOffsetY + scrollViewHeight >= contentHeight) {
+      console.log("bottom of the screen");
       type === "CAROUSEL_TAB_HISTORY"
         ? handleFetchMoreData("complete")
         : handleFetchMoreData("active");
     }
   };
-
+  console.log(listData.length);
   return (
     <View style={styles.container}>
       {isLoading ? (
