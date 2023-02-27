@@ -36,8 +36,7 @@ export default function InvestCarousel(props) {
   // Keeps track of which carousel option is selected
   const [selectedCarouselOptionIndex, setSelectedCarouselOptionIndex] =
     useState(0);
-  // Keeps track of what data we should pass into either the investor card or job and history list
-  const [listData, setListData] = useState(MOCK_INVESTORS);
+
   const [swipeDirection, setSwipeDirection] = useState(null);
   // Track the swipe translation in the x direction
   const [translationX, setTranslationX] = useState(0);
@@ -68,6 +67,8 @@ export default function InvestCarousel(props) {
         });
     }
   }, [setInvestorList, algoquantApi]);
+
+  console.log(investorList);
 
   // CallBack function that fetchs for job list data in a paginiated manner
   const getjobList = (fetchType) => {
@@ -121,7 +122,6 @@ export default function InvestCarousel(props) {
         setJobList([]);
         setLastQuery(false);
         setlekJobId(null);
-        console.log("==========JobList reset successfully");
         break;
       case 2:
         // Reset the dependent values used to fetch the pagniated job / history list data
@@ -129,7 +129,6 @@ export default function InvestCarousel(props) {
         setJobList([]);
         setLastQuery(false);
         setlekJobId(null);
-        console.log("==========JobList reset successfully");
         break;
       default:
         break;
