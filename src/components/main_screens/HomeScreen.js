@@ -138,6 +138,8 @@ export default function HomeScreen({ navigation }) {
             selectedTimeframe={selectedTimeframe}
             percentChanged={percentChanged}
             yVals={yValues}
+            handlePressInTouchableElement={handlePressInTouchableElement}
+            handlePressOutTouchableElement={handlePressOutTouchableElement}
           />
         </View>
         <View style={styles.investContainer}>

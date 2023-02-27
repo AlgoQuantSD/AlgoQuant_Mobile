@@ -129,10 +129,10 @@ const styles = StyleSheet.create({
     marginTop: "5%",
   },
   text: {
-    color: "white",
+    color: THEME.text.color.secondary
   },
   text2: {
-    color: "black",
+    color: THEME.text.color.primary
   },
   activityIndicator: {
     paddingTop: "10%",
