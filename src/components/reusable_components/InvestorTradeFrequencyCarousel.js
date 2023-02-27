@@ -51,11 +51,18 @@ export default function InvestorTradeFrequencyCarousel(props) {
                 onPress={() => setSelectedFrequency(item.value)}
               >
                 {item.value === selectedFrequency ? (
-                  <Ionicons
-                    name={THEME.icon.name.selectOptionCircleFilledIn}
-                    color={THEME.icon.color.secondary}
-                    size={THEME.icon.size.medium}
-                  />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                    }}
+                  >
+                    <Text style={styles.selectedFrequencyText}>Selected</Text>
+                    <Ionicons
+                      name={THEME.icon.name.selectOptionCircleFilledIn}
+                      color={THEME.icon.color.ternary}
+                      size={THEME.icon.size.medium}
+                    />
+                  </View>
                 ) : (
                   <Ionicons
                     name={THEME.icon.name.selectOptionCircleOutline}
@@ -115,5 +122,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-end",
     paddingRight: "1%",
+  },
+  selectedFrequencyText: {
+    alignSelf: "center",
+    paddingRight: "2%",
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.ternary,
   },
 });

@@ -35,6 +35,7 @@ export const THEME = {
     color: {
       primary: PALETTE.primaryGreen,
       secondary: PALETTE.cokeWhite,
+      ternary: PALETTE.brightGreen,
       disabled: PALETTE.mediumGray,
     },
     fontSize: {
@@ -117,6 +118,7 @@ export const THEME = {
     color: {
       primary: PALETTE.primaryGreen,
       secondary: PALETTE.cokeWhite,
+      ternary: PALETTE.brightGreen,
     },
     size: {
       xSmall: 12,
