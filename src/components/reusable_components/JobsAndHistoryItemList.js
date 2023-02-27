@@ -27,7 +27,6 @@ export default function JobsAndHistoryItemList(props) {
     const contentHeight = event.nativeEvent.contentSize.height;
 
     if (contentOffsetY + scrollViewHeight >= contentHeight) {
-      console.log("bottom of the screen");
       type === "CAROUSEL_TAB_HISTORY"
         ? handleFetchMoreData("complete")
         : handleFetchMoreData("active");
@@ -48,12 +47,12 @@ export default function JobsAndHistoryItemList(props) {
           {listData.length === 0 ? (
             <View style={styles.noResultsContainer}>
               {type === "CAROUSEL_TAB_JOBS" ? (
-                <Text style={styles.text}>
+                <Text style={styles.text2}>
                   You don't have any jobs yet. You can create a job from one of
                   your investors.
                 </Text>
               ) : (
-                <Text style={styles.text}>
+                <Text style={styles.text2}>
                   No history yet. Go create some jobs!
                 </Text>
               )}
@@ -107,9 +106,9 @@ export default function JobsAndHistoryItemList(props) {
                             style={styles.investorImage}
                             source={investorImagePathList[0]}
                           />
-                          <Text style={styles.investorNameText}>
-                            horse cock
-                          </Text>
+                          {/* <Text style={styles.investorNameText}>
+                            investor's name
+                          </Text> */}
                         </View>
                       </View>
                     </TouchableWithoutFeedback>
@@ -131,6 +130,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
+  },
+  text2: {
+    color: "black",
   },
   activityIndicator: {
     paddingTop: "10%",

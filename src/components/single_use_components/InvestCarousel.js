@@ -95,16 +95,9 @@ export default function InvestCarousel(props) {
       }
     }
   };
-  function resetJobList() {
-    return new Promise((resolve, reject) => {
-      console.log("resetting now");
-      setJobList([]);
-      setLastQuery(false);
-      setlekJobId(null);
-      resolve();
-    });
-  }
 
+  // Useeffect that gets triggered when the values of the dependent list changes
+  // Used to fetch the list of data for active or past jobs based on the tab the user has selected
   useEffect(() => {
     if (!lastQuery && jobList.length === 0 && lekJobId === null)
       if (selectedCarouselOptionIndex === 1) {
@@ -117,20 +110,22 @@ export default function InvestCarousel(props) {
   // Handles what happens when the user presses one of the carousel tabs or swipes left or right inside of the component
   async function handleCarouselOptionChange(index) {
     setIsLoading(true);
-    console.log("index ", index);
     setSelectedCarouselOptionIndex(index);
     switch (index) {
       case 0:
         getInvestorList();
         break;
       case 1:
+        // Reset the dependent values used to fetch the pagniated job / history list data
+        // and the useEffect on line 110 will be called
         setJobList([]);
         setLastQuery(false);
         setlekJobId(null);
         console.log("==========JobList reset successfully");
         break;
       case 2:
-        console.log("case 2");
+        // Reset the dependent values used to fetch the pagniated job / history list data
+        // and the useEffect on line 110 will be called
         setJobList([]);
         setLastQuery(false);
         setlekJobId(null);
