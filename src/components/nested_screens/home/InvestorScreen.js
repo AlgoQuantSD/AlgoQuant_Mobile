@@ -27,7 +27,7 @@ export default function InvestorScreen(props) {
   const navigation = useNavigation();
 
   const chunkedIndicators = chunker(investor.indicators, 3);
-  const chunkedStocks = chunker(investor.stocks, 3);
+  const chunkedStocks = chunker(investor.assets_to_track, 3);
 
   const [isIndicatorSetToCarouselView, setIsIndicatorSetToCarouselView] =
     useState(true);
@@ -84,11 +84,8 @@ export default function InvestorScreen(props) {
       />
       {/* Header (name, image, start/delete buttons) */}
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>{investor.name}</Text>
-        <Image
-          style={styles.investorImage}
-          source={investorImagePathList[investor.imageId]}
-        />
+        <Text style={styles.headerText}>{investor.investor_name}</Text>
+        <Image style={styles.investorImage} source={investorImagePathList[1]} />
         <TouchableOpacity
           style={styles.headerRowIcon}
           onPress={() => console.log("Start new job")}
@@ -124,8 +121,8 @@ export default function InvestorScreen(props) {
               { alignItems: "flex-end" },
             ]}
           >
-            <Text style={styles.text}>{investor.profitStop}</Text>
-            <Text style={styles.text}>{investor.lossStop}</Text>
+            <Text style={styles.text}>{investor.profit_stop}</Text>
+            <Text style={styles.text}>{investor.loss_stop}</Text>
           </View>
         </View>
       </View>
@@ -163,7 +160,7 @@ export default function InvestorScreen(props) {
         </View>
 
         {isStockSetToCarouselView ? (
-          <CustomParallaxCarousel data={investor.stocks} />
+          <CustomParallaxCarousel data={investor.assets_to_track} />
         ) : (
           <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
             <IndicatorsOrStocksListView data={chunkedStocks} />
