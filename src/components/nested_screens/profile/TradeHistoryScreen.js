@@ -23,21 +23,18 @@ export default function TradeHistoryScreen() {
       setIsLoading(true);
       if (algoquantApi.token) {
         algoquantApi
-          .getTrades(TRADE_HISTORY_FETCH_AMOUNT, lastKey)
+          .getTrades(TRADE_HISTORY_FETCH_AMOUNT, null, lastKey)
           .then((resp) => {
             // Last query set to trie if there is no last evaluated key from response
-            if (resp.data.LastEvaluatedKey === undefined) {
+            if (resp.data.LEK_timestamp === undefined) {
               setLastQuery(true);
             } else {
-              setLastKey({
-                timestamp: resp.data.LastEvaluatedKey.timestamp,
-                user_id: resp.data.LastEvaluatedKey.user_id,
-              });
+              setLastKey(resp.data.LEK_timestamp);
             }
 
             // Populate History array with trade history after each call using a buffer
-            for (let i = 0; i < resp.data.Count; i++) {
-              let timestamp = new Date(parseInt(resp.data.Items[i].timestamp));
+            for (let i = 0; i < resp.data.trades_count; i++) {
+              let timestamp = new Date(parseInt(resp.data.trades[i].timestamp));
               const options = {
                 year: "numeric",
                 month: "numeric",
@@ -47,13 +44,13 @@ export default function TradeHistoryScreen() {
               };
               const formattedTime = timestamp.toLocaleString([], options);
 
-              let shares = parseFloat(resp.data.Items[i].qty).toFixed(3);
+              let shares = parseFloat(resp.data.trades[i].qty).toFixed(3);
               historyBuffer.push({
-                jobName: resp.data.Items[i].job_name,
-                buyOrSell: resp.data.Items[i].side === "B" ? "Buy" : "Sell",
-                stockTicker: resp.data.Items[i].symbol,
+                jobName: resp.data.trades[i].job_name,
+                buyOrSell: resp.data.trades[i].side === "B" ? "Buy" : "Sell",
+                stockTicker: resp.data.trades[i].symbol,
                 shares: shares,
-                avgPrice: resp.data.Items[i].avg_price,
+                avgPrice: resp.data.trades[i].avg_price,
                 date: formattedTime,
               });
             }
