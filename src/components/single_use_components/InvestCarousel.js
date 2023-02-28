@@ -68,8 +68,6 @@ export default function InvestCarousel(props) {
     }
   }, [setInvestorList, algoquantApi]);
 
-  console.log(investorList);
-
   // CallBack function that fetchs for job list data in a paginiated manner
   const getjobList = (fetchType) => {
     console.log("outside of job");
