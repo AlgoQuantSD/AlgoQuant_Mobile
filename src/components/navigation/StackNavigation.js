@@ -76,6 +76,11 @@ export function HomeScreenStackNavigator() {
         component={JobScreen}
         options={nestedScreenOptions}
       />
+      <Stack.Screen
+        name="StockInfoScreen"
+        component={StockInfoScreen}
+        options={nestedScreenOptions}
+      />
     </Stack.Navigator>
   );
 }
