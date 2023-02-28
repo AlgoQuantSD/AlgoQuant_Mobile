@@ -3,14 +3,24 @@ import {
   View,
   Text,
   StyleSheet,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import Animated, {
+  BounceIn,
+  BounceOut,
+  BounceOutRight,
+  FadeIn,
+  FadeOut,
+} from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 import { Button } from "react-native-paper";
+import { Ionicons } from "@expo/vector-icons";
 import CreateInvestorStockSearch from "../../single_use_components/CreateInvestorStockSearch";
 import AlgoquantApiContext from "../../../constants/ApiContext";
 import { THEME } from "../../../constants/Theme";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function CreateInvestorAlgorithmicStep3Screen(props) {
   const { investorObject } = props.route.params;
@@ -72,6 +82,9 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerText}>Select Your Stocks</Text>
+        </View>
         <View style={styles.searchContainer}>
           <CreateInvestorStockSearch
             onSelectStock={onSelectStock}
@@ -81,6 +94,44 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
             selectedStocks={selectedStocks}
             addOrRemoveStock={addOrRemoveStock}
           />
+        </View>
+        <View style={styles.selectedStocksContainer}>
+          <Text style={styles.sectionTitleText}>Selected Stocks</Text>
+          {selectedStocks.length === 0 ? (
+            <Animated.Text entering={FadeIn.delay(500)}>
+              Add some stocks by using the search bar above
+            </Animated.Text>
+          ) : null}
+          <ScrollView>
+            {selectedStocks.map((item) => (
+              <TouchableWithoutFeedback key={item}>
+                <Animated.View
+                  entering={FadeIn.delay(500)}
+                  exiting={FadeOut}
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    paddingTop: "2%",
+                    paddingBottom: "2%",
+                    borderBottomWidth: 1,
+                    borderColor: "black",
+                  }}
+                >
+                  <Animated.Text entering={BounceIn.delay(1000)}>
+                    {item}
+                  </Animated.Text>
+                  <TouchableOpacity onPress={() => addOrRemoveStock(item)}>
+                    <Ionicons
+                      name={THEME.icon.name.deleteInvestor}
+                      color={THEME.icon.color.primary}
+                      size={THEME.icon.size.medium}
+                    />
+                  </TouchableOpacity>
+                </Animated.View>
+              </TouchableWithoutFeedback>
+            ))}
+          </ScrollView>
         </View>
 
         <Button
@@ -104,7 +155,21 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginRight: "5%",
   },
-  searchContainer: {
-    flex: 1,
+  headerContainer: {
+    flex: 0.1,
+    justifyContent: "center",
   },
+  headerText: {
+    fontSize: THEME.text.fontSize.H3,
+    color: THEME.text.color.primary,
+  },
+  sectionTitleText: {
+    fontSize: THEME.text.fontSize.H4,
+    color: THEME.text.color.primary,
+  },
+  searchContainer: {
+    flex: 0.5,
+    marginTop: "5%",
+  },
+  selectedStocksContainer: { flex: 0.35, marginTop: "5%" },
 });
