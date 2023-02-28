@@ -48,7 +48,7 @@ export default function InvestItemList(props) {
                 {listData.map((item) => {
                   return (
                     <TouchableWithoutFeedback
-                      key={item.id}
+                      key={item.investor_id}
                       onPress={() =>
                         navigation.navigate("InvestorScreen", {
                           investor: item,
@@ -59,12 +59,14 @@ export default function InvestItemList(props) {
                     >
                       <View style={styles.listItem}>
                         <View style={styles.nameContainer}>
-                          <Text style={styles.listItemName}>{item.name}</Text>
+                          <Text style={styles.listItemName}>
+                            {item.investor_name}
+                          </Text>
                         </View>
                         <View style={styles.imageContainer}>
                           <Image
                             style={styles.investorImage}
-                            source={investorImagePathList[item.imageId]}
+                            source={investorImagePathList[1]}
                           />
                         </View>
                         <View style={styles.indicatorAndStockContainer}>
@@ -77,10 +79,10 @@ export default function InvestItemList(props) {
                                 {item.indicators.map((item) => {
                                   return (
                                     <Text
-                                      key={item.id}
+                                      key={item.investor_id}
                                       style={styles.indictorAndStockText}
                                     >
-                                      {item.name}
+                                      {item}
                                     </Text>
                                   );
                                 })}
@@ -93,13 +95,13 @@ export default function InvestItemList(props) {
                             </Text>
                             <ScrollView>
                               <View style={styles.indicatorAndStockItems}>
-                                {item.stocks.map((item) => {
+                                {item.assets_to_track.map((item) => {
                                   return (
                                     <Text
-                                      key={item.id}
+                                      key={item.investor_id}
                                       style={styles.indictorAndStockText}
                                     >
-                                      {item.name}
+                                      {item}
                                     </Text>
                                   );
                                 })}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   View,
   Text,
@@ -15,9 +15,24 @@ import { THEME } from "../../constants/Theme";
 import Animated, { SlideInDown, SlideInUp } from "react-native-reanimated";
 
 export default function JobsAndHistoryItemList(props) {
-  const { listData, isLoading, type } = props;
+  const { listData, isLoading, handleFetchMoreData, type } = props;
   const navigation = useNavigation();
 
+  // Get reference of scrollview component
+  const scrollViewRef = useRef(null);
+
+  const handleScroll = (event) => {
+    const contentOffsetY = event.nativeEvent.contentOffset.y;
+    const scrollViewHeight = event.nativeEvent.layoutMeasurement.height;
+    const contentHeight = event.nativeEvent.contentSize.height;
+
+    if (contentOffsetY + scrollViewHeight >= contentHeight) {
+      type === "CAROUSEL_TAB_HISTORY"
+        ? handleFetchMoreData("complete")
+        : handleFetchMoreData("active");
+    }
+  };
+  console.log(listData.length);
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -32,23 +47,27 @@ export default function JobsAndHistoryItemList(props) {
           {listData.length === 0 ? (
             <View style={styles.noResultsContainer}>
               {type === "CAROUSEL_TAB_JOBS" ? (
-                <Text style={styles.text}>
+                <Text style={styles.text2}>
                   You don't have any jobs yet. You can create a job from one of
                   your investors.
                 </Text>
               ) : (
-                <Text style={styles.text}>
+                <Text style={styles.text2}>
                   No history yet. Go create some jobs!
                 </Text>
               )}
             </View>
           ) : (
-            <ScrollView>
+            <ScrollView
+              onScroll={handleScroll}
+              scrollEventThrottle={250}
+              ref={scrollViewRef}
+            >
               <Animated.View entering={SlideInDown}>
                 {listData.map((item) => {
                   return (
                     <TouchableWithoutFeedback
-                      key={item.id}
+                      key={item.job_id}
                       onPress={() =>
                         navigation.navigate("JobScreen", { job: item })
                       }
@@ -58,17 +77,17 @@ export default function JobsAndHistoryItemList(props) {
                           <Text style={styles.text}>{item.name}</Text>
                         </View>
                         <View style={styles.itemBalance}>
-                          <Text style={styles.text}>${item.balance}</Text>
+                          <Text style={styles.text}>${item.total_job_val}</Text>
                           <Text
                             style={
-                              item.percentChange >= 0
+                              item.percentage_change >= 0
                                 ? styles.percentChangeUpText
                                 : styles.percentChangeDownText
                             }
                           >
-                            ({item.percentChange}%)
+                            ({item.percentage_change}%)
                           </Text>
-                          {item.percentChange >= 0 ? (
+                          {item.percentage_change >= 0 ? (
                             <Ionicons
                               name="caret-up-outline"
                               size={12}
@@ -85,13 +104,11 @@ export default function JobsAndHistoryItemList(props) {
                         <View style={styles.itemInvestor}>
                           <Image
                             style={styles.investorImage}
-                            source={
-                              investorImagePathList[item.investor.imageId]
-                            }
+                            source={investorImagePathList[0]}
                           />
-                          <Text style={styles.investorNameText}>
-                            {item.investor.name}
-                          </Text>
+                          {/* <Text style={styles.investorNameText}>
+                            investor's name
+                          </Text> */}
                         </View>
                       </View>
                     </TouchableWithoutFeedback>
@@ -112,7 +129,10 @@ const styles = StyleSheet.create({
     marginTop: "5%",
   },
   text: {
-    color: "white",
+    color: THEME.text.color.secondary
+  },
+  text2: {
+    color: THEME.text.color.primary
   },
   activityIndicator: {
     paddingTop: "10%",
