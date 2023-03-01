@@ -7,13 +7,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import Animated, {
-  BounceIn,
-  BounceOut,
-  BounceOutRight,
-  FadeIn,
-  FadeOut,
-} from "react-native-reanimated";
+import Animated, { BounceIn, FadeIn, FadeOut } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 import { Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
@@ -79,12 +73,23 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
         });
     }
   }
+
+  // Finalize the assets to track upon pressing next
+  function handlePressNext() {
+    investorObject.assets_to_track = selectedStocks;
+    navigation.navigate("CreateInvestorAlgorithmicStep4Screen", {
+      investorObject: investorObject,
+    });
+  }
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
+        {/* Header */}
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>Select Your Stocks</Text>
         </View>
+        {/* Searchbar */}
         <View style={styles.searchContainer}>
           <CreateInvestorStockSearch
             onSelectStock={onSelectStock}
@@ -95,10 +100,11 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
             addOrRemoveStock={addOrRemoveStock}
           />
         </View>
+        {/* Selected Stocks */}
         <View style={styles.selectedStocksContainer}>
           <Text style={styles.sectionTitleText}>Selected Stocks</Text>
           {selectedStocks.length === 0 ? (
-            <Animated.Text entering={FadeIn.delay(500)}>
+            <Animated.Text entering={FadeIn.delay(500)} style={styles.text}>
               Add some stocks by using the search bar above
             </Animated.Text>
           ) : null}
@@ -133,16 +139,16 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
             ))}
           </ScrollView>
         </View>
-
-        <Button
-          buttonColor={THEME.button.primaryColorBackground}
-          textColor={THEME.text.secondaryColor}
-          onPress={() =>
-            navigation.navigate("CreateInvestorAlgorithmicStep4Screen")
-          }
-        >
-          Next
-        </Button>
+        {/* Next Button */}
+        <View style={styles.nextButtonContainer}>
+          <Button
+            buttonColor={THEME.button.primaryColorBackground}
+            textColor={THEME.text.secondaryColor}
+            onPress={handlePressNext}
+          >
+            Next
+          </Button>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -171,5 +177,23 @@ const styles = StyleSheet.create({
     flex: 0.5,
     marginTop: "5%",
   },
-  selectedStocksContainer: { flex: 0.35, marginTop: "5%" },
+  selectedStocksContainer: {
+    flex: 0.35,
+    marginTop: "5%",
+  },
+  selectedStockItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingTop: "2%",
+    paddingBottom: "2%",
+    borderBottomWidth: 1,
+    borderColor: THEME.colors.foreground,
+  },
+  nextButtonContainer: {
+    justifyContent: "center",
+    paddingTop: "10%",
+    paddingBottom: "10%",
+    alignItems: "flex-end",
+  },
 });

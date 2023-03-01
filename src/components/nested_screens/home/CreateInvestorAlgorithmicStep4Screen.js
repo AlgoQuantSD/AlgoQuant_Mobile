@@ -5,6 +5,8 @@ import { Button } from "react-native-paper";
 import { THEME } from "../../../constants/Theme";
 
 export default function CreateInvestorAlgorithmicStep4Screen(props) {
+  const { investorObject } = props.route.params;
+  console.log("Step 4: ", investorObject);
   const navigation = useNavigation();
   return (
     <View>
