@@ -69,7 +69,10 @@ export default function JobsAndHistoryItemList(props) {
                     <TouchableWithoutFeedback
                       key={item.job_id}
                       onPress={() =>
-                        navigation.navigate("JobScreen", { job: item })
+                        navigation.navigate("JobScreen", {
+                          job: item,
+                          jobType: type,
+                        })
                       }
                     >
                       <View style={styles.listItem}>
@@ -129,10 +132,10 @@ const styles = StyleSheet.create({
     marginTop: "5%",
   },
   text: {
-    color: THEME.text.color.secondary
+    color: THEME.text.color.secondary,
   },
   text2: {
-    color: THEME.text.color.primary
+    color: THEME.text.color.primary,
   },
   activityIndicator: {
     paddingTop: "10%",

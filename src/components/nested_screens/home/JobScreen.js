@@ -21,13 +21,16 @@ import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
 import { THEME } from "../../../constants/Theme";
 
 export default function JobScreen(props) {
-  const { job } = props.route.params;
-  console.log(job.job_id);
+  const { job, jobType } = props.route.params;
+
   // Graph state
   // initial value is an array because victorycharts takes data prop as array or objects only
   const [graphData, setGraphData] = useState([0]);
   const [yValues, setYValues] = useState([]);
   const [percentChanged, setPercentChanged] = useState(null);
+  const [priceChange, setPriceChange] = useState(null);
+  const [recentPrice, setRecentPrice] = useState(0);
+  const [marketClosed, setMarketClosed] = useState(false);
 
   const [selectedTimeframe, setSelectedTimeframe] = useState(
     timeframeEnums.DAY
@@ -52,6 +55,14 @@ export default function JobScreen(props) {
     setModalHeader,
     setModalBody,
     setModalButtons,
+  };
+
+  const jobsAggregatedData = {
+    recentPrice: recentPrice,
+    priceDifferenceRaw: priceChange,
+    priceDifferencePercent: percentChanged,
+    marketClosed: marketClosed,
+    dateClosed: null,
   };
 
   // Build the stop job modal when the user presses the stop icon
@@ -125,6 +136,7 @@ export default function JobScreen(props) {
         algoquantApi
           .getPerformance(timeframe, job.job_id)
           .then((resp) => {
+            console.log(resp.data);
             const combinedData = resp.data["timestamp"].map((x, i) => ({
               x,
               y: resp.data["close"][i],
@@ -143,12 +155,6 @@ export default function JobScreen(props) {
             setRecentPrice(resp.data["recent_price"].toFixed(2));
             setMarketClosed(resp.data["is_market_closed"]);
 
-            // If the timeframe selected was day, store the first timeframe (yVal) to keep track of the day the market was open,
-            // DateClosed variable will then used to show the date the market is closed, if it is.
-            if (timeframe === "D") {
-              setDateClosed(resp.data["timestamp"][0]);
-            }
-
             // setGraphLoading(false);
           })
           .catch((err) => {
@@ -163,6 +169,7 @@ export default function JobScreen(props) {
   // there are any trades in history and to populate the first few into the History array
   useEffect(() => {
     fetchJobsTrades();
+    getGraphData("D");
   }, []);
   return (
     <View style={styles.container}>
@@ -187,10 +194,10 @@ export default function JobScreen(props) {
       <View style={styles.headerContainer}>
         <GraphDetailsHeader
           graphTitle={job.name}
-          graphTrendData={mockGraphHeaderData}
+          graphTrendData={jobsAggregatedData}
           selectedTimeframe={selectedTimeframe}
         />
-        {job.isActive ? (
+        {jobType === "CAROUSEL_TAB_JOBS" ? (
           <TouchableOpacity
             style={styles.headerRowIcon}
             onPress={handleStopIconPress}
