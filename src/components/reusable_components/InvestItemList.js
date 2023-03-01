@@ -77,10 +77,10 @@ export default function InvestItemList(props) {
                                 {item.indicators.map((item) => {
                                   return (
                                     <Text
-                                      key={item.id}
+                                      key={item}
                                       style={styles.indictorAndStockText}
                                     >
-                                      {item.name}
+                                      {item}
                                     </Text>
                                   );
                                 })}
@@ -96,10 +96,10 @@ export default function InvestItemList(props) {
                                 {item.stocks.map((item) => {
                                   return (
                                     <Text
-                                      key={item.id}
+                                      key={item}
                                       style={styles.indictorAndStockText}
                                     >
-                                      {item.name}
+                                      {item}
                                     </Text>
                                   );
                                 })}

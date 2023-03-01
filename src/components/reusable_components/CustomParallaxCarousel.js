@@ -23,7 +23,7 @@ export default function CustomParallaxCarousel(props) {
         onSnapToItem={(index) => console.log("current index:", index)}
         renderItem={({ item, index }) => (
           <View style={styles.card}>
-            <Text style={styles.text}>{item.name}</Text>
+            <Text style={styles.text}>{item}</Text>
           </View>
         )}
       />
