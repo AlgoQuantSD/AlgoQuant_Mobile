@@ -79,8 +79,11 @@ export default function JobScreen(props) {
   const algoquantApi = useContext(AlgoquantApiContext);
   const [lastKey, setLastKey] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  console.log(job.job_id);
+
   const fetchJobsTrades = () => {
     const historyBuffer = [];
+    console.log("get jobs trades");
 
     // once its the last query do nothing
     // first query always sends a last key of null

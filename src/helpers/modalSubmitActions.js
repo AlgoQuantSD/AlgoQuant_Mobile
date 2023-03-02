@@ -634,7 +634,7 @@ export async function submitStopJobModal(props) {
         cleanUpState(props);
       })
       .catch((err) => {
-        // will can u add the snackbar error handling
+        // will can u add the snackbar error handling and laoding
         console.log(err.message);
       });
   }

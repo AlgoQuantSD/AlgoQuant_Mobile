@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { investorImagePathList } from "../../constants/InvestorImagePaths";
 import { THEME } from "../../constants/Theme";
-import Animated, { SlideInDown, SlideInUp } from "react-native-reanimated";
+import Animated, { SlideInDown } from "react-native-reanimated";
 
 export default function JobsAndHistoryItemList(props) {
   const { listData, isLoading, handleFetchMoreData, type } = props;
