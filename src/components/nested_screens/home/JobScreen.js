@@ -45,6 +45,7 @@ export default function JobScreen(props) {
   // Snackbar state
   const [snackbarMessage, setSnackbarMessage] = useState(null);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  let poop = "dog shit";
 
   // Stuff that we need to set to create the stop job modal
   const modalProps = {
@@ -189,6 +190,7 @@ export default function JobScreen(props) {
         setModalButtons={setModalButtons}
         setSnackbarMessage={setSnackbarMessage}
         setIsSnackbarVisible={setIsSnackbarVisible}
+        jobID={job.job_id}
       />
       {/* Header Row */}
       <View style={styles.headerContainer}>
