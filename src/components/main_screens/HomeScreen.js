@@ -6,6 +6,7 @@ import React, {
   useEffect,
 } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Snackbar, AnimatedFAB } from "react-native-paper";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import { THEME } from "../../constants/Theme";
@@ -16,7 +17,8 @@ import InvestContainer from "../single_use_components/InvestContainer";
 import AlgoquantApiContext from "../../constants/ApiContext";
 import { Marker } from "react-native-svg";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen() {
+  const navigation = useNavigation();
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
   const scrollViewRef = useRef(null);

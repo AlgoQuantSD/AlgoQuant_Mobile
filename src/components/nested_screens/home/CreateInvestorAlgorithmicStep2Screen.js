@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
-  Platform,
   StyleSheet,
 } from "react-native";
 import { Button, TextInput, Snackbar } from "react-native-paper";
@@ -14,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import InvestorTradeFrequencyCarousel from "../../reusable_components/InvestorTradeFrequencyCarousel";
 import SnackbarContent from "../../reusable_components/SnackbarContent";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import { containsOnlyNumbers } from "../../../helpers/regex";
+
 import { profitOrLossStopErrorHandler } from "../../../helpers/errorHandler";
 import {
   INDICATOR_LIST,

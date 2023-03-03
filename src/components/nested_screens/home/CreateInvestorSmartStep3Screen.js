@@ -1,55 +1,129 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import React, { useState } from "react";
+import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { Button, Snackbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import SnackbarContent from "../../reusable_components/SnackbarContent";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { THEME } from "../../../constants/Theme";
 
 export default function CreateInvestorSmartStep3Screen(props) {
   const { investorObject } = props.route.params;
   const navigation = useNavigation();
 
+  const [isLoading, setIsLoading] = useState(false);
+  // Manage snackbar state
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
+
   console.log("AI investor: ", investorObject);
 
+  function handleCreateInvestorPress() {
+    // Put API call to create investor here
+    // investorObject contains all the information needed to pass in the API call
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+    // Set snackbar message if there is an error
+    setSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icon.name.error}
+        iconSize={THEME.icon.size.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Failed to create investor."
+        textColor={THEME.colors.danger}
+      />
+    );
+    setIsSnackbarVisible(true);
+
+    // Navigate back home after successfully creating investor
+    // navigation.navigate("HomeScreen");
+  }
+
   return (
-    <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Confirm Investor Creation</Text>
-      </View>
-      {/* Investor Configuration */}
-      <View style={styles.investorConfigurationContainer}>
-        <Text style={styles.sectionTitleText}>Investor Configuration</Text>
-        <View style={styles.investorConfigurationItem}>
-          <Text style={styles.text}>Investor name:</Text>
-          <Text style={styles.text}>{investorObject.investor_name}</Text>
-        </View>
-        <View style={styles.investorConfigurationItem}>
-          <Text style={styles.text}>Investor type:</Text>
-          <Text style={styles.text}>{investorObject.type}</Text>
-        </View>
-        <View style={styles.investorConfigurationItem}>
-          <Text style={styles.text}>Profit stop:</Text>
-          <Text style={styles.text}>{investorObject.profit_stop}%</Text>
-        </View>
-        <View style={styles.investorConfigurationItem}>
-          <Text style={styles.text}>Loss stop:</Text>
-          <Text style={styles.text}>{investorObject.loss_stop}%</Text>
-        </View>
-      </View>
-      {/* Create Investor Button */}
-      <View style={styles.nextButtonContainer}>
-        <Button
-          buttonColor={THEME.button.primaryColorBackground}
-          textColor={THEME.text.secondaryColor}
-          onPress={() =>
-            navigation.navigate("HomeScreen", {
-              investorObject: investorObject,
-            })
-          }
+    <Animated.View style={styles.container}>
+      {isLoading ? (
+        <Animated.View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          entering={FadeIn.delay(1000)}
         >
-          Create Investor
-        </Button>
-      </View>
-    </View>
+          <ActivityIndicator
+            size={"large"}
+            color={THEME.activityIndicator.color.primary}
+          />
+
+          <Animated.Text entering={FadeIn.delay(500)}>
+            Creating your investor!
+          </Animated.Text>
+        </Animated.View>
+      ) : (
+        <Animated.View style={{ flex: 1 }}>
+          {/* Header */}
+          <Animated.View
+            style={styles.headerContainer}
+            entering={FadeIn}
+            exiting={FadeOut}
+          >
+            <Text style={styles.headerText}>Confirm Investor Creation</Text>
+          </Animated.View>
+          {/* Investor Configuration */}
+          <Animated.View
+            style={styles.investorConfigurationContainer}
+            entering={FadeIn}
+            exiting={FadeOut}
+          >
+            <Text style={styles.sectionTitleText}>Investor Configuration</Text>
+            <Animated.View style={styles.investorConfigurationItem}>
+              <Text style={styles.text}>Investor name:</Text>
+              <Text style={styles.text}>{investorObject.investor_name}</Text>
+            </Animated.View>
+            <Animated.View style={styles.investorConfigurationItem}>
+              <Text style={styles.text}>Investor type:</Text>
+              <Text style={styles.text}>{investorObject.type}</Text>
+            </Animated.View>
+            <Animated.View style={styles.investorConfigurationItem}>
+              <Text style={styles.text}>Profit stop:</Text>
+              <Text style={styles.text}>{investorObject.profit_stop}%</Text>
+            </Animated.View>
+            <Animated.View style={styles.investorConfigurationItem}>
+              <Text style={styles.text}>Loss stop:</Text>
+              <Text style={styles.text}>{investorObject.loss_stop}%</Text>
+            </Animated.View>
+          </Animated.View>
+          {/* Create Investor Button */}
+          <Animated.View style={styles.nextButtonContainer}>
+            <Button
+              buttonColor={THEME.button.primaryColorBackground}
+              textColor={THEME.text.secondaryColor}
+              onPress={handleCreateInvestorPress}
+            >
+              Create Investor
+            </Button>
+          </Animated.View>
+          {/* Snackbar */}
+          <Animated.View style={styles.snackbarContainer}>
+            <Snackbar
+              visible={isSnackbarVisible}
+              onDismiss={() =>
+                snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage)
+              }
+              duration={3500}
+              action={{
+                label: "Dismiss",
+                textColor: THEME.snackbar.text.color,
+                onPress: () => {
+                  snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
+                },
+              }}
+              style={styles.snackbar}
+            >
+              {snackbarMessage}
+            </Snackbar>
+          </Animated.View>
+        </Animated.View>
+      )}
+    </Animated.View>
   );
 }
 
@@ -97,5 +171,12 @@ const styles = StyleSheet.create({
   },
   snackbarContainer: {
     flex: 0.05,
+  },
+  snackbar: {
+    backgroundColor: THEME.snackbar.color.background,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });
