@@ -8,6 +8,8 @@ export default function CreateInvestorSmartStep3Screen(props) {
   const { investorObject } = props.route.params;
   const navigation = useNavigation();
 
+  console.log("AI investor: ", investorObject);
+
   return (
     <View>
       <Text>Create smart investor screen step 3</Text>
