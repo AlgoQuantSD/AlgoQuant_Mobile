@@ -26,6 +26,7 @@ export default function CreateInvestorStep1Screen({ navigation }) {
     profit_stop: null,
     loss_stop: null,
     assets_to_track: [],
+    image_id: null,
   };
 
   function handleNextPress() {

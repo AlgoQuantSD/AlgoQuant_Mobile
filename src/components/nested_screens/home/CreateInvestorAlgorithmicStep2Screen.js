@@ -38,6 +38,8 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
   const [selectedFrequency, setSelectedFrequency] = useState(
     PERIOD_LIST[0].value
   );
+  // Investor image state management
+  const [imageId, setImageId] = useState(0);
 
   const [profitStop, setProfitStop] = useState("0");
   const [lossStop, setLossStop] = useState("0");
@@ -97,6 +99,7 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
     addIndicators();
     removeIndicators();
     addTradeFrequency();
+    addImageId();
     addProfitAndLossStop();
     if (hasErrors()) {
       return;
@@ -164,6 +167,9 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
 
   function addTradeFrequency() {
     investorObject.period = selectedFrequency;
+  }
+  function addImageId() {
+    investorObject.image_id = imageId;
   }
   function addProfitAndLossStop() {
     investorObject.profit_stop = profitStop;
@@ -247,6 +253,7 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
               data={PERIOD_LIST}
               selectedFrequency={selectedFrequency}
               setSelectedFrequency={setSelectedFrequency}
+              setImageId={setImageId}
             />
           </View>
           {/* Conditions */}

@@ -6,4 +6,5 @@ export const investorImagePathList = [
   require("../../assets/investor_avatars/avatar3.png"),
   require("../../assets/investor_avatars/avatar4.png"),
   require("../../assets/investor_avatars/avatar5.png"),
+  require("../../assets/investor_avatars/avatar6.png"),
 ];

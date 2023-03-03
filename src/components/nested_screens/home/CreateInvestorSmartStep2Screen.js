@@ -29,6 +29,8 @@ export default function CreateInvestorSmartStep2Screen(props) {
     }
     // Add profit and loss stop to the investor object
     addProfitAndLossStop();
+    // Add investor image to investor object
+    addInvestorImage();
     // Go to next screen passing new investor object
     navigation.navigate("CreateInvestorSmartStep3Screen", {
       investorObject: investorObject,
@@ -38,6 +40,10 @@ export default function CreateInvestorSmartStep2Screen(props) {
   function addProfitAndLossStop() {
     investorObject.profit_stop = profitStop;
     investorObject.loss_stop = lossStop;
+  }
+
+  function addInvestorImage() {
+    investorObject.image_id = 6;
   }
 
   function hasErrors() {
@@ -107,6 +113,7 @@ export default function CreateInvestorSmartStep2Screen(props) {
             </View>
           </View>
         </View>
+
         {/* Next Button */}
         <View style={styles.nextButtonContainer}>
           <Button

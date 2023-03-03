@@ -14,9 +14,14 @@ import { investorImagePathList } from "../../constants/InvestorImagePaths";
 import { THEME } from "../../constants/Theme";
 
 export default function InvestorTradeFrequencyCarousel(props) {
-  const { data, selectedFrequency, setSelectedFrequency } = props;
+  const { data, selectedFrequency, setSelectedFrequency, setImageId } = props;
   const width = Dimensions.get("window").width;
   console.log("Selected frequency: ", selectedFrequency);
+
+  function handleSelectFrequency(freq, imageId) {
+    setSelectedFrequency(freq);
+    setImageId(imageId);
+  }
   return (
     <Animated.View
       entering={BounceIn.delay(500)}
@@ -48,7 +53,7 @@ export default function InvestorTradeFrequencyCarousel(props) {
             <View style={styles.footerRow}>
               <TouchableOpacity
                 hitSlop={{ top: 30, bottom: 30, left: 30 }}
-                onPress={() => setSelectedFrequency(item.value)}
+                onPress={() => handleSelectFrequency(item.value, item.imageId)}
               >
                 {item.value === selectedFrequency ? (
                   <View

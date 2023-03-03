@@ -5,19 +5,10 @@ import { THEME } from "../constants/Theme";
 
 // Validate the number of indicators selected, profit and loss stop are numbers 0-99
 export function profitOrLossStopErrorHandler(props) {
-  const {
-    investorObject,
-    profitStop,
-    lossStop,
-    setIsSnackbarVisible,
-    setSnackbarMessage,
-  } = props;
+  const { profitStop, lossStop, setIsSnackbarVisible, setSnackbarMessage } =
+    props;
   console.log("Profit stop: ", profitStop);
-   if (
-    profitStop < 0 ||
-    profitStop > 100 ||
-    !containsOnlyNumbers(profitStop)
-  ) {
+  if (profitStop < 0 || profitStop > 100 || !containsOnlyNumbers(profitStop)) {
     setSnackbarMessage(
       <SnackbarContent
         iconName={THEME.icon.name.error}
