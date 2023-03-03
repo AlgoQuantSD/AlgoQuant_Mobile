@@ -48,7 +48,6 @@ export default function CreateInvestorStep1Screen({ navigation }) {
   // Error handling
   function hasErrors() {
     if (investorName.length <= 2) {
-      console.log("Investor name must be at least 2 character");
       setSnackbarMessage(
         <SnackbarContent
           iconName={THEME.icon.name.error}

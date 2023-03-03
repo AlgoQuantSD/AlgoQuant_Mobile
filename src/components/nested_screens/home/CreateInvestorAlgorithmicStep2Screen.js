@@ -8,10 +8,12 @@ import {
   Platform,
   StyleSheet,
 } from "react-native";
-import { Button, TextInput } from "react-native-paper";
+import { Button, TextInput, Snackbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import InvestorTradeFrequencyCarousel from "../../reusable_components/InvestorTradeFrequencyCarousel";
+import SnackbarContent from "../../reusable_components/SnackbarContent";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import {
   INDICATOR_LIST,
   PERIOD_LIST,
@@ -37,6 +39,9 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
 
   const [profitStop, setProfitStop] = useState("0");
   const [lossStop, setLossStop] = useState("0");
+
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(false);
 
   // Set indicator to selected or unselected when one of them are pressed
   function setIsIndicatorSelected(indicatorId) {
@@ -91,6 +96,9 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
     removeIndicators();
     addTradeFrequency();
     addProfitAndLossStop();
+    if (hasErrors()) {
+      return;
+    }
     navigation.navigate("CreateInvestorAlgorithmicStep3Screen", {
       investorObject: investorObject,
     });
@@ -158,6 +166,61 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
   function addProfitAndLossStop() {
     investorObject.profit_stop = profitStop;
     investorObject.loss_stop = lossStop;
+  }
+
+  // Used to check if profit and loss stop contains only numbers
+  function containsOnlyNumbers(str) {
+    return /^[0-9]+$/.test(str);
+  }
+
+  // Validate the number of indicators selected, profit and loss stop are numbers 0-99
+  function hasErrors() {
+    console.log("Profit stop: ", profitStop);
+    if (investorObject.indicators.length < 1) {
+      setSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icon.name.error}
+          iconSize={THEME.icon.size.snackbarIconSize}
+          iconColor={THEME.colors.danger}
+          text="ERROR: Select at least one indicator."
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsSnackbarVisible(true);
+      return true;
+    } else if (
+      profitStop < 0 ||
+      profitStop > 100 ||
+      !containsOnlyNumbers(profitStop)
+    ) {
+      setSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icon.name.error}
+          iconSize={THEME.icon.size.snackbarIconSize}
+          iconColor={THEME.colors.danger}
+          text="ERROR: Profit stop must be between 0 and 100."
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsSnackbarVisible(true);
+      return true;
+    } else if (
+      lossStop < 0 ||
+      lossStop > 100 ||
+      !containsOnlyNumbers(lossStop)
+    ) {
+      setSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icon.name.error}
+          iconSize={THEME.icon.size.snackbarIconSize}
+          iconColor={THEME.colors.danger}
+          text="ERROR: Loss stop must be between 0 and 100."
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsSnackbarVisible(true);
+      return true;
+    }
   }
 
   return (
@@ -268,6 +331,26 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
               Next
             </Button>
           </View>
+          {/* Snackbar */}
+          <View style={styles.snackbarContainer}>
+            <Snackbar
+              visible={isSnackbarVisible}
+              onDismiss={() =>
+                snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage)
+              }
+              duration={3500}
+              action={{
+                label: "Dismiss",
+                textColor: THEME.snackbar.text.color,
+                onPress: () => {
+                  snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
+                },
+              }}
+              style={styles.snackbar}
+            >
+              {snackbarMessage}
+            </Snackbar>
+          </View>
         </KeyboardAvoidingView>
       </ScrollView>
     </View>
@@ -339,5 +422,12 @@ const styles = StyleSheet.create({
     paddingTop: "10%",
     paddingBottom: "10%",
     alignItems: "flex-end",
+  },
+  snackbar: {
+    backgroundColor: THEME.snackbar.color.background,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });
