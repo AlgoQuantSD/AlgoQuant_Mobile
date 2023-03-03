@@ -6,23 +6,33 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  ScrollView,
 } from "react-native";
 import Animated, { BounceIn, FadeIn, FadeOut } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
-import { Button } from "react-native-paper";
+import { Button, Snackbar } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import CreateInvestorStockSearch from "../../single_use_components/CreateInvestorStockSearch";
 import AlgoquantApiContext from "../../../constants/ApiContext";
+import SnackbarContent from "../../reusable_components/SnackbarContent";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { THEME } from "../../../constants/Theme";
-import { ScrollView } from "react-native-gesture-handler";
 
 export default function CreateInvestorAlgorithmicStep3Screen(props) {
   const { investorObject } = props.route.params;
   console.log("Step 3 ", investorObject);
   const navigation = useNavigation();
+  const algoquantApi = useContext(AlgoquantApiContext);
 
   // Manage state of selected stocks
   const [selectedStocks, setSelectedStocks] = useState([]);
+
+  // State variable to hold the values of the latest query
+  const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
 
   // Check if we should add or remove the stock the user selected based on the state of the selectedStocks list
   function addOrRemoveStock(newStock) {
@@ -36,15 +46,6 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
       setSelectedStocks((selectedStocks) => [...selectedStocks, newStock]);
     }
   }
-  console.log("STOCK LIST: ", selectedStocks);
-
-  // State variable to hold the values of the latest query
-  const [searchResults, setSearchResults] = useState([]);
-
-  const [isLoading, setIsLoading] = useState(false);
-  // State variables used to access algoquant SDK API and display/ keep state of user data from database
-  const algoquantApi = useContext(AlgoquantApiContext);
-  // Filter results whenever we change the query
 
   // handle action when user selects a stock from the list of queries
   function onSelectStock(item) {
@@ -76,10 +77,30 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
 
   // Finalize the assets to track upon pressing next
   function handlePressNext() {
+    if (hasErrors()) {
+      return;
+    }
     investorObject.assets_to_track = selectedStocks;
     navigation.navigate("CreateInvestorAlgorithmicStep4Screen", {
       investorObject: investorObject,
     });
+  }
+
+  function hasErrors() {
+    if (selectedStocks.length < 1) {
+      console.log("Select at least one stock");
+      setSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icon.name.error}
+          iconSize={THEME.icon.size.snackbarIconSize}
+          iconColor={THEME.colors.danger}
+          text="ERROR: Select at least one stock."
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsSnackbarVisible(true);
+      return true;
+    }
   }
 
   return (
@@ -149,6 +170,26 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
             Next
           </Button>
         </View>
+        {/* Snackbar */}
+        <View style={styles.snackbarContainer}>
+          <Snackbar
+            visible={isSnackbarVisible}
+            onDismiss={() =>
+              snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage)
+            }
+            duration={3500}
+            action={{
+              label: "Dismiss",
+              textColor: THEME.snackbar.text.color,
+              onPress: () => {
+                snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
+              },
+            }}
+            style={styles.snackbar}
+          >
+            {snackbarMessage}
+          </Snackbar>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -195,5 +236,15 @@ const styles = StyleSheet.create({
     paddingTop: "10%",
     paddingBottom: "10%",
     alignItems: "flex-end",
+  },
+  snackbarContainer: {
+    flex: 0.05,
+  },
+  snackbar: {
+    backgroundColor: THEME.snackbar.color.background,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });
