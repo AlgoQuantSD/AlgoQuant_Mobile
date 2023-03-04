@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import React, { useEffect, useState, useContext, useCallback } from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
 import { Button } from "react-native-paper";
@@ -20,11 +13,16 @@ import { deleteInvestorModalBuilder } from "../../../helpers/modalFactory";
 import { MOCK_JOBS } from "../../../constants/MockData";
 import { chunker } from "../../../helpers/chunker";
 import { THEME } from "../../../constants/Theme";
+import AlgoquantApiContext from "../../../constants/ApiContext";
 
 export default function InvestorScreen(props) {
   const { investor, setSnackbarMessage, setIsSnackbarVisible } =
     props.route.params;
+  // State variables used to access algoquant SDK API and display/ keep state of user data from database
+  const algoquantApi = useContext(AlgoquantApiContext);
   const navigation = useNavigation();
+  console.log(investor);
+  // do we want to pass the entire investor object here or just call get-investor api and passing in the investor_id ?
 
   const chunkedIndicators = chunker(investor.indicators, 3);
   const chunkedStocks = chunker(investor.assets_to_track, 3);
@@ -41,6 +39,15 @@ export default function InvestorScreen(props) {
   const [modalButtons, setModalButtons] = useState(null);
   // This state variable tells will only be true if we just deleted an investor so we can navigate back home
   const [shouldNavigateBack, setShouldNavigateBack] = useState(false);
+
+  // State variables for an investors job list
+  // State variable to hold array of job objects
+  const [jobList, setJobList] = useState([]);
+  // Used for pagination of the job list data
+  // last evaluated key - used for the api to know if there is more data to fetch
+  // lastQUery - true if last evaluated key comes back undefined, aka no more queries
+  const [lekJobId, setlekJobId] = useState(null);
+  const [lastQuery, setLastQuery] = useState(false);
 
   const modalProps = {
     isModalVisible,
@@ -61,6 +68,43 @@ export default function InvestorScreen(props) {
   function handleTrashIconPress() {
     deleteInvestorModalBuilder(modalProps);
   }
+
+  // CallBack function that fetchs for job list data in a paginiated manner
+  const getJobList = useCallback(() => {
+    if (!lastQuery) {
+      if (algoquantApi.token) {
+        algoquantApi
+          .getJobList("complete", investor.investor_id, lekJobId)
+          .then((resp) => {
+            console.log(resp.data);
+            setlekJobId(resp.data.LEK_job_id);
+            setJobList(jobList.concat(resp.data.jobs));
+
+            if (resp.data.LEK_job_id === undefined) {
+              setLastQuery(true);
+            } else {
+              setlekJobId(resp.data.LEK_job_id);
+            }
+          })
+          .catch((err) => {
+            // TODO: Need to implement better error handling
+            console.log(err);
+          });
+      }
+    }
+  }, [
+    lastQuery,
+    algoquantApi,
+    setlekJobId,
+    setJobList,
+    setLastQuery,
+    investor,
+  ]);
+
+  useEffect(() => {
+    getJobList();
+  }, [investor]);
+  console.log(investor.investor_id);
   return (
     <View style={styles.container}>
       {shouldNavigateBack ? navigation.navigate("HomeScreen") : null}
@@ -172,9 +216,10 @@ export default function InvestorScreen(props) {
         <Text style={styles.sectionTitleText}>Jobs</Text>
         <View style={styles.jobList}>
           <JobsAndHistoryItemList
-            listData={MOCK_JOBS}
+            listData={jobList}
             isLoading={false}
             type={"CAROUSEL_TAB_JOBS"}
+            handleFetchMoreData={getJobList}
           />
         </View>
       </View>

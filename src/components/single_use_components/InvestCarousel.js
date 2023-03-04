@@ -65,8 +65,6 @@ export default function InvestCarousel(props) {
 
   // CallBack function that fetchs for job list data in a paginiated manner
   const getjobList = (fetchType) => {
-    console.log("outside of job");
-
     if (!lastQuery) {
       if (algoquantApi.token) {
         algoquantApi
