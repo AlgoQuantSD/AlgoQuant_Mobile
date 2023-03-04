@@ -235,6 +235,11 @@ export default function JobScreen(props) {
             style={styles.headerRowIcon}
             onPress={handleStopIconPress}
           >
+            <View>
+              <Text style={styles.text}>Job Active</Text>
+              <Text style={styles.text}>{startDate}</Text>
+            </View>
+
             <Ionicons
               name={THEME.icon.name.stopJob}
               color={THEME.icon.color.primary}
