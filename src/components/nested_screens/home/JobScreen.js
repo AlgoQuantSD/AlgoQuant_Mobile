@@ -76,6 +76,8 @@ export default function JobScreen(props) {
   const [job, setJob] = useState();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  // Function to get the job clicked by the user using the jobID passed from the getJobList endpoint
   const getJob = () => {
     if (algoquantApi.token) {
       algoquantApi
@@ -104,12 +106,9 @@ export default function JobScreen(props) {
         });
     }
   };
-  console.log(job);
 
   const fetchJobsTrades = () => {
     const historyBuffer = [];
-    console.log("get jobs trades");
-
     // once its the last query do nothing
     // first query always sends a last key of null
     if (!lastQuery) {
@@ -194,13 +193,16 @@ export default function JobScreen(props) {
     },
     [algoquantApi]
   );
+
   // Used to call fetchJobsTrades during the beginning of the render once, to check if
   // there are any trades in history and to populate the first few into the History array
+  // get the data for the job clicked by the user
   useEffect(() => {
     fetchJobsTrades();
     getGraphData("D");
     getJob();
   }, []);
+
   return (
     <View style={styles.container}>
       {/* Modal */}
