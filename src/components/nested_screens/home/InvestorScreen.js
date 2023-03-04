@@ -10,7 +10,7 @@ import IndicatorsOrStocksListView from "../../reusable_components/IndicatorsOrSt
 import JobsAndHistoryItemList from "../../reusable_components/JobsAndHistoryItemList";
 import CustomModal from "../../reusable_components/CustomModal";
 import { deleteInvestorModalBuilder } from "../../../helpers/modalFactory";
-import { MOCK_JOBS } from "../../../constants/MockData";
+import { Chip } from "react-native-paper";
 import { chunker } from "../../../helpers/chunker";
 import { THEME } from "../../../constants/Theme";
 import AlgoquantApiContext from "../../../constants/ApiContext";
@@ -213,7 +213,15 @@ export default function InvestorScreen(props) {
       </View>
       {/* Jobs */}
       <View style={styles.jobsContainer}>
-        <Text style={styles.sectionTitleText}>Jobs</Text>
+        <View style={styles.sectionTitleContainer}>
+          <Text style={styles.sectionTitleText}>Jobs</Text>
+          <Chip mode="flat" style={styles.chip} selected={false} elevated>
+            Active
+          </Chip>
+          <Chip mode="flat" style={styles.chip}>
+            Past
+          </Chip>
+        </View>
         <View style={styles.jobList}>
           <JobsAndHistoryItemList
             listData={jobList}
@@ -267,6 +275,11 @@ const styles = StyleSheet.create({
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H4,
     color: THEME.text.color.primary,
+    marginRight: 10,
+  },
+  sectionTitleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   investorConfigurationDetailsRow: {
     flex: 1,
@@ -312,5 +325,10 @@ const styles = StyleSheet.create({
   },
   jobList: {
     width: "100%",
+  },
+  chip: {
+    marginRight: 10,
+    backgroundColor: THEME.button.color.secondary,
+    textStyle: THEME.text.color.secondary,
   },
 });
