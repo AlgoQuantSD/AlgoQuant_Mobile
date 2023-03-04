@@ -32,7 +32,7 @@ export default function JobsAndHistoryItemList(props) {
         : handleFetchMoreData("active");
     }
   };
-  console.log(listData.length);
+
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -70,7 +70,7 @@ export default function JobsAndHistoryItemList(props) {
                       key={item.job_id}
                       onPress={() =>
                         navigation.navigate("JobScreen", {
-                          job: item,
+                          jobID: item.job_id,
                           jobType: type,
                         })
                       }
