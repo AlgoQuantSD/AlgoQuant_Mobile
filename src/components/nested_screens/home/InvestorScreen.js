@@ -14,6 +14,7 @@ import { Chip } from "react-native-paper";
 import { chunker } from "../../../helpers/chunker";
 import { THEME } from "../../../constants/Theme";
 import AlgoquantApiContext from "../../../constants/ApiContext";
+import { ChipJobTypes } from "../../../constants/ChipJobTypeEnum";
 
 export default function InvestorScreen(props) {
   const { investor, setSnackbarMessage, setIsSnackbarVisible } =
@@ -49,6 +50,12 @@ export default function InvestorScreen(props) {
   const [lekJobId, setlekJobId] = useState(null);
   const [lastQuery, setLastQuery] = useState(false);
 
+  // State variable to track the selected chip. usees the ChipJobTypes Enum
+  const [chipState, setChipState] = useState(ChipJobTypes.Active);
+  // state variables to track what chip is currently selected
+  const [selectedChipActive, setSelectedChipActive] = useState(true);
+  const [selectedChipPast, setSelectedChipPast] = useState(false);
+
   const modalProps = {
     isModalVisible,
     setIsModalVisible,
@@ -69,42 +76,70 @@ export default function InvestorScreen(props) {
     deleteInvestorModalBuilder(modalProps);
   }
 
-  // CallBack function that fetchs for job list data in a paginiated manner
-  const getJobList = useCallback(() => {
-    if (!lastQuery) {
-      if (algoquantApi.token) {
-        algoquantApi
-          .getJobList("complete", investor.investor_id, lekJobId)
-          .then((resp) => {
-            console.log(resp.data);
-            setlekJobId(resp.data.LEK_job_id);
-            setJobList(jobList.concat(resp.data.jobs));
-
-            if (resp.data.LEK_job_id === undefined) {
-              setLastQuery(true);
-            } else {
-              setlekJobId(resp.data.LEK_job_id);
-            }
-          })
-          .catch((err) => {
-            // TODO: Need to implement better error handling
-            console.log(err);
-          });
-      }
-    }
-  }, [
-    lastQuery,
-    algoquantApi,
-    setlekJobId,
-    setJobList,
-    setLastQuery,
-    investor,
-  ]);
-
-  useEffect(() => {
-    getJobList();
-  }, [investor]);
   console.log(investor.investor_id);
+
+  // CallBack function that fetchs for job list data in a paginiated manner
+  // FetchType: "active" or "complete"
+  // UPDATE: USE THE INVESTOR OF FROM THE SECOND API CALL !!!
+  const getJobList = useCallback(
+    (fetchType) => {
+      if (!lastQuery) {
+        if (algoquantApi.token) {
+          algoquantApi
+            .getJobList(fetchType, investor.investor_id, lekJobId)
+            .then((resp) => {
+              setlekJobId(resp.data.LEK_job_id);
+              setJobList(jobList.concat(resp.data.jobs));
+
+              if (resp.data.LEK_job_id === undefined) {
+                setLastQuery(true);
+              } else {
+                setlekJobId(resp.data.LEK_job_id);
+              }
+            })
+            .catch((err) => {
+              // TODO: Need to implement better error handling
+              console.log(err);
+            });
+        }
+      }
+    },
+    [lastQuery, algoquantApi, setlekJobId, setJobList, setLastQuery, investor]
+  );
+
+  // Function to handle job fetch based on the JobChipType
+  // JobChipType takes the enum: ChipJobType to call either active or past (complete) jobs
+  const handleJobTypeChipPress = (JobChipType) => {
+    // Reset the dependent values used to fetch the pagniated job / history list data
+    // and the useEffect on line 110 will be called
+    setJobList([]);
+    setLastQuery(false);
+    setlekJobId(null);
+
+    switch (JobChipType) {
+      case ChipJobTypes.Active:
+        setChipState(ChipJobTypes.Active);
+        setSelectedChipActive(true);
+        setSelectedChipPast(false);
+        break;
+      case ChipJobTypes.Past:
+        setChipState(ChipJobTypes.Past);
+        setSelectedChipPast(true);
+        setSelectedChipActive(false);
+    }
+  };
+
+  // Useeffect that gets triggered when the values of the dependent list changes
+  // Used to fetch the list of data for active or past jobs based on the tab the user has selected
+  useEffect(() => {
+    if (!lastQuery && jobList.length === 0 && lekJobId === null)
+      if (chipState === ChipJobTypes.Active) {
+        getJobList("active");
+      } else {
+        getJobList("complete");
+      }
+  }, [chipState, lastQuery, lekJobId, jobList]);
+
   return (
     <View style={styles.container}>
       {shouldNavigateBack ? navigation.navigate("HomeScreen") : null}
@@ -215,10 +250,22 @@ export default function InvestorScreen(props) {
       <View style={styles.jobsContainer}>
         <View style={styles.sectionTitleContainer}>
           <Text style={styles.sectionTitleText}>Jobs</Text>
-          <Chip mode="flat" style={styles.chip} selected={false} elevated>
+          <Chip
+            mode="flat"
+            style={styles.chip}
+            selected={selectedChipActive}
+            elevated
+            onPress={() => handleJobTypeChipPress(ChipJobTypes.Active)}
+          >
             Active
           </Chip>
-          <Chip mode="flat" style={styles.chip}>
+          <Chip
+            mode="flat"
+            style={styles.chip}
+            selected={selectedChipPast}
+            elevated
+            onPress={() => handleJobTypeChipPress(ChipJobTypes.Past)}
+          >
             Past
           </Chip>
         </View>
@@ -226,7 +273,7 @@ export default function InvestorScreen(props) {
           <JobsAndHistoryItemList
             listData={jobList}
             isLoading={false}
-            type={"CAROUSEL_TAB_JOBS"}
+            type={chipState}
             handleFetchMoreData={getJobList}
           />
         </View>

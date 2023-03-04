@@ -261,7 +261,6 @@ export async function submitConnectAlpacaModal(props) {
         alpaca_secret_key: inputValues[1],
       })
       .then((resp) => {
-        console.log(resp);
         setSnackbarMessage(
           <SnackbarContent
             iconName={THEME.icon.name.success}
@@ -307,7 +306,6 @@ export async function submitDisconnectAlpacaModal(props) {
     algoquant
       .resetBalance({})
       .then((resp) => {
-        console.log(resp);
         setSnackbarMessage(
           <SnackbarContent
             iconName={THEME.icon.name.success}

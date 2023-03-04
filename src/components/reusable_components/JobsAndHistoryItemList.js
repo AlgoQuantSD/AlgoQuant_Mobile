@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { investorImagePathList } from "../../constants/InvestorImagePaths";
 import { THEME } from "../../constants/Theme";
 import Animated, { SlideInDown } from "react-native-reanimated";
+import { ChipJobTypes } from "../../constants/ChipJobTypeEnum";
 
 export default function JobsAndHistoryItemList(props) {
   const { listData, isLoading, handleFetchMoreData, type } = props;
@@ -27,7 +28,7 @@ export default function JobsAndHistoryItemList(props) {
     const contentHeight = event.nativeEvent.contentSize.height;
 
     if (contentOffsetY + scrollViewHeight >= contentHeight) {
-      type === "CAROUSEL_TAB_HISTORY"
+      type === "CAROUSEL_TAB_HISTORY" || ChipJobTypes.Active
         ? handleFetchMoreData("complete")
         : handleFetchMoreData("active");
     }
@@ -46,7 +47,7 @@ export default function JobsAndHistoryItemList(props) {
         <View style={styles.listItems}>
           {listData.length === 0 ? (
             <View style={styles.noResultsContainer}>
-              {type === "CAROUSEL_TAB_JOBS" ? (
+              {type === "CAROUSEL_TAB_JOBS" || ChipJobTypes.Active ? (
                 <Text style={styles.text2}>
                   You don't have any jobs yet. You can create a job from one of
                   your investors.

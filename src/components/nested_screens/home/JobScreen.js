@@ -19,6 +19,7 @@ import { stopJobModalBuilder } from "../../../helpers/modalFactory";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
 import { THEME } from "../../../constants/Theme";
+import { ChipJobTypes } from "../../../constants/ChipJobTypeEnum";
 
 export default function JobScreen(props) {
   const { job, jobType } = props.route.params;
@@ -45,7 +46,6 @@ export default function JobScreen(props) {
   // Snackbar state
   const [snackbarMessage, setSnackbarMessage] = useState(null);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
-  let poop = "dog shit";
 
   // Stuff that we need to set to create the stop job modal
   const modalProps = {
@@ -140,7 +140,6 @@ export default function JobScreen(props) {
         algoquantApi
           .getPerformance(timeframe, job.job_id)
           .then((resp) => {
-            console.log(resp.data);
             const combinedData = resp.data["timestamp"].map((x, i) => ({
               x,
               y: resp.data["close"][i],
@@ -202,7 +201,7 @@ export default function JobScreen(props) {
           graphTrendData={jobsAggregatedData}
           selectedTimeframe={selectedTimeframe}
         />
-        {jobType === "CAROUSEL_TAB_JOBS" ? (
+        {jobType === "CAROUSEL_TAB_JOBS" || ChipJobTypes.Active ? (
           <TouchableOpacity
             style={styles.headerRowIcon}
             onPress={handleStopIconPress}
