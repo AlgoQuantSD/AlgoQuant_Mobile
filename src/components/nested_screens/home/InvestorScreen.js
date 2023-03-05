@@ -188,6 +188,7 @@ export default function InvestorScreen(props) {
         setSnackbarMessage={setSnackbarMessage}
         setIsSnackbarVisible={setIsSnackbarVisible}
         setShouldNavigateBack={setShouldNavigateBack}
+        investorID={investorID}
       />
       {/* Header (name, image, start/delete buttons) */}
       <View style={styles.headerContainer}>
