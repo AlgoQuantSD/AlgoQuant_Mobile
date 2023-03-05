@@ -22,7 +22,7 @@ export default function InvestorScreen(props) {
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
   const navigation = useNavigation();
-  console.log(investor);
+
   // do we want to pass the entire investor object here or just call get-investor api and passing in the investor_id ?
 
   const chunkedIndicators = chunker(investor.indicators, 3);
@@ -104,7 +104,16 @@ export default function InvestorScreen(props) {
         }
       }
     },
-    [lastQuery, algoquantApi, setlekJobId, setJobList, setLastQuery, investor]
+    [
+      lastQuery,
+      algoquantApi,
+      setlekJobId,
+      setJobList,
+      setLastQuery,
+      investor,
+      lekJobId,
+      jobList,
+    ]
   );
 
   // Function to handle job fetch based on the JobChipType
@@ -200,8 +209,8 @@ export default function InvestorScreen(props) {
               { alignItems: "flex-end" },
             ]}
           >
-            <Text style={styles.text}>{investor.profit_stop}</Text>
-            <Text style={styles.text}>{investor.loss_stop}</Text>
+            <Text style={styles.text}>{investor.profit_stop * 100 + "%"}</Text>
+            <Text style={styles.text}>{investor.loss_stop * 100 + "%"}</Text>
           </View>
         </View>
       </View>

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -22,13 +22,24 @@ export default function JobsAndHistoryItemList(props) {
   // Get reference of scrollview component
   const scrollViewRef = useRef(null);
 
+  // state variable to show activity indicator whenever handleFetchMoreData is called
+  const [fetchDataLoading, setFetchDataLoading] = useState(false);
+
   const handleScroll = (event) => {
     const contentOffsetY = event.nativeEvent.contentOffset.y;
     const scrollViewHeight = event.nativeEvent.layoutMeasurement.height;
     const contentHeight = event.nativeEvent.contentSize.height;
 
     if (contentOffsetY + scrollViewHeight >= contentHeight) {
-      type === "CAROUSEL_TAB_HISTORY" || ChipJobTypes.Active
+      console.log("at the bottom");
+
+      // ternary operator to handle the tab data loading in the home page
+      type === "CAROUSEL_TAB_HISTORY"
+        ? handleFetchMoreData("complete")
+        : handleFetchMoreData("active");
+
+      // tenary operator to handle the chip data loading in the investor screen
+      type === ChipJobTypes.Past
         ? handleFetchMoreData("complete")
         : handleFetchMoreData("active");
     }

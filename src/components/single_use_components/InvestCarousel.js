@@ -64,29 +64,40 @@ export default function InvestCarousel(props) {
   }, [setInvestorList, algoquantApi]);
 
   // CallBack function that fetchs for job list data in a paginiated manner
-  const getjobList = (fetchType) => {
-    if (!lastQuery) {
-      if (algoquantApi.token) {
-        algoquantApi
-          .getJobList(fetchType, null, lekJobId)
-          .then((resp) => {
-            console.log("job endpoint");
-            setlekJobId(resp.data.LEK_job_id);
-            setJobList(jobList.concat(resp.data.jobs));
-
-            if (resp.data.LEK_job_id === undefined) {
-              setLastQuery(true);
-            } else {
+  const getjobList = useCallback(
+    (fetchType) => {
+      if (!lastQuery) {
+        if (algoquantApi.token) {
+          algoquantApi
+            .getJobList(fetchType, null, lekJobId)
+            .then((resp) => {
+              console.log("job endpoint");
               setlekJobId(resp.data.LEK_job_id);
-            }
-          })
-          .catch((err) => {
-            // TODO: Need to implement better error handling
-            console.log(err);
-          });
+              setJobList(jobList.concat(resp.data.jobs));
+
+              if (resp.data.LEK_job_id === undefined) {
+                setLastQuery(true);
+              } else {
+                setlekJobId(resp.data.LEK_job_id);
+              }
+            })
+            .catch((err) => {
+              // TODO: Need to implement better error handling
+              console.log(err);
+            });
+        }
       }
-    }
-  };
+    },
+    [
+      lastQuery,
+      algoquantApi,
+      setlekJobId,
+      setJobList,
+      setLastQuery,
+      lekJobId,
+      jobList,
+    ]
+  );
 
   // Useeffect that gets triggered when the values of the dependent list changes
   // Used to fetch the list of data for active or past jobs based on the tab the user has selected
