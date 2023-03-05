@@ -17,16 +17,18 @@ import AlgoquantApiContext from "../../../constants/ApiContext";
 import { ChipJobTypes } from "../../../constants/ChipJobTypeEnum";
 
 export default function InvestorScreen(props) {
-  const { investor, setSnackbarMessage, setIsSnackbarVisible } =
+  const { investorID, setSnackbarMessage, setIsSnackbarVisible } =
     props.route.params;
-  // State variables used to access algoquant SDK API and display/ keep state of user data from database
+
+  // State variables used to access algoquant SDK APfI and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
   const navigation = useNavigation();
 
-  // do we want to pass the entire investor object here or just call get-investor api and passing in the investor_id ?
+  // state variable to hold the investor using the investor ID passed from the investorItemList
+  const [investor, setInvestor] = useState();
 
-  const chunkedIndicators = chunker(investor.indicators, 3);
-  const chunkedStocks = chunker(investor.assets_to_track, 3);
+  const chunkedIndicators = chunker(investor?.indicators, 3);
+  const chunkedStocks = chunker(investor?.assets_to_track, 3);
 
   const [isIndicatorSetToCarouselView, setIsIndicatorSetToCarouselView] =
     useState(true);
@@ -76,8 +78,6 @@ export default function InvestorScreen(props) {
     deleteInvestorModalBuilder(modalProps);
   }
 
-  console.log(investor.investor_id);
-
   // CallBack function that fetchs for job list data in a paginiated manner
   // FetchType: "active" or "complete"
   // UPDATE: USE THE INVESTOR OF FROM THE SECOND API CALL !!!
@@ -86,7 +86,7 @@ export default function InvestorScreen(props) {
       if (!lastQuery) {
         if (algoquantApi.token) {
           algoquantApi
-            .getJobList(fetchType, investor.investor_id, lekJobId)
+            .getJobList(fetchType, investorID, lekJobId)
             .then((resp) => {
               setlekJobId(resp.data.LEK_job_id);
               setJobList(jobList.concat(resp.data.jobs));
@@ -110,11 +110,25 @@ export default function InvestorScreen(props) {
       setlekJobId,
       setJobList,
       setLastQuery,
-      investor,
+      investorID,
       lekJobId,
       jobList,
     ]
   );
+  const getInvestor = useCallback(() => {
+    if (algoquantApi.token) {
+      algoquantApi
+        .getInvestor(investorID)
+        .then((resp) => {
+          console.log(resp.data);
+          setInvestor(resp.data);
+        })
+        .catch((err) => {
+          // TODO: Need to implement better error handling
+          console.log("getInvestor: " + err);
+        });
+    }
+  }, [algoquantApi, investorID]);
 
   // Function to handle job fetch based on the JobChipType
   // JobChipType takes the enum: ChipJobType to call either active or past (complete) jobs
@@ -149,6 +163,11 @@ export default function InvestorScreen(props) {
       }
   }, [chipState, lastQuery, lekJobId, jobList]);
 
+  // UseEffect for when the page is loaded to fetch the investor's information, called once
+  useEffect(() => {
+    getInvestor();
+  }, [investorID]);
+
   return (
     <View style={styles.container}>
       {shouldNavigateBack ? navigation.navigate("HomeScreen") : null}
@@ -172,7 +191,7 @@ export default function InvestorScreen(props) {
       />
       {/* Header (name, image, start/delete buttons) */}
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>{investor.investor_name}</Text>
+        <Text style={styles.headerText}>{investor?.investor_name}</Text>
         <Image style={styles.investorImage} source={investorImagePathList[1]} />
         <TouchableOpacity
           style={styles.headerRowIcon}
@@ -209,8 +228,8 @@ export default function InvestorScreen(props) {
               { alignItems: "flex-end" },
             ]}
           >
-            <Text style={styles.text}>{investor.profit_stop * 100 + "%"}</Text>
-            <Text style={styles.text}>{investor.loss_stop * 100 + "%"}</Text>
+            <Text style={styles.text}>{investor?.profit_stop * 100 + "%"}</Text>
+            <Text style={styles.text}>{investor?.loss_stop * 100 + "%"}</Text>
           </View>
         </View>
       </View>
@@ -227,7 +246,7 @@ export default function InvestorScreen(props) {
           </Button>
         </View>
         {isIndicatorSetToCarouselView ? (
-          <CustomParallaxCarousel data={investor.indicators} />
+          <CustomParallaxCarousel data={investor?.indicators} />
         ) : (
           <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
             <IndicatorsOrStocksListView data={chunkedIndicators} />
@@ -248,7 +267,7 @@ export default function InvestorScreen(props) {
         </View>
 
         {isStockSetToCarouselView ? (
-          <CustomParallaxCarousel data={investor.assets_to_track} />
+          <CustomParallaxCarousel data={investor?.assets_to_track} />
         ) : (
           <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
             <IndicatorsOrStocksListView data={chunkedStocks} />
