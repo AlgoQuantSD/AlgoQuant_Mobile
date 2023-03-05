@@ -71,7 +71,7 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
   }
 
   // Check if indicator is selected for displaying a displaying an outlined circle (unselected) or filled in circle (selected)
-  function isIndactorSelected(indicatorId) {
+  function isIndicatorSelected(indicatorId) {
     switch (indicatorId) {
       case "INDICATOR_MACD":
         return isMACDSelected;
@@ -221,7 +221,7 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
             {INDICATOR_LIST.map((indicator) => (
               <View key={indicator.id} style={styles.indicatorItem}>
                 <Text style={styles.text}>{indicator.abbreviation}</Text>
-                {isIndactorSelected(indicator.id) ? (
+                {isIndicatorSelected(indicator.id) ? (
                   <TouchableOpacity
                     onPress={() => setIsIndicatorSelected(indicator.id)}
                   >
