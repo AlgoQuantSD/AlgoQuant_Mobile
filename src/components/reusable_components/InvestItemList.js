@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -76,10 +76,10 @@ export default function InvestItemList(props) {
                             </Text>
                             <ScrollView>
                               <View style={styles.indicatorAndStockItems}>
-                                {item.indicators.map((item) => {
+                                {item.indicators.map((item, index) => {
                                   return (
                                     <Text
-                                      key={item.investor_id}
+                                      key={index}
                                       style={styles.indictorAndStockText}
                                     >
                                       {item}
@@ -95,10 +95,10 @@ export default function InvestItemList(props) {
                             </Text>
                             <ScrollView>
                               <View style={styles.indicatorAndStockItems}>
-                                {item.assets_to_track.map((item) => {
+                                {item.assets_to_track.map((item, index) => {
                                   return (
                                     <Text
-                                      key={item.investor_id}
+                                      key={index}
                                       style={styles.indictorAndStockText}
                                     >
                                       {item}

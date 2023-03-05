@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { investorImagePathList } from "../../constants/InvestorImagePaths";
 import { THEME } from "../../constants/Theme";
-import Animated, { SlideInDown, SlideInUp } from "react-native-reanimated";
+import Animated, { SlideInDown } from "react-native-reanimated";
 
 export default function JobsAndHistoryItemList(props) {
   const { listData, isLoading, handleFetchMoreData, type } = props;
@@ -32,7 +32,7 @@ export default function JobsAndHistoryItemList(props) {
         : handleFetchMoreData("active");
     }
   };
-  console.log(listData.length);
+
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -69,7 +69,10 @@ export default function JobsAndHistoryItemList(props) {
                     <TouchableWithoutFeedback
                       key={item.job_id}
                       onPress={() =>
-                        navigation.navigate("JobScreen", { job: item })
+                        navigation.navigate("JobScreen", {
+                          jobID: item.job_id,
+                          jobType: type,
+                        })
                       }
                     >
                       <View style={styles.listItem}>
@@ -129,10 +132,10 @@ const styles = StyleSheet.create({
     marginTop: "5%",
   },
   text: {
-    color: THEME.text.color.secondary
+    color: THEME.text.color.secondary,
   },
   text2: {
-    color: THEME.text.color.primary
+    color: THEME.text.color.primary,
   },
   activityIndicator: {
     paddingTop: "10%",

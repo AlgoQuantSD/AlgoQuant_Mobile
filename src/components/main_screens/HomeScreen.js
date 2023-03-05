@@ -5,7 +5,7 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet, ActivityIndicator } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import { THEME } from "../../constants/Theme";
@@ -14,7 +14,6 @@ import CustomGraph from "../reusable_components/CustomGraph";
 import GraphDetailsHeader from "../reusable_components/GraphDetailsHeader";
 import InvestContainer from "../single_use_components/InvestContainer";
 import AlgoquantApiContext from "../../constants/ApiContext";
-import { Marker } from "react-native-svg";
 
 export default function HomeScreen({ navigation }) {
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
@@ -72,6 +71,7 @@ export default function HomeScreen({ navigation }) {
   const getGraphData = useCallback(
     (timeframe) => {
       if (algoquantApi.token) {
+        setGraphLoading(true);
         algoquantApi
           .getPerformance(timeframe)
           .then((resp) => {
@@ -123,25 +123,37 @@ export default function HomeScreen({ navigation }) {
         scrollEventThrottle={10000}
         keyboardShouldPersistTaps="never"
       >
-        <View style={styles.graphDetailsContainer}>
-          <GraphDetailsHeader
-            graphTitle="Your Assets"
-            graphTrendData={portfolioData}
-            selectedTimeframe={selectedTimeframe}
-          />
-        </View>
-        <View style={styles.graphContainer}>
-          <CustomGraph
-            graphData={graphData}
-            getGraphData={getGraphData}
-            setSelectedTimeframe={setSelectedTimeframe}
-            selectedTimeframe={selectedTimeframe}
-            percentChanged={percentChanged}
-            yVals={yValues}
-            handlePressInTouchableElement={handlePressInTouchableElement}
-            handlePressOutTouchableElement={handlePressOutTouchableElement}
-          />
-        </View>
+        {graphLoading ? (
+          <View style={styles.activityIndicator}>
+            <ActivityIndicator
+              size="large"
+              color={THEME.loadingIndicator.color}
+            />
+          </View>
+        ) : (
+          <>
+            <View style={styles.graphDetailsContainer}>
+              <GraphDetailsHeader
+                graphTitle="Your Assets"
+                graphTrendData={portfolioData}
+                selectedTimeframe={selectedTimeframe}
+              />
+            </View>
+            <View style={styles.graphContainer}>
+              <CustomGraph
+                graphData={graphData}
+                getGraphData={getGraphData}
+                setSelectedTimeframe={setSelectedTimeframe}
+                selectedTimeframe={selectedTimeframe}
+                percentChanged={percentChanged}
+                yVals={yValues}
+                handlePressInTouchableElement={handlePressInTouchableElement}
+                handlePressOutTouchableElement={handlePressOutTouchableElement}
+              />
+            </View>
+          </>
+        )}
+
         <View style={styles.investContainer}>
           <InvestContainer
             handlePressInTouchableElement={handlePressInTouchableElement}
@@ -217,5 +229,8 @@ const styles = StyleSheet.create({
   },
   snackbar: {
     backgroundColor: THEME.snackbar.color.background,
+  },
+  activityIndicator: {
+    paddingTop: "10%",
   },
 });

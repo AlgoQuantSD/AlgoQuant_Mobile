@@ -7,11 +7,6 @@ import {
 } from "react-native-gesture-handler";
 import InvestItemList from "../reusable_components/InvestItemList";
 import JobsAndHistoryItemList from "../reusable_components/JobsAndHistoryItemList";
-import {
-  MOCK_INVESTORS,
-  MOCK_JOBS,
-  MOCK_HISTORY,
-} from "../../constants/MockData";
 import { THEME } from "../../constants/Theme";
 import AlgoquantApiContext from "../../constants/ApiContext";
 
@@ -67,8 +62,6 @@ export default function InvestCarousel(props) {
         });
     }
   }, [setInvestorList, algoquantApi]);
-
-  console.log(investorList);
 
   // CallBack function that fetchs for job list data in a paginiated manner
   const getjobList = (fetchType) => {
