@@ -57,8 +57,10 @@ export default function CreateInvestorStockSearch(props) {
               <View>
                 <Text style={styles.text}>{item}</Text>
               </View>
-
-              {selectedStocks.includes(item) ? (
+              {/* Check if the selected circle should be filled in or not, in the case of Ticker not found we dont want to show a circle at all */}
+              {item === "Ticker not found" ? null : selectedStocks.includes(
+                  item
+                ) ? (
                 <TouchableOpacity
                   onPress={() => addOrRemoveStock(item)}
                   hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
