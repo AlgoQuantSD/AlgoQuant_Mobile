@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Snackbar } from "react-native-paper";
@@ -7,23 +7,24 @@ import CustomGraph from "../../reusable_components/CustomGraph";
 import CustomTable from "../../reusable_components/CustomTable";
 import CustomModal from "../../reusable_components/CustomModal";
 import AlgoquantApiContext from "../../../constants/ApiContext";
-import {
-  mockGraphHeaderData,
-  mockGraphData1,
-  mockGraphData2,
-  mockGraphData3,
-  mockGraphData4,
-} from "../../../constants/MockData";
 import { timeframeEnums } from "../../../constants/graphEnums";
 import { stopJobModalBuilder } from "../../../helpers/modalFactory";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
 import { THEME } from "../../../constants/Theme";
+
 export default function JobScreen(props) {
-  const { job } = props.route.params;
+  const { jobID, jobType } = props.route.params;
 
   // Graph state
-  const [graphData, setGraphData] = useState(mockGraphData1);
+  // initial value is an array because victorycharts takes data prop as array or objects only
+  const [graphData, setGraphData] = useState([0]);
+  const [yValues, setYValues] = useState([]);
+  const [percentChanged, setPercentChanged] = useState(null);
+  const [priceChange, setPriceChange] = useState(null);
+  const [recentPrice, setRecentPrice] = useState(0);
+  const [marketClosed, setMarketClosed] = useState(false);
+
   const [selectedTimeframe, setSelectedTimeframe] = useState(
     timeframeEnums.DAY
   );
@@ -49,23 +50,13 @@ export default function JobScreen(props) {
     setModalButtons,
   };
 
-  // Get the appropriate graphdata according to what timeframe the user has selected
-  function getGraphData(timeframe) {
-    switch (timeframe) {
-      case timeframeEnums.DAY:
-        setGraphData(mockGraphData1);
-        break;
-      case timeframeEnums.FIVE:
-        setGraphData(mockGraphData2);
-        break;
-      case timeframeEnums.MONTH:
-        setGraphData(mockGraphData3);
-        break;
-      case timeframeEnums.YEAR:
-        setGraphData(mockGraphData4);
-        break;
-    }
-  }
+  const jobsAggregatedData = {
+    recentPrice: recentPrice,
+    priceDifferenceRaw: priceChange,
+    priceDifferencePercent: percentChanged,
+    marketClosed: marketClosed,
+    dateClosed: null,
+  };
 
   // Build the stop job modal when the user presses the stop icon
   function handleStopIconPress() {
@@ -80,30 +71,62 @@ export default function JobScreen(props) {
   const algoquantApi = useContext(AlgoquantApiContext);
   const [lastKey, setLastKey] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const fetchTrades = () => {
-    const historyBuffer = [];
 
+  // state variable to store the job based on the clicked job from the list using the job id
+  const [job, setJob] = useState();
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+  // Function to get the job clicked by the user using the jobID passed from the getJobList endpoint
+  const getJob = () => {
+    if (algoquantApi.token) {
+      algoquantApi
+        .getJob(jobID)
+        .then((resp) => {
+          setJob(resp.data);
+          setStartDate(
+            new Date(parseInt(resp.data.start_time)).toLocaleString("en-US", {
+              month: "numeric",
+              day: "numeric",
+              year: "numeric",
+            })
+          );
+
+          setEndDate(
+            new Date(parseInt(resp.data.end_time)).toLocaleString("en-US", {
+              month: "numeric",
+              day: "numeric",
+              year: "numeric",
+            })
+          );
+        })
+        .catch((err) => {
+          // TODO: Need to implement better error handling
+          console.log("GetJob: " + err);
+        });
+    }
+  };
+
+  const fetchJobsTrades = () => {
+    const historyBuffer = [];
     // once its the last query do nothing
     // first query always sends a last key of null
     if (!lastQuery) {
       setIsLoading(true);
       if (algoquantApi.token) {
         algoquantApi
-          .getTrades(TRADE_HISTORY_FETCH_AMOUNT, lastKey)
+          .getTrades(TRADE_HISTORY_FETCH_AMOUNT, jobID, lastKey)
           .then((resp) => {
             // Last query set to trie if there is no last evaluated key from response
-            if (resp.data.LastEvaluatedKey === undefined) {
+            if (resp.data.LEK_timestamp === undefined) {
               setLastQuery(true);
             } else {
-              setLastKey({
-                timestamp: resp.data.LastEvaluatedKey.timestamp,
-                user_id: resp.data.LastEvaluatedKey.user_id,
-              });
+              setLastKey(resp.data.LEK_timestamp);
             }
 
             // Populate History array with trade history after each call using a buffer
-            for (let i = 0; i < resp.data.Count; i++) {
-              let timestamp = new Date(parseInt(resp.data.Items[i].timestamp));
+            for (let i = 0; i < resp.data.trades_count; i++) {
+              let timestamp = new Date(parseInt(resp.data.trades[i].timestamp));
               const options = {
                 year: "numeric",
                 month: "numeric",
@@ -113,13 +136,13 @@ export default function JobScreen(props) {
               };
               const formattedTime = timestamp.toLocaleString([], options);
 
-              let shares = parseFloat(resp.data.Items[i].qty).toFixed(3);
+              let shares = parseFloat(resp.data.trades[i].qty).toFixed(3);
               historyBuffer.push({
-                jobName: resp.data.Items[i].job_name,
-                buyOrSell: resp.data.Items[i].side === "B" ? "Buy" : "Sell",
-                stockTicker: resp.data.Items[i].symbol,
+                jobName: resp.data.trades[i].job_name,
+                buyOrSell: resp.data.trades[i].side === "B" ? "Buy" : "Sell",
+                stockTicker: resp.data.trades[i].symbol,
                 shares: shares,
-                avgPrice: resp.data.Items[i].avg_price,
+                avgPrice: resp.data.trades[i].avg_price,
                 date: formattedTime,
               });
             }
@@ -134,11 +157,52 @@ export default function JobScreen(props) {
     }
   };
 
-  // Used to call fetchTrades during the beginning of the render once, to check if
+  // Callback function to get the graph data from the Algoquant API
+  const getGraphData = useCallback(
+    (timeframe) => {
+      if (algoquantApi.token) {
+        algoquantApi
+          .getPerformance(timeframe, jobID)
+          .then((resp) => {
+            console.log(resp.data);
+            const combinedData = resp.data["timestamp"].map((x, i) => ({
+              x,
+              y: resp.data["close"][i],
+            }));
+            setGraphData(combinedData);
+            // putting y values in acsending order for y ticks on graph
+            const yTickValues = resp.data["close"]
+              .map((datum) => datum)
+              .sort((a, b) => a - b);
+            setYValues(yTickValues);
+
+            setPercentChanged(resp.data["percent_change"].toFixed(2));
+            setPriceChange(
+              parseFloat(resp.data["interval_price_change"]).toFixed(2)
+            );
+            setRecentPrice(resp.data["recent_price"].toFixed(2));
+            setMarketClosed(resp.data["is_market_closed"]);
+
+            // setGraphLoading(false);
+          })
+          .catch((err) => {
+            // TODO: Need to implement better error handling
+            console.log(err);
+          });
+      }
+    },
+    [algoquantApi]
+  );
+
+  // Used to call fetchJobsTrades during the beginning of the render once, to check if
   // there are any trades in history and to populate the first few into the History array
+  // get the data for the job clicked by the user
   useEffect(() => {
-    fetchTrades();
+    fetchJobsTrades();
+    getGraphData("D");
+    getJob();
   }, []);
+
   return (
     <View style={styles.container}>
       {/* Modal */}
@@ -157,19 +221,25 @@ export default function JobScreen(props) {
         setModalButtons={setModalButtons}
         setSnackbarMessage={setSnackbarMessage}
         setIsSnackbarVisible={setIsSnackbarVisible}
+        jobID={jobID}
       />
       {/* Header Row */}
       <View style={styles.headerContainer}>
         <GraphDetailsHeader
-          graphTitle={job.name}
-          graphTrendData={mockGraphHeaderData}
+          graphTitle={job?.name}
+          graphTrendData={jobsAggregatedData}
           selectedTimeframe={selectedTimeframe}
         />
-        {job.isActive ? (
+        {jobType === "CAROUSEL_TAB_JOBS" ? (
           <TouchableOpacity
             style={styles.headerRowIcon}
             onPress={handleStopIconPress}
           >
+            <View>
+              <Text style={styles.text}>Job Active</Text>
+              <Text style={styles.text}>{startDate}</Text>
+            </View>
+
             <Ionicons
               name={THEME.icon.name.stopJob}
               color={THEME.icon.color.primary}
@@ -181,7 +251,7 @@ export default function JobScreen(props) {
             <View>
               <Text style={styles.text}>Job Inactive</Text>
               <Text style={styles.text}>
-                {job.startDate} - {job.endDate}
+                {startDate} - {endDate}
               </Text>
             </View>
 
@@ -202,10 +272,10 @@ export default function JobScreen(props) {
           <CustomGraph
             graphData={graphData}
             getGraphData={getGraphData}
-            percentChanged={"0.1"}
-            yVals={[1, 2, 3, 4]}
-            selectedTimeframe={selectedTimeframe}
             setSelectedTimeframe={setSelectedTimeframe}
+            selectedTimeframe={selectedTimeframe}
+            percentChanged={percentChanged}
+            yVals={yValues}
           />
         )}
       </View>
@@ -215,7 +285,7 @@ export default function JobScreen(props) {
         <CustomTable
           data={history}
           loading={isLoading}
-          handleLoadMore={fetchTrades}
+          handleLoadMore={fetchJobsTrades}
         />
       </View>
       {/* Snackbar */}

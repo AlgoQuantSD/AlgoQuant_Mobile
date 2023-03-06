@@ -29,8 +29,6 @@ export default function CustomGraph(props) {
     handlePressOutTouchableElement,
   } = props;
 
-  console.log("GRaph data: ", graphData);
-
   const formatter = format(".2f");
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = percentChanged >= 0;

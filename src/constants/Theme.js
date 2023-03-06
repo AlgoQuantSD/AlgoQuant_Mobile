@@ -133,7 +133,7 @@ export const THEME = {
   },
   table: {
     rowColor1: PALETTE.primaryGreen,
-    rowColor2: PALETTE.black,
+    rowColor2: PALETTE.lightGray,
   },
   flexboxSizes: {
     headerContainerSmall: 0.15,

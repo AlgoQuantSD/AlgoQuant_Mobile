@@ -55,7 +55,7 @@ export default function CustomTable(props) {
               renderItem={({ item, index }) => (
                 <DataTable.Row
                   key={index}
-                  style={index % 2 === 0 ? styles.row : null}
+                  style={index % 2 === 0 ? styles.row1 : styles.row2}
                 >
                   {columns.map((column) => (
                     <DataTable.Cell
@@ -89,8 +89,12 @@ const styles = StyleSheet.create({
   text: {
     color: THEME.text.color.primary,
   },
-  row: {
+  row1: {
     backgroundColor: THEME.table.rowColor1,
+    alignItems: "flex-start",
+  },
+  row2: {
+    backgroundColor: THEME.table.rowColor2,
     alignItems: "flex-start",
   },
   column: {

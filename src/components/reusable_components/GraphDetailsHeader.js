@@ -9,15 +9,15 @@ export default function GraphDetailsHeader(props) {
 
   // Format the unix timestamp recieved from parent component and convert it to date string to show on screen.
   // Date is when the market closed
-  let formattedDateClosed = "";
+  let formattedDateClosed = " ";
   if (graphTrendData.dateClosed !== null) {
-    formattedDateClosed = new Date(
-      graphTrendData.dateClosed * 1000
-    ).toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "numeric",
-      day: "numeric",
-    });
+    formattedDateClosed =
+      "on " +
+      new Date(graphTrendData.dateClosed * 1000).toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "numeric",
+        day: "numeric",
+      });
   }
 
   // Set the text that should display next to the perecent change based on the timeframe
@@ -25,19 +25,19 @@ export default function GraphDetailsHeader(props) {
   if (selectedTimeframe === timeframeEnums.DAY) {
     !graphTrendData.marketClosed
       ? (timeframeText = "Today")
-      : (timeframeText = "Today - Closed on " + formattedDateClosed);
+      : (timeframeText = "Today - Closed " + formattedDateClosed);
   } else if (selectedTimeframe === timeframeEnums.FIVE) {
     !graphTrendData.marketClosed
       ? (timeframeText = "Past 5 days")
-      : (timeframeText = "Past 5 days - Closed on " + formattedDateClosed);
+      : (timeframeText = "Past 5 days - Closed " + formattedDateClosed);
   } else if (selectedTimeframe === timeframeEnums.MONTH) {
     !graphTrendData.marketClosed
       ? (timeframeText = "Past month")
-      : (timeframeText = "Past month - Closed on " + formattedDateClosed);
+      : (timeframeText = "Past month - Closed " + formattedDateClosed);
   } else if (selectedTimeframe === timeframeEnums.YEAR) {
     !graphTrendData.marketClosed
       ? (timeframeText = "Past year")
-      : (timeframeText = "Past year - Closed on " + formattedDateClosed);
+      : (timeframeText = "Past year - Closed " + formattedDateClosed);
   }
 
   // This is used to conditionally style the text ot be green or red based on the stock trend

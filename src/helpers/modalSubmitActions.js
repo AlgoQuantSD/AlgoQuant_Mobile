@@ -611,20 +611,31 @@ export async function submitStopJobModal(props) {
     setModalHeader,
     setModalBody,
     setModalButtons,
+    jobID,
     setSnackbarMessage,
     setIsSnackbarVisible,
   } = props;
-  // Enter logic here to stop the job
-
-  setSnackbarMessage(
-    <SnackbarContent
-      iconName={THEME.icon.name.success}
-      iconSize={THEME.icon.size.snackbarIconSize}
-      iconColor={THEME.colors.success}
-      text={"Successfully stopped job."}
-      textColor={THEME.colors.success}
-    />
-  );
-  setIsSnackbarVisible(true);
-  cleanUpState(props);
+  // Call algoquant api and send bodyData to stop job
+  if (algoquant.token) {
+    algoquant
+      .stopJob(jobID)
+      .then(() => {
+        setSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icon.name.success}
+            iconSize={THEME.icon.size.snackbarIconSize}
+            iconColor={THEME.icon.color.primary}
+            text="SUCCESS: Job has been stopped"
+            textColor={THEME.colors.success}
+          />
+        );
+        setIsSnackbarVisible(true);
+        // Clear state upon successful submit
+        cleanUpState(props);
+      })
+      .catch((err) => {
+        // will can u add the snackbar error handling and laoding
+        console.log(err.message);
+      });
+  }
 }

@@ -15,7 +15,6 @@ export default function SearchScreen({ navigation }) {
 
   // handle action when user selects a stock from the list of queries
   function onSelectStock(item) {
-    console.log(item);
     !searchResults.includes("Ticker not found")
       ? navigation.navigate("StockInfoScreen", {
           stockName: item,
