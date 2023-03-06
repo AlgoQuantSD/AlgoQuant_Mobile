@@ -602,6 +602,51 @@ export async function submitDeleteInvestorModal(props) {
   setShouldNavigateBack(true);
 }
 
+export async function submitStartJobModal(props) {
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalButtons,
+    jobID,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+  } = props;
+  // Delete this when implementing the API logic, this is just used to mock the API call having an error
+  const hasError = false;
+  // API logic goes here
+  if (!hasError) {
+    setSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icon.name.success}
+        iconSize={THEME.icon.size.snackbarIconSize}
+        iconColor={THEME.colors.success}
+        text="SUCCESS: Job has been started"
+        textColor={THEME.colors.success}
+      />
+    );
+    setIsSnackbarVisible(true);
+    // Clear state upon successful submit
+    cleanUpState(props);
+  } else {
+    setSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icon.name.error}
+        iconSize={THEME.icon.size.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Job was not started, try again later"
+        textColor={THEME.colors.danger}
+      />
+    );
+    setIsSnackbarVisible(true);
+    // Clear state upon successful submit
+    cleanUpState(props);
+  }
+}
+
 export async function submitStopJobModal(props) {
   const {
     isModalVisible,
@@ -634,7 +679,19 @@ export async function submitStopJobModal(props) {
         cleanUpState(props);
       })
       .catch((err) => {
-        // will can u add the snackbar error handling and laoding
+        // Show error message
+        setSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icon.name.error}
+            iconSize={THEME.icon.size.snackbarIconSize}
+            iconColor={THEME.colors.danger}
+            text="ERROR: Job was not stopped, try again later"
+            textColor={THEME.colors.danger}
+          />
+        );
+        setIsSnackbarVisible(true);
+        // Clear state upon submit
+        cleanUpState(props);
         console.log(err.message);
       });
   }

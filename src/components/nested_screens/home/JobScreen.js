@@ -289,13 +289,7 @@ export default function JobScreen(props) {
         />
       </View>
       {/* Snackbar */}
-      <View
-        style={{
-          position: "absolute",
-          bottom: -40,
-          width: "100%",
-        }}
-      >
+      <View style={styles.snackbar}>
         <Snackbar
           visible={isSnackbarVisible}
           onDismiss={() =>
@@ -368,7 +362,12 @@ const styles = StyleSheet.create({
     marginRight: "5%",
     marginBottom: "1%",
   },
+  snackbarContainer: { flex: 0.05 },
   snackbar: {
     backgroundColor: THEME.snackbar.color.background,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });
