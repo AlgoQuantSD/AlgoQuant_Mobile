@@ -12,42 +12,8 @@ export const MOCK_USER = {
 export const MOCK_INVESTORS = [
   {
     name: "Warren Buffet",
-    indicators: [
-      {
-        name: "RSI",
-        id: "INDICATOR_RSI",
-      },
-      {
-        name: "OBV",
-        id: "INDICATOR_OBV",
-      },
-      {
-        name: "MACD",
-        id: "INDICATOR_MACD",
-      },
-    ],
-    stocks: [
-      {
-        name: "AMD",
-        id: "STOCK_AMD",
-      },
-      {
-        name: "AMZN",
-        id: "STOCK_AMZN",
-      },
-      {
-        name: "APPL",
-        id: "STOCK_APPL",
-      },
-      {
-        name: "GOOGL",
-        id: "STOCK_GOOGL",
-      },
-      {
-        name: "NVDA",
-        id: "STOCK_NVDA",
-      },
-    ],
+    indicators: ["RSI", "OBV", "MACD"],
+    stocks: ["AMD", "AMZN", "APPL", "GOOGL", "NVDA"],
     profitStop: "20%",
     lossStop: "30%",
     imageId: 0,
@@ -55,42 +21,8 @@ export const MOCK_INVESTORS = [
   },
   {
     name: "Heinous Investor",
-    indicators: [
-      {
-        name: "RSI",
-        id: "INDICATOR_RSI",
-      },
-      {
-        name: "OBV",
-        id: "INDICATOR_OBV",
-      },
-      {
-        name: "MACD",
-        id: "INDICATOR_MACD",
-      },
-    ],
-    stocks: [
-      {
-        name: "AMD",
-        id: "STOCK_AMD",
-      },
-      {
-        name: "AMZN",
-        id: "STOCK_AMZN",
-      },
-      {
-        name: "APPL",
-        id: "STOCK_APPL",
-      },
-      {
-        name: "GOOGL",
-        id: "STOCK_GOOGL",
-      },
-      {
-        name: "NVDA",
-        id: "STOCK_NVDA",
-      },
-    ],
+    indicators: ["RSI", "OBV", "MACD"],
+    stocks: ["AMD", "AMZN", "APPL", "GOOGL", "NVDA"],
     profitStop: "50%",
     lossStop: "90%",
     imageId: 1,
@@ -98,42 +30,8 @@ export const MOCK_INVESTORS = [
   },
   {
     name: "Your Mom",
-    indicators: [
-      {
-        name: "RSI",
-        id: "INDICATOR_RSI",
-      },
-      {
-        name: "OBV",
-        id: "INDICATOR_OBV",
-      },
-      {
-        name: "MACD",
-        id: "INDICATOR_MACD",
-      },
-    ],
-    stocks: [
-      {
-        name: "AMD",
-        id: "STOCK_AMD",
-      },
-      {
-        name: "AMZN",
-        id: "STOCK_AMZN",
-      },
-      {
-        name: "APPL",
-        id: "STOCK_APPL",
-      },
-      {
-        name: "GOOGL",
-        id: "STOCK_GOOGL",
-      },
-      {
-        name: "NVDA",
-        id: "STOCK_NVDA",
-      },
-    ],
+    indicators: ["RSI", "OBV", "MACD"],
+    stocks: ["AMD", "AMZN", "APPL", "GOOGL", "NVDA"],
     profitStop: "20%",
     lossStop: "30%",
     imageId: 1,

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Searchbar } from "react-native-paper";
-import { THEME } from "../../constants/Theme";
+import { THEME, customRNPaperTheme } from "../../constants/Theme";
 import { FlashList } from "@shopify/flash-list";
 
 export default function CustomSearch(props) {
@@ -28,6 +28,7 @@ export default function CustomSearch(props) {
         inputStyle={{ color: THEME.text.color.primary }}
         iconColor={THEME.icon.color.primary}
         placeholderTextColor={THEME.text.disabledColor}
+        theme={customRNPaperTheme}
       />
       {/* Render the list of results after loading is done */}
       {searchResults && !isLoading && searchQuery !== "" ? (

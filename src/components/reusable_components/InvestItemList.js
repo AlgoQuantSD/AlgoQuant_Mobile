@@ -79,7 +79,7 @@ export default function InvestItemList(props) {
                                 {item.indicators.map((item, index) => {
                                   return (
                                     <Text
-                                      key={index}
+                                      key={item}
                                       style={styles.indictorAndStockText}
                                     >
                                       {item}
@@ -98,7 +98,7 @@ export default function InvestItemList(props) {
                                 {item.assets_to_track.map((item, index) => {
                                   return (
                                     <Text
-                                      key={index}
+                                      key={item}
                                       style={styles.indictorAndStockText}
                                     >
                                       {item}
