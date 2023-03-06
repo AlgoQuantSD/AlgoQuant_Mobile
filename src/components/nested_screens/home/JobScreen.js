@@ -230,7 +230,7 @@ export default function JobScreen(props) {
           graphTrendData={jobsAggregatedData}
           selectedTimeframe={selectedTimeframe}
         />
-        {jobType === "CAROUSEL_TAB_JOBS" || ChipJobTypes.Active ? (
+        {jobType === "CAROUSEL_TAB_JOBS" || jobType === ChipJobTypes.Active ? (
           <TouchableOpacity
             style={styles.headerRowIcon}
             onPress={handleStopIconPress}

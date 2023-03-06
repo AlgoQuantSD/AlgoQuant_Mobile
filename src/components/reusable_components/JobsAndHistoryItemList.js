@@ -34,12 +34,8 @@ export default function JobsAndHistoryItemList(props) {
       console.log("at the bottom");
 
       // ternary operator to handle the tab data loading in the home page
-      type === "CAROUSEL_TAB_HISTORY"
-        ? handleFetchMoreData("complete")
-        : handleFetchMoreData("active");
-
       // tenary operator to handle the chip data loading in the investor screen
-      type === ChipJobTypes.Past
+      type === ChipJobTypes.Past || type === "CAROUSEL_TAB_HISTORY"
         ? handleFetchMoreData("complete")
         : handleFetchMoreData("active");
     }
