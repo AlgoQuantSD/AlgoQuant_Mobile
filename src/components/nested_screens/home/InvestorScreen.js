@@ -44,7 +44,7 @@ export default function InvestorScreen(props) {
   const [modalInputFields, setModalInputFields] = useState(null);
   const [modalButtons, setModalButtons] = useState(null);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
   const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
   const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(null);
 
