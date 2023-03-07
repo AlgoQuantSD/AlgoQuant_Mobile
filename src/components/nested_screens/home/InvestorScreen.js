@@ -43,9 +43,11 @@ export default function InvestorScreen(props) {
   const [modalBody, setModalBody] = useState(null);
   const [modalInputFields, setModalInputFields] = useState(null);
   const [modalButtons, setModalButtons] = useState(null);
-
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState(false);
+  const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
+  const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(null);
+
   // This state variable tells will only be true if we just deleted an investor so we can navigate back home
   const [shouldNavigateBack, setShouldNavigateBack] = useState(false);
 
@@ -93,6 +95,10 @@ export default function InvestorScreen(props) {
         setModalButtons={setModalButtons}
         setSnackbarMessage={setSnackbarMessage}
         setIsSnackbarVisible={setIsSnackbarVisible}
+        modalSnackbarMessage={modalSnackbarMessage}
+        setModalSnackbarMessage={setModalSnackbarMessage}
+        isModalSnackbarVisible={isModalSnackbarVisible}
+        setIsModalSnackbarVisible={setIsModalSnackbarVisible}
         setShouldNavigateBack={setShouldNavigateBack}
       />
       {/* Header (name, image, start/delete buttons) */}
