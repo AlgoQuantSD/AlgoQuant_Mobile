@@ -8,6 +8,7 @@ import React, {
 import { View, ScrollView, ActivityIndicator, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Snackbar, AnimatedFAB } from "react-native-paper";
+import CustomModal from "../reusable_components/CustomModal";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
@@ -23,13 +24,25 @@ export default function HomeScreen() {
   const scrollViewRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isScrollEnabled, setIsScrollEnabled] = useState(true);
-  const [snackbarMessage, setSnackbarMessage] = useState(null);
-  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+
   // AnimatedFAB
   const [isExtended, setIsExtended] = useState(true);
   let animateFrom;
   const fabStyle = { [animateFrom]: 16 };
+  // Modal stuff
+  const [isModalVisible, setIsModalVisible] = useState(null);
+  const [modalType, setModalType] = useState(null);
+  const [modalTitle, setModalTitle] = useState(null);
+  const [modalHeader, setModalHeader] = useState(null);
+  const [modalBody, setModalBody] = useState(null);
+  const [modalInputFields, setModalInputFields] = useState(null);
+  const [modalButtons, setModalButtons] = useState(null);
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
+  const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
+  const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(null);
 
+  // Handle different presses
   function handlePressInTouchableElement() {
     setIsScrollEnabled(false);
   }
@@ -77,6 +90,24 @@ export default function HomeScreen() {
     priceDifferencePercent: percentChanged,
     marketClosed: marketClosed,
     dateClosed: dateClosed,
+  };
+
+  // Modal props object to pass down to child component
+  const modalProps = {
+    isModalVisible: isModalVisible,
+    setIsModalVisible: setIsModalVisible,
+    modalType: modalType,
+    setModalType: setModalType,
+    modalTitle: modalTitle,
+    setModalTitle: setModalTitle,
+    modalHeader: modalHeader,
+    setModalHeader: setModalHeader,
+    modalBody: modalBody,
+    setModalBody: setModalBody,
+    modalInputFields: modalInputFields,
+    setModalInputFields: setModalInputFields,
+    modalButtons: modalButtons,
+    setModalButtons: setModalButtons,
   };
 
   // Callback function to get the graph data from the Algoquant API
@@ -135,6 +166,29 @@ export default function HomeScreen() {
         scrollEventThrottle={10000}
         keyboardShouldPersistTaps="never"
       >
+        {/* Modal */}
+        <CustomModal
+          isModalVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          modalType={modalType}
+          setModalType={setModalType}
+          modalTitle={modalTitle}
+          setModalTitle={setModalTitle}
+          modalHeader={modalHeader}
+          setModalHeader={setModalHeader}
+          modalBody={modalBody}
+          setModalBody={setModalBody}
+          modalInputFields={modalInputFields}
+          setModalInputFields={setModalInputFields}
+          modalButtons={modalButtons}
+          setModalButtons={setModalButtons}
+          setSnackbarMessage={setSnackbarMessage}
+          setIsSnackbarVisible={setIsSnackbarVisible}
+          modalSnackbarMessage={modalSnackbarMessage}
+          setModalSnackbarMessage={setModalSnackbarMessage}
+          isModalSnackbarVisible={isModalSnackbarVisible}
+          setIsModalSnackbarVisible={setIsModalSnackbarVisible}
+        />
         {graphLoading ? (
           <View style={styles.activityIndicator}>
             <ActivityIndicator
@@ -143,7 +197,8 @@ export default function HomeScreen() {
             />
           </View>
         ) : (
-          <>
+          // Graph
+          <View>
             <View style={styles.graphDetailsContainer}>
               <GraphDetailsHeader
                 graphTitle="Your Assets"
@@ -163,24 +218,27 @@ export default function HomeScreen() {
                 handlePressOutTouchableElement={handlePressOutTouchableElement}
               />
             </View>
-          </>
+          </View>
         )}
-
+        {/* Invest */}
         <View style={styles.investContainer}>
           <InvestContainer
             handlePressInTouchableElement={handlePressInTouchableElement}
             handlePressOutTouchableElement={handlePressOutTouchableElement}
             setSnackbarMessage={setSnackbarMessage}
             setIsSnackbarVisible={setIsSnackbarVisible}
+            modalProps={modalProps}
             navigation={navigation}
           />
         </View>
       </ScrollView>
+      {/* Snackbar */}
       <View
         style={{
           position: "absolute",
           bottom: -40,
           width: "100%",
+          zIndex: 1,
         }}
       >
         <Snackbar
@@ -201,6 +259,7 @@ export default function HomeScreen() {
           {snackbarMessage}
         </Snackbar>
       </View>
+      {/* Create investor button */}
       <AnimatedFAB
         icon={"plus"}
         label={"Create Investor"}

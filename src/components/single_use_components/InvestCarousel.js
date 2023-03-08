@@ -16,6 +16,7 @@ export default function InvestCarousel(props) {
     handlePressOutTouchableElement,
     setSnackbarMessage,
     setIsSnackbarVisible,
+    modalProps,
     navigation,
   } = props;
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
@@ -210,6 +211,7 @@ export default function InvestCarousel(props) {
                 handlePressOutTouchableElement={handlePressOutTouchableElement}
                 setSnackbarMessage={setSnackbarMessage}
                 setIsSnackbarVisible={setIsSnackbarVisible}
+                modalProps={modalProps}
                 navigation={navigation}
               />
             ) : (

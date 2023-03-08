@@ -362,6 +362,47 @@ export function deleteInvestorModalBuilder(props) {
   setModalTitle("Delete Investor");
   setModalHeader("Are you sure you want to delete your investor?");
   setModalBody("You will not be able to recover your investor upon deletion.");
+  setModalButtons([
+    {
+      label: "Submit",
+      buttonColor: THEME.colors.success,
+      textColor: THEME.text.color.secondary,
+      key: "SUBMIT_BUTTON",
+    },
+    {
+      label: "Cancel",
+      buttonColor: THEME.colors.danger,
+      textColor: THEME.text.color.secondary,
+      key: "CANCEL_BUTTON",
+    },
+  ]);
+  setIsModalVisible(!isModalVisible);
+}
+
+export function startJobModalBuilder(props) {
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalInputFields,
+    setModalButtons,
+  } = props;
+  setModalType("START_JOB");
+  setModalTitle("Start Job");
+  setModalHeader("Enter job configuration");
+  setModalBody(
+    "Provide a name for your job as well as how much money you would like to invest."
+  );
+  setModalInputFields([
+    { label: "Job name", key: "START_JOB_JOB_NAME" },
+    {
+      label: "Initial investment",
+      key: "START_JOB_INITIAL_INVESTMENT",
+    },
+  ]);
 
   setModalButtons([
     {

@@ -10,6 +10,7 @@ export default function InvestContainer(props) {
     setSnackbarMessage,
     setIsSnackbarVisible,
     navigation,
+    modalProps
   } = props;
   return (
     <View>
@@ -19,6 +20,7 @@ export default function InvestContainer(props) {
         handlePressOutTouchableElement={handlePressOutTouchableElement}
         setSnackbarMessage={setSnackbarMessage}
         setIsSnackbarVisible={setIsSnackbarVisible}
+        modalProps={modalProps}
         navigation={navigation}
       />
     </View>
