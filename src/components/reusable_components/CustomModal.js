@@ -58,6 +58,7 @@ export default function CustomModal(props) {
     setModalErrorMessage,
     setShouldNavigateBack,
     jobID,
+    investorID,
   } = props;
 
   // Close the modal and clear the modal information
@@ -114,6 +115,7 @@ export default function CustomModal(props) {
       setIsLoading,
       setShouldNavigateBack,
       jobID,
+      investorID,
     };
     switch (modalType) {
       case "EDIT_NAME":

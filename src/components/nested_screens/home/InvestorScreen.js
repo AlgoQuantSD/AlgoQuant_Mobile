@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import React, { useEffect, useState, useContext, useCallback } from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
 import { Button, Snackbar } from "react-native-paper";
@@ -21,16 +14,24 @@ import {
   startJobModalBuilder,
 } from "../../../helpers/modalFactory";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import { MOCK_JOBS } from "../../../constants/MockData";
+import { Chip } from "react-native-paper";
 import { chunker } from "../../../helpers/chunker";
 import { THEME } from "../../../constants/Theme";
+import AlgoquantApiContext from "../../../constants/ApiContext";
+import { ChipJobTypes } from "../../../constants/ChipJobTypeEnum";
 
 export default function InvestorScreen(props) {
-  const { investor } = props.route.params;
+  const { investorID } = props.route.params;
+
+  // State variables used to access algoquant SDK APfI and display/ keep state of user data from database
+  const algoquantApi = useContext(AlgoquantApiContext);
   const navigation = useNavigation();
 
-  const chunkedIndicators = chunker(investor.indicators, 3);
-  const chunkedStocks = chunker(investor.assets_to_track, 3);
+  // state variable to hold the investor using the investor ID passed from the investorItemList
+  const [investor, setInvestor] = useState();
+
+  const chunkedIndicators = chunker(investor?.indicators, 3);
+  const chunkedStocks = chunker(investor?.assets_to_track, 3);
 
   const [isIndicatorSetToCarouselView, setIsIndicatorSetToCarouselView] =
     useState(true);
@@ -50,6 +51,23 @@ export default function InvestorScreen(props) {
 
   // This state variable tells will only be true if we just deleted an investor so we can navigate back home
   const [shouldNavigateBack, setShouldNavigateBack] = useState(false);
+
+  // State variables for an investors job list
+  // State variable to hold array of job objects
+  const [jobList, setJobList] = useState([]);
+  // Loading stop when switching from viewing active jobs to past jobs
+  const [isJobListLoading, setIsJobListLoading] = useState(false);
+  // Used for pagination of the job list data
+  // last evaluated key - used for the api to know if there is more data to fetch
+  // lastQUery - true if last evaluated key comes back undefined, aka no more queries
+  const [lekJobId, setlekJobId] = useState(null);
+  const [lastQuery, setLastQuery] = useState(false);
+
+  // State variable to track the selected chip. usees the ChipJobTypes Enum
+  const [chipState, setChipState] = useState(ChipJobTypes.Active);
+  // state variables to track what chip is currently selected
+  const [selectedChipActive, setSelectedChipActive] = useState(true);
+  const [selectedChipPast, setSelectedChipPast] = useState(false);
 
   const modalProps = {
     isModalVisible,
@@ -74,6 +92,100 @@ export default function InvestorScreen(props) {
   function handleTrashIconPress() {
     deleteInvestorModalBuilder(modalProps);
   }
+
+  // CallBack function that fetchs for job list data in a paginiated manner
+  // FetchType: "active" or "complete"
+  // UPDATE: USE THE INVESTOR OF FROM THE SECOND API CALL !!!
+  const getJobList = useCallback(
+    (fetchType) => {
+      setIsJobListLoading(true);
+      if (!lastQuery) {
+        if (algoquantApi.token) {
+          algoquantApi
+            .getJobList(fetchType, investorID, lekJobId)
+            .then((resp) => {
+              setlekJobId(resp.data.LEK_job_id);
+              setJobList(jobList.concat(resp.data.jobs));
+
+              if (resp.data.LEK_job_id === undefined) {
+                setLastQuery(true);
+              } else {
+                setlekJobId(resp.data.LEK_job_id);
+              }
+              setIsJobListLoading(false);
+            })
+            .catch((err) => {
+              setIsJobListLoading(false);
+              // TODO: Need to implement better error handling
+              console.log(err);
+            });
+        }
+      }
+    },
+    [
+      lastQuery,
+      algoquantApi,
+      setlekJobId,
+      setJobList,
+      setLastQuery,
+      investorID,
+      lekJobId,
+      jobList,
+    ]
+  );
+  const getInvestor = useCallback(() => {
+    if (algoquantApi.token) {
+      algoquantApi
+        .getInvestor(investorID)
+        .then((resp) => {
+          console.log(resp.data);
+          setInvestor(resp.data);
+        })
+        .catch((err) => {
+          // TODO: Need to implement better error handling
+          console.log("getInvestor: " + err);
+        });
+    }
+  }, [algoquantApi, investorID]);
+
+  // Function to handle job fetch based on the JobChipType
+  // JobChipType takes the enum: ChipJobType to call either active or past (complete) jobs
+  const handleJobTypeChipPress = (JobChipType) => {
+    // Reset the dependent values used to fetch the pagniated job / history list data
+    // and the useEffect on line 110 will be called
+    setJobList([]);
+    setLastQuery(false);
+    setlekJobId(null);
+
+    switch (JobChipType) {
+      case ChipJobTypes.Active:
+        setChipState(ChipJobTypes.Active);
+        setSelectedChipActive(true);
+        setSelectedChipPast(false);
+        break;
+      case ChipJobTypes.Past:
+        setChipState(ChipJobTypes.Past);
+        setSelectedChipPast(true);
+        setSelectedChipActive(false);
+    }
+  };
+
+  // Useeffect that gets triggered when the values of the dependent list changes
+  // Used to fetch the list of data for active or past jobs based on the tab the user has selected
+  useEffect(() => {
+    if (!lastQuery && jobList.length === 0 && lekJobId === null)
+      if (chipState === ChipJobTypes.Active) {
+        getJobList("active");
+      } else {
+        getJobList("complete");
+      }
+  }, [chipState, lastQuery, lekJobId, jobList]);
+
+  // UseEffect for when the page is loaded to fetch the investor's information, called once
+  useEffect(() => {
+    getInvestor();
+  }, [investorID]);
+
   return (
     <View style={styles.container}>
       {shouldNavigateBack ? navigation.navigate("HomeScreen") : null}
@@ -100,10 +212,11 @@ export default function InvestorScreen(props) {
         isModalSnackbarVisible={isModalSnackbarVisible}
         setIsModalSnackbarVisible={setIsModalSnackbarVisible}
         setShouldNavigateBack={setShouldNavigateBack}
+        investorID={investorID}
       />
       {/* Header (name, image, start/delete buttons) */}
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>{investor.investor_name}</Text>
+        <Text style={styles.headerText}>{investor?.investor_name}</Text>
         <Image style={styles.investorImage} source={investorImagePathList[1]} />
         <TouchableOpacity
           style={styles.headerRowIcon}
@@ -140,8 +253,8 @@ export default function InvestorScreen(props) {
               { alignItems: "flex-end" },
             ]}
           >
-            <Text style={styles.text}>{investor.profit_stop}</Text>
-            <Text style={styles.text}>{investor.loss_stop}</Text>
+            <Text style={styles.text}>{investor?.profit_stop * 100 + "%"}</Text>
+            <Text style={styles.text}>{investor?.loss_stop * 100 + "%"}</Text>
           </View>
         </View>
       </View>
@@ -158,7 +271,7 @@ export default function InvestorScreen(props) {
           </Button>
         </View>
         {isIndicatorSetToCarouselView ? (
-          <CustomParallaxCarousel data={investor.indicators} />
+          <CustomParallaxCarousel data={investor?.indicators} />
         ) : (
           <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
             <IndicatorsOrStocksListView data={chunkedIndicators} />
@@ -179,7 +292,7 @@ export default function InvestorScreen(props) {
         </View>
 
         {isStockSetToCarouselView ? (
-          <CustomParallaxCarousel data={investor.assets_to_track} />
+          <CustomParallaxCarousel data={investor?.assets_to_track} />
         ) : (
           <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
             <IndicatorsOrStocksListView data={chunkedStocks} />
@@ -188,12 +301,33 @@ export default function InvestorScreen(props) {
       </View>
       {/* Jobs */}
       <View style={styles.jobsContainer}>
-        <Text style={styles.sectionTitleText}>Jobs</Text>
+        <View style={styles.sectionTitleContainer}>
+          <Text style={styles.sectionTitleText}>Jobs</Text>
+          <Chip
+            mode="flat"
+            style={styles.chip}
+            selected={selectedChipActive}
+            elevated
+            onPress={() => handleJobTypeChipPress(ChipJobTypes.Active)}
+          >
+            Active
+          </Chip>
+          <Chip
+            mode="flat"
+            style={styles.chip}
+            selected={selectedChipPast}
+            elevated
+            onPress={() => handleJobTypeChipPress(ChipJobTypes.Past)}
+          >
+            Past
+          </Chip>
+        </View>
         <View style={styles.jobList}>
           <JobsAndHistoryItemList
-            listData={MOCK_JOBS}
-            isLoading={false}
-            type={"CAROUSEL_TAB_JOBS"}
+            listData={jobList}
+            isLoading={isJobListLoading}
+            type={chipState}
+            handleFetchMoreData={getJobList}
           />
         </View>
       </View>
@@ -261,6 +395,11 @@ const styles = StyleSheet.create({
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H4,
     color: THEME.text.color.primary,
+    marginRight: 10,
+  },
+  sectionTitleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   investorConfigurationDetailsRow: {
     flex: 1,
@@ -314,5 +453,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  chip: {
+    marginRight: 10,
+    backgroundColor: THEME.button.color.secondary,
+    textStyle: THEME.text.color.secondary,
   },
 });

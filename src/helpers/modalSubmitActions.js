@@ -262,7 +262,6 @@ export async function submitConnectAlpacaModal(props) {
         alpaca_secret_key: inputValues[1],
       })
       .then((resp) => {
-        console.log(resp);
         setSnackbarMessage(
           <SnackbarContent
             iconName={THEME.icon.name.success}
@@ -308,7 +307,6 @@ export async function submitDisconnectAlpacaModal(props) {
     algoquant
       .resetBalance({})
       .then((resp) => {
-        console.log(resp);
         setSnackbarMessage(
           <SnackbarContent
             iconName={THEME.icon.name.success}
@@ -586,21 +584,32 @@ export async function submitDeleteInvestorModal(props) {
     setSnackbarMessage,
     setIsSnackbarVisible,
     setShouldNavigateBack,
+    investorID,
   } = props;
-  // Enter logic here to delete the investor
-
-  setSnackbarMessage(
-    <SnackbarContent
-      iconName={THEME.icon.name.success}
-      iconSize={THEME.icon.size.snackbarIconSize}
-      iconColor={THEME.colors.success}
-      text={"Successfully deleted investor."}
-      textColor={THEME.colors.success}
-    />
-  );
-  setIsSnackbarVisible(true);
-  cleanUpState(props);
-  setShouldNavigateBack(true);
+  // Call algoquant api and send bodyData to stop job
+  if (algoquant.token) {
+    algoquant
+      .deleteInvestor(investorID)
+      .then(() => {
+        setSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icon.name.success}
+            iconSize={THEME.icon.size.snackbarIconSize}
+            iconColor={THEME.icon.color.primary}
+            text="SUCCESS: Investor has been deleted"
+            textColor={THEME.colors.success}
+          />
+        );
+        setIsSnackbarVisible(true);
+        // Clear state upon successful submit
+        cleanUpState(props);
+        setShouldNavigateBack(true);
+      })
+      .catch((err) => {
+        // will can u add the snackbar error handling and laoding
+        console.log("Delete Investor:" + err.message);
+      });
+  }
 }
 
 export async function submitStartJobModal(props) {

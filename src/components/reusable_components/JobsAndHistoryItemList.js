@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { investorImagePathList } from "../../constants/InvestorImagePaths";
 import { THEME } from "../../constants/Theme";
 import Animated, { SlideInDown } from "react-native-reanimated";
+import { ChipJobTypes } from "../../constants/ChipJobTypeEnum";
 
 export default function JobsAndHistoryItemList(props) {
   const { listData, isLoading, handleFetchMoreData, type } = props;
@@ -21,13 +22,20 @@ export default function JobsAndHistoryItemList(props) {
   // Get reference of scrollview component
   const scrollViewRef = useRef(null);
 
+  // state variable to show activity indicator whenever handleFetchMoreData is called
+  const [fetchDataLoading, setFetchDataLoading] = useState(false);
+
   const handleScroll = (event) => {
     const contentOffsetY = event.nativeEvent.contentOffset.y;
     const scrollViewHeight = event.nativeEvent.layoutMeasurement.height;
     const contentHeight = event.nativeEvent.contentSize.height;
 
     if (contentOffsetY + scrollViewHeight >= contentHeight) {
-      type === "CAROUSEL_TAB_HISTORY"
+      console.log("at the bottom");
+
+      // ternary operator to handle the tab data loading in the home page
+      // tenary operator to handle the chip data loading in the investor screen
+      type === ChipJobTypes.Past || type === "CAROUSEL_TAB_HISTORY"
         ? handleFetchMoreData("complete")
         : handleFetchMoreData("active");
     }
@@ -46,7 +54,7 @@ export default function JobsAndHistoryItemList(props) {
         <View style={styles.listItems}>
           {listData.length === 0 ? (
             <View style={styles.noResultsContainer}>
-              {type === "CAROUSEL_TAB_JOBS" ? (
+              {type === "CAROUSEL_TAB_JOBS" || ChipJobTypes.Active ? (
                 <Text style={styles.text2}>
                   You don't have any jobs yet. You can create a job from one of
                   your investors.
