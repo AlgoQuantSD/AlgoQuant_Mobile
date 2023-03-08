@@ -46,6 +46,8 @@ export default function InvestorScreen(props) {
   // State variables for an investors job list
   // State variable to hold array of job objects
   const [jobList, setJobList] = useState([]);
+  // Loading stop when switching from viewing active jobs to past jobs
+  const [isJobListLoading, setIsJobListLoading] = useState(false);
   // Used for pagination of the job list data
   // last evaluated key - used for the api to know if there is more data to fetch
   // lastQUery - true if last evaluated key comes back undefined, aka no more queries
@@ -83,6 +85,7 @@ export default function InvestorScreen(props) {
   // UPDATE: USE THE INVESTOR OF FROM THE SECOND API CALL !!!
   const getJobList = useCallback(
     (fetchType) => {
+      setIsJobListLoading(true);
       if (!lastQuery) {
         if (algoquantApi.token) {
           algoquantApi
@@ -96,8 +99,10 @@ export default function InvestorScreen(props) {
               } else {
                 setlekJobId(resp.data.LEK_job_id);
               }
+              setIsJobListLoading(false);
             })
             .catch((err) => {
+              setIsJobListLoading(false);
               // TODO: Need to implement better error handling
               console.log(err);
             });
@@ -301,7 +306,7 @@ export default function InvestorScreen(props) {
         <View style={styles.jobList}>
           <JobsAndHistoryItemList
             listData={jobList}
-            isLoading={false}
+            isLoading={isJobListLoading}
             type={chipState}
             handleFetchMoreData={getJobList}
           />
