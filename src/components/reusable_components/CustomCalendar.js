@@ -4,6 +4,28 @@ import { Calendar } from "react-native-calendars";
 import { THEME } from "../../constants/Theme";
 
 export default function CustomCalendar() {
+  let today = new Date();
+  const todayMonth = today.getMonth() + 1;
+  const todayYear = today.getFullYear();
+
+  const [headerTitleMonth, setHeaderTitleMonth] = useState(todayMonth);
+  const [headerTitleYear, setHeaderTitleYear] = useState(todayYear);
+
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   return (
     <Calendar
       // Initially visible month. Default = now
@@ -24,7 +46,18 @@ export default function CustomCalendar() {
       monthFormat={"MM yyyy"}
       // Handler which gets executed when visible month changes in calendar. Default = undefined
       onMonthChange={(month) => {
+        setHeaderTitleMonth(month.month);
+        setHeaderTitleYear(month.year);
         console.log("month changed", month);
+      }}
+      renderHeader={(date) => {
+        return (
+          <View>
+            <Text>{`${
+              monthNames[headerTitleMonth - 1]
+            } ${headerTitleYear}`}</Text>
+          </View>
+        );
       }}
     />
   );
