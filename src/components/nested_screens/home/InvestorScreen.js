@@ -2,14 +2,18 @@ import React, { useEffect, useState, useContext, useCallback } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
-import { Button } from "react-native-paper";
+import { Button, Snackbar } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { investorImagePathList } from "../../../constants/InvestorImagePaths";
 import CustomParallaxCarousel from "../../reusable_components/CustomParallaxCarousel";
 import IndicatorsOrStocksListView from "../../reusable_components/IndicatorsOrStocksListView";
 import JobsAndHistoryItemList from "../../reusable_components/JobsAndHistoryItemList";
 import CustomModal from "../../reusable_components/CustomModal";
-import { deleteInvestorModalBuilder } from "../../../helpers/modalFactory";
+import {
+  deleteInvestorModalBuilder,
+  startJobModalBuilder,
+} from "../../../helpers/modalFactory";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { Chip } from "react-native-paper";
 import { chunker } from "../../../helpers/chunker";
 import { THEME } from "../../../constants/Theme";
@@ -17,8 +21,7 @@ import AlgoquantApiContext from "../../../constants/ApiContext";
 import { ChipJobTypes } from "../../../constants/ChipJobTypeEnum";
 
 export default function InvestorScreen(props) {
-  const { investorID, setSnackbarMessage, setIsSnackbarVisible } =
-    props.route.params;
+  const { investorID } = props.route.params;
 
   // State variables used to access algoquant SDK APfI and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
@@ -39,7 +42,13 @@ export default function InvestorScreen(props) {
   const [modalTitle, setModalTitle] = useState(null);
   const [modalHeader, setModalHeader] = useState(null);
   const [modalBody, setModalBody] = useState(null);
+  const [modalInputFields, setModalInputFields] = useState(null);
   const [modalButtons, setModalButtons] = useState(null);
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
+  const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
+  const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(null);
+
   // This state variable tells will only be true if we just deleted an investor so we can navigate back home
   const [shouldNavigateBack, setShouldNavigateBack] = useState(false);
 
@@ -67,6 +76,7 @@ export default function InvestorScreen(props) {
     setModalTitle,
     setModalHeader,
     setModalBody,
+    setModalInputFields,
     setModalButtons,
   };
 
@@ -75,6 +85,9 @@ export default function InvestorScreen(props) {
   }
   function handleStockViewChange() {
     setIsStockSetToCarouselView(!isStockSetToCarouselView);
+  }
+  function handleStartJobIconPress() {
+    startJobModalBuilder(modalProps);
   }
   function handleTrashIconPress() {
     deleteInvestorModalBuilder(modalProps);
@@ -188,10 +201,16 @@ export default function InvestorScreen(props) {
         setModalHeader={setModalHeader}
         modalBody={modalBody}
         setModalBody={setModalBody}
+        modalInputFields={modalInputFields}
+        setModalInputFields={setModalInputFields}
         modalButtons={modalButtons}
         setModalButtons={setModalButtons}
         setSnackbarMessage={setSnackbarMessage}
         setIsSnackbarVisible={setIsSnackbarVisible}
+        modalSnackbarMessage={modalSnackbarMessage}
+        setModalSnackbarMessage={setModalSnackbarMessage}
+        isModalSnackbarVisible={isModalSnackbarVisible}
+        setIsModalSnackbarVisible={setIsModalSnackbarVisible}
         setShouldNavigateBack={setShouldNavigateBack}
         investorID={investorID}
       />
@@ -201,7 +220,7 @@ export default function InvestorScreen(props) {
         <Image style={styles.investorImage} source={investorImagePathList[1]} />
         <TouchableOpacity
           style={styles.headerRowIcon}
-          onPress={() => console.log("Start new job")}
+          onPress={handleStartJobIconPress}
         >
           <Ionicons
             name={THEME.icon.name.investorStartJob}
@@ -312,6 +331,26 @@ export default function InvestorScreen(props) {
           />
         </View>
       </View>
+      {/* Snackbar */}
+      <View style={styles.snackbarContainer}>
+        <Snackbar
+          visible={isSnackbarVisible}
+          onDismiss={() =>
+            snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage)
+          }
+          duration={3500}
+          action={{
+            label: "Dismiss",
+            textColor: THEME.snackbar.text.color,
+            onPress: () => {
+              snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
+            },
+          }}
+          style={styles.snackbar}
+        >
+          {snackbarMessage}
+        </Snackbar>
+      </View>
     </View>
   );
 }
@@ -397,7 +436,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   jobsContainer: {
-    flex: 0.47,
+    flex: 0.45,
     width: "90%",
     marginTop: "10%",
     marginLeft: "5%",
@@ -406,6 +445,14 @@ const styles = StyleSheet.create({
   },
   jobList: {
     width: "100%",
+  },
+  snackbarContainer: { flex: 0.05 },
+  snackbar: {
+    backgroundColor: THEME.snackbar.color.background,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   chip: {
     marginRight: 10,

@@ -5,8 +5,10 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import { View, ScrollView, StyleSheet, ActivityIndicator } from "react-native";
-import { Snackbar } from "react-native-paper";
+import { View, ScrollView, ActivityIndicator, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Snackbar, AnimatedFAB } from "react-native-paper";
+import CustomModal from "../reusable_components/CustomModal";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
@@ -15,22 +17,41 @@ import GraphDetailsHeader from "../reusable_components/GraphDetailsHeader";
 import InvestContainer from "../single_use_components/InvestContainer";
 import AlgoquantApiContext from "../../constants/ApiContext";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen() {
+  const navigation = useNavigation();
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
   const scrollViewRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isScrollEnabled, setIsScrollEnabled] = useState(true);
-  const [snackbarMessage, setSnackbarMessage] = useState(null);
-  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
 
+  // AnimatedFAB
+  const [isExtended, setIsExtended] = useState(true);
+  let animateFrom;
+  const fabStyle = { [animateFrom]: 16 };
+  // Modal stuff
+  const [isModalVisible, setIsModalVisible] = useState(null);
+  const [modalType, setModalType] = useState(null);
+  const [modalTitle, setModalTitle] = useState(null);
+  const [modalHeader, setModalHeader] = useState(null);
+  const [modalBody, setModalBody] = useState(null);
+  const [modalInputFields, setModalInputFields] = useState(null);
+  const [modalButtons, setModalButtons] = useState(null);
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
+  const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
+  const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(null);
+
+  // Handle different presses
   function handlePressInTouchableElement() {
     setIsScrollEnabled(false);
   }
   function handlePressOutTouchableElement() {
     setIsScrollEnabled(true);
   }
-
+  function handlePressCreateInvestor() {
+    navigation.navigate("CreateInvestorStep1Screen");
+  }
   const handleContentSizeChange = (contentWidth, contentHeight) => {
     scrollViewRef.current.scrollTo({
       x: 0,
@@ -41,6 +62,10 @@ export default function HomeScreen({ navigation }) {
 
   const handleScroll = (event) => {
     setScrollPosition(event.nativeEvent.contentOffset.y);
+    const currentScrollPosition =
+      Math.floor(event.nativeEvent?.contentOffset?.y) ?? 0;
+
+    setIsExtended(currentScrollPosition <= 0);
   };
 
   const [selectedTimeframe, setSelectedTimeframe] = useState(
@@ -65,6 +90,24 @@ export default function HomeScreen({ navigation }) {
     priceDifferencePercent: percentChanged,
     marketClosed: marketClosed,
     dateClosed: dateClosed,
+  };
+
+  // Modal props object to pass down to child component
+  const modalProps = {
+    isModalVisible: isModalVisible,
+    setIsModalVisible: setIsModalVisible,
+    modalType: modalType,
+    setModalType: setModalType,
+    modalTitle: modalTitle,
+    setModalTitle: setModalTitle,
+    modalHeader: modalHeader,
+    setModalHeader: setModalHeader,
+    modalBody: modalBody,
+    setModalBody: setModalBody,
+    modalInputFields: modalInputFields,
+    setModalInputFields: setModalInputFields,
+    modalButtons: modalButtons,
+    setModalButtons: setModalButtons,
   };
 
   // Callback function to get the graph data from the Algoquant API
@@ -123,6 +166,29 @@ export default function HomeScreen({ navigation }) {
         scrollEventThrottle={10000}
         keyboardShouldPersistTaps="never"
       >
+        {/* Modal */}
+        <CustomModal
+          isModalVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          modalType={modalType}
+          setModalType={setModalType}
+          modalTitle={modalTitle}
+          setModalTitle={setModalTitle}
+          modalHeader={modalHeader}
+          setModalHeader={setModalHeader}
+          modalBody={modalBody}
+          setModalBody={setModalBody}
+          modalInputFields={modalInputFields}
+          setModalInputFields={setModalInputFields}
+          modalButtons={modalButtons}
+          setModalButtons={setModalButtons}
+          setSnackbarMessage={setSnackbarMessage}
+          setIsSnackbarVisible={setIsSnackbarVisible}
+          modalSnackbarMessage={modalSnackbarMessage}
+          setModalSnackbarMessage={setModalSnackbarMessage}
+          isModalSnackbarVisible={isModalSnackbarVisible}
+          setIsModalSnackbarVisible={setIsModalSnackbarVisible}
+        />
         {graphLoading ? (
           <View style={styles.activityIndicator}>
             <ActivityIndicator
@@ -131,7 +197,8 @@ export default function HomeScreen({ navigation }) {
             />
           </View>
         ) : (
-          <>
+          // Graph
+          <View>
             <View style={styles.graphDetailsContainer}>
               <GraphDetailsHeader
                 graphTitle="Your Assets"
@@ -151,24 +218,27 @@ export default function HomeScreen({ navigation }) {
                 handlePressOutTouchableElement={handlePressOutTouchableElement}
               />
             </View>
-          </>
+          </View>
         )}
-
+        {/* Invest */}
         <View style={styles.investContainer}>
           <InvestContainer
             handlePressInTouchableElement={handlePressInTouchableElement}
             handlePressOutTouchableElement={handlePressOutTouchableElement}
             setSnackbarMessage={setSnackbarMessage}
             setIsSnackbarVisible={setIsSnackbarVisible}
+            modalProps={modalProps}
             navigation={navigation}
           />
         </View>
       </ScrollView>
+      {/* Snackbar */}
       <View
         style={{
           position: "absolute",
           bottom: -40,
           width: "100%",
+          zIndex: 1,
         }}
       >
         <Snackbar
@@ -189,6 +259,18 @@ export default function HomeScreen({ navigation }) {
           {snackbarMessage}
         </Snackbar>
       </View>
+      {/* Create investor button */}
+      <AnimatedFAB
+        icon={"plus"}
+        label={"Create Investor"}
+        extended={isExtended}
+        onPress={handlePressCreateInvestor}
+        visible={true}
+        animateFrom={"right"}
+        iconMode={"static"}
+        style={[styles.fabStyle, fabStyle]}
+        color={THEME.text.color.primary}
+      />
     </View>
   );
 }
@@ -230,7 +312,10 @@ const styles = StyleSheet.create({
   snackbar: {
     backgroundColor: THEME.snackbar.color.background,
   },
-  activityIndicator: {
-    paddingTop: "10%",
+  fabStyle: {
+    bottom: 16,
+    right: 16,
+    position: "absolute",
+    backgroundColor: THEME.animatedFAB.color.background,
   },
 });

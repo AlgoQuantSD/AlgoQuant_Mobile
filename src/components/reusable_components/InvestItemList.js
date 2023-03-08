@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { startJobModalBuilder } from "../../helpers/modalFactory";
 import { investorImagePathList } from "../../constants/InvestorImagePaths";
 import { THEME } from "../../constants/Theme";
 import Animated, { SlideInDown } from "react-native-reanimated";
@@ -21,11 +22,18 @@ export default function InvestItemList(props) {
     isLoading,
     setSnackbarMessage,
     setIsSnackbarVisible,
+    modalProps,
     navigation,
   } = props;
 
+  // Show the start job modal
+  function handlePressStartJob() {
+    startJobModalBuilder(modalProps);
+  }
+
   return (
     <View style={styles.container}>
+      {/* If investors are loading */}
       {isLoading ? (
         <View style={styles.activityIndicator}>
           <ActivityIndicator
@@ -34,6 +42,7 @@ export default function InvestItemList(props) {
           />
         </View>
       ) : (
+        // List of investors
         <View style={styles.listItems}>
           {listData.length === 0 ? (
             <View style={styles.noResultsContainer}>
@@ -52,17 +61,19 @@ export default function InvestItemList(props) {
                       onPress={() =>
                         navigation.navigate("InvestorScreen", {
                           investorID: item.investor_id,
-                          setSnackbarMessage: setSnackbarMessage,
-                          setIsSnackbarVisible: setIsSnackbarVisible,
+                          setHomeSnackbarMessage: setSnackbarMessage,
+                          setIsHomeSnackbarVisible: setIsSnackbarVisible,
                         })
                       }
                     >
                       <View style={styles.listItem}>
+                        {/* Investor name */}
                         <View style={styles.nameContainer}>
                           <Text style={styles.listItemName}>
                             {item.investor_name}
                           </Text>
                         </View>
+                        {/* Investor image */}
                         <View style={styles.imageContainer}>
                           <Image
                             style={styles.investorImage}
@@ -70,6 +81,7 @@ export default function InvestItemList(props) {
                           />
                         </View>
                         <View style={styles.indicatorAndStockContainer}>
+                          {/* Indicators */}
                           <View style={styles.indicatorCol}>
                             <Text style={styles.indictorAndStockHeaderText}>
                               Indicators
@@ -79,7 +91,7 @@ export default function InvestItemList(props) {
                                 {item.indicators.map((item, index) => {
                                   return (
                                     <Text
-                                      key={index}
+                                      key={item}
                                       style={styles.indictorAndStockText}
                                     >
                                       {item}
@@ -89,6 +101,7 @@ export default function InvestItemList(props) {
                               </View>
                             </ScrollView>
                           </View>
+                          {/* Stocks */}
                           <View style={styles.stockCol}>
                             <Text style={styles.indictorAndStockHeaderText}>
                               Stocks
@@ -98,7 +111,7 @@ export default function InvestItemList(props) {
                                 {item.assets_to_track.map((item, index) => {
                                   return (
                                     <Text
-                                      key={index}
+                                      key={item}
                                       style={styles.indictorAndStockText}
                                     >
                                       {item}
@@ -109,6 +122,7 @@ export default function InvestItemList(props) {
                             </ScrollView>
                           </View>
                         </View>
+                        {/* Start job */}
                         <View style={styles.startJobContainer}>
                           <TouchableOpacity
                             hitSlop={{
@@ -118,6 +132,7 @@ export default function InvestItemList(props) {
                               right: 30,
                             }}
                             style={styles.startJobButton}
+                            onPress={handlePressStartJob}
                           >
                             <Text style={styles.secondaryText}>Start Job</Text>
                             <Ionicons

@@ -1,5 +1,6 @@
 import { PixelRatio } from "react-native";
 import { VictoryTheme } from "victory-native";
+import { MD3LightTheme as DefaultTheme } from "react-native-paper";
 
 const PALETTE = {
   primaryGreen: "#1F302B",
@@ -34,6 +35,7 @@ export const THEME = {
     color: {
       primary: PALETTE.primaryGreen,
       secondary: PALETTE.cokeWhite,
+      ternary: PALETTE.brightGreen,
       disabled: PALETTE.mediumGray,
     },
     fontSize: {
@@ -110,10 +112,13 @@ export const THEME = {
       editPencil: "pencil",
       refresh: "refresh",
       arrowRight: "arrow-forward",
+      selectOptionCircleOutline: "ellipse-outline",
+      selectOptionCircleFilledIn: "ellipse",
     },
     color: {
       primary: PALETTE.primaryGreen,
       secondary: PALETTE.cokeWhite,
+      ternary: PALETTE.brightGreen,
     },
     size: {
       xSmall: 12,
@@ -160,6 +165,9 @@ export const THEME = {
       color: PALETTE.smokeWhite,
     },
   },
+  animatedFAB: {
+    color: { background: PALETTE.smokeWhite },
+  },
   activityIndicator: {
     color: {
       primary: PALETTE.primaryGreen,
@@ -194,6 +202,14 @@ export const LINE_GRAPH_THEME = {
     },
   },
   cursorLabel: { fill: "red" },
+};
+
+export const customRNPaperTheme = {
+  ...DefaultTheme,
+
+  colors: {
+    primary: PALETTE.primaryGreen,
+  },
 };
 
 export const LIGHT_THEME = {

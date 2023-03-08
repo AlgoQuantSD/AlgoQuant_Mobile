@@ -4,6 +4,7 @@ import { Auth } from "aws-amplify";
 import initAlgoQuantApi from "../constants/ApiUtils";
 import { THEME } from "../constants/Theme";
 import SnackbarContent from "../components/reusable_components/SnackbarContent";
+import { containsOnlyNumbers } from "./regex";
 
 // Get access to the algoquant sdk api. Declaring an algoquant object and initializing it
 // This is done because React hooks cant be used here since this is a regular JS function
@@ -611,6 +612,79 @@ export async function submitDeleteInvestorModal(props) {
   }
 }
 
+export async function submitStartJobModal(props) {
+  const {
+    isModalVisible,
+    setIsModalVisible,
+    setModalType,
+    setModalTitle,
+    setModalHeader,
+    setModalBody,
+    setModalButtons,
+    inputValues,
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+  } = props;
+
+  const jobName = inputValues[0];
+  const initialInvestment = inputValues[1];
+  // REMOVE this when implementing API endpoint call
+  const userBalance = 600;
+
+  // Check for valid input
+  function validateInput() {
+    if (jobName.length <= 2) {
+      setModalSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icon.name.error}
+          iconSize={THEME.icon.size.snackbarIconSize}
+          iconColor={THEME.colors.danger}
+          text="ERROR: Job name must be at least 3 characters long."
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsModalSnackbarVisible(true);
+
+      return false;
+    } else if (
+      !containsOnlyNumbers(initialInvestment) ||
+      initialInvestment < 1 ||
+      initialInvestment > userBalance
+    ) {
+      setModalSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icon.name.error}
+          iconSize={THEME.icon.size.snackbarIconSize}
+          iconColor={THEME.colors.danger}
+          text="ERROR: Insufficient funds to start this job."
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsModalSnackbarVisible(true);
+      return false;
+    }
+    return true;
+  }
+
+  // API logic goes here
+  if (validateInput()) {
+    setSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icon.name.success}
+        iconSize={THEME.icon.size.snackbarIconSize}
+        iconColor={THEME.colors.success}
+        text="SUCCESS: Job has been started"
+        textColor={THEME.colors.success}
+      />
+    );
+    setIsSnackbarVisible(true);
+    // Clear state upon successful submit
+    cleanUpState(props);
+  }
+}
+
 export async function submitStopJobModal(props) {
   const {
     isModalVisible,
@@ -643,7 +717,19 @@ export async function submitStopJobModal(props) {
         cleanUpState(props);
       })
       .catch((err) => {
-        // will can u add the snackbar error handling and laoding
+        // Show error message
+        setSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icon.name.error}
+            iconSize={THEME.icon.size.snackbarIconSize}
+            iconColor={THEME.colors.danger}
+            text="ERROR: Job was not stopped, try again later"
+            textColor={THEME.colors.danger}
+          />
+        );
+        setIsSnackbarVisible(true);
+        // Clear state upon submit
+        cleanUpState(props);
         console.log(err.message);
       });
   }
