@@ -30,7 +30,7 @@ export default function HomeScreen() {
   let animateFrom;
   const fabStyle = { [animateFrom]: 16 };
   // Modal stuff
-  const [isModalVisible, setIsModalVisible] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [modalTitle, setModalTitle] = useState(null);
   const [modalHeader, setModalHeader] = useState(null);

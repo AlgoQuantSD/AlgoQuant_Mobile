@@ -92,6 +92,9 @@ export default function InvestorScreen(props) {
   function handleTrashIconPress() {
     deleteInvestorModalBuilder(modalProps);
   }
+  function handleBacktestIconPress() {
+    navigation.navigate("CreateBacktestScreen", {investorID: investorID});
+  }
 
   // CallBack function that fetchs for job list data in a paginiated manner
   // FetchType: "active" or "complete"
@@ -224,6 +227,16 @@ export default function InvestorScreen(props) {
         >
           <Ionicons
             name={THEME.icon.name.investorStartJob}
+            size={THEME.icon.size.large}
+            color={THEME.icon.color.primary}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.headerRowIcon}
+          onPress={handleBacktestIconPress}
+        >
+          <Ionicons
+            name={THEME.icon.name.backtest}
             size={THEME.icon.size.large}
             color={THEME.icon.color.primary}
           />

@@ -114,6 +114,7 @@ export const THEME = {
       arrowRight: "arrow-forward",
       selectOptionCircleOutline: "ellipse-outline",
       selectOptionCircleFilledIn: "ellipse",
+      backtest: "flask"
     },
     color: {
       primary: PALETTE.primaryGreen,
