@@ -1,10 +1,20 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { TextInput } from "react-native-paper";
+import Animated, {
+  SlideInDown,
+  SlideInUp,
+  SlideOutDown,
+} from "react-native-reanimated";
+import { Ionicons } from "@expo/vector-icons";
 import CustomCalendar from "../../reusable_components/CustomCalendar";
 import { THEME } from "../../../constants/Theme";
 
 export default function CreateBacktestScreen(props) {
   const { investorID } = props.route.params;
+
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [startDate, setStartDate] = useState(null);
 
   return (
     <View style={styles.container}>
@@ -21,7 +31,54 @@ export default function CreateBacktestScreen(props) {
         </Text>
       </View>
       <View style={styles.inputContainer}>
-        <CustomCalendar />
+        <TextInput
+          label="Start Date"
+          value={startDate}
+          editable={false}
+          right={
+            <TextInput.Icon
+              onPress={() => setIsCalendarOpen(!isCalendarOpen)}
+              icon="calendar"
+            />
+          }
+          selectionColor={THEME.colors.foreground}
+          underlineColor={THEME.colors.foreground}
+          activeUnderlineColor={THEME.colors.foreground}
+          outlineColor={THEME.colors.foreground}
+          activeOutlineColor={THEME.colors.foreground}
+          textColor={THEME.colors.foreground}
+          placeholderTextColor={THEME.colors.foreground}
+          contentStyle={{ color: THEME.colors.foreground }}
+          style={{
+            backgroundColor: THEME.colors.transparent,
+            width: "100%",
+          }}
+        />
+
+        {isCalendarOpen ? (
+          <Animated.View entering={SlideInDown} exiting={SlideOutDown}>
+            <CustomCalendar
+              selectedDate={startDate}
+              setSelectedDate={setStartDate}
+            />
+          </Animated.View>
+        ) : null}
+
+        <TextInput
+          label="Initial Investment"
+          selectionColor={THEME.colors.foreground}
+          underlineColor={THEME.colors.foreground}
+          activeUnderlineColor={THEME.colors.foreground}
+          outlineColor={THEME.colors.foreground}
+          activeOutlineColor={THEME.colors.foreground}
+          textColor={THEME.colors.foreground}
+          placeholderTextColor={THEME.colors.foreground}
+          contentStyle={{ color: THEME.colors.foreground }}
+          style={{
+            backgroundColor: THEME.colors.transparent,
+            width: "100%",
+          }}
+        />
       </View>
     </View>
   );
