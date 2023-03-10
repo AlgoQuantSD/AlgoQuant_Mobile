@@ -53,9 +53,9 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
           investorObject?.indicators,
           investorObject?.image_id,
           investorObject?.investor_name,
-          investorObject?.loss_stop / 100,
+          investorObject?.loss_stop / 100, // update so we dont do this here
           investorObject?.period,
-          investorObject?.profit_stop / 100,
+          investorObject?.profit_stop / 100, // update so we dont do this here
           "I"
         )
         .then((resp) => {

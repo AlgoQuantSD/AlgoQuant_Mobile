@@ -11,7 +11,7 @@ import AlgoquantApiContext from "../../../constants/ApiContext";
 export default function CreateInvestorSmartStep3Screen(props) {
   const { investorObject } = props.route.params;
   const navigation = useNavigation();
-  // State variables used to access algoquant SDK APfI and display/ keep state of user data from database
+  // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -31,9 +31,9 @@ export default function CreateInvestorSmartStep3Screen(props) {
           investorObject?.indicators,
           investorObject?.image_id,
           investorObject?.investor_name,
-          investorObject?.loss_stop / 100,
+          investorObject?.loss_stop / 100, // update
           investorObject?.period,
-          investorObject?.profit_stop / 100,
+          investorObject?.profit_stop / 100, // update so we dont do this here
           "A"
         )
         .then((resp) => {
