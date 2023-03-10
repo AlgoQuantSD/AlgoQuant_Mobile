@@ -13,7 +13,8 @@ import { THEME } from "../../../constants/Theme";
 export default function CreateBacktestScreen(props) {
   const { investorID } = props.route.params;
 
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isStartDatePickerOpen, setIsStartDatePickerOpen] = useState(false);
+  const [startDateUnixTimestamp, setStartDateUnixTimestamp] = useState(null);
   const [startDate, setStartDate] = useState(null);
 
   return (
@@ -37,7 +38,7 @@ export default function CreateBacktestScreen(props) {
           editable={false}
           right={
             <TextInput.Icon
-              onPress={() => setIsCalendarOpen(!isCalendarOpen)}
+              onPress={() => setIsStartDatePickerOpen(!isStartDatePickerOpen)}
               icon="calendar"
             />
           }
@@ -55,14 +56,15 @@ export default function CreateBacktestScreen(props) {
           }}
         />
 
-        {isCalendarOpen ? (
-          <Animated.View entering={SlideInDown} exiting={SlideOutDown}>
-            <CustomCalendar
-              selectedDate={startDate}
-              setSelectedDate={setStartDate}
-            />
-          </Animated.View>
-        ) : null}
+        <CustomCalendar
+          selectedDate={startDate}
+          setSelectedDate={setStartDate}
+          isDatePickerOpen={isStartDatePickerOpen}
+          setIsDatePickerOpen={setIsStartDatePickerOpen}
+          setUnixTimestamp={setStartDateUnixTimestamp}
+        />
+
+        
 
         <TextInput
           label="Initial Investment"
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flex: 0.1,
     justifyContent: "center",
-    backgroundColor: "red",
+    // backgroundColor: "red",
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
@@ -110,16 +112,16 @@ const styles = StyleSheet.create({
   },
   timePeriodAndInitialInvestmentContainer: {
     flex: 0.8,
-    backgroundColor: "blue",
+    // backgroundColor: "blue",
   },
   descriptionContainer: {
     flex: 0.15,
     justifyContent: "center",
-    backgroundColor: "green",
+    // backgroundColor: "green",
   },
   inputContainer: {
     flex: 0.7,
     justifyContent: "center",
-    backgroundColor: "purple",
+    // backgroundColor: "purple",
   },
 });
