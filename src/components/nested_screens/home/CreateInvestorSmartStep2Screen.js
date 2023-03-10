@@ -73,7 +73,7 @@ export default function CreateInvestorSmartStep2Screen(props) {
             <TextInput
               value={profitStop}
               onChangeText={(text) => {
-                setProfitStop(text);
+                setProfitStop(parseFloat(text));
               }}
               selectionColor={THEME.colors.foreground}
               underlineColor={THEME.colors.transparent}
@@ -95,7 +95,7 @@ export default function CreateInvestorSmartStep2Screen(props) {
             <TextInput
               value={lossStop}
               onChangeText={(text) => {
-                setLossStop(text);
+                setLossStop(parseFloat(text));
               }}
               selectionColor={THEME.colors.foreground}
               underlineColor={THEME.colors.transparent}

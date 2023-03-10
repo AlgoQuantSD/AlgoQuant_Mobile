@@ -115,7 +115,6 @@ export default function InvestorScreen(props) {
               setIsJobListLoading(false);
             })
             .catch((err) => {
-              setIsJobListLoading(false);
               // TODO: Need to implement better error handling
               console.log(err);
             });
