@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Animated, {
@@ -15,9 +15,12 @@ import { PERIOD_LIST } from "../../../constants/CreateInvestorConstants";
 import { chunker } from "../../../helpers/chunker";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { THEME } from "../../../constants/Theme";
+import AlgoquantApiContext from "../../../constants/ApiContext";
 
 export default function CreateInvestorAlgorithmicStep4Screen(props) {
   const { investorObject } = props.route.params;
+  // State variables used to access algoquant SDK APfI and display/ keep state of user data from database
+  const algoquantApi = useContext(AlgoquantApiContext);
   console.log("Step 4: ", investorObject);
   const navigation = useNavigation();
 
@@ -43,23 +46,50 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
     // Put API call to create investor here
     // investorObject contains all the information needed to pass in the API call
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-    // Set snackbar message if there is an error
-    setSnackbarMessage(
-      <SnackbarContent
-        iconName={THEME.icon.name.error}
-        iconSize={THEME.icon.size.snackbarIconSize}
-        iconColor={THEME.colors.danger}
-        text="ERROR: Failed to create investor."
-        textColor={THEME.colors.danger}
-      />
-    );
-    setIsSnackbarVisible(true);
-
+    if (algoquantApi.token) {
+      algoquantApi
+        .createInvestor(
+          investorObject?.assets_to_track,
+          investorObject?.indicators,
+          investorObject?.image_id,
+          investorObject?.investor_name,
+          investorObject?.loss_stop / 100,
+          investorObject?.period,
+          investorObject?.profit_stop / 100,
+          "I"
+        )
+        .then((resp) => {
+          console.log(resp.data);
+          setIsLoading(false);
+          setSnackbarMessage(
+            <SnackbarContent
+              iconName={THEME.icon.name.error}
+              iconSize={THEME.icon.size.snackbarIconSize}
+              iconColor={THEME.colors.danger}
+              text="Success: investor created."
+              textColor={THEME.colors.success}
+            />
+          );
+          setIsSnackbarVisible(true);
+        })
+        .catch((err) => {
+          // TODO: Need to implement better error handling
+          console.log(err);
+          // Set snackbar message if there is an error
+          setSnackbarMessage(
+            <SnackbarContent
+              iconName={THEME.icon.name.error}
+              iconSize={THEME.icon.size.snackbarIconSize}
+              iconColor={THEME.colors.danger}
+              text="ERROR: Failed to create investor."
+              textColor={THEME.colors.danger}
+            />
+          );
+          setIsSnackbarVisible(true);
+        });
+    }
     // Navigate back home after successfully creating investor
-    // navigation.navigate("HomeScreen");
+    navigation.navigate("HomeScreen");
   }
 
   return (
