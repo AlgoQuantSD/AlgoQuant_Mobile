@@ -13,6 +13,10 @@ export default function DateInputFieldView(props) {
     isDatePickerOpen,
     setIsDatePickerOpen,
     setUnixTimestamp,
+    minimumDate,
+    setMinimumDate,
+    maximumDate,
+    setMaximumDate,
   } = props;
 
   return (
@@ -46,6 +50,10 @@ export default function DateInputFieldView(props) {
         isDatePickerOpen={isDatePickerOpen}
         setIsDatePickerOpen={setIsDatePickerOpen}
         setUnixTimestamp={setUnixTimestamp}
+        minimumDate={minimumDate}
+        setMinimumDate={setMinimumDate}
+        maximumDate={maximumDate}
+        setMaximumDate={setMaximumDate}
       />
     </View>
   );

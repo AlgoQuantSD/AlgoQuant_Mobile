@@ -8,6 +8,8 @@ export default function DatePickerView(props) {
     isDatePickerOpen,
     setIsDatePickerOpen,
     setUnixTimestamp,
+    minimumDate,
+    maximumDate,
   } = props;
 
   const hideDatePicker = () => {
@@ -27,6 +29,8 @@ export default function DatePickerView(props) {
     <DateTimePicker
       isVisible={isDatePickerOpen}
       mode="date"
+      minimumDate={minimumDate}
+      maximumDate={maximumDate}
       onConfirm={handleConfirm}
       onCancel={hideDatePicker}
     />
