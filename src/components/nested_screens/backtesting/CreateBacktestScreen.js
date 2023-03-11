@@ -3,16 +3,20 @@ import {
   View,
   Text,
   TouchableWithoutFeedback,
+  ActivityIndicator,
   Keyboard,
   StyleSheet,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-paper";
 import { Button } from "react-native-paper";
 import DateInputFieldView from "../../reusable_components/DateInputFieldView";
+import SuccessScreen from "../../reusable_components/SuccessScreen";
 import { THEME } from "../../../constants/Theme";
 
 export default function CreateBacktestScreen(props) {
   const { investorID } = props.route.params;
+  const navigation = useNavigation();
 
   // Get todays date so we can cap how far back in time a user can go from today
   const today = new Date();
@@ -39,6 +43,8 @@ export default function CreateBacktestScreen(props) {
   const [maximumStartDate, setMaximumStartDate] = useState(maximumDate);
   const [minimumEndDate, setMinimumEndDate] = useState(minimumDate);
   const [maximumEndDate, setMaximumEndDate] = useState(maximumDate);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccessful, setIsSuccessful] = useState(false);
 
   // Update the minimum possible end date whenever we change the start date
   useEffect(() => {
@@ -55,7 +61,6 @@ export default function CreateBacktestScreen(props) {
   // Set the min and max initial investment, dont allow decimals
   function handleInitialInvestmentChange(text) {
     setInitialInvestment(text);
-    console.log("INVESTMENTL: ", text);
     if (parseInt(text) <= 0 || text.includes(".")) {
       setInitialInvestment("1");
     } else if (parseInt(text) >= 10000000) {
@@ -63,87 +68,132 @@ export default function CreateBacktestScreen(props) {
     }
   }
 
-  function handlePressCreateBacktest() {}
+  // Input validation
+  function hasErrors() {
+    if (!startDateUnixTimestamp || !endDateUnixTimestamp) {
+      // Enter snackbar creation here
+      console.log("Select a start and end time");
+      return true;
+    }
+  }
+
+  // Do this if the backtest was created successfully
+  function handleSuccess() {
+    setIsSuccessful(true);
+    setTimeout(() => {
+      setIsSuccessful(false);
+      navigation.navigate("HomeScreen");
+    }, 3000);
+  }
+
+  function handlePressCreateBacktest() {
+    if (hasErrors()) {
+      return;
+    }
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      handleSuccess();
+    }, 2000);
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>Create a Backtest</Text>
-        </View>
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.sectionTitleText}>
-            Time period and initial investment
-          </Text>
-          <Text style={styles.text}>
-            Select the period of time that you would like to test your investor
-            against as well as how much money you want to invest.
-          </Text>
-        </View>
-        <View style={styles.inputContainer}>
-          {/* Start Date */}
-          <DateInputFieldView
-            label={"Start Date"}
-            value={startDate}
-            selectedDate={startDate}
-            setSelectedDate={setStartDate}
-            isDatePickerOpen={isStartDatePickerOpen}
-            setIsDatePickerOpen={setIsStartDatePickerOpen}
-            setUnixTimestamp={setStartDateUnixTimestamp}
-            minimumDate={minimumStartDate}
-            setMinimumDate={setMinimumStartDate}
-            maximumDate={maximumStartDate}
-            setMaximumDate={setMaximumStartDate}
+      {isLoading ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <ActivityIndicator
+            size={"large"}
+            color={THEME.activityIndicator.color.primary}
           />
+          <Text>Creating your backtest!</Text>
+        </View>
+      ) : isSuccessful ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <SuccessScreen message="Successfully created backtest!" />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>Create a Backtest</Text>
+          </View>
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.sectionTitleText}>
+              Time period and initial investment
+            </Text>
+            <Text style={styles.text}>
+              Select the period of time that you would like to test your
+              investor against as well as how much money you want to invest.
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            {/* Start Date */}
+            <DateInputFieldView
+              label={"Start Date"}
+              value={startDate}
+              selectedDate={startDate}
+              setSelectedDate={setStartDate}
+              isDatePickerOpen={isStartDatePickerOpen}
+              setIsDatePickerOpen={setIsStartDatePickerOpen}
+              setUnixTimestamp={setStartDateUnixTimestamp}
+              minimumDate={minimumStartDate}
+              setMinimumDate={setMinimumStartDate}
+              maximumDate={maximumStartDate}
+              setMaximumDate={setMaximumStartDate}
+            />
 
-          {/* End Date */}
-          <DateInputFieldView
-            label={"End Date"}
-            value={endDate}
-            selectedDate={endDate}
-            setSelectedDate={setEndDate}
-            isDatePickerOpen={isEndDatePickerOpen}
-            setIsDatePickerOpen={setIsEndDatePickerOpen}
-            setUnixTimestamp={setEndDateUnixTimestamp}
-            minimumDate={minimumEndDate}
-            setMinimumDate={setMinimumEndDate}
-            maximumDate={maximumEndDate}
-            setMaximumDate={setMaximumEndDate}
-          />
+            {/* End Date */}
+            <DateInputFieldView
+              label={"End Date"}
+              value={endDate}
+              selectedDate={endDate}
+              setSelectedDate={setEndDate}
+              isDatePickerOpen={isEndDatePickerOpen}
+              setIsDatePickerOpen={setIsEndDatePickerOpen}
+              setUnixTimestamp={setEndDateUnixTimestamp}
+              minimumDate={minimumEndDate}
+              setMinimumDate={setMinimumEndDate}
+              maximumDate={maximumEndDate}
+              setMaximumDate={setMaximumEndDate}
+            />
 
-          {/* Initial Investment */}
-          <TextInput
-            label="Initial Investment"
-            keyboardType="numeric"
-            value={initialInvestment}
-            onChangeText={(text) => handleInitialInvestmentChange(text)}
-            selectionColor={THEME.colors.foreground}
-            underlineColor={THEME.colors.foreground}
-            activeUnderlineColor={THEME.colors.foreground}
-            outlineColor={THEME.colors.foreground}
-            activeOutlineColor={THEME.colors.foreground}
-            textColor={THEME.colors.foreground}
-            placeholderTextColor={THEME.colors.foreground}
-            contentStyle={{ color: THEME.colors.foreground }}
-            style={{
-              backgroundColor: THEME.colors.transparent,
-              width: "100%",
-            }}
-          />
+            {/* Initial Investment */}
+            <TextInput
+              label="Initial Investment"
+              keyboardType="numeric"
+              value={initialInvestment}
+              onChangeText={(text) => handleInitialInvestmentChange(text)}
+              selectionColor={THEME.colors.foreground}
+              underlineColor={THEME.colors.foreground}
+              activeUnderlineColor={THEME.colors.foreground}
+              outlineColor={THEME.colors.foreground}
+              activeOutlineColor={THEME.colors.foreground}
+              textColor={THEME.colors.foreground}
+              placeholderTextColor={THEME.colors.foreground}
+              contentStyle={{ color: THEME.colors.foreground }}
+              style={{
+                backgroundColor: THEME.colors.transparent,
+                width: "100%",
+              }}
+            />
+          </View>
+          {/* Create Backtest Button */}
+          <View style={styles.nextButtonContainer}>
+            <Button
+              buttonColor={THEME.button.primaryColorBackground}
+              textColor={THEME.text.secondaryColor}
+              onPress={handlePressCreateBacktest}
+            >
+              Create Backtest
+            </Button>
+          </View>
+          {/* Snackbar */}
+          <View style={styles.snackbarContainer}></View>
         </View>
-        {/* Create Backtest Button */}
-        <View style={styles.nextButtonContainer}>
-          <Button
-            buttonColor={THEME.button.primaryColorBackground}
-            textColor={THEME.text.secondaryColor}
-            onPress={handlePressCreateBacktest}
-          >
-            Create Backtest
-          </Button>
-        </View>
-        {/* Snackbar */}
-        <View style={styles.snackbarContainer}></View>
-      </View>
+      )}
     </TouchableWithoutFeedback>
   );
 }
