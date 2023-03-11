@@ -2,7 +2,7 @@ import React from "react";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
 
-export default function CustomCalendar(props) {
+export default function DatePickerView(props) {
   const {
     setSelectedDate,
     isDatePickerOpen,
