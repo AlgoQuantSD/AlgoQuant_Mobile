@@ -8,10 +8,12 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { TextInput } from "react-native-paper";
+import { TextInput, Snackbar } from "react-native-paper";
 import { Button } from "react-native-paper";
 import DateInputFieldView from "../../reusable_components/DateInputFieldView";
 import SuccessScreen from "../../reusable_components/SuccessScreen";
+import SnackbarContent from "../../reusable_components/SnackbarContent";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { THEME } from "../../../constants/Theme";
 
 export default function CreateBacktestScreen(props) {
@@ -45,17 +47,24 @@ export default function CreateBacktestScreen(props) {
   const [maximumEndDate, setMaximumEndDate] = useState(maximumDate);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessful, setIsSuccessful] = useState(false);
+  // Snackbar
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
 
   // Update the minimum possible end date whenever we change the start date
   useEffect(() => {
     // Add one day (86400 seconds) to the current start date to be the min end date
-    setMinimumEndDate(new Date((startDateUnixTimestamp + 86400) * 1000));
+    if (startDateUnixTimestamp) {
+      setMinimumEndDate(new Date((startDateUnixTimestamp + 86400) * 1000));
+    }
   }, [startDate]);
 
   // Update the maximum possible start date whenever we change the end date
   useEffect(() => {
     // Subtract one day (86400 seconds) from the current end date to be the max start date
-    setMaximumStartDate(new Date((endDateUnixTimestamp - 86400) * 1000));
+    if (endDateUnixTimestamp) {
+      setMaximumStartDate(new Date((endDateUnixTimestamp - 86400) * 1000));
+    }
   }, [endDate]);
 
   // Set the min and max initial investment, dont allow decimals
@@ -70,14 +79,23 @@ export default function CreateBacktestScreen(props) {
 
   // Input validation
   function hasErrors() {
+    // Show error if user does not pick a start or end date
     if (!startDateUnixTimestamp || !endDateUnixTimestamp) {
-      // Enter snackbar creation here
-      console.log("Select a start and end time");
+      setSnackbarMessage(
+        <SnackbarContent
+          iconName={THEME.icon.name.error}
+          iconSize={THEME.icon.size.snackbarIconSize}
+          iconColor={THEME.colors.danger}
+          text="ERROR: Pick a start and end date."
+          textColor={THEME.colors.danger}
+        />
+      );
+      setIsSnackbarVisible(true);
       return true;
     }
   }
 
-  // Do this if the backtest was created successfully
+  // Do this if the create backetest endpoint returns success
   function handleSuccess() {
     setIsSuccessful(true);
     setTimeout(() => {
@@ -86,6 +104,24 @@ export default function CreateBacktestScreen(props) {
     }, 3000);
   }
 
+  // Do this if the create backtest endpoint returns an error
+  function handleError() {
+    setSnackbarMessage(
+      <SnackbarContent
+        iconName={THEME.icon.name.error}
+        iconSize={THEME.icon.size.snackbarIconSize}
+        iconColor={THEME.colors.danger}
+        text="ERROR: Could not create backtest, try again later."
+        textColor={THEME.colors.danger}
+      />
+    );
+  }
+
+  // Put API call in here
+  // Start date: startDateUnixTimestamp
+  // End date: endDateUnixTimestamp
+  // Initial investment: initialInvestment
+  // Investor id: investorID
   function handlePressCreateBacktest() {
     if (hasErrors()) {
       return;
@@ -99,6 +135,7 @@ export default function CreateBacktestScreen(props) {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      {/* Loading Screen */}
       {isLoading ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -110,6 +147,7 @@ export default function CreateBacktestScreen(props) {
           <Text>Creating your backtest!</Text>
         </View>
       ) : isSuccessful ? (
+        // Success Screen
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
@@ -191,7 +229,25 @@ export default function CreateBacktestScreen(props) {
             </Button>
           </View>
           {/* Snackbar */}
-          <View style={styles.snackbarContainer}></View>
+          <View style={styles.snackbarContainer}>
+            <Snackbar
+              visible={isSnackbarVisible}
+              onDismiss={() =>
+                snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage)
+              }
+              duration={3500}
+              action={{
+                label: "Dismiss",
+                textColor: THEME.snackbar.text.color,
+                onPress: () => {
+                  snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
+                },
+              }}
+              style={styles.snackbar}
+            >
+              {snackbarMessage}
+            </Snackbar>
+          </View>
         </View>
       )}
     </TouchableWithoutFeedback>
@@ -237,5 +293,12 @@ const styles = StyleSheet.create({
   },
   snackbarContainer: {
     flex: 0.05,
+  },
+  snackbar: {
+    backgroundColor: THEME.snackbar.color.background,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });
