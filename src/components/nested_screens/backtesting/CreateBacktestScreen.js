@@ -52,11 +52,18 @@ export default function CreateBacktestScreen(props) {
     setMaximumStartDate(new Date((endDateUnixTimestamp - 86400) * 1000));
   }, [endDate]);
 
-  function handlePressCreateBacktest() {
-    if (initialInvestment <= 0 || initialInvestment > 100000) {
-      console.log("Error initial investment must be between $0 and $100000");
+  // Set the min and max initial investment, dont allow decimals
+  function handleInitialInvestmentChange(text) {
+    setInitialInvestment(text);
+    console.log("INVESTMENTL: ", text);
+    if (parseInt(text) <= 0 || text.includes(".")) {
+      setInitialInvestment("1");
+    } else if (parseInt(text) >= 10000000) {
+      setInitialInvestment("1000000");
     }
   }
+
+  function handlePressCreateBacktest() {}
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -107,7 +114,9 @@ export default function CreateBacktestScreen(props) {
           {/* Initial Investment */}
           <TextInput
             label="Initial Investment"
-            onChangeText={(text) => setInitialInvestment(text)}
+            keyboardType="numeric"
+            value={initialInvestment}
+            onChangeText={(text) => handleInitialInvestmentChange(text)}
             selectionColor={THEME.colors.foreground}
             underlineColor={THEME.colors.foreground}
             activeUnderlineColor={THEME.colors.foreground}
