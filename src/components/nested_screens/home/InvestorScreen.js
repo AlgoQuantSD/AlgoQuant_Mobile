@@ -30,6 +30,8 @@ export default function InvestorScreen(props) {
   // state variable to hold the investor using the investor ID passed from the investorItemList
   const [investor, setInvestor] = useState();
 
+  console.log("Investor type: ", investor?.type);
+
   const chunkedIndicators = chunker(investor?.indicators, 3);
   const chunkedStocks = chunker(investor?.assets_to_track, 3);
 
@@ -93,7 +95,7 @@ export default function InvestorScreen(props) {
     deleteInvestorModalBuilder(modalProps);
   }
   function handleBacktestIconPress() {
-    navigation.navigate("CreateBacktestScreen", {investorID: investorID});
+    navigation.navigate("CreateBacktestScreen", { investorID: investorID });
   }
 
   // CallBack function that fetchs for job list data in a paginiated manner
@@ -231,16 +233,20 @@ export default function InvestorScreen(props) {
             color={THEME.icon.color.primary}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.headerRowIcon}
-          onPress={handleBacktestIconPress}
-        >
-          <Ionicons
-            name={THEME.icon.name.backtest}
-            size={THEME.icon.size.large}
-            color={THEME.icon.color.primary}
-          />
-        </TouchableOpacity>
+        {/* Only show start backtest button if its an algorithmic investor (AI investors cant backtest) */}
+        {investor?.type === "I" ? (
+          <TouchableOpacity
+            style={styles.headerRowIcon}
+            onPress={handleBacktestIconPress}
+          >
+            <Ionicons
+              name={THEME.icon.name.backtest}
+              size={THEME.icon.size.large}
+              color={THEME.icon.color.primary}
+            />
+          </TouchableOpacity>
+        ) : null}
+
         <TouchableOpacity
           style={styles.headerRowIcon}
           onPress={handleTrashIconPress}
@@ -271,47 +277,52 @@ export default function InvestorScreen(props) {
           </View>
         </View>
       </View>
-      {/* Indicators */}
-      <View style={styles.indicatorsContainer}>
-        <View style={styles.indicatorsHeaderRow}>
-          <Text style={styles.sectionTitleText}>Indicators</Text>
-          <Button
-            buttonColor={THEME.button.primaryColorBackground}
-            textColor={THEME.text.secondaryColor}
-            onPress={handleIndicatorViewChange}
-          >
-            {isIndicatorSetToCarouselView ? "List View" : "Carousel View"}
-          </Button>
-        </View>
-        {isIndicatorSetToCarouselView ? (
-          <CustomParallaxCarousel data={investor?.indicators} />
-        ) : (
-          <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
-            <IndicatorsOrStocksListView data={chunkedIndicators} />
-          </Animated.View>
-        )}
-      </View>
-      {/* Stocks */}
-      <View style={styles.stocksContainer}>
-        <View style={styles.stocksHeaderRow}>
-          <Text style={styles.sectionTitleText}>Stocks</Text>
-          <Button
-            buttonColor={THEME.button.color.primary}
-            textColor={THEME.text.color.secondary}
-            onPress={handleStockViewChange}
-          >
-            {isStockSetToCarouselView ? "List View" : "Carousel View"}
-          </Button>
-        </View>
+      {investor?.type === "I" ? (
+        <View>
+          {/* Indicators */}
+          <View style={styles.indicatorsContainer}>
+            <View style={styles.indicatorsHeaderRow}>
+              <Text style={styles.sectionTitleText}>Indicators</Text>
+              <Button
+                buttonColor={THEME.button.primaryColorBackground}
+                textColor={THEME.text.secondaryColor}
+                onPress={handleIndicatorViewChange}
+              >
+                {isIndicatorSetToCarouselView ? "List View" : "Carousel View"}
+              </Button>
+            </View>
+            {isIndicatorSetToCarouselView ? (
+              <CustomParallaxCarousel data={investor?.indicators} />
+            ) : (
+              <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
+                <IndicatorsOrStocksListView data={chunkedIndicators} />
+              </Animated.View>
+            )}
+          </View>
+          {/* Stocks */}
+          <View style={styles.stocksContainer}>
+            <View style={styles.stocksHeaderRow}>
+              <Text style={styles.sectionTitleText}>Stocks</Text>
+              <Button
+                buttonColor={THEME.button.color.primary}
+                textColor={THEME.text.color.secondary}
+                onPress={handleStockViewChange}
+              >
+                {isStockSetToCarouselView ? "List View" : "Carousel View"}
+              </Button>
+            </View>
 
-        {isStockSetToCarouselView ? (
-          <CustomParallaxCarousel data={investor?.assets_to_track} />
-        ) : (
-          <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
-            <IndicatorsOrStocksListView data={chunkedStocks} />
-          </Animated.View>
-        )}
-      </View>
+            {isStockSetToCarouselView ? (
+              <CustomParallaxCarousel data={investor?.assets_to_track} />
+            ) : (
+              <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
+                <IndicatorsOrStocksListView data={chunkedStocks} />
+              </Animated.View>
+            )}
+          </View>
+        </View>
+      ) : null}
+
       {/* Jobs */}
       <View style={styles.jobsContainer}>
         <View style={styles.sectionTitleContainer}>

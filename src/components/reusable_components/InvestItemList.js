@@ -88,7 +88,7 @@ export default function InvestItemList(props) {
                             </Text>
                             <ScrollView>
                               <View style={styles.indicatorAndStockItems}>
-                                {item.indicators.map((item, index) => {
+                                {item?.indicators?.map((item, index) => {
                                   return (
                                     <Text
                                       key={item}
@@ -108,7 +108,7 @@ export default function InvestItemList(props) {
                             </Text>
                             <ScrollView>
                               <View style={styles.indicatorAndStockItems}>
-                                {item.assets_to_track.map((item, index) => {
+                                {item?.assets_to_track?.map((item, index) => {
                                   return (
                                     <Text
                                       key={item}
