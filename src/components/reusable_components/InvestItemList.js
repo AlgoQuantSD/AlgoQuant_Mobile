@@ -80,48 +80,51 @@ export default function InvestItemList(props) {
                             source={investorImagePathList[1]}
                           />
                         </View>
-                        <View style={styles.indicatorAndStockContainer}>
-                          {/* Indicators */}
-                          <View style={styles.indicatorCol}>
-                            <Text style={styles.indictorAndStockHeaderText}>
-                              Indicators
-                            </Text>
-                            <ScrollView>
-                              <View style={styles.indicatorAndStockItems}>
-                                {item.indicators?.map((item, index) => {
-                                  return (
-                                    <Text
-                                      key={item}
-                                      style={styles.indictorAndStockText}
-                                    >
-                                      {item}
-                                    </Text>
-                                  );
-                                })}
-                              </View>
-                            </ScrollView>
+                        {item.type === "I" ? (
+                          <View style={styles.indicatorAndStockContainer}>
+                            {/* Indicators */}
+                            <View style={styles.indicatorCol}>
+                              <Text style={styles.indictorAndStockHeaderText}>
+                                Indicators
+                              </Text>
+                              <ScrollView>
+                                <View style={styles.indicatorAndStockItems}>
+                                  {item?.indicators?.map((item, index) => {
+                                    return (
+                                      <Text
+                                        key={item}
+                                        style={styles.indictorAndStockText}
+                                      >
+                                        {item}
+                                      </Text>
+                                    );
+                                  })}
+                                </View>
+                              </ScrollView>
+                            </View>
+                            {/* Stocks */}
+                            <View style={styles.stockCol}>
+                              <Text style={styles.indictorAndStockHeaderText}>
+                                Stocks
+                              </Text>
+                              <ScrollView>
+                                <View style={styles.indicatorAndStockItems}>
+                                  {item?.assets_to_track?.map((item, index) => {
+                                    return (
+                                      <Text
+                                        key={item}
+                                        style={styles.indictorAndStockText}
+                                      >
+                                        {item}
+                                      </Text>
+                                    );
+                                  })}
+                                </View>
+                              </ScrollView>
+                            </View>
                           </View>
-                          {/* Stocks */}
-                          <View style={styles.stockCol}>
-                            <Text style={styles.indictorAndStockHeaderText}>
-                              Stocks
-                            </Text>
-                            <ScrollView>
-                              <View style={styles.indicatorAndStockItems}>
-                                {item?.assets_to_track?.map((item, index) => {
-                                  return (
-                                    <Text
-                                      key={item}
-                                      style={styles.indictorAndStockText}
-                                    >
-                                      {item}
-                                    </Text>
-                                  );
-                                })}
-                              </View>
-                            </ScrollView>
-                          </View>
-                        </View>
+                        ) : null}
+
                         {/* Start job */}
                         <View style={styles.startJobContainer}>
                           <TouchableOpacity
@@ -232,10 +235,11 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   startJobContainer: {
-    flex: 0.1,
     width: "100%",
     alignItems: "flex-end",
     justifyContent: "center",
+    position: "absolute",
+    bottom: 10,
   },
   startJobButton: {
     flexDirection: "row",

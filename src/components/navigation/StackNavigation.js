@@ -72,6 +72,11 @@ export function HomeScreenStackNavigator() {
         options={nestedScreenOptions}
       />
       <Stack.Screen
+        name="CreateBacktestScreen"
+        component={CreateBacktestScreen}
+        options={nestedScreenOptions}
+      />
+      <Stack.Screen
         name="JobScreen"
         component={JobScreen}
         options={nestedScreenOptions}
