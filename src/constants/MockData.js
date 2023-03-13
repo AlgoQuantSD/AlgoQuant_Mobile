@@ -211,3 +211,28 @@ export const mockGraphHeaderData = {
   priceDifferenceRaw: 1.47,
   priceDifferencePercent: 0.8,
 };
+
+// Filler table data until we connect to backend
+export const backtestData = [
+  {
+    backtestName: "Sample backtest",
+    initialInvestment: "$2400",
+    finalBalance: "$3800",
+    startDate: "3/13/2019",
+    endDate: "3/10/2023",
+  },
+  {
+    backtestName: "Sample backtest2g",
+    initialInvestment: "$3200",
+    finalBalance: "$6000",
+    startDate: "5/16/2020",
+    endDate: "3/10/2023",
+  },
+  {
+    backtestName: "Random",
+    initialInvestment: "$3200",
+    finalBalance: "$6000",
+    startDate: "5/16/2020",
+    endDate: "3/10/2023",
+  },
+];

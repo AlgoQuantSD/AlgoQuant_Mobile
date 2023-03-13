@@ -11,15 +11,21 @@ import { FlashList } from "@shopify/flash-list";
 import { THEME } from "../../constants/Theme";
 
 export default function CustomTable(props) {
-  // table headers
-  const columns = [
-    { label: "Job Name", id: "jobName" },
-    { label: "Buy or Sell", id: "buyOrSell" },
-    { label: "Stock Ticker", id: "stockTicker" },
-    { label: "Shares", id: "shares" },
-    { label: "Amount", id: "avgPrice" },
-    { label: "Date", id: "date" },
-  ];
+  const {
+    data,
+    columns,
+    handleRowPress,
+    handleLoadMore,
+    isLoading,
+    nullMessage,
+  } = props;
+
+  // Make sure we don't look for an onPress action if the table does not have pressable rows
+  function checkForValidOnPress(onPress, item) {
+    if (typeof onPress === "function") {
+      onPress(item);
+    }
+  }
 
   return (
     <View style={{ height: "100%" }}>
@@ -38,24 +44,25 @@ export default function CustomTable(props) {
           </DataTable.Header>
           {/* flashlist cant take a empty dataset, so if there is no trades then show 
           text, once there is data available it will show the list */}
-          {props.data.length === 0 ? (
-            <Text style={styles.text}>No trades currently</Text>
+          {data.length === 0 ? (
+            <Text style={styles.text}>{nullMessage}</Text>
           ) : (
             <FlashList
-              data={props.data}
+              data={data}
               keyExtractor={(item, index) => index.toString()}
               viewabilityConfig={{
                 waitForInteraction: true,
                 itemVisiblePercentThreshold: 100,
                 minimumViewTime: 1000,
               }}
-              estimatedItemSize={props.data.length}
-              onEndReached={props.handleLoadMore}
+              estimatedItemSize={data.length}
+              onEndReached={handleLoadMore}
               onEndReachedThreshold={0.5}
               renderItem={({ item, index }) => (
                 <DataTable.Row
                   key={index}
                   style={index % 2 === 0 ? styles.row1 : styles.row2}
+                  onPress={() => checkForValidOnPress(handleRowPress, item)}
                 >
                   {columns.map((column) => (
                     <DataTable.Cell
@@ -69,7 +76,7 @@ export default function CustomTable(props) {
                 </DataTable.Row>
               )}
               ListFooterComponent={
-                props.loading ? (
+                isLoading ? (
                   <ActivityIndicator
                     size="small"
                     color={THEME.activityIndicator.color.primary}
@@ -98,7 +105,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   column: {
-    width: 125,
+    width: 130,
+    paddingRight: 20,
   },
   cell: {
     width: 80,

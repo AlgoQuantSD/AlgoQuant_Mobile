@@ -2,10 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { THEME } from "../../../constants/Theme";
 
-export default function BacktestResultsScreen() {
+export default function BacktestResultsScreen(props) {
+  const { backtest } = props.route.params;
+  console.log("Backtest results: ", backtest);
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the backtest results screen!</Text>
+      <Text style={styles.text}>{backtest.backtestName}</Text>
     </View>
   );
 }
