@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
 import { Button, Snackbar } from "react-native-paper";
@@ -120,7 +127,6 @@ export default function InvestorScreen(props) {
               setIsJobListLoading(false);
             })
             .catch((err) => {
-              setIsJobListLoading(false);
               // TODO: Need to implement better error handling
               console.log(err);
             });
@@ -221,64 +227,81 @@ export default function InvestorScreen(props) {
       />
       {/* Header (name, image, start/delete buttons) */}
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>{investor?.investor_name}</Text>
-        <Image style={styles.investorImage} source={investorImagePathList[1]} />
-        <TouchableOpacity
-          style={styles.headerRowIcon}
-          onPress={handleStartJobIconPress}
-        >
-          <Ionicons
-            name={THEME.icon.name.investorStartJob}
-            size={THEME.icon.size.large}
-            color={THEME.icon.color.primary}
-          />
-        </TouchableOpacity>
-        {/* Only show start backtest button if its an algorithmic investor (AI investors cant backtest) */}
-        {investor?.type === "I" ? (
+        <View style={styles.headerTextAndInvestorImageContainer}>
+          <View
+            style={{ flexDirection: "row", width: "80%", alignItems: "center" }}
+          >
+            <Text
+              adjustsFontSizeToFit
+              minimumFontScale={0.5}
+              numberOfLines={1}
+              style={styles.headerText}
+            >
+              {investor?.investor_name}
+            </Text>
+            <Image
+              style={styles.investorImage}
+              source={investorImagePathList[1]}
+            />
+          </View>
+        </View>
+        <View style={styles.iconsContainer}>
           <TouchableOpacity
             style={styles.headerRowIcon}
-            onPress={handleBacktestIconPress}
+            onPress={handleStartJobIconPress}
           >
             <Ionicons
-              name={THEME.icon.name.backtest}
+              name={THEME.icon.name.investorStartJob}
               size={THEME.icon.size.large}
               color={THEME.icon.color.primary}
             />
           </TouchableOpacity>
-        ) : null}
+          {/* Only show start backtest button if its an algorithmic investor (AI investors cant backtest) */}
+          {investor?.type === "I" ? (
+            <TouchableOpacity
+              style={styles.headerRowIcon}
+              onPress={handleBacktestIconPress}
+            >
+              <Ionicons
+                name={THEME.icon.name.backtest}
+                size={THEME.icon.size.large}
+                color={THEME.icon.color.primary}
+              />
+            </TouchableOpacity>
+          ) : null}
 
-        <TouchableOpacity
-          style={styles.headerRowIcon}
-          onPress={handleTrashIconPress}
-        >
-          <Ionicons
-            name="trash"
-            size={THEME.icon.size.large}
-            color={THEME.icon.color.primary}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.headerRowIcon}
+            onPress={handleTrashIconPress}
+          >
+            <Ionicons
+              name="trash"
+              size={THEME.icon.size.large}
+              color={THEME.icon.color.primary}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
       {/* Investor Configuration */}
       <View style={styles.investorConfigurationContainer}>
         <Text style={styles.sectionTitleText}>Investor Configuration</Text>
         <View style={styles.investorConfigurationDetailsRow}>
           <View style={styles.investorConfigurationDetailsCol}>
-            <Text style={styles.text}>Profit stop:</Text>
+            <Text style={styles.investorConfigurationDetailsText}>
+              Profit stop:
+            </Text>
             <Text style={styles.text}>Loss stop:</Text>
           </View>
-          <View
-            style={[
-              styles.investorConfigurationDetailsCol,
-              { alignItems: "flex-end" },
-            ]}
-          >
-            <Text style={styles.text}>{investor?.profit_stop * 100 + "%"}</Text>
+          <View style={styles.investorConfigurationDetailsCol}>
+            <Text style={styles.investorConfigurationDetailsText}>
+              {investor?.profit_stop * 100 + "%"}
+            </Text>
             <Text style={styles.text}>{investor?.loss_stop * 100 + "%"}</Text>
           </View>
         </View>
       </View>
       {investor?.type === "I" ? (
-        <View>
+        <View style={{ flex: 0.5 }}>
           {/* Indicators */}
           <View style={styles.indicatorsContainer}>
             <View style={styles.indicatorsHeaderRow}>
@@ -382,8 +405,6 @@ export default function InvestorScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
     backgroundColor: THEME.colors.background,
   },
   text: {
@@ -391,26 +412,35 @@ const styles = StyleSheet.create({
     color: THEME.text.color.primary,
   },
   headerContainer: {
-    flex: 0.1,
+    flex: 0.15,
     width: "90%",
     flexDirection: "row",
     alignItems: "center",
-
     marginLeft: "5%",
     marginTop: "2%",
     marginRight: "5%",
   },
+  headerTextAndInvestorImageContainer: {
+    width: "65%",
+    flexDirection: "row",
+  },
   headerText: {
     fontSize: THEME.text.fontSize.H2,
     color: THEME.text.color.primary,
+
     paddingRight: "2%",
   },
   investorImage: { height: 45, width: 30 },
+  iconsContainer: {
+    width: "35%",
+    justifyContent: "flex-end",
+    flexDirection: "row",
+  },
   headerRowIcon: {
-    marginLeft: "auto",
+    paddingRight: "5%",
   },
   investorConfigurationContainer: {
-    flex: 0.1,
+    flex: 0.15,
     width: "90%",
     marginTop: "5%",
     marginLeft: "5%",
@@ -430,13 +460,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
+    // backgroundColor: "green",
   },
   investorConfigurationDetailsCol: {
     height: "100%",
-    justifyContent: "space-between",
+    justifyContent: "center",
+  },
+  investorConfigurationDetailsText: {
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
+    paddingBottom: "2%",
   },
   indicatorsContainer: {
-    flex: 0.15,
+    flex: 0.5,
     width: "90%",
     marginTop: "10%",
     marginLeft: "5%",
@@ -448,7 +484,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   stocksContainer: {
-    flex: 0.15,
+    flex: 0.5,
     width: "90%",
     marginTop: "10%",
     marginLeft: "5%",

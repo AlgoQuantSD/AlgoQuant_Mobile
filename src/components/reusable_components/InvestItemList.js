@@ -26,8 +26,6 @@ export default function InvestItemList(props) {
     navigation,
   } = props;
 
-  console.log("LIST DATA: ", listData[0].type);
-
   // Show the start job modal
   function handlePressStartJob() {
     startJobModalBuilder(modalProps);
