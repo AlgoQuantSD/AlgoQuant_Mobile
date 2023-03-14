@@ -216,6 +216,7 @@ export default function HomeScreen() {
                 yVals={yValues}
                 handlePressInTouchableElement={handlePressInTouchableElement}
                 handlePressOutTouchableElement={handlePressOutTouchableElement}
+                timeframeEnabled={true}
               />
             </View>
           </View>

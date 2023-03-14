@@ -201,6 +201,8 @@ export const mockGraphData4 = [
   { x: 8, y: 10 },
 ];
 
+export const MOCK_Y_VALS = [1, 3, 6, 9, 12];
+
 export const mockGraphHeaderData = {
   recentPrice: 152.01,
   open: 150.64,

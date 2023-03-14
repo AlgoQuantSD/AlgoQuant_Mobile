@@ -27,6 +27,7 @@ export default function CustomGraph(props) {
     yVals,
     handlePressInTouchableElement,
     handlePressOutTouchableElement,
+    timeframeEnabled,
   } = props;
 
   const formatter = format(".2f");
@@ -77,6 +78,10 @@ export default function CustomGraph(props) {
         });
     }
   };
+
+  function integerTickFormat(value) {
+    return Math.round(value).toString();
+  }
 
   return (
     <View>
@@ -142,7 +147,7 @@ export default function CustomGraph(props) {
               <VictoryAxis
                 dependentAxis
                 tickValues={yVals}
-                tickFormat={(y) => formatter(y)}
+                tickFormat={(t) => `${Math.round(t)}`}
                 tickCount={4}
               />
               {/* // Y-axis */}
@@ -155,88 +160,90 @@ export default function CustomGraph(props) {
           </View>
 
           {/* Buttons that control what data gets displayed in the graph */}
-          <View style={styles.timeframeButtonOuterButtonRow}>
-            <TouchableOpacity
-              style={styles.timeframeButtonOuter}
-              onPress={() => handleTimeframeChange(timeframeEnums.DAY)}
-            >
-              <Button
-                style={styles.timeframeButtonInner}
-                buttonColor={
-                  selectedTimeframe === timeframeEnums.DAY
-                    ? THEME.colors.primary
-                    : THEME.colors.transparent
-                }
-                textColor={
-                  selectedTimeframe === timeframeEnums.DAY
-                    ? THEME.text.secondaryColor
-                    : THEME.text.primaryColor
-                }
+          {timeframeEnabled ? (
+            <View style={styles.timeframeButtonOuterButtonRow}>
+              <TouchableOpacity
+                style={styles.timeframeButtonOuter}
+                onPress={() => handleTimeframeChange(timeframeEnums.DAY)}
               >
-                D
-              </Button>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.timeframeButtonOuter}
-              onPress={() => handleTimeframeChange(timeframeEnums.FIVE)}
-            >
-              <Button
-                style={styles.timeframeButtonInner}
-                buttonColor={
-                  selectedTimeframe === timeframeEnums.FIVE
-                    ? THEME.colors.primary
-                    : THEME.colors.transparent
-                }
-                textColor={
-                  selectedTimeframe === timeframeEnums.FIVE
-                    ? THEME.text.secondaryColor
-                    : THEME.text.primaryColor
-                }
+                <Button
+                  style={styles.timeframeButtonInner}
+                  buttonColor={
+                    selectedTimeframe === timeframeEnums.DAY
+                      ? THEME.colors.primary
+                      : THEME.colors.transparent
+                  }
+                  textColor={
+                    selectedTimeframe === timeframeEnums.DAY
+                      ? THEME.text.secondaryColor
+                      : THEME.text.primaryColor
+                  }
+                >
+                  D
+                </Button>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.timeframeButtonOuter}
+                onPress={() => handleTimeframeChange(timeframeEnums.FIVE)}
               >
-                5D
-              </Button>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.timeframeButtonOuter}
-              onPress={() => handleTimeframeChange(timeframeEnums.MONTH)}
-            >
-              <Button
-                style={styles.timeframeButtonInner}
-                buttonColor={
-                  selectedTimeframe === timeframeEnums.MONTH
-                    ? THEME.colors.primary
-                    : THEME.colors.transparent
-                }
-                textColor={
-                  selectedTimeframe === timeframeEnums.MONTH
-                    ? THEME.text.secondaryColor
-                    : THEME.text.primaryColor
-                }
+                <Button
+                  style={styles.timeframeButtonInner}
+                  buttonColor={
+                    selectedTimeframe === timeframeEnums.FIVE
+                      ? THEME.colors.primary
+                      : THEME.colors.transparent
+                  }
+                  textColor={
+                    selectedTimeframe === timeframeEnums.FIVE
+                      ? THEME.text.secondaryColor
+                      : THEME.text.primaryColor
+                  }
+                >
+                  5D
+                </Button>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.timeframeButtonOuter}
+                onPress={() => handleTimeframeChange(timeframeEnums.MONTH)}
               >
-                M
-              </Button>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.timeframeButtonOuter}
-              onPress={() => handleTimeframeChange(timeframeEnums.YEAR)}
-            >
-              <Button
-                style={styles.timeframeButtonInner}
-                buttonColor={
-                  selectedTimeframe === timeframeEnums.YEAR
-                    ? THEME.colors.primary
-                    : THEME.colors.transparent
-                }
-                textColor={
-                  selectedTimeframe === timeframeEnums.YEAR
-                    ? THEME.text.secondaryColor
-                    : THEME.text.primaryColor
-                }
+                <Button
+                  style={styles.timeframeButtonInner}
+                  buttonColor={
+                    selectedTimeframe === timeframeEnums.MONTH
+                      ? THEME.colors.primary
+                      : THEME.colors.transparent
+                  }
+                  textColor={
+                    selectedTimeframe === timeframeEnums.MONTH
+                      ? THEME.text.secondaryColor
+                      : THEME.text.primaryColor
+                  }
+                >
+                  M
+                </Button>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.timeframeButtonOuter}
+                onPress={() => handleTimeframeChange(timeframeEnums.YEAR)}
               >
-                Y
-              </Button>
-            </TouchableOpacity>
-          </View>
+                <Button
+                  style={styles.timeframeButtonInner}
+                  buttonColor={
+                    selectedTimeframe === timeframeEnums.YEAR
+                      ? THEME.colors.primary
+                      : THEME.colors.transparent
+                  }
+                  textColor={
+                    selectedTimeframe === timeframeEnums.YEAR
+                      ? THEME.text.secondaryColor
+                      : THEME.text.primaryColor
+                  }
+                >
+                  Y
+                </Button>
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </TouchableWithoutFeedback>
     </View>
