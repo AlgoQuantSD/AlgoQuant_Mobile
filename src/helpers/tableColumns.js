@@ -8,6 +8,7 @@ export const jobHistoryColumns = [
 ];
 
 export const backtestHistoryColumns = [
+  { label: "Status", id: "status" },
   { label: "Backtest Name", id: "backtestName" },
   { label: "Initial Investment", id: "initialInvestment" },
   { label: "Final Balance", id: "finalBalance" },

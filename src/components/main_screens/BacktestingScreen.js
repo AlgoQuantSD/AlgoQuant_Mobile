@@ -30,8 +30,9 @@ export default function BacktestingScreen() {
 
   // Open the desired backtest in a new screen and pass its data
   function handleRowPress(backtest) {
-    console.log("Cell pressed", backtest);
-    navigation.navigate("BacktestResultsScreen", { backtest });
+    if (backtest.status === "completed") {
+      navigation.navigate("BacktestResultsScreen", { backtest });
+    }
   }
 
   // Put get backtest history API call here
