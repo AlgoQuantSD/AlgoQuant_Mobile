@@ -217,6 +217,7 @@ export const mockGraphHeaderData = {
 // Filler table data until we connect to backend
 export const backtestData = [
   {
+    status: "running",
     backtestName: "Sample backtest",
     initialInvestment: "$2400",
     finalBalance: "$3800",
@@ -224,6 +225,7 @@ export const backtestData = [
     endDate: "3/10/2023",
   },
   {
+    status: "completed",
     backtestName: "Sample backtest2g",
     initialInvestment: "$3200",
     finalBalance: "$6000",
@@ -231,6 +233,7 @@ export const backtestData = [
     endDate: "3/10/2023",
   },
   {
+    status: "completed",
     backtestName: "Random",
     initialInvestment: "$3200",
     finalBalance: "$6000",
