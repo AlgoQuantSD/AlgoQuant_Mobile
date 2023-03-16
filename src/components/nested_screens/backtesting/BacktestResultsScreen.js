@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import CustomGraph from "../../reusable_components/CustomGraph";
+import BacktestAnalysisView from "../../single_use_components/BacktestAnalysisView";
 import { mockGraphData1, MOCK_Y_VALS } from "../../../constants/MockData";
 import { THEME } from "../../../constants/Theme";
 
@@ -62,6 +63,10 @@ export default function BacktestResultsScreen(props) {
             timeframeEnabled={false}
           />
         </View>
+        {/* Analysis */}
+        <View style={styles.analysisContainer}>
+          <BacktestAnalysisView backtest={backtest} />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -83,6 +88,11 @@ const styles = StyleSheet.create({
     fontSize: THEME.text.fontSizeBody,
     color: THEME.text.color,
   },
+  sectionTitleText: {
+    color: THEME.text.color.primary,
+    fontSize: THEME.text.fontSize.H3,
+    paddingBottom: "2%",
+  },
   headerContainer: {
     paddingBottom: "10%",
   },
@@ -93,6 +103,14 @@ const styles = StyleSheet.create({
   },
   graphContainer: {
     alignSelf: "center",
-    backgroundColor: "red",
+  },
+  analysisContainer: {
+    paddingBottom: "10%",
+  },
+  analysisRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: "2%",
+    paddingBottom: "2%",
   },
 });
