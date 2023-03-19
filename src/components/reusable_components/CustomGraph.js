@@ -25,8 +25,8 @@ export default function CustomGraph(props) {
     selectedTimeframe,
     setSelectedTimeframe,
     yVals,
-    handlePressInTouchableElement,
-    handlePressOutTouchableElement,
+    handlePressInGraph,
+    handlePressOutGraph,
     timeframeEnabled,
   } = props;
 
@@ -86,14 +86,14 @@ export default function CustomGraph(props) {
   return (
     <View>
       <TouchableWithoutFeedback
-        onPressIn={handlePressInTouchableElement}
-        onPressOut={handlePressOutTouchableElement}
+        onPressIn={handlePressInGraph}
+        onPressOut={handlePressOutGraph}
       >
         <View>
           <View>
             <VictoryChart
-              onTouchStart={handlePressInTouchableElement}
-              onTouchEnd={handlePressOutTouchableElement}
+              onTouchStart={handlePressInGraph}
+              onTouchEnd={handlePressOutGraph}
               theme={LINE_GRAPH_THEME}
               animate={{
                 onExit: {
@@ -106,8 +106,8 @@ export default function CustomGraph(props) {
               }}
               containerComponent={
                 <VictoryVoronoiContainer
-                  onTouchStart={handlePressInTouchableElement}
-                  onTouchEnd={handlePressOutTouchableElement}
+                  onTouchStart={handlePressInGraph}
+                  onTouchEnd={handlePressOutGraph}
                   labels={({ datum }) => `${formatter(datum.y)}`}
                   labelComponent={
                     <VictoryTooltip

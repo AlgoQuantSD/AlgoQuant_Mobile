@@ -29,10 +29,10 @@ export default function BacktestResultsScreen(props) {
   }
 
   // Stop screen from scrolling when the user is trying to interact with the graph
-  function handlePressInTouchableElement() {
+  function handlePressInGraph() {
     setIsScrollEnabled(false);
   }
-  function handlePressOutTouchableElement() {
+  function handlePressOutGraph() {
     setIsScrollEnabled(true);
   }
   console.log("Backtest results: ", backtest);
@@ -72,8 +72,8 @@ export default function BacktestResultsScreen(props) {
             graphData={mockGraphData1}
             yVals={MOCK_Y_VALS}
             timeframeEnabled={false}
-            handlePressInTouchableElement={handlePressInTouchableElement}
-            handlePressOutTouchableElement={handlePressOutTouchableElement}
+            handlePressInGraph={handlePressInGraph}
+            handlePressOutGraph={handlePressOutGraph}
           />
         </View>
         {/* Analysis */}
