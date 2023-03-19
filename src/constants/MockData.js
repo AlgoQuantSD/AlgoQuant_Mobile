@@ -253,8 +253,8 @@ export const backtestData = [
   {
     status: "completed",
     backtestName: "Sample backtest2g",
-    initialInvestment: 3200,
-    finalBalance: 6000,
+    initialInvestment: "$3200",
+    finalBalance: "$6000",
     startDate: "5/16/2020",
     endDate: "3/10/2023",
     user_id: "fe224998-50a0-4515-8899-431868d5936a",
@@ -287,8 +287,8 @@ export const backtestData = [
   {
     status: "completed",
     backtestName: "Random",
-    initialInvestment: 3200,
-    finalBalance: 6000,
+    initialInvestment: "$3200",
+    finalBalance: "$6000",
     startDate: "5/16/2020",
     endDate: "3/10/2023",
     user_id: "fe224998-50a0-4515-8899-431868d5936a",
