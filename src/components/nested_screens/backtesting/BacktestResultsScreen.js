@@ -16,6 +16,7 @@ export default function BacktestResultsScreen(props) {
   const { backtest } = props.route.params;
 
   const [refreshing, setRefreshing] = useState(false);
+  const [isScrollEnabled, setIsScrollEnabled] = useState(true);
 
   // Do this when the user pulls down the screen to refresh
   function onRefresh() {
@@ -25,6 +26,14 @@ export default function BacktestResultsScreen(props) {
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
+  }
+
+  // Stop screen from scrolling when the user is trying to interact with the graph
+  function handlePressInTouchableElement() {
+    setIsScrollEnabled(false);
+  }
+  function handlePressOutTouchableElement() {
+    setIsScrollEnabled(true);
   }
   console.log("Backtest results: ", backtest);
   return (
@@ -37,6 +46,8 @@ export default function BacktestResultsScreen(props) {
             tintColor={THEME.colors.primary}
           />
         }
+        scrollEnabled={isScrollEnabled}
+        showsVerticalScrollIndicator={false}
         style={styles.mainScrollViewContainer}
       >
         {/* Header */}
@@ -61,6 +72,8 @@ export default function BacktestResultsScreen(props) {
             graphData={mockGraphData1}
             yVals={MOCK_Y_VALS}
             timeframeEnabled={false}
+            handlePressInTouchableElement={handlePressInTouchableElement}
+            handlePressOutTouchableElement={handlePressOutTouchableElement}
           />
         </View>
         {/* Analysis */}
