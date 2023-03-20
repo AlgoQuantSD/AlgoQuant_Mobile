@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,12 +11,50 @@ import CustomGraph from "../../reusable_components/CustomGraph";
 import BacktestAnalysisView from "../../single_use_components/BacktestAnalysisView";
 import { mockGraphData1, MOCK_Y_VALS } from "../../../constants/MockData";
 import { THEME } from "../../../constants/Theme";
+import AlgoquantApiContext from "../../../constants/ApiContext";
 
 export default function BacktestResultsScreen(props) {
-  const { backtest } = props.route.params;
+  const { backtestId } = props.route.params;
+  // State variables used to access algoquant SDK API and display/ keep state of user data from database
+  const algoquantApi = useContext(AlgoquantApiContext);
+  console.log("POPP", backtestId);
+  const [backtestDataObject, setBacktestDataObject] = useState(null);
+  // initial value is an array because victorycharts takes data prop as array or objects only
+  const [graphData, setGraphData] = useState([0]);
+  const [yValues, setYValues] = useState([]);
 
+  // API call to get backtest based on the clicked backtest from the backtestScreen using the backtest ID
+  const getBacktestData = () => {
+    if (algoquantApi.token) {
+      algoquantApi
+        .getBacktest(backtestId)
+        .then((resp) => {
+          setBacktestDataObject(resp.data);
+          console.log(resp.data);
+
+          const combinedData = resp.data["value_timestamps"].map((x, i) => ({
+            x,
+            y: resp.data["portfolio_value_history"][i],
+          }));
+          setGraphData(combinedData);
+          // putting y values in acsending order for y ticks on graph
+          const yTickValues = resp.data["portfolio_value_history"]
+            .map((datum) => datum)
+            .sort((a, b) => a - b);
+          setYValues(yTickValues);
+        })
+        .catch((err) => {
+          // TODO: Need to implement better error handling
+          console.log(err);
+        });
+    }
+  };
   const [refreshing, setRefreshing] = useState(false);
   const [isScrollEnabled, setIsScrollEnabled] = useState(true);
+
+  useEffect(() => {
+    getBacktestData();
+  }, []);
 
   // Do this when the user pulls down the screen to refresh
   function onRefresh() {
@@ -35,7 +73,6 @@ export default function BacktestResultsScreen(props) {
   function handlePressOutGraph() {
     setIsScrollEnabled(true);
   }
-  console.log("Backtest results: ", backtest);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -58,19 +95,20 @@ export default function BacktestResultsScreen(props) {
               ellipsizeMode="tail"
               style={styles.headerText}
             >
-              {backtest.backtestName}
+              {backtestDataObject?.backtest_name}
             </Text>
           </View>
           <Text style={styles.text}>
-            {backtest.backtestName} performed well according to AlgoQuant
-            metrics, yielding a 40% profit over the course of 150 days.
+            {backtestDataObject?.backtest_name} performed well according to
+            AlgoQuant metrics, yielding a 40% profit over the course of 150
+            days.
           </Text>
         </View>
         {/* Graph */}
         <View style={styles.graphContainer}>
           <CustomGraph
-            graphData={mockGraphData1}
-            yVals={MOCK_Y_VALS}
+            graphData={graphData}
+            yVals={yValues}
             timeframeEnabled={false}
             handlePressInGraph={handlePressInGraph}
             handlePressOutGraph={handlePressOutGraph}
@@ -78,7 +116,7 @@ export default function BacktestResultsScreen(props) {
         </View>
         {/* Analysis */}
         <View style={styles.analysisContainer}>
-          <BacktestAnalysisView backtest={backtest} />
+          <BacktestAnalysisView backtest={backtestDataObject} />
         </View>
       </ScrollView>
     </SafeAreaView>

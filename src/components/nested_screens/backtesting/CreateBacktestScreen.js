@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -15,10 +15,13 @@ import SuccessScreen from "../../reusable_components/SuccessScreen";
 import SnackbarContent from "../../reusable_components/SnackbarContent";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { THEME } from "../../../constants/Theme";
+import AlgoquantApiContext from "../../../constants/ApiContext";
 
 export default function CreateBacktestScreen(props) {
   const { investorID } = props.route.params;
   const navigation = useNavigation();
+  // State variables used to access algoquant SDK API and display/ keep state of user data from database
+  const algoquantApi = useContext(AlgoquantApiContext);
 
   // Get todays date so we can cap how far back in time a user can go from today
   const today = new Date();
@@ -40,6 +43,7 @@ export default function CreateBacktestScreen(props) {
   const [endDateUnixTimestamp, setEndDateUnixTimestamp] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [initialInvestment, setInitialInvestment] = useState("100000");
+  const [backtestName, setBacktestName] = useState("");
   // Dynamic start and end dates for the date pickers
   const [minimumStartDate, setMinimumStartDate] = useState(minimumDate);
   const [maximumStartDate, setMaximumStartDate] = useState(maximumDate);
@@ -75,6 +79,11 @@ export default function CreateBacktestScreen(props) {
     } else if (parseInt(text) >= 10000000) {
       setInitialInvestment("1000000");
     }
+  }
+
+  // set Backtest name string
+  function handleBacktestNameChange(text) {
+    setBacktestName(text);
   }
 
   // Input validation
@@ -127,6 +136,24 @@ export default function CreateBacktestScreen(props) {
       return;
     }
     setIsLoading(true);
+    if (algoquantApi.token) {
+      algoquantApi
+        .createBacktest(
+          investorID,
+          startDateUnixTimestamp,
+          endDateUnixTimestamp,
+          backtestName,
+          initialInvestment
+        )
+        .then((resp) => {
+          console.log(resp.data);
+        })
+        .catch((err) => {
+          // TODO: Need to implement better error handling
+          console.log(err);
+          handleError();
+        });
+    }
     setTimeout(() => {
       setIsLoading(false);
       handleSuccess();
@@ -168,6 +195,25 @@ export default function CreateBacktestScreen(props) {
             </Text>
           </View>
           <View style={styles.inputContainer}>
+            {/* Backtest Name */}
+            <TextInput
+              label="Backtest Name"
+              keyboardType="default"
+              value={backtestName}
+              onChangeText={(text) => handleBacktestNameChange(text)}
+              selectionColor={THEME.colors.foreground}
+              underlineColor={THEME.colors.foreground}
+              activeUnderlineColor={THEME.colors.foreground}
+              outlineColor={THEME.colors.foreground}
+              activeOutlineColor={THEME.colors.foreground}
+              textColor={THEME.colors.foreground}
+              placeholderTextColor={THEME.colors.foreground}
+              contentStyle={{ color: THEME.colors.foreground }}
+              style={{
+                backgroundColor: THEME.colors.transparent,
+                width: "100%",
+              }}
+            />
             {/* Start Date */}
             <DateInputFieldView
               label={"Start Date"}
