@@ -37,6 +37,8 @@ export default function HomeScreen() {
   const [modalBody, setModalBody] = useState(null);
   const [modalInputFields, setModalInputFields] = useState(null);
   const [modalButtons, setModalButtons] = useState(null);
+  // Tracks which investor card activates the start job modal
+  const [investorId, setInvestorId] = useState(null);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState(null);
   const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
@@ -106,6 +108,8 @@ export default function HomeScreen() {
     setModalBody: setModalBody,
     modalInputFields: modalInputFields,
     setModalInputFields: setModalInputFields,
+    investorId: investorId,
+    setInvestorId: setInvestorId,
     modalButtons: modalButtons,
     setModalButtons: setModalButtons,
   };
@@ -180,6 +184,8 @@ export default function HomeScreen() {
           setModalBody={setModalBody}
           modalInputFields={modalInputFields}
           setModalInputFields={setModalInputFields}
+          investorID={investorId}
+          setInvestorID={setInvestorId}
           modalButtons={modalButtons}
           setModalButtons={setModalButtons}
           setSnackbarMessage={setSnackbarMessage}

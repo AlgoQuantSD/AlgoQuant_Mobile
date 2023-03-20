@@ -622,11 +622,14 @@ export async function submitStartJobModal(props) {
     setModalBody,
     setModalButtons,
     inputValues,
+    investorID,
     setSnackbarMessage,
     setIsSnackbarVisible,
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
   } = props;
+
+  console.log("Submit start job props: ", props);
 
   const jobName = inputValues[0];
   const initialInvestment = inputValues[1];
