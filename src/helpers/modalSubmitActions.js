@@ -622,11 +622,14 @@ export async function submitStartJobModal(props) {
     setModalBody,
     setModalButtons,
     inputValues,
+    investorID,
     setSnackbarMessage,
     setIsSnackbarVisible,
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
   } = props;
+
+  console.log("Submit start job props: ", props);
 
   const jobName = inputValues[0];
   const initialInvestment = inputValues[1];
@@ -668,17 +671,33 @@ export async function submitStartJobModal(props) {
     return true;
   }
 
-  // API logic goes here
-  if (validateInput()) {
-    setSnackbarMessage(
-      <SnackbarContent
-        iconName={THEME.icon.name.success}
-        iconSize={THEME.icon.size.snackbarIconSize}
-        iconColor={THEME.colors.success}
-        text="SUCCESS: Job has been started"
-        textColor={THEME.colors.success}
-      />
-    );
+  // Create job API call
+  if (validateInput() && algoquant.token) {
+    algoquant
+      .createJob(parseInt(initialInvestment), investorID, jobName)
+      .then((resp) => {
+        console.log(resp.data);
+        setSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icon.name.success}
+            iconSize={THEME.icon.size.snackbarIconSize}
+            iconColor={THEME.colors.success}
+            text="SUCCESS: Job has been started"
+            textColor={THEME.colors.success}
+          />
+        );
+      })
+      .catch((err) => {
+        setSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icon.name.error}
+            iconSize={THEME.icon.size.snackbarIconSize}
+            iconColor={THEME.colors.danger}
+            text="Error: Unable to start job"
+            textColor={THEME.colors.danger}
+          />
+        );
+      });
     setIsSnackbarVisible(true);
     // Clear state upon successful submit
     cleanUpState(props);
