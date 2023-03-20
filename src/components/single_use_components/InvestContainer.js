@@ -4,20 +4,12 @@ import { THEME } from "../../constants/Theme";
 import InvestCarousel from "./InvestCarousel";
 
 export default function InvestContainer(props) {
-  const {
-    handlePressInTouchableElement,
-    handlePressOutTouchableElement,
-    setSnackbarMessage,
-    setIsSnackbarVisible,
-    navigation,
-    modalProps
-  } = props;
+  const { setSnackbarMessage, setIsSnackbarVisible, navigation, modalProps } =
+    props;
   return (
     <View>
       <Text style={styles.headerText}>Invest</Text>
       <InvestCarousel
-        handlePressInTouchableElement={handlePressInTouchableElement}
-        handlePressOutTouchableElement={handlePressOutTouchableElement}
         setSnackbarMessage={setSnackbarMessage}
         setIsSnackbarVisible={setIsSnackbarVisible}
         modalProps={modalProps}

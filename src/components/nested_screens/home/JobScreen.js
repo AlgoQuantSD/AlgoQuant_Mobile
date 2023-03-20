@@ -13,6 +13,7 @@ import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
 import { THEME } from "../../../constants/Theme";
 import { ChipJobTypes } from "../../../constants/ChipJobTypeEnum";
+import { jobHistoryColumns } from "../../../helpers/tableColumns";
 
 export default function JobScreen(props) {
   const { jobID, jobType } = props.route.params;
@@ -71,7 +72,7 @@ export default function JobScreen(props) {
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
   const [lastKey, setLastKey] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isTableLoading, setIsTableLoading] = useState(false);
 
   // state variable to store the job based on the clicked job from the list using the job id
   const [job, setJob] = useState();
@@ -113,7 +114,7 @@ export default function JobScreen(props) {
     // once its the last query do nothing
     // first query always sends a last key of null
     if (!lastQuery) {
-      setIsLoading(true);
+      setIsTableLoading(true);
       if (algoquantApi.token) {
         algoquantApi
           .getTrades(TRADE_HISTORY_FETCH_AMOUNT, jobID, lastKey)
@@ -148,7 +149,7 @@ export default function JobScreen(props) {
               });
             }
             setHistory(history.concat(historyBuffer));
-            setIsLoading(false);
+            setIsTableLoading(false);
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
@@ -276,6 +277,7 @@ export default function JobScreen(props) {
             selectedTimeframe={selectedTimeframe}
             percentChanged={percentChanged}
             yVals={yValues}
+            timeframeEnabled={true}
           />
         )}
       </View>
@@ -284,7 +286,8 @@ export default function JobScreen(props) {
         <Text style={styles.sectionTitleText}>Recent Trades</Text>
         <CustomTable
           data={history}
-          loading={isLoading}
+          columns={jobHistoryColumns}
+          isLoading={isTableLoading}
           handleLoadMore={fetchJobsTrades}
         />
       </View>

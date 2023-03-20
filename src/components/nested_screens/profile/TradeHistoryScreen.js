@@ -5,6 +5,7 @@ import HeaderContainer from "../../reusable_components/HeaderContainer";
 import CustomTable from "../../reusable_components/CustomTable";
 import AlgoquantApiContext from "../../../constants/ApiContext";
 import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
+import { jobHistoryColumns } from "../../../helpers/tableColumns";
 
 export default function TradeHistoryScreen() {
   const [history, setHistory] = useState([]);
@@ -13,14 +14,14 @@ export default function TradeHistoryScreen() {
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
   const [lastKey, setLastKey] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isTableLoading, setIsTableLoading] = useState(false);
   const fetchTrades = () => {
     const historyBuffer = [];
 
     // once its the last query do nothing
     // first query always sends a last key of null
     if (!lastQuery) {
-      setIsLoading(true);
+      setIsTableLoading(true);
       if (algoquantApi.token) {
         algoquantApi
           .getTrades(TRADE_HISTORY_FETCH_AMOUNT, null, lastKey)
@@ -55,7 +56,7 @@ export default function TradeHistoryScreen() {
               });
             }
             setHistory(history.concat(historyBuffer));
-            setIsLoading(false);
+            setIsTableLoading(false);
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
@@ -81,8 +82,10 @@ export default function TradeHistoryScreen() {
       <View style={styles.mainContentContainer}>
         <CustomTable
           data={history}
-          loading={isLoading}
+          columns={jobHistoryColumns}
+          loading={isTableLoading}
           handleLoadMore={fetchTrades}
+          nullMessage="No trades currently"
         />
       </View>
     </View>
