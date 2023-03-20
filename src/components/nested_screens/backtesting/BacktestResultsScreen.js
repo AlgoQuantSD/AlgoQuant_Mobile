@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import CustomGraph from "../../reusable_components/CustomGraph";
 import BacktestAnalysisView from "../../single_use_components/BacktestAnalysisView";
-import { mockGraphData1, MOCK_Y_VALS } from "../../../constants/MockData";
 import { THEME } from "../../../constants/Theme";
 import AlgoquantApiContext from "../../../constants/ApiContext";
 
