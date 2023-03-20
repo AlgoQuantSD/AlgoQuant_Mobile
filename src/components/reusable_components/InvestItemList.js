@@ -26,8 +26,9 @@ export default function InvestItemList(props) {
     navigation,
   } = props;
 
-  // Show the start job modal
-  function handlePressStartJob() {
+  // Show the start job modal and pass in the investor id
+  function handlePressStartJob(investorId) {
+    modalProps.setInvestorId(investorId);
     startJobModalBuilder(modalProps);
   }
 
@@ -135,7 +136,9 @@ export default function InvestItemList(props) {
                               right: 30,
                             }}
                             style={styles.startJobButton}
-                            onPress={handlePressStartJob}
+                            onPress={() =>
+                              handlePressStartJob(item.investor_id)
+                            }
                           >
                             <Text style={styles.secondaryText}>Start Job</Text>
                             <Ionicons
