@@ -94,7 +94,10 @@ export function SearchScreenStackNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: "black", borderBottomWidth: 0 },
+        headerStyle: {
+          backgroundColor: THEME.topTabNavigator.color.background,
+          borderBottomWidth: 0,
+        },
       }}
     >
       <Stack.Screen
@@ -115,7 +118,10 @@ export function BacktestingScreenStackNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: "black", borderBottomWidth: 0 },
+        headerStyle: {
+          backgroundColor: THEME.topTabNavigator.color.background,
+          borderBottomWidth: 0,
+        },
       }}
     >
       <Stack.Screen
@@ -141,7 +147,10 @@ export function ProfileScreenStackNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: "black", borderBottomWidth: 0 },
+        headerStyle: {
+          backgroundColor: THEME.topTabNavigator.color.background,
+          borderBottomWidth: 0,
+        },
       }}
     >
       <Stack.Screen

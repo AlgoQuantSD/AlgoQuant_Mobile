@@ -130,6 +130,7 @@ export default function StockInfoScreen(props) {
           selectedTimeframe={selectedTimeframe}
           percentChanged={percentChanged}
           yVals={yValues}
+          timeframeEnabled={true}
         />
       </View>
       <View style={styles.stockDetailsFooterContainer}>

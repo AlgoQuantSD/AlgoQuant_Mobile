@@ -43,10 +43,10 @@ export default function HomeScreen() {
   const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(null);
 
   // Handle different presses
-  function handlePressInTouchableElement() {
+  function handlePressInGraph() {
     setIsScrollEnabled(false);
   }
-  function handlePressOutTouchableElement() {
+  function handlePressOutGraph() {
     setIsScrollEnabled(true);
   }
   function handlePressCreateInvestor() {
@@ -214,8 +214,9 @@ export default function HomeScreen() {
                 selectedTimeframe={selectedTimeframe}
                 percentChanged={percentChanged}
                 yVals={yValues}
-                handlePressInTouchableElement={handlePressInTouchableElement}
-                handlePressOutTouchableElement={handlePressOutTouchableElement}
+                handlePressInGraph={handlePressInGraph}
+                handlePressOutGraph={handlePressOutGraph}
+                timeframeEnabled={true}
               />
             </View>
           </View>
@@ -223,8 +224,6 @@ export default function HomeScreen() {
         {/* Invest */}
         <View style={styles.investContainer}>
           <InvestContainer
-            handlePressInTouchableElement={handlePressInTouchableElement}
-            handlePressOutTouchableElement={handlePressOutTouchableElement}
             setSnackbarMessage={setSnackbarMessage}
             setIsSnackbarVisible={setIsSnackbarVisible}
             modalProps={modalProps}

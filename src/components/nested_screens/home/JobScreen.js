@@ -277,6 +277,7 @@ export default function JobScreen(props) {
             selectedTimeframe={selectedTimeframe}
             percentChanged={percentChanged}
             yVals={yValues}
+            timeframeEnabled={true}
           />
         )}
       </View>

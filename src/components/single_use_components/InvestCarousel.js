@@ -11,14 +11,8 @@ import { THEME } from "../../constants/Theme";
 import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function InvestCarousel(props) {
-  const {
-    handlePressInTouchableElement,
-    handlePressOutTouchableElement,
-    setSnackbarMessage,
-    setIsSnackbarVisible,
-    modalProps,
-    navigation,
-  } = props;
+  const { setSnackbarMessage, setIsSnackbarVisible, modalProps, navigation } =
+    props;
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
   // Options for the carousel tabs
@@ -216,8 +210,6 @@ export default function InvestCarousel(props) {
               <InvestItemList
                 listData={investorList}
                 isLoading={isLoading}
-                handlePressInTouchableElement={handlePressInTouchableElement}
-                handlePressOutTouchableElement={handlePressOutTouchableElement}
                 setSnackbarMessage={setSnackbarMessage}
                 setIsSnackbarVisible={setIsSnackbarVisible}
                 modalProps={modalProps}
@@ -229,8 +221,6 @@ export default function InvestCarousel(props) {
                 isLoading={isLoading}
                 handleFetchMoreData={getjobList}
                 type={carouselOptions[selectedCarouselOptionIndex].key}
-                handlePressInTouchableElement={handlePressInTouchableElement}
-                handlePressOutTouchableElement={handlePressOutTouchableElement}
                 navigation={navigation}
               />
             )}
