@@ -9,6 +9,7 @@ import {
   View,
   ScrollView,
   ActivityIndicator,
+  Text,
   RefreshControl,
   StyleSheet,
 } from "react-native";
@@ -225,6 +226,7 @@ export default function HomeScreen() {
               size="large"
               color={THEME.loadingIndicator.color}
             />
+            <Text style={styles.text}>Getting latest portfolio data..</Text>
           </View>
         ) : (
           // Graph
@@ -315,6 +317,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: THEME.text.fontSizeBody,
     color: THEME.text.primaryColor,
+  },
+  activityIndicator: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: "70%",
   },
   graphDetailsContainer: {
     flex: 0.2,
