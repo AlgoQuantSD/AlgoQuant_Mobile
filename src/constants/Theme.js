@@ -4,7 +4,7 @@ import { MD3LightTheme as DefaultTheme } from "react-native-paper";
 
 const PALETTE = {
   primaryGreen: "#1F302B",
-  primaryGreenOpacity95: "#1F302BF2",
+  primaryGreenOpacity95: "#1F302BD9",
   brightGreen: "#4BB543",
   mediumGreen: "#33CA47",
   red: "#B11818",
@@ -75,7 +75,7 @@ export const THEME = {
     padding: 3,
     primaryColorBackground: PALETTE.primaryGreen,
     secondaryColorBackground: PALETTE.cokeWhite,
-    disabledBackgroundColor: PALETTE.primaryGreenOpacity35,
+    disabledBackgroundColor: PALETTE.primaryGreenOpacity95,
   },
   bottomTab: {
     backgroundColor: PALETTE.primaryGreen,
@@ -114,7 +114,7 @@ export const THEME = {
       arrowRight: "arrow-forward",
       selectOptionCircleOutline: "ellipse-outline",
       selectOptionCircleFilledIn: "ellipse",
-      backtest: "flask"
+      backtest: "flask",
     },
     color: {
       primary: PALETTE.primaryGreen,
@@ -216,8 +216,8 @@ export const customRNPaperTheme = {
 export const LIGHT_THEME = {
   ...THEME,
   colors: {
-    background: PALETTE.white,
-    foreground: PALETTE.black,
-    text: PALETTE.black,
+    background: PALETTE.cokeWhite,
+    foreground: PALETTE.primaryGreen,
+    text: PALETTE.primaryGreen,
   },
 };

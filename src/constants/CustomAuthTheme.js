@@ -9,7 +9,7 @@ export const CUSTOM_AUTH_THEME = {
   },
   button: {
     ...AmplifyTheme.button,
-    backgroundColor: THEME.button.backgroundColor,
+    backgroundColor: THEME.button.primaryColorBackground,
     borderRadius: THEME.button.borderRadius,
   },
   buttonDisabled: {
@@ -19,20 +19,20 @@ export const CUSTOM_AUTH_THEME = {
   },
   sectionHeaderText: {
     ...AmplifyTheme.sectionHeaderText,
-    color: THEME.text.color,
+    color: THEME.text.color.primary,
   },
-  input: { ...AmplifyTheme.input, color: THEME.text.color },
+  input: { ...AmplifyTheme.input, color: THEME.text.color.primary },
   sectionFooterLink: {
     ...AmplifyTheme.sectionFooterLink,
-    color: THEME.text.color,
+    color: THEME.text.color.primary,
   },
   sectionFooterLinkDisabled: {
     ...AmplifyTheme.sectionFooterLinkDisabled,
     color: THEME.text.disabledColor,
   },
   linkUnderlay: { color: THEME.colors.background },
-  inputLabel: { ...AmplifyTheme.inputLabel, color: THEME.text.color },
-  phoneInput: { ...AmplifyTheme.phoneInput, color: THEME.text.color },
+  inputLabel: { ...AmplifyTheme.inputLabel, color: THEME.text.color.primary },
+  phoneInput: { ...AmplifyTheme.phoneInput, color: THEME.text.color.primary },
   pickerItem: {
     ...AmplifyTheme.pickerItem,
     color: THEME.colors.foreground,
