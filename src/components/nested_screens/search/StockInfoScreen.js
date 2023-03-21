@@ -14,6 +14,7 @@ export default function StockInfoScreen(props) {
   const algoquantApi = useContext(AlgoquantApiContext);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isScrollEnabled, setIsScrollEnabled] = useState(true);
 
   // State variables to store the ticker the user selected information
   const [high52w, setHigh52w] = useState(null);
@@ -54,6 +55,14 @@ export default function StockInfoScreen(props) {
   const [selectedTimeframe, setSelectedTimeframe] = useState(
     timeframeEnums.DAY
   );
+
+  // Handle different presses
+  function handlePressInGraph() {
+    setIsScrollEnabled(false);
+  }
+  function handlePressOutGraph() {
+    setIsScrollEnabled(true);
+  }
 
   // Callback function to get the graph data from the Algoquant API
   const getGraphData = useCallback(
@@ -150,6 +159,7 @@ export default function StockInfoScreen(props) {
           tintColor={THEME.colors.primary}
         />
       }
+      scrollEnabled={isScrollEnabled}
       style={styles.container}
     >
       <View style={styles.graphDetailsContainer}>
@@ -167,6 +177,8 @@ export default function StockInfoScreen(props) {
           selectedTimeframe={selectedTimeframe}
           percentChanged={percentChanged}
           yVals={yValues}
+          handlePressInGraph={handlePressInGraph}
+          handlePressOutGraph={handlePressOutGraph}
           timeframeEnabled={true}
         />
       </View>
