@@ -10,16 +10,18 @@ import {
   ScrollView,
   ActivityIndicator,
   Text,
+  Image,
   RefreshControl,
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Snackbar, AnimatedFAB } from "react-native-paper";
+import { Snackbar, AnimatedFAB, Button } from "react-native-paper";
 import CustomModal from "../reusable_components/CustomModal";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 import CustomGraph from "../reusable_components/CustomGraph";
+import { FailedStateView } from "../reusable_components/FailedStateView";
 import GraphDetailsHeader from "../reusable_components/GraphDetailsHeader";
 import InvestContainer from "../single_use_components/InvestContainer";
 import AlgoquantApiContext from "../../constants/ApiContext";
@@ -52,6 +54,23 @@ export default function HomeScreen() {
   const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
   const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(null);
 
+  const [selectedTimeframe, setSelectedTimeframe] = useState(
+    timeframeEnums.DAY
+  );
+
+  // initial value is an array because victorycharts takes data prop as array or objects only
+  const [graphData, setGraphData] = useState([0]);
+  const [yValues, setYValues] = useState([]);
+
+  // All state variables for stock related data / statistics
+  const [percentChanged, setPercentChanged] = useState(null);
+  const [priceChange, setPriceChange] = useState(null);
+  const [dateClosed, setDateClosed] = useState(null);
+  const [marketClosed, setMarketClosed] = useState(false);
+  const [recentPrice, setRecentPrice] = useState(0);
+  const [graphLoading, setGraphLoading] = useState(true);
+  const [graphLoadingFailed, setGraphLoadingFailed] = useState(false);
+
   // Handle different presses
   function handlePressInGraph() {
     setIsScrollEnabled(false);
@@ -61,6 +80,11 @@ export default function HomeScreen() {
   }
   function handlePressCreateInvestor() {
     navigation.navigate("CreateInvestorStep1Screen");
+  }
+  function handlePressReloadGraph() {
+    setGraphLoadingFailed(false);
+    setSelectedTimeframe(timeframeEnums.DAY);
+    getGraphData(timeframeEnums.DAY);
   }
   const handleContentSizeChange = (contentWidth, contentHeight) => {
     scrollViewRef.current.scrollTo({
@@ -87,22 +111,6 @@ export default function HomeScreen() {
       setIsRefreshing(false);
     }, 2000);
   }
-
-  const [selectedTimeframe, setSelectedTimeframe] = useState(
-    timeframeEnums.DAY
-  );
-
-  // initial value is an array because victorycharts takes data prop as array or objects only
-  const [graphData, setGraphData] = useState([0]);
-  const [yValues, setYValues] = useState([]);
-
-  // All state variables for stock related data / statistics
-  const [percentChanged, setPercentChanged] = useState(null);
-  const [priceChange, setPriceChange] = useState(null);
-  const [dateClosed, setDateClosed] = useState(null);
-  const [marketClosed, setMarketClosed] = useState(false);
-  const [recentPrice, setRecentPrice] = useState(0);
-  const [graphLoading, setGraphLoading] = useState(true);
 
   const portfolioData = {
     recentPrice: recentPrice,
@@ -168,6 +176,8 @@ export default function HomeScreen() {
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
+            setGraphLoading(false);
+            setGraphLoadingFailed(true);
             console.log(err);
           });
       }
@@ -220,6 +230,7 @@ export default function HomeScreen() {
           isModalSnackbarVisible={isModalSnackbarVisible}
           setIsModalSnackbarVisible={setIsModalSnackbarVisible}
         />
+        {/* Graph loading */}
         {graphLoading ? (
           <View style={styles.activityIndicator}>
             <ActivityIndicator
@@ -228,8 +239,16 @@ export default function HomeScreen() {
             />
             <Text style={styles.text}>Getting latest portfolio data..</Text>
           </View>
+        ) : // Graph failed to load
+        graphLoadingFailed ? (
+          <FailedStateView
+            imageSize={{ height: 250, width: 200 }}
+            errorMessage="400: Graph failed to load"
+            buttonText="Reload graph"
+            buttonAction={handlePressReloadGraph}
+          />
         ) : (
-          // Graph
+          // Graph loaded successfully
           <View>
             <View style={styles.graphDetailsContainer}>
               <GraphDetailsHeader
