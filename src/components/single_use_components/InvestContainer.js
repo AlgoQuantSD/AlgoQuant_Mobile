@@ -4,7 +4,7 @@ import { THEME } from "../../constants/Theme";
 import InvestCarousel from "./InvestCarousel";
 
 export default function InvestContainer(props) {
-  const { setSnackbarMessage, setIsSnackbarVisible, navigation, modalProps } =
+  const { setSnackbarMessage, setIsSnackbarVisible, navigation, isRefreshing, modalProps } =
     props;
   return (
     <View>
@@ -13,6 +13,7 @@ export default function InvestContainer(props) {
         setSnackbarMessage={setSnackbarMessage}
         setIsSnackbarVisible={setIsSnackbarVisible}
         modalProps={modalProps}
+        isRefreshing={isRefreshing}
         navigation={navigation}
       />
     </View>

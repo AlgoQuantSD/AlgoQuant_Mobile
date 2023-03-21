@@ -64,7 +64,6 @@ export default function JobScreen(props) {
   function handleStopIconPress() {
     stopJobModalBuilder(modalProps);
   }
-
   // INTEGRATION CODE
   const [history, setHistory] = useState([]);
   const [lastQuery, setLastQuery] = useState(false);
@@ -269,7 +268,8 @@ export default function JobScreen(props) {
         {/* This is was added to enhance the performance of the modal. 
         If the graph is in the background while we activate the modal, 
         the modal will have a laggy enter and exit animation */}
-        {isModalVisible ? null : (
+        {isModalVisible ? null : jobType === "CAROUSEL_TAB_JOBS" ||
+          jobType === ChipJobTypes.Active ? (
           <CustomGraph
             graphData={graphData}
             getGraphData={getGraphData}
@@ -278,6 +278,13 @@ export default function JobScreen(props) {
             percentChanged={percentChanged}
             yVals={yValues}
             timeframeEnabled={true}
+          />
+        ) : (
+          <CustomGraph
+            graphData={graphData}
+            yVals={yValues}
+            percentChanged={percentChanged}
+            timeframeEnabled={false}
           />
         )}
       </View>

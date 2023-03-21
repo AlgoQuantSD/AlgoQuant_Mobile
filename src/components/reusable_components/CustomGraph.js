@@ -76,6 +76,11 @@ export default function CustomGraph(props) {
           month: "numeric",
           year: "numeric",
         });
+      default:
+        return new Date(x * 1000).toLocaleDateString("en-US", {
+          month: "numeric",
+          year: "numeric",
+        });
     }
   };
 

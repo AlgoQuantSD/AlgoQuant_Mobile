@@ -195,7 +195,13 @@ export default function CustomModal(props) {
           </View>
         ) : null}
         <View style={styles.headerContainer}>
-          <Text style={styles.titleText}>{modalTitle}</Text>
+          <Text
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+            style={styles.titleText}
+          >
+            {modalTitle}
+          </Text>
           <TouchableOpacity
             style={styles.closeButton}
             onPress={handleModalClose}
@@ -361,11 +367,14 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: THEME.text.color.secondary,
-    fontSize: THEME.text.fontSize.H1,
+    fontWeight: "bold",
+    fontSize: THEME.text.fontSize.H2,
+    paddingLeft: "7%",
+    paddingRight: "7%",
   },
   bodyText: {
     color: THEME.text.color.secondary,
-    fontSize: THEME.text.fontSizeModalBody,
+    fontSize: THEME.text.fontSize.modalBody,
   },
   headerText: {
     color: THEME.text.color.secondary,
@@ -379,7 +388,7 @@ const styles = StyleSheet.create({
   modalHeader: {
     alignItems: "flex-start",
     justifyContent: "center",
-    flex: 0.2,
+    flex: 0.3,
     width: "90%",
   },
   modalBody: {

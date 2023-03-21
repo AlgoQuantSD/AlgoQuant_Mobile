@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, ScrollView, RefreshControl, StyleSheet } from "react-native";
 import { THEME } from "../../../constants/Theme";
 import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
 import CustomGraph from "../../reusable_components/CustomGraph";
@@ -12,6 +12,9 @@ export default function StockInfoScreen(props) {
   const { stockName } = props.route.params;
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isScrollEnabled, setIsScrollEnabled] = useState(true);
 
   // State variables to store the ticker the user selected information
   const [high52w, setHigh52w] = useState(null);
@@ -53,6 +56,14 @@ export default function StockInfoScreen(props) {
     timeframeEnums.DAY
   );
 
+  // Handle different presses
+  function handlePressInGraph() {
+    setIsScrollEnabled(false);
+  }
+  function handlePressOutGraph() {
+    setIsScrollEnabled(true);
+  }
+
   // Callback function to get the graph data from the Algoquant API
   const getGraphData = useCallback(
     (timeframe) => {
@@ -90,6 +101,32 @@ export default function StockInfoScreen(props) {
   );
   // WILL : fix graphh tick spacing and make graph larger plss
 
+  // Do this when the user pulls down the screen to refresh
+  function onRefresh() {
+    setIsRefreshing(true);
+    // Get updated stock info
+    if (algoquantApi.token) {
+      algoquantApi
+        .getStockInfo(stockName)
+        .then((resp) => {
+          setHigh52w(resp.data["52wk_high"]);
+          setLow52w(resp.data["52wk_low"]);
+          setHigh(resp.data["high"]);
+          setLow(resp.data["low"]);
+          setOpen(resp.data["open"]);
+          setRecentPrice(resp.data["recent_price"]);
+        })
+        .catch((err) => {
+          // TODO: Need to implement better error handling
+          console.log(err);
+        });
+    }
+    getGraphData(selectedTimeframe);
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 2000);
+  }
+
   // loads the data for stock along with the day graph because day is the initial graph shown on the info screen
   useEffect(() => {
     if (algoquantApi.token) {
@@ -114,7 +151,17 @@ export default function StockInfoScreen(props) {
   // Update graph data / information based on selected timeframe and change the selected timeframe
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={onRefresh}
+          tintColor={THEME.colors.primary}
+        />
+      }
+      scrollEnabled={isScrollEnabled}
+      style={styles.container}
+    >
       <View style={styles.graphDetailsContainer}>
         <GraphDetailsHeader
           graphTitle={stockName}
@@ -130,21 +177,22 @@ export default function StockInfoScreen(props) {
           selectedTimeframe={selectedTimeframe}
           percentChanged={percentChanged}
           yVals={yValues}
+          handlePressInGraph={handlePressInGraph}
+          handlePressOutGraph={handlePressOutGraph}
           timeframeEnabled={true}
         />
       </View>
       <View style={styles.stockDetailsFooterContainer}>
         <StockDetailsFooter stockData={stockData} />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    flexGrow: 1,
+
     backgroundColor: THEME.colors.background,
   },
   graphDetailsContainer: {
