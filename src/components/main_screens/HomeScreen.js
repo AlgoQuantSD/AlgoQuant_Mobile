@@ -10,12 +10,11 @@ import {
   ScrollView,
   ActivityIndicator,
   Text,
-  Image,
   RefreshControl,
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Snackbar, AnimatedFAB, Button } from "react-native-paper";
+import { Snackbar, AnimatedFAB } from "react-native-paper";
 import CustomModal from "../reusable_components/CustomModal";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import { THEME } from "../../constants/Theme";
@@ -189,7 +188,7 @@ export default function HomeScreen() {
   }, [algoquantApi]);
 
   return (
-    <View style={styles.container}>
+    <View style={{ backgroundColor: THEME.colors.background }}>
       <ScrollView
         scrollEnabled={isScrollEnabled}
         ref={scrollViewRef}
@@ -204,83 +203,92 @@ export default function HomeScreen() {
             tintColor={THEME.colors.primary}
           />
         }
+        indicatorStyle="black"
+        scrollIndicatorInsets={{ backgroundColor: "red", borderRadius: 10 }}
+        contentInset={{
+          scrollbarThumbTintColor: "blue",
+          scrollbarTrackTintColor: "yellow",
+        }}
+        style={styles.scrollViewContainer}
       >
-        {/* Modal */}
-        <CustomModal
-          isModalVisible={isModalVisible}
-          setIsModalVisible={setIsModalVisible}
-          modalType={modalType}
-          setModalType={setModalType}
-          modalTitle={modalTitle}
-          setModalTitle={setModalTitle}
-          modalHeader={modalHeader}
-          setModalHeader={setModalHeader}
-          modalBody={modalBody}
-          setModalBody={setModalBody}
-          modalInputFields={modalInputFields}
-          setModalInputFields={setModalInputFields}
-          investorID={investorId}
-          setInvestorID={setInvestorId}
-          modalButtons={modalButtons}
-          setModalButtons={setModalButtons}
-          setSnackbarMessage={setSnackbarMessage}
-          setIsSnackbarVisible={setIsSnackbarVisible}
-          modalSnackbarMessage={modalSnackbarMessage}
-          setModalSnackbarMessage={setModalSnackbarMessage}
-          isModalSnackbarVisible={isModalSnackbarVisible}
-          setIsModalSnackbarVisible={setIsModalSnackbarVisible}
-        />
-        {/* Graph loading */}
-        {graphLoading ? (
-          <View style={styles.activityIndicator}>
-            <ActivityIndicator
-              size="large"
-              color={THEME.loadingIndicator.color}
-            />
-            <Text style={styles.text}>Getting latest portfolio data..</Text>
-          </View>
-        ) : // Graph failed to load
-        graphLoadingFailed ? (
-          <FailedStateView
-            imageSize={{ height: 250, width: 200 }}
-            errorMessage="400: Graph failed to load"
-            buttonText="Reload graph"
-            buttonAction={handlePressReloadGraph}
-          />
-        ) : (
-          // Graph loaded successfully
-          <View>
-            <View style={styles.graphDetailsContainer}>
-              <GraphDetailsHeader
-                graphTitle="Your Assets"
-                graphTrendData={portfolioData}
-                selectedTimeframe={selectedTimeframe}
-              />
-            </View>
-            <View style={styles.graphContainer}>
-              <CustomGraph
-                graphData={graphData}
-                getGraphData={getGraphData}
-                setSelectedTimeframe={setSelectedTimeframe}
-                selectedTimeframe={selectedTimeframe}
-                percentChanged={percentChanged}
-                yVals={yValues}
-                handlePressInGraph={handlePressInGraph}
-                handlePressOutGraph={handlePressOutGraph}
-                timeframeEnabled={true}
-              />
-            </View>
-          </View>
-        )}
-        {/* Invest */}
-        <View style={styles.investContainer}>
-          <InvestContainer
+        <View style={styles.container}>
+          {/* Modal */}
+          <CustomModal
+            isModalVisible={isModalVisible}
+            setIsModalVisible={setIsModalVisible}
+            modalType={modalType}
+            setModalType={setModalType}
+            modalTitle={modalTitle}
+            setModalTitle={setModalTitle}
+            modalHeader={modalHeader}
+            setModalHeader={setModalHeader}
+            modalBody={modalBody}
+            setModalBody={setModalBody}
+            modalInputFields={modalInputFields}
+            setModalInputFields={setModalInputFields}
+            investorID={investorId}
+            setInvestorID={setInvestorId}
+            modalButtons={modalButtons}
+            setModalButtons={setModalButtons}
             setSnackbarMessage={setSnackbarMessage}
             setIsSnackbarVisible={setIsSnackbarVisible}
-            modalProps={modalProps}
-            isRefreshing={isRefreshing}
-            navigation={navigation}
+            modalSnackbarMessage={modalSnackbarMessage}
+            setModalSnackbarMessage={setModalSnackbarMessage}
+            isModalSnackbarVisible={isModalSnackbarVisible}
+            setIsModalSnackbarVisible={setIsModalSnackbarVisible}
           />
+          {/* Graph loading */}
+          {graphLoading ? (
+            <View style={styles.activityIndicator}>
+              <ActivityIndicator
+                size="large"
+                color={THEME.loadingIndicator.color}
+              />
+              <Text style={styles.text}>Getting latest portfolio data..</Text>
+            </View>
+          ) : // Graph failed to load
+          graphLoadingFailed ? (
+            <FailedStateView
+              imageSize={{ height: 250, width: 200 }}
+              errorMessage="400: Graph failed to load"
+              buttonText="Reload graph"
+              buttonAction={handlePressReloadGraph}
+            />
+          ) : (
+            // Graph loaded successfully
+            <View>
+              <View style={styles.graphDetailsContainer}>
+                <GraphDetailsHeader
+                  graphTitle="Your Assets"
+                  graphTrendData={portfolioData}
+                  selectedTimeframe={selectedTimeframe}
+                />
+              </View>
+              <View style={styles.graphContainer}>
+                <CustomGraph
+                  graphData={graphData}
+                  getGraphData={getGraphData}
+                  setSelectedTimeframe={setSelectedTimeframe}
+                  selectedTimeframe={selectedTimeframe}
+                  percentChanged={percentChanged}
+                  yVals={yValues}
+                  handlePressInGraph={handlePressInGraph}
+                  handlePressOutGraph={handlePressOutGraph}
+                  timeframeEnabled={true}
+                />
+              </View>
+            </View>
+          )}
+          {/* Invest */}
+          <View style={styles.investContainer}>
+            <InvestContainer
+              setSnackbarMessage={setSnackbarMessage}
+              setIsSnackbarVisible={setIsSnackbarVisible}
+              modalProps={modalProps}
+              isRefreshing={isRefreshing}
+              navigation={navigation}
+            />
+          </View>
         </View>
       </ScrollView>
       {/* Snackbar */}
@@ -331,7 +339,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     paddingTop: "10%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
     backgroundColor: THEME.colors.background,
+  },
+  scrollViewContainer: {
+    flexGrow: 1,
   },
   text: {
     fontSize: THEME.text.fontSizeBody,
@@ -343,27 +356,15 @@ const styles = StyleSheet.create({
     height: "70%",
   },
   graphDetailsContainer: {
-    flex: 0.2,
-    width: "90%",
-    marginLeft: "5%",
-    marginTop: "5%",
-    marginRight: "5%",
+    paddingTop: "5%",
   },
   graphContainer: {
-    flex: 0.3,
     alignItems: "center",
-    width: "90%",
-    marginLeft: "5%",
-    marginTop: "2%",
-    marginRight: "5%",
+    paddingTop: "2%",
   },
   investContainer: {
-    flex: 0.5,
     alignItems: "center",
-    width: "90%",
-    marginLeft: "5%",
-    marginTop: "2%",
-    marginRight: "5%",
+    paddingTop: "2%",
   },
   snackbar: {
     backgroundColor: THEME.snackbar.color.background,
