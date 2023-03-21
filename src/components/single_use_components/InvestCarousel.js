@@ -11,8 +11,13 @@ import { THEME } from "../../constants/Theme";
 import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function InvestCarousel(props) {
-  const { setSnackbarMessage, setIsSnackbarVisible, modalProps, navigation } =
-    props;
+  const {
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    modalProps,
+    isRefreshing,
+    navigation,
+  } = props;
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
   // Options for the carousel tabs
@@ -136,9 +141,10 @@ export default function InvestCarousel(props) {
   }
 
   // Call investorlist when home page is loaded so investors are loaded when home page is
+  // Get new investor list if we refresh the home screen
   useEffect(() => {
     getInvestorList();
-  }, []);
+  }, [isRefreshing]);
 
   return (
     <View>
