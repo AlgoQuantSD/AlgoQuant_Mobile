@@ -5,7 +5,13 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import { View, ScrollView, ActivityIndicator, StyleSheet } from "react-native";
+import {
+  View,
+  ScrollView,
+  ActivityIndicator,
+  RefreshControl,
+  StyleSheet,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Snackbar, AnimatedFAB } from "react-native-paper";
 import CustomModal from "../reusable_components/CustomModal";
@@ -24,6 +30,7 @@ export default function HomeScreen() {
   const scrollViewRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isScrollEnabled, setIsScrollEnabled] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // AnimatedFAB
   const [isExtended, setIsExtended] = useState(true);
@@ -69,6 +76,16 @@ export default function HomeScreen() {
 
     setIsExtended(currentScrollPosition <= 0);
   };
+
+  // Do this when the user pulls down the screen to refresh
+  function onRefresh() {
+    setIsRefreshing(true);
+    // Get updated graph data
+    getGraphData(selectedTimeframe);
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 2000);
+  }
 
   const [selectedTimeframe, setSelectedTimeframe] = useState(
     timeframeEnums.DAY
@@ -169,6 +186,13 @@ export default function HomeScreen() {
         onScroll={handleScroll}
         scrollEventThrottle={10000}
         keyboardShouldPersistTaps="never"
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            tintColor={THEME.colors.primary}
+          />
+        }
       >
         {/* Modal */}
         <CustomModal
@@ -233,6 +257,7 @@ export default function HomeScreen() {
             setSnackbarMessage={setSnackbarMessage}
             setIsSnackbarVisible={setIsSnackbarVisible}
             modalProps={modalProps}
+            isRefreshing={isRefreshing}
             navigation={navigation}
           />
         </View>
