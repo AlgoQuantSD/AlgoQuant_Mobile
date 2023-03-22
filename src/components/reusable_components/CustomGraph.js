@@ -13,6 +13,7 @@ import {
   VictoryAxis,
 } from "victory-native";
 import { Button } from "react-native-paper";
+import { MOCK_GRAPH_DATA } from "../../constants/MockData";
 import { THEME, LINE_GRAPH_THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 import { format } from "d3-format";
@@ -29,6 +30,8 @@ export default function CustomGraph(props) {
     handlePressOutGraph,
     timeframeEnabled,
   } = props;
+
+  console.log("Graph data: ", graphData);
 
   const formatter = format(".2f");
   // This is used to conditionally style the text ot be green or red based on the stock trend

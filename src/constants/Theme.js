@@ -43,7 +43,7 @@ export const THEME = {
       H2: 36,
       H3: 28,
       H4: 22,
-      bold: 38 / PixelRatio.get(),
+      bold: 20,
       body: 16,
       modalBody: 14,
     },

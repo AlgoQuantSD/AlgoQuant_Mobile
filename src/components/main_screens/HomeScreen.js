@@ -22,7 +22,7 @@ import { timeframeEnums } from "../../constants/graphEnums";
 import CustomGraph from "../reusable_components/CustomGraph";
 import { FailedStateView } from "../reusable_components/FailedStateView";
 import GraphDetailsHeader from "../reusable_components/GraphDetailsHeader";
-import InvestContainer from "../single_use_components/InvestContainer";
+import InvestCarousel from "../single_use_components/InvestCarousel";
 import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function HomeScreen() {
@@ -250,7 +250,7 @@ export default function HomeScreen() {
             <View style={styles.activityIndicator}>
               <FailedStateView
                 imageSize={{ height: 250, width: 200 }}
-                errorMessage="400: Graph failed to load"
+                errorMessage="ERROR: Graph failed to load"
                 buttonText="Reload graph"
                 buttonAction={handlePressReloadGraph}
               />
@@ -283,7 +283,7 @@ export default function HomeScreen() {
           {/* Invest */}
           <View style={styles.investContainer}>
             <Text style={styles.headerText}>Invest</Text>
-            <InvestContainer
+            <InvestCarousel
               setSnackbarMessage={setSnackbarMessage}
               setIsSnackbarVisible={setIsSnackbarVisible}
               modalProps={modalProps}
