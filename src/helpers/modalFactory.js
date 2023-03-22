@@ -124,7 +124,7 @@ export function connectToAlpacaModalBuilder(props) {
       <Text
         style={{
           color: THEME.text.color.secondary,
-          fontSize: THEME.text.fontSizeModalBody,
+          fontSize: THEME.text.fontSize.modalBody,
         }}
       >
         Enter your Alpaca API keys below. Don't have an Alpaca account?{" "}
@@ -136,7 +136,7 @@ export function connectToAlpacaModalBuilder(props) {
           Sign up here{" "}
           <FontAwesome
             name="external-link"
-            size={THEME.text.fontSizeModalBody}
+            size={THEME.text.fontSize.modalBody}
             color={THEME.colors.secondary}
           />
         </Text>

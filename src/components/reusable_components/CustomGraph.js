@@ -180,8 +180,8 @@ export default function CustomGraph(props) {
                   }
                   textColor={
                     selectedTimeframe === timeframeEnums.DAY
-                      ? THEME.text.secondaryColor
-                      : THEME.text.primaryColor
+                      ? THEME.text.color.secondary
+                      : THEME.text.color.primary
                   }
                 >
                   D
@@ -200,8 +200,8 @@ export default function CustomGraph(props) {
                   }
                   textColor={
                     selectedTimeframe === timeframeEnums.FIVE
-                      ? THEME.text.secondaryColor
-                      : THEME.text.primaryColor
+                      ? THEME.text.color.secondary
+                      : THEME.text.color.primary
                   }
                 >
                   5D
@@ -220,8 +220,8 @@ export default function CustomGraph(props) {
                   }
                   textColor={
                     selectedTimeframe === timeframeEnums.MONTH
-                      ? THEME.text.secondaryColor
-                      : THEME.text.primaryColor
+                      ? THEME.text.color.secondary
+                      : THEME.text.color.primary
                   }
                 >
                   M
@@ -240,8 +240,8 @@ export default function CustomGraph(props) {
                   }
                   textColor={
                     selectedTimeframe === timeframeEnums.YEAR
-                      ? THEME.text.secondaryColor
-                      : THEME.text.primaryColor
+                      ? THEME.text.color.secondary
+                      : THEME.text.color.primary
                   }
                 >
                   Y

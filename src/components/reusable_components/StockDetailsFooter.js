@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   stockInfoTextItem: {
-    fontSize: THEME.text.fontSizeBody,
+    fontSize: THEME.text.fontSize.body,
     color: THEME.text.color.primary,
     paddingBottom: "3%",
   },

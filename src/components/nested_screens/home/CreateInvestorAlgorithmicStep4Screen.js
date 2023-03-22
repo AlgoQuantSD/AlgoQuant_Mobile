@@ -159,7 +159,7 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
               <Text style={styles.sectionTitleText}>Indicators</Text>
               <Button
                 buttonColor={THEME.button.primaryColorBackground}
-                textColor={THEME.text.secondaryColor}
+                textColor={THEME.text.color.secondary}
                 onPress={handleIndicatorViewChange}
               >
                 {isIndicatorSetToCarouselView ? "List View" : "Carousel View"}
@@ -179,7 +179,7 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
               <Text style={styles.sectionTitleText}>Stocks</Text>
               <Button
                 buttonColor={THEME.button.primaryColorBackground}
-                textColor={THEME.text.secondaryColor}
+                textColor={THEME.text.color.secondary}
                 onPress={handleStockViewChange}
               >
                 {isIndicatorSetToCarouselView ? "List View" : "Carousel View"}
@@ -197,7 +197,7 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
           <View style={styles.nextButtonContainer}>
             <Button
               buttonColor={THEME.button.primaryColorBackground}
-              textColor={THEME.text.secondaryColor}
+              textColor={THEME.text.color.secondary}
               onPress={handleCreateInvestorPress}
             >
               Create Investor

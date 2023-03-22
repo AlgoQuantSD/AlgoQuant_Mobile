@@ -47,16 +47,6 @@ export const THEME = {
       body: 16,
       modalBody: 14,
     },
-    fontSizeH1: 42,
-    fontSizeH2: 36,
-    fontSizeH3: 28,
-    fontSizeH4: 22,
-    fontSizeBold: 38 / PixelRatio.get(),
-    fontSizeBody: 16,
-    fontSizeModalBody: 26 / PixelRatio.get(),
-    primaryColor: PALETTE.primaryGreen,
-    secondaryColor: PALETTE.cokeWhite,
-    disabledColor: PALETTE.mediumGray,
   },
   button: {
     color: {

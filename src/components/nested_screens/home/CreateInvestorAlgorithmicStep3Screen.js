@@ -164,7 +164,7 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
         <View style={styles.nextButtonContainer}>
           <Button
             buttonColor={THEME.button.primaryColorBackground}
-            textColor={THEME.text.secondaryColor}
+            textColor={THEME.text.color.secondary}
             onPress={handlePressNext}
           >
             Next

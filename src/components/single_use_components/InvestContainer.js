@@ -4,8 +4,13 @@ import { THEME } from "../../constants/Theme";
 import InvestCarousel from "./InvestCarousel";
 
 export default function InvestContainer(props) {
-  const { setSnackbarMessage, setIsSnackbarVisible, navigation, isRefreshing, modalProps } =
-    props;
+  const {
+    setSnackbarMessage,
+    setIsSnackbarVisible,
+    navigation,
+    isRefreshing,
+    modalProps,
+  } = props;
   return (
     <View>
       <InvestCarousel
@@ -21,8 +26,8 @@ export default function InvestContainer(props) {
 
 const styles = StyleSheet.create({
   headerText: {
-    fontSize: THEME.text.fontSizeH1,
-    color: THEME.text.primaryColor,
+    fontSize: THEME.text.fontSize.H1,
+    color: THEME.text.color.primary,
     paddingTop: "5%",
     paddingBottom: "5%",
   },

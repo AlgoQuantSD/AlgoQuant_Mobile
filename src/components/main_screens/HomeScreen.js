@@ -349,12 +349,12 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.primaryColor,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
   },
   headerText: {
-    fontSize: THEME.text.fontSizeH1,
-    color: THEME.text.primaryColor,
+    fontSize: THEME.text.fontSize.H1,
+    color: THEME.text.color.primary,
     alignSelf: "flex-start",
     paddingTop: "5%",
     paddingBottom: "5%",

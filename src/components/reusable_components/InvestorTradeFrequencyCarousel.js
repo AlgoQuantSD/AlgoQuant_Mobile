@@ -97,8 +97,8 @@ const styles = StyleSheet.create({
   },
   headerText: {
     textAlign: "center",
-    color: THEME.text.secondaryColor,
-    fontSize: THEME.text.fontSizeH3,
+    color: THEME.text.color.secondary,
+    fontSize: THEME.text.fontSize.H3,
   },
   headerRowContainer: {
     flex: 0.15,

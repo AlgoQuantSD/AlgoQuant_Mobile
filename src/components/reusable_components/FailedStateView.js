@@ -16,7 +16,7 @@ export function FailedStateView(props) {
       <Text style={[styles.text, { paddingBottom: "2%" }]}>{errorMessage}</Text>
       <Button
         buttonColor={THEME.button.primaryColorBackground}
-        textColor={THEME.text.secondaryColor}
+        textColor={THEME.text.color.secondary}
         onPress={buttonAction}
       >
         {buttonText}
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     height: "70%",
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.primaryColor,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
   },
 });

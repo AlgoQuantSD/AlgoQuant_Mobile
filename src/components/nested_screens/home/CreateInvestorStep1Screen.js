@@ -140,7 +140,7 @@ export default function CreateInvestorStep1Screen({ navigation }) {
         <View style={styles.nextButtonContainer}>
           <Button
             buttonColor={THEME.button.primaryColorBackground}
-            textColor={THEME.text.secondaryColor}
+            textColor={THEME.text.color.secondary}
             onPress={handleNextPress}
           >
             Next

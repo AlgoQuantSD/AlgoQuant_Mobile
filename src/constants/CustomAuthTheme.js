@@ -28,7 +28,7 @@ export const CUSTOM_AUTH_THEME = {
   },
   sectionFooterLinkDisabled: {
     ...AmplifyTheme.sectionFooterLinkDisabled,
-    color: THEME.text.disabledColor,
+    color: THEME.text.color.disabled,
   },
   linkUnderlay: { color: THEME.colors.background },
   inputLabel: { ...AmplifyTheme.inputLabel, color: THEME.text.color.primary },

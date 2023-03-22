@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.colors.background,
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
+    fontSize: THEME.text.fontSize.body,
     color: THEME.text.color,
   },
   sectionTitleText: {
