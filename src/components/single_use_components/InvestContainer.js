@@ -8,7 +8,6 @@ export default function InvestContainer(props) {
     props;
   return (
     <View>
-      <Text style={styles.headerText}>Invest</Text>
       <InvestCarousel
         setSnackbarMessage={setSnackbarMessage}
         setIsSnackbarVisible={setIsSnackbarVisible}

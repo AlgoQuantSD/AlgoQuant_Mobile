@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     paddingTop: "10%",
   },
   listItems: {
-    height: "100%",
+    height: 700,
     alignItems: "center",
     width: "100%",
   },

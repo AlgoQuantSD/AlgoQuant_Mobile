@@ -204,7 +204,6 @@ export default function HomeScreen() {
           />
         }
         indicatorStyle="black"
-        scrollIndicatorInsets={{ backgroundColor: "red", borderRadius: 10 }}
         contentInset={{
           scrollbarThumbTintColor: "blue",
           scrollbarTrackTintColor: "yellow",
@@ -248,12 +247,14 @@ export default function HomeScreen() {
             </View>
           ) : // Graph failed to load
           graphLoadingFailed ? (
-            <FailedStateView
-              imageSize={{ height: 250, width: 200 }}
-              errorMessage="400: Graph failed to load"
-              buttonText="Reload graph"
-              buttonAction={handlePressReloadGraph}
-            />
+            <View style={styles.activityIndicator}>
+              <FailedStateView
+                imageSize={{ height: 250, width: 200 }}
+                errorMessage="400: Graph failed to load"
+                buttonText="Reload graph"
+                buttonAction={handlePressReloadGraph}
+              />
+            </View>
           ) : (
             // Graph loaded successfully
             <View>
@@ -281,6 +282,7 @@ export default function HomeScreen() {
           )}
           {/* Invest */}
           <View style={styles.investContainer}>
+            <Text style={styles.headerText}>Invest</Text>
             <InvestContainer
               setSnackbarMessage={setSnackbarMessage}
               setIsSnackbarVisible={setIsSnackbarVisible}
@@ -350,10 +352,17 @@ const styles = StyleSheet.create({
     fontSize: THEME.text.fontSizeBody,
     color: THEME.text.primaryColor,
   },
+  headerText: {
+    fontSize: THEME.text.fontSizeH1,
+    color: THEME.text.primaryColor,
+    alignSelf: "flex-start",
+    paddingTop: "5%",
+    paddingBottom: "5%",
+  },
   activityIndicator: {
     alignItems: "center",
     justifyContent: "center",
-    height: "70%",
+    height: 600,
   },
   graphDetailsContainer: {
     paddingTop: "5%",
@@ -365,6 +374,7 @@ const styles = StyleSheet.create({
   investContainer: {
     alignItems: "center",
     paddingTop: "2%",
+    maxHeight: 820,
   },
   snackbar: {
     backgroundColor: THEME.snackbar.color.background,

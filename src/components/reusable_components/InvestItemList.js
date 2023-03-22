@@ -175,11 +175,12 @@ const styles = StyleSheet.create({
     color: THEME.text.secondaryColor,
   },
   activityIndicator: {
+    flex: 1,
     paddingTop: "10%",
   },
   listItems: {
     alignItems: "center",
-    height: 600,
+    height: 700,
     width: "100%",
   },
   listItem: {
