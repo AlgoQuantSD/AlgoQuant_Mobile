@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -10,17 +10,77 @@ import {
 import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import { Ionicons } from "@expo/vector-icons";
-import { investorImagePathList } from "../../constants/InvestorImagePaths";
+import { INVESTOR_PERIOD_ENUM } from "../../constants/InvestorPeriodEnums";
+import {
+  INVESTOR_IMAGE_DAY_HIGH_FREQ,
+  INVESTOR_IMAGE_DAY_LOW_FREQ,
+  INVESTOR_IMAGE_SWING_HIGH_FREQ,
+  INVESTOR_IMAGE_SWING_LOW_FREQ,
+  INVESTOR_IMAGE_LONG_HIGH_FREQ,
+  INVESTOR_IMAGE_LONG_LOW_FREQ,
+} from "../../constants/InvestorImagePaths";
 import { THEME } from "../../constants/Theme";
 
 export default function InvestorTradeFrequencyCarousel(props) {
   const { data, selectedFrequency, setSelectedFrequency, setImageId } = props;
   const width = Dimensions.get("window").width;
-  console.log("Selected frequency: ", selectedFrequency);
+  console.log("Investor item: ", data);
 
-  function handleSelectFrequency(freq, imageId) {
+  // Set random investor images
+  const [investorImageDayHighFreq, setInvestorImageDayHighFreq] = useState(
+    INVESTOR_IMAGE_DAY_HIGH_FREQ[
+      Math.floor(Math.random() * INVESTOR_IMAGE_DAY_HIGH_FREQ.length)
+    ]
+  );
+  const [investorImageDayLowFreq, setInvestorImageDayLowFreq] = useState(
+    INVESTOR_IMAGE_DAY_LOW_FREQ[
+      Math.floor(Math.random() * INVESTOR_IMAGE_DAY_LOW_FREQ.length)
+    ]
+  );
+  const [investorImageSwingHighFreq, setInvestorImageSwingHighFreq] = useState(
+    INVESTOR_IMAGE_SWING_HIGH_FREQ[
+      Math.floor(Math.random() * INVESTOR_IMAGE_SWING_HIGH_FREQ.length)
+    ]
+  );
+  const [investorImageSwingLowFreq, setInvestorImageSwingLowFreq] = useState(
+    INVESTOR_IMAGE_SWING_LOW_FREQ[
+      Math.floor(Math.random() * INVESTOR_IMAGE_SWING_LOW_FREQ.length)
+    ]
+  );
+  const [investorImageLongHighFreq, setInvestorImageLongHighFreq] = useState(
+    INVESTOR_IMAGE_LONG_HIGH_FREQ[
+      Math.floor(Math.random() * INVESTOR_IMAGE_LONG_HIGH_FREQ.length)
+    ]
+  );
+  const [investorImageLongLowFreq, setInvestorImageLongLowFreq] = useState(
+    INVESTOR_IMAGE_LONG_LOW_FREQ[
+      Math.floor(Math.random() * INVESTOR_IMAGE_LONG_LOW_FREQ.length)
+    ]
+  );
+
+  // Assign values for selected frequency and the investor image in the investor object
+  function handleSelectFrequency(freq) {
+    console.log("Selected freq: ", freq);
     setSelectedFrequency(freq);
-    setImageId(imageId);
+    setImageId(getInvestorImage(freq));
+  }
+  // Get the correct investor image based on trade frequency
+  function getInvestorImage(freq) {
+    console.log("Period: ", freq);
+    switch (freq) {
+      case INVESTOR_PERIOD_ENUM.DAY_HIGH_FREQ:
+        return investorImageDayHighFreq;
+      case INVESTOR_PERIOD_ENUM.DAY_LOW_FREQ:
+        return investorImageDayLowFreq;
+      case INVESTOR_PERIOD_ENUM.SWING_HIGH_FREQ:
+        return investorImageSwingHighFreq;
+      case INVESTOR_PERIOD_ENUM.SWING_LOW_FREQ:
+        return investorImageSwingLowFreq;
+      case INVESTOR_PERIOD_ENUM.LONG_HIGH_FREQ:
+        return investorImageLongHighFreq;
+      case INVESTOR_PERIOD_ENUM.LONG_LOW_FREQ:
+        return investorImageLongLowFreq;
+    }
   }
   return (
     <Animated.View
@@ -44,7 +104,7 @@ export default function InvestorTradeFrequencyCarousel(props) {
             <View style={styles.investorImageContainer}>
               <Image
                 style={styles.investorImage}
-                source={investorImagePathList[item.imageId]}
+                source={{ uri: getInvestorImage(item.value) }}
               />
             </View>
             <View style={styles.tradeFrequencyDescriptionContainer}>
@@ -53,7 +113,7 @@ export default function InvestorTradeFrequencyCarousel(props) {
             <View style={styles.footerRow}>
               <TouchableOpacity
                 hitSlop={{ top: 30, bottom: 30, left: 30 }}
-                onPress={() => handleSelectFrequency(item.value, item.imageId)}
+                onPress={() => handleSelectFrequency(item.value)}
               >
                 {item.value === selectedFrequency ? (
                   <View
@@ -114,7 +174,7 @@ const styles = StyleSheet.create({
   investorImage: {
     justifyContent: "center",
     height: "100%",
-    width: "25%",
+    width: "30%",
   },
   tradeFrequencyDescriptionContainer: {
     flex: 0.2,
