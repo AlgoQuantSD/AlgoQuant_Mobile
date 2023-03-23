@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -61,8 +61,9 @@ export default function InvestorTradeFrequencyCarousel(props) {
   // Assign values for selected frequency and the investor image in the investor object
   function handleSelectFrequency(freq) {
     console.log("Selected freq: ", freq);
+    let imageId = getInvestorImage(freq);
     setSelectedFrequency(freq);
-    setImageId(getInvestorImage(freq));
+    setImageId(imageId);
   }
   // Get the correct investor image based on trade frequency
   function getInvestorImage(freq) {
@@ -82,6 +83,11 @@ export default function InvestorTradeFrequencyCarousel(props) {
         return investorImageLongLowFreq;
     }
   }
+
+  // Set the image id in the case that the user doesnt change their trade frequency
+  useEffect(() => {
+    setImageId(investorImageDayHighFreq);
+  }, []);
   return (
     <Animated.View
       entering={BounceIn.delay(500)}
