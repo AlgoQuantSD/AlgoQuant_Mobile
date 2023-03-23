@@ -308,7 +308,7 @@ export default function InvestorScreen(props) {
               <Text style={styles.sectionTitleText}>Indicators</Text>
               <Button
                 buttonColor={THEME.button.primaryColorBackground}
-                textColor={THEME.text.secondaryColor}
+                textColor={THEME.text.color.secondary}
                 onPress={handleIndicatorViewChange}
               >
                 {isIndicatorSetToCarouselView ? "List View" : "Carousel View"}

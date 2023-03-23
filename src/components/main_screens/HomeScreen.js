@@ -20,8 +20,9 @@ import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 import CustomGraph from "../reusable_components/CustomGraph";
+import { FailedStateView } from "../reusable_components/FailedStateView";
 import GraphDetailsHeader from "../reusable_components/GraphDetailsHeader";
-import InvestContainer from "../single_use_components/InvestContainer";
+import InvestCarousel from "../single_use_components/InvestCarousel";
 import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function HomeScreen() {
@@ -52,6 +53,23 @@ export default function HomeScreen() {
   const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
   const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(null);
 
+  const [selectedTimeframe, setSelectedTimeframe] = useState(
+    timeframeEnums.DAY
+  );
+
+  // initial value is an array because victorycharts takes data prop as array or objects only
+  const [graphData, setGraphData] = useState([0]);
+  const [yValues, setYValues] = useState([]);
+
+  // All state variables for stock related data / statistics
+  const [percentChanged, setPercentChanged] = useState(null);
+  const [priceChange, setPriceChange] = useState(null);
+  const [dateClosed, setDateClosed] = useState(null);
+  const [marketClosed, setMarketClosed] = useState(false);
+  const [recentPrice, setRecentPrice] = useState(0);
+  const [graphLoading, setGraphLoading] = useState(true);
+  const [graphLoadingFailed, setGraphLoadingFailed] = useState(false);
+
   // Handle different presses
   function handlePressInGraph() {
     setIsScrollEnabled(false);
@@ -61,6 +79,11 @@ export default function HomeScreen() {
   }
   function handlePressCreateInvestor() {
     navigation.navigate("CreateInvestorStep1Screen");
+  }
+  function handlePressReloadGraph() {
+    setGraphLoadingFailed(false);
+    setSelectedTimeframe(timeframeEnums.DAY);
+    getGraphData(timeframeEnums.DAY);
   }
   const handleContentSizeChange = (contentWidth, contentHeight) => {
     scrollViewRef.current.scrollTo({
@@ -87,22 +110,6 @@ export default function HomeScreen() {
       setIsRefreshing(false);
     }, 2000);
   }
-
-  const [selectedTimeframe, setSelectedTimeframe] = useState(
-    timeframeEnums.DAY
-  );
-
-  // initial value is an array because victorycharts takes data prop as array or objects only
-  const [graphData, setGraphData] = useState([0]);
-  const [yValues, setYValues] = useState([]);
-
-  // All state variables for stock related data / statistics
-  const [percentChanged, setPercentChanged] = useState(null);
-  const [priceChange, setPriceChange] = useState(null);
-  const [dateClosed, setDateClosed] = useState(null);
-  const [marketClosed, setMarketClosed] = useState(false);
-  const [recentPrice, setRecentPrice] = useState(0);
-  const [graphLoading, setGraphLoading] = useState(true);
 
   const portfolioData = {
     recentPrice: recentPrice,
@@ -168,6 +175,8 @@ export default function HomeScreen() {
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
+            setGraphLoading(false);
+            setGraphLoadingFailed(true);
             console.log(err);
           });
       }
@@ -179,7 +188,7 @@ export default function HomeScreen() {
   }, [algoquantApi]);
 
   return (
-    <View style={styles.container}>
+    <View style={{ backgroundColor: THEME.colors.background }}>
       <ScrollView
         scrollEnabled={isScrollEnabled}
         ref={scrollViewRef}
@@ -194,74 +203,94 @@ export default function HomeScreen() {
             tintColor={THEME.colors.primary}
           />
         }
+        indicatorStyle="black"
+        contentInset={{
+          scrollbarThumbTintColor: "blue",
+          scrollbarTrackTintColor: "yellow",
+        }}
+        style={styles.scrollViewContainer}
       >
-        {/* Modal */}
-        <CustomModal
-          isModalVisible={isModalVisible}
-          setIsModalVisible={setIsModalVisible}
-          modalType={modalType}
-          setModalType={setModalType}
-          modalTitle={modalTitle}
-          setModalTitle={setModalTitle}
-          modalHeader={modalHeader}
-          setModalHeader={setModalHeader}
-          modalBody={modalBody}
-          setModalBody={setModalBody}
-          modalInputFields={modalInputFields}
-          setModalInputFields={setModalInputFields}
-          investorID={investorId}
-          setInvestorID={setInvestorId}
-          modalButtons={modalButtons}
-          setModalButtons={setModalButtons}
-          setSnackbarMessage={setSnackbarMessage}
-          setIsSnackbarVisible={setIsSnackbarVisible}
-          modalSnackbarMessage={modalSnackbarMessage}
-          setModalSnackbarMessage={setModalSnackbarMessage}
-          isModalSnackbarVisible={isModalSnackbarVisible}
-          setIsModalSnackbarVisible={setIsModalSnackbarVisible}
-        />
-        {graphLoading ? (
-          <View style={styles.activityIndicator}>
-            <ActivityIndicator
-              size="large"
-              color={THEME.loadingIndicator.color}
-            />
-            <Text style={styles.text}>Getting latest portfolio data..</Text>
-          </View>
-        ) : (
-          // Graph
-          <View>
-            <View style={styles.graphDetailsContainer}>
-              <GraphDetailsHeader
-                graphTitle="Your Assets"
-                graphTrendData={portfolioData}
-                selectedTimeframe={selectedTimeframe}
-              />
-            </View>
-            <View style={styles.graphContainer}>
-              <CustomGraph
-                graphData={graphData}
-                getGraphData={getGraphData}
-                setSelectedTimeframe={setSelectedTimeframe}
-                selectedTimeframe={selectedTimeframe}
-                percentChanged={percentChanged}
-                yVals={yValues}
-                handlePressInGraph={handlePressInGraph}
-                handlePressOutGraph={handlePressOutGraph}
-                timeframeEnabled={true}
-              />
-            </View>
-          </View>
-        )}
-        {/* Invest */}
-        <View style={styles.investContainer}>
-          <InvestContainer
+        <View style={styles.container}>
+          {/* Modal */}
+          <CustomModal
+            isModalVisible={isModalVisible}
+            setIsModalVisible={setIsModalVisible}
+            modalType={modalType}
+            setModalType={setModalType}
+            modalTitle={modalTitle}
+            setModalTitle={setModalTitle}
+            modalHeader={modalHeader}
+            setModalHeader={setModalHeader}
+            modalBody={modalBody}
+            setModalBody={setModalBody}
+            modalInputFields={modalInputFields}
+            setModalInputFields={setModalInputFields}
+            investorID={investorId}
+            setInvestorID={setInvestorId}
+            modalButtons={modalButtons}
+            setModalButtons={setModalButtons}
             setSnackbarMessage={setSnackbarMessage}
             setIsSnackbarVisible={setIsSnackbarVisible}
-            modalProps={modalProps}
-            isRefreshing={isRefreshing}
-            navigation={navigation}
+            modalSnackbarMessage={modalSnackbarMessage}
+            setModalSnackbarMessage={setModalSnackbarMessage}
+            isModalSnackbarVisible={isModalSnackbarVisible}
+            setIsModalSnackbarVisible={setIsModalSnackbarVisible}
           />
+          {/* Graph loading */}
+          {graphLoading ? (
+            <View style={styles.activityIndicator}>
+              <ActivityIndicator
+                size="large"
+                color={THEME.loadingIndicator.color}
+              />
+              <Text style={styles.text}>Getting latest portfolio data..</Text>
+            </View>
+          ) : // Graph failed to load
+          graphLoadingFailed ? (
+            <View style={styles.activityIndicator}>
+              <FailedStateView
+                imageSize={{ height: 250, width: 200 }}
+                errorMessage="ERROR: Graph failed to load"
+                buttonText="Reload graph"
+                buttonAction={handlePressReloadGraph}
+              />
+            </View>
+          ) : (
+            // Graph loaded successfully
+            <View>
+              <View style={styles.graphDetailsContainer}>
+                <GraphDetailsHeader
+                  graphTitle="Your Assets"
+                  graphTrendData={portfolioData}
+                  selectedTimeframe={selectedTimeframe}
+                />
+              </View>
+              <View style={styles.graphContainer}>
+                <CustomGraph
+                  graphData={graphData}
+                  getGraphData={getGraphData}
+                  setSelectedTimeframe={setSelectedTimeframe}
+                  selectedTimeframe={selectedTimeframe}
+                  percentChanged={percentChanged}
+                  yVals={yValues}
+                  handlePressInGraph={handlePressInGraph}
+                  handlePressOutGraph={handlePressOutGraph}
+                  timeframeEnabled={true}
+                />
+              </View>
+            </View>
+          )}
+          {/* Invest */}
+          <View style={styles.investContainer}>
+            <Text style={styles.headerText}>Invest</Text>
+            <InvestCarousel
+              setSnackbarMessage={setSnackbarMessage}
+              setIsSnackbarVisible={setIsSnackbarVisible}
+              modalProps={modalProps}
+              isRefreshing={isRefreshing}
+              navigation={navigation}
+            />
+          </View>
         </View>
       </ScrollView>
       {/* Snackbar */}
@@ -312,39 +341,40 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     paddingTop: "10%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
     backgroundColor: THEME.colors.background,
   },
+  scrollViewContainer: {
+    flexGrow: 1,
+  },
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.primaryColor,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
+  },
+  headerText: {
+    fontSize: THEME.text.fontSize.H1,
+    color: THEME.text.color.primary,
+    alignSelf: "flex-start",
+    paddingTop: "5%",
+    paddingBottom: "5%",
   },
   activityIndicator: {
     alignItems: "center",
     justifyContent: "center",
-    height: "70%",
+    height: 600,
   },
   graphDetailsContainer: {
-    flex: 0.2,
-    width: "90%",
-    marginLeft: "5%",
-    marginTop: "5%",
-    marginRight: "5%",
+    paddingTop: "5%",
   },
   graphContainer: {
-    flex: 0.3,
     alignItems: "center",
-    width: "90%",
-    marginLeft: "5%",
-    marginTop: "2%",
-    marginRight: "5%",
+    paddingTop: "2%",
   },
   investContainer: {
-    flex: 0.5,
     alignItems: "center",
-    width: "90%",
-    marginLeft: "5%",
-    marginTop: "2%",
-    marginRight: "5%",
+    paddingTop: "2%",
+    maxHeight: 820,
   },
   snackbar: {
     backgroundColor: THEME.snackbar.color.background,

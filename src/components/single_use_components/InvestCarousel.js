@@ -244,15 +244,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.primaryColor,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
   },
   carouselHeader: {
     paddingLeft: "4%",
     paddingRight: "4%",
   },
   selectedCarouselOption: {
-    fontSize: THEME.text.fontSizeBody,
+    fontSize: THEME.text.fontSize.body,
     color: THEME.colors.primaryColor,
     textDecorationLine: "underline",
   },

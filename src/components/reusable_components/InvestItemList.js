@@ -167,19 +167,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   primaryText: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.primaryColor,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
   },
   secondaryText: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.secondaryColor,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.secondary,
   },
   activityIndicator: {
+    flex: 1,
     paddingTop: "10%",
   },
   listItems: {
     alignItems: "center",
-    height: 600,
+    height: 700,
     width: "100%",
   },
   listItem: {
@@ -202,8 +203,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   listItemName: {
-    fontSize: THEME.text.fontSizeH3,
-    color: THEME.text.secondaryColor,
+    fontSize: THEME.text.fontSize.H3,
+    color: THEME.text.color.secondary,
   },
   imageContainer: {
     flex: 0.4,
@@ -216,12 +217,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   indictorAndStockHeaderText: {
-    fontSize: THEME.text.fontSizeH4,
-    color: THEME.text.secondaryColor,
+    fontSize: THEME.text.fontSize.H4,
+    color: THEME.text.color.secondary,
   },
   indictorAndStockText: {
-    fontSize: THEME.text.fontSizeBody,
-    color: THEME.text.secondaryColor,
+    fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.secondary,
   },
   indicatorCol: {
     flexDirection: "col",

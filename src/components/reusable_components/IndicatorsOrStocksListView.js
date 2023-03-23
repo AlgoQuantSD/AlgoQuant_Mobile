@@ -19,7 +19,7 @@ export default function IndicatorsOrStocksListView(props) {
           }}
         >
           {chunk.map((item) => (
-            <Text key={item} style={{ color: THEME.text.primaryColor }}>
+            <Text key={item} style={{ color: THEME.text.color.primary }}>
               {item}
             </Text>
           ))}

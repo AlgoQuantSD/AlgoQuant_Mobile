@@ -87,7 +87,7 @@ export default function BacktestAnalysisView(props) {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: THEME.text.fontSizeBody,
+    fontSize: THEME.text.fontSize.body,
     color: THEME.text.color,
   },
   sectionTitleText: {

@@ -22,11 +22,11 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
+    fontSize: THEME.text.fontSize.body,
     color: THEME.text.color,
   },
   headerText: {
-    fontSize: THEME.text.fontSizeH1,
+    fontSize: THEME.text.fontSize.H1,
     color: THEME.text.color,
     paddingBottom: "5%",
   },

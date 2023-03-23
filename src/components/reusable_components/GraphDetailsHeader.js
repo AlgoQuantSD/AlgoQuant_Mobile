@@ -110,16 +110,16 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: THEME.text.fontSize.body,
-    color: THEME.text.primaryColor,
+    color: THEME.text.color.primary,
   },
   headerText: {
-    fontSize: THEME.text.fontSizeH1,
-    color: THEME.text.primaryColor,
+    fontSize: THEME.text.fontSize.H1,
+    color: THEME.text.color.primary,
     paddingBottom: "2%",
   },
   recentPriceText: {
-    fontSize: THEME.text.fontSizeH3,
-    color: THEME.text.primaryColor,
+    fontSize: THEME.text.fontSize.H3,
+    color: THEME.text.color.primary,
   },
   trendingUpText: {
     fontSize: THEME.text.fontSize.body,

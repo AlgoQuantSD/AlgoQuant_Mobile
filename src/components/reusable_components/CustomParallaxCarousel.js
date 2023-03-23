@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    color: THEME.text.secondaryColor,
-    fontSize: THEME.text.fontSizeH3,
+    color: THEME.text.color.secondary,
+    fontSize: THEME.text.fontSize.H3,
   },
 });

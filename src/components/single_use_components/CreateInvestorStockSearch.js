@@ -42,7 +42,7 @@ export default function CreateInvestorStockSearch(props) {
         style={styles.searchbar}
         inputStyle={{ color: THEME.text.color.primary }}
         iconColor={THEME.icon.color.primary}
-        placeholderTextColor={THEME.text.disabledColor}
+        placeholderTextColor={THEME.text.color.disabled}
         theme={customRNPaperTheme}
       />
       {/* Render the list of results after loading is done */}

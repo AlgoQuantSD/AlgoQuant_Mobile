@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     paddingTop: "10%",
   },
   listItems: {
-    height: "100%",
+    height: 700,
     alignItems: "center",
     width: "100%",
   },
@@ -190,15 +190,15 @@ const styles = StyleSheet.create({
   investorImage: { height: 30, width: 20 },
   investorNameText: {
     fontSize: 10,
-    color: THEME.text.secondaryColor,
+    color: THEME.text.color.secondary,
   },
   percentChangeUpText: {
-    fontSize: THEME.text.fontSizeBody,
+    fontSize: THEME.text.fontSize.body,
     color: THEME.colors.trendingUp,
     marginLeft: "2%",
   },
   percentChangeDownText: {
-    fontSize: THEME.text.fontSizeBody,
+    fontSize: THEME.text.fontSize.body,
     color: THEME.colors.trendingDown,
     marginLeft: "2%",
   },

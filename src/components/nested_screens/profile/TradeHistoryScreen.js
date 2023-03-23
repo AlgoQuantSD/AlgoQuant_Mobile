@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   text: {
-    fontSize: THEME.text.fontSizeBody,
+    fontSize: THEME.text.fontSize.body,
     color: THEME.text.color,
   },
 });

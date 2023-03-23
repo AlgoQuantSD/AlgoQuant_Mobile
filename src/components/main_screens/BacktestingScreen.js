@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     fontSize: THEME.text.fontSize.body,
   },
   containerInner: {
-    flexGrow1: 1,
+    flexGrow: 1,
     width: "90%",
     paddingTop: "5%",
   },
