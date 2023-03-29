@@ -12,12 +12,8 @@ import Carousel from "react-native-reanimated-carousel";
 import { Ionicons } from "@expo/vector-icons";
 import { INVESTOR_PERIOD_ENUM } from "../../constants/InvestorPeriodEnums";
 import {
-  INVESTOR_IMAGE_DAY_HIGH_FREQ,
-  INVESTOR_IMAGE_DAY_LOW_FREQ,
-  INVESTOR_IMAGE_SWING_HIGH_FREQ,
-  INVESTOR_IMAGE_SWING_LOW_FREQ,
-  INVESTOR_IMAGE_LONG_HIGH_FREQ,
-  INVESTOR_IMAGE_LONG_LOW_FREQ,
+  NUM_INVESTOR_IMAGES_PER_FREQ,
+  INVESTOR_IMAGE_BASE_URL,
 } from "../../constants/InvestorImagePaths";
 import { THEME } from "../../constants/Theme";
 
@@ -28,45 +24,39 @@ export default function InvestorTradeFrequencyCarousel(props) {
 
   // Set random investor images
   const [investorImageDayHighFreq, setInvestorImageDayHighFreq] = useState(
-    INVESTOR_IMAGE_DAY_HIGH_FREQ[
-      Math.floor(Math.random() * INVESTOR_IMAGE_DAY_HIGH_FREQ.length)
-    ]
+    Math.floor(Math.random() * NUM_INVESTOR_IMAGES_PER_FREQ) + 1
   );
   const [investorImageDayLowFreq, setInvestorImageDayLowFreq] = useState(
-    INVESTOR_IMAGE_DAY_LOW_FREQ[
-      Math.floor(Math.random() * INVESTOR_IMAGE_DAY_LOW_FREQ.length)
-    ]
+    Math.floor(Math.random() * NUM_INVESTOR_IMAGES_PER_FREQ) + 1
   );
   const [investorImageSwingHighFreq, setInvestorImageSwingHighFreq] = useState(
-    INVESTOR_IMAGE_SWING_HIGH_FREQ[
-      Math.floor(Math.random() * INVESTOR_IMAGE_SWING_HIGH_FREQ.length)
-    ]
+    Math.floor(Math.random() * NUM_INVESTOR_IMAGES_PER_FREQ) + 1
   );
   const [investorImageSwingLowFreq, setInvestorImageSwingLowFreq] = useState(
-    INVESTOR_IMAGE_SWING_LOW_FREQ[
-      Math.floor(Math.random() * INVESTOR_IMAGE_SWING_LOW_FREQ.length)
-    ]
+    Math.floor(Math.random() * NUM_INVESTOR_IMAGES_PER_FREQ) + 1
   );
   const [investorImageLongHighFreq, setInvestorImageLongHighFreq] = useState(
-    INVESTOR_IMAGE_LONG_HIGH_FREQ[
-      Math.floor(Math.random() * INVESTOR_IMAGE_LONG_HIGH_FREQ.length)
-    ]
+    Math.floor(Math.random() * NUM_INVESTOR_IMAGES_PER_FREQ) + 1
   );
   const [investorImageLongLowFreq, setInvestorImageLongLowFreq] = useState(
-    INVESTOR_IMAGE_LONG_LOW_FREQ[
-      Math.floor(Math.random() * INVESTOR_IMAGE_LONG_LOW_FREQ.length)
-    ]
+    Math.floor(Math.random() * NUM_INVESTOR_IMAGES_PER_FREQ) + 1
   );
 
   // Assign values for selected frequency and the investor image in the investor object
   function handleSelectFrequency(freq) {
     console.log("Selected freq: ", freq);
-    let imageId = getInvestorImage(freq);
     setSelectedFrequency(freq);
-    setImageId(imageId);
+    setImageId(
+      INVESTOR_IMAGE_BASE_URL +
+        "/" +
+        freq +
+        "/" +
+        getInvestorImageNumber(freq) +
+        ".png"
+    );
   }
   // Get the correct investor image based on trade frequency
-  function getInvestorImage(freq) {
+  function getInvestorImageNumber(freq) {
     console.log("Period: ", freq);
     switch (freq) {
       case INVESTOR_PERIOD_ENUM.DAY_HIGH_FREQ:
@@ -86,7 +76,9 @@ export default function InvestorTradeFrequencyCarousel(props) {
 
   // Set the image id in the case that the user doesnt change their trade frequency
   useEffect(() => {
-    setImageId(investorImageDayHighFreq);
+    setImageId(
+      INVESTOR_IMAGE_BASE_URL + "/30_min/" + investorImageDayHighFreq + ".png"
+    );
   }, []);
   return (
     <Animated.View
@@ -110,7 +102,15 @@ export default function InvestorTradeFrequencyCarousel(props) {
             <View style={styles.investorImageContainer}>
               <Image
                 style={styles.investorImage}
-                source={{ uri: getInvestorImage(item.value) }}
+                source={{
+                  uri:
+                    INVESTOR_IMAGE_BASE_URL +
+                    "/" +
+                    item.value +
+                    "/" +
+                    getInvestorImageNumber(item.value) +
+                    ".png",
+                }}
               />
             </View>
             <View style={styles.tradeFrequencyDescriptionContainer}>
