@@ -59,6 +59,7 @@ export default function CustomModal(props) {
     setShouldNavigateBack,
     jobID,
     investorID,
+    navigation,
   } = props;
 
   // Close the modal and clear the modal information
@@ -116,6 +117,7 @@ export default function CustomModal(props) {
       setShouldNavigateBack,
       jobID,
       investorID,
+      navigation,
     };
     switch (modalType) {
       case "EDIT_NAME":
@@ -188,10 +190,7 @@ export default function CustomModal(props) {
       >
         {isLoading ? (
           <View style={styles.loadingIndicator}>
-            <ActivityIndicator
-              size="large"
-              color={THEME.loadingIndicator.color}
-            />
+            <ActivityIndicator size="large" color={THEME.activityIndicator.color} />
           </View>
         ) : null}
         <View style={styles.headerContainer}>

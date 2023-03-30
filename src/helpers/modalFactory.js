@@ -430,6 +430,7 @@ export function stopJobModalBuilder(props) {
     setModalHeader,
     setModalBody,
     setModalButtons,
+    navigation,
   } = props;
   setModalType("STOP_JOB");
   setModalTitle("Stop Job");

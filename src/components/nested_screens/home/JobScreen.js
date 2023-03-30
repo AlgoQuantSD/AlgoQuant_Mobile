@@ -4,9 +4,11 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
   RefreshControl,
   StyleSheet,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { Snackbar } from "react-native-paper";
 import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
@@ -24,9 +26,12 @@ import { jobHistoryColumns } from "../../../helpers/tableColumns";
 
 export default function JobScreen(props) {
   const { jobID, jobType } = props.route.params;
+  const navigation = useNavigation();
 
   // Screen refresh
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   // Graph state
   // initial value is an array because victorycharts takes data prop as array or objects only
@@ -102,6 +107,7 @@ export default function JobScreen(props) {
       algoquantApi
         .getJob(jobID)
         .then((resp) => {
+          console.log("Job response: ", resp.data);
           setJob(resp.data);
           setStartDate(
             new Date(parseInt(resp.data.start_time)).toLocaleString("en-US", {
@@ -216,6 +222,10 @@ export default function JobScreen(props) {
   // there are any trades in history and to populate the first few into the History array
   // get the data for the job clicked by the user
   useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
     fetchJobsTrades();
     getGraphData("D");
     getJob();
@@ -223,111 +233,129 @@ export default function JobScreen(props) {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={{ flexGrow: 1 }}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-            tintColor={THEME.colors.primary}
+      {isLoading ? (
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <ActivityIndicator
+            color={THEME.activityIndicator.color.primary}
+            size="large"
           />
-        }
-      >
-        {/* Modal */}
-        <CustomModal
-          isModalVisible={isModalVisible}
-          setIsModalVisible={setIsModalVisible}
-          modalType={modalType}
-          setModalType={setModalType}
-          modalTitle={modalTitle}
-          setModalTitle={setModalTitle}
-          modalHeader={modalHeader}
-          setModalHeader={setModalHeader}
-          modalBody={modalBody}
-          setModalBody={setModalBody}
-          modalButtons={modalButtons}
-          setModalButtons={setModalButtons}
-          setSnackbarMessage={setSnackbarMessage}
-          setIsSnackbarVisible={setIsSnackbarVisible}
-          jobID={jobID}
-        />
-        {/* Header Row */}
-        <View style={styles.headerContainer}>
-          <GraphDetailsHeader
-            graphTitle={job?.name}
-            graphTrendData={jobsAggregatedData}
-            selectedTimeframe={selectedTimeframe}
-          />
-          {jobType === "CAROUSEL_TAB_JOBS" ||
-          jobType === ChipJobTypes.Active ? (
-            <TouchableOpacity
-              style={styles.headerRowIcon}
-              onPress={handleStopIconPress}
-            >
-              <View>
-                <Text style={styles.text}>Job Active</Text>
-                <Text style={styles.text}>{startDate}</Text>
-              </View>
-
-              <Ionicons
-                name={THEME.icon.name.stopJob}
-                color={THEME.icon.color.primary}
-                size={THEME.icon.size.large}
-              />
-            </TouchableOpacity>
-          ) : (
-            <View style={styles.headerRowIcon}>
-              <View>
-                <Text style={styles.text}>Job Inactive</Text>
-                <Text style={styles.text}>
-                  {startDate} - {endDate}
-                </Text>
-              </View>
-
-              <Ionicons
-                name={THEME.icon.name.inactiveJob}
-                color={THEME.icon.color.primary}
-                size={32}
-              />
-            </View>
-          )}
         </View>
-        {/* Graph */}
-        <View style={styles.graphContainer}>
-          {/* This is was added to enhance the performance of the modal. 
+      ) : (
+        <ScrollView
+          style={{ flexGrow: 1 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefresh}
+              tintColor={THEME.colors.primary}
+            />
+          }
+        >
+          {/* Modal */}
+          <CustomModal
+            isModalVisible={isModalVisible}
+            setIsModalVisible={setIsModalVisible}
+            modalType={modalType}
+            setModalType={setModalType}
+            modalTitle={modalTitle}
+            setModalTitle={setModalTitle}
+            modalHeader={modalHeader}
+            setModalHeader={setModalHeader}
+            modalBody={modalBody}
+            setModalBody={setModalBody}
+            modalButtons={modalButtons}
+            setModalButtons={setModalButtons}
+            setSnackbarMessage={setSnackbarMessage}
+            setIsSnackbarVisible={setIsSnackbarVisible}
+            jobID={jobID}
+            navigation={navigation}
+          />
+          {/* Header Row */}
+          <View style={styles.headerContainer}>
+            <GraphDetailsHeader
+              graphTitle={job?.name}
+              graphTrendData={jobsAggregatedData}
+              selectedTimeframe={selectedTimeframe}
+            />
+            {job?.status === "active-I" ? (
+              <TouchableOpacity
+                style={styles.headerRowIcon}
+                onPress={handleStopIconPress}
+              >
+                <View>
+                  <Text style={styles.text}>Job Active</Text>
+                  <Text style={styles.text}>{startDate}</Text>
+                </View>
+
+                <Ionicons
+                  name={THEME.icon.name.stopJob}
+                  color={THEME.icon.color.primary}
+                  size={THEME.icon.size.large}
+                />
+              </TouchableOpacity>
+            ) : job?.status === "stopping" ? (
+              <View style={styles.headerRowIcon}>
+                <View>
+                  <Text style={styles.text}>Job Stopping</Text>
+                </View>
+
+                <ActivityIndicator color={THEME.icon.color.primary} size={32} />
+              </View>
+            ) : (
+              <View style={styles.headerRowIcon}>
+                <View>
+                  <Text style={styles.text}>Job Inactive</Text>
+                  <Text style={styles.text}>
+                    {startDate} - {endDate}
+                  </Text>
+                </View>
+
+                <Ionicons
+                  name={THEME.icon.name.inactiveJob}
+                  color={THEME.icon.color.primary}
+                  size={32}
+                />
+              </View>
+            )}
+          </View>
+          {/* Graph */}
+          <View style={styles.graphContainer}>
+            {/* This is was added to enhance the performance of the modal. 
         If the graph is in the background while we activate the modal, 
         the modal will have a laggy enter and exit animation */}
-          {isModalVisible ? null : jobType === "CAROUSEL_TAB_JOBS" ||
-            jobType === ChipJobTypes.Active ? (
-            <CustomGraph
-              graphData={graphData}
-              getGraphData={getGraphData}
-              setSelectedTimeframe={setSelectedTimeframe}
-              selectedTimeframe={selectedTimeframe}
-              percentChanged={percentChanged}
-              yVals={yValues}
-              timeframeEnabled={true}
+            {isModalVisible ? null : jobType === "CAROUSEL_TAB_JOBS" ||
+              jobType === ChipJobTypes.Active ? (
+              <CustomGraph
+                graphData={graphData}
+                getGraphData={getGraphData}
+                setSelectedTimeframe={setSelectedTimeframe}
+                selectedTimeframe={selectedTimeframe}
+                percentChanged={percentChanged}
+                yVals={yValues}
+                timeframeEnabled={true}
+              />
+            ) : (
+              <CustomGraph
+                graphData={graphData}
+                yVals={yValues}
+                percentChanged={percentChanged}
+                timeframeEnabled={false}
+              />
+            )}
+          </View>
+          {/* Recent Trades */}
+          <View style={styles.recentTradesContainer}>
+            <Text style={styles.sectionTitleText}>Recent Trades</Text>
+            <CustomTable
+              data={history}
+              columns={jobHistoryColumns}
+              isLoading={isTableLoading}
+              handleLoadMore={fetchJobsTrades}
+              nullMessage="No trades made yet"
             />
-          ) : (
-            <CustomGraph
-              graphData={graphData}
-              yVals={yValues}
-              percentChanged={percentChanged}
-              timeframeEnabled={false}
-            />
-          )}
-        </View>
-        {/* Recent Trades */}
-        <View style={styles.recentTradesContainer}>
-          <Text style={styles.sectionTitleText}>Recent Trades</Text>
-          <CustomTable
-            data={history}
-            columns={jobHistoryColumns}
-            isLoading={isTableLoading}
-            handleLoadMore={fetchJobsTrades}
-          />
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
+      )}
 
       {/* Snackbar */}
       <View style={styles.snackbar}>

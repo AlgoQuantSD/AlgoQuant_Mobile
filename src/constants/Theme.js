@@ -160,6 +160,7 @@ export const THEME = {
   activityIndicator: {
     color: {
       primary: PALETTE.primaryGreen,
+      secondary: PALETTE.cokeWhite,
     },
   },
 };
