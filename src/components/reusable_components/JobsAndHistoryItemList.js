@@ -113,18 +113,10 @@ export default function JobsAndHistoryItemList(props) {
                           )}
                         </View>
                         <View style={styles.itemInvestor}>
-                          {/* Temp solution to render investor images */}
-                          {item?.image_id == null ? (
-                            <Image
-                              style={styles.investorImage}
-                              source={investorImagePathList[0]}
-                            />
-                          ) : (
-                            <Image
-                              style={styles.investorImage}
-                              source={{ uri: item?.image_id }}
-                            />
-                          )}
+                          <Image
+                            style={styles.investorImage}
+                            source={{ uri: item?.image_id }}
+                          />
                         </View>
                       </View>
                     </TouchableWithoutFeedback>

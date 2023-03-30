@@ -239,18 +239,11 @@ export default function InvestorScreen(props) {
             >
               {investor?.investor_name}
             </Text>
-            {/* Temp solution to render investors images for investors created before storing investor image via uri method was implemented */}
-            {investor?.image_id?.length <= 1 ? (
-              <Image
-                style={styles.investorImage}
-                source={investorImagePathList[1]}
-              />
-            ) : (
-              <Image
-                style={styles.investorImage}
-                source={{ uri: investor?.image_id }}
-              />
-            )}
+
+            <Image
+              style={styles.investorImage}
+              source={{ uri: investor?.image_id }}
+            />
           </View>
         </View>
         <View style={styles.iconsContainer}>

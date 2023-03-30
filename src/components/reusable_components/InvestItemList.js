@@ -86,18 +86,10 @@ export default function InvestItemList(props) {
                         </View>
                         {/* Investor image */}
                         <View style={styles.imageContainer}>
-                          {/* Temp solution to render investors images for investors created before storing investor image via uri method was implemented */}
-                          {item?.image_id?.length <= 1 ? (
-                            <Image
-                              style={styles.investorImage}
-                              source={investorImagePathList[1]}
-                            />
-                          ) : (
-                            <Image
-                              style={styles.investorImage}
-                              source={{ uri: item.image_id }}
-                            />
-                          )}
+                          <Image
+                            style={styles.investorImage}
+                            source={{ uri: item.image_id }}
+                          />
                         </View>
                         {item.type === "I" ? (
                           <View style={styles.indicatorAndStockContainer}>
