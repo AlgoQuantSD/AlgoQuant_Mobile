@@ -67,7 +67,17 @@ export default function InvestItemList(props) {
                         })
                       }
                     >
-                      <View style={styles.listItem}>
+                      <View
+                        style={
+                          item.type === "I"
+                            ? styles.listItem
+                            : {
+                                ...styles.listItem,
+                                backgroundColor:
+                                  THEME.investCard.ai.backgroundColor,
+                              }
+                        }
+                      >
                         {/* Investor name */}
                         <View style={styles.nameContainer}>
                           <Text style={styles.listItemName}>
@@ -78,7 +88,7 @@ export default function InvestItemList(props) {
                         <View style={styles.imageContainer}>
                           <Image
                             style={styles.investorImage}
-                            source={investorImagePathList[1]}
+                            source={{ uri: item.image_id }}
                           />
                         </View>
                         {item.type === "I" ? (
@@ -190,7 +200,7 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: "10%",
     borderRadius: 10,
-    backgroundColor: THEME.investCard.backgroundColor,
+    backgroundColor: THEME.investCard.algorithmic.backgroundColor,
   },
   noResultsContainer: {
     flex: 1,
@@ -210,7 +220,7 @@ const styles = StyleSheet.create({
     flex: 0.4,
     justifyContent: "center",
   },
-  investorImage: { height: 150, width: 100 },
+  investorImage: { height: 150, width: 130 },
   indicatorAndStockContainer: {
     flex: 0.3,
     width: "100%",

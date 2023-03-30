@@ -35,7 +35,7 @@ export default function InvestorScreen(props) {
   const navigation = useNavigation();
 
   // state variable to hold the investor using the investor ID passed from the investorItemList
-  const [investor, setInvestor] = useState();
+  const [investor, setInvestor] = useState(null);
 
   console.log("Investor type: ", investor?.type);
 
@@ -239,9 +239,10 @@ export default function InvestorScreen(props) {
             >
               {investor?.investor_name}
             </Text>
+
             <Image
               style={styles.investorImage}
-              source={investorImagePathList[1]}
+              source={{ uri: investor?.image_id }}
             />
           </View>
         </View>

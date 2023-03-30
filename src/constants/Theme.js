@@ -7,6 +7,7 @@ const PALETTE = {
   primaryGreenOpacity95: "#1F302BD9",
   brightGreen: "#4BB543",
   mediumGreen: "#33CA47",
+  primaryGold: "#E4C419",
   red: "#B11818",
   lightGray: "#C7C7C7",
   mediumGray: "#747272",
@@ -130,6 +131,12 @@ export const THEME = {
     headerContainerLarge: 0.25,
   },
   investCard: {
+    ai: {
+      backgroundColor: PALETTE.primaryGold,
+    },
+    algorithmic: {
+      backgroundColor: PALETTE.primaryGreen,
+    },
     backgroundColor: "#1F302B",
   },
   searchbar: {

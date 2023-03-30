@@ -115,11 +115,8 @@ export default function JobsAndHistoryItemList(props) {
                         <View style={styles.itemInvestor}>
                           <Image
                             style={styles.investorImage}
-                            source={investorImagePathList[0]}
+                            source={{ uri: item?.image_id }}
                           />
-                          {/* <Text style={styles.investorNameText}>
-                            investor's name
-                          </Text> */}
                         </View>
                       </View>
                     </TouchableWithoutFeedback>
