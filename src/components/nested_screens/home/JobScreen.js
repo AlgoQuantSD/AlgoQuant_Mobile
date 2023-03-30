@@ -234,7 +234,7 @@ export default function JobScreen(props) {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-    }, 0);
+    }, 1000);
     fetchJobsTrades();
     getGraphData("D");
     getJob();

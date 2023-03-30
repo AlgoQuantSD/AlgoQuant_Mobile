@@ -51,49 +51,51 @@ export default function GraphDetailsHeader(props) {
 
   return (
     <View style={styles.headerContainer}>
-      <Text numberOfLines={2} ellipsizeMode="tail" style={styles.headerText}>
-        {graphTitle}
-      </Text>
-
       <View>
-        <Text style={styles.recentPriceText}>
-          {graphTrendData.recentPrice === null ? (
-            <ActivityIndicator
-              size="small"
-              color={THEME.activityIndicator.color.primary}
-              style={styles.activity}
-            />
-          ) : (
-            "$" + roundTwoDecimalPlaces(graphTrendData.recentPrice)
-          )}
+        <Text numberOfLines={2} ellipsizeMode="tail" style={styles.headerText}>
+          {graphTitle}
         </Text>
-        <View style={styles.priceDifferenceContainer}>
-          <Text
-            style={
-              isTrendingUp ? styles.trendingUpText : styles.trendingDownText
-            }
-          >
-            ${roundTwoDecimalPlaces(graphTrendData.priceDifferenceRaw)} (
-            {roundTwoDecimalPlaces(graphTrendData.priceDifferencePercent)}
-            %)
-          </Text>
-          <View style={styles.trendingIcon}>
-            {isTrendingUp ? (
-              <Ionicons
-                name="caret-up-outline"
-                size={THEME.icon.size.xSmall}
-                color={THEME.colors.trendingUp}
+
+        <View>
+          <Text style={styles.recentPriceText}>
+            {graphTrendData.recentPrice === null ? (
+              <ActivityIndicator
+                size="small"
+                color={THEME.activityIndicator.color.primary}
+                style={styles.activity}
               />
             ) : (
-              <Ionicons
-                name="caret-down-outline"
-                size={THEME.icon.size.xSmall}
-                color={THEME.colors.trendingDown}
-              />
+              "$" + roundTwoDecimalPlaces(graphTrendData.recentPrice)
             )}
-          </View>
+          </Text>
+          <View style={styles.priceDifferenceContainer}>
+            <Text
+              style={
+                isTrendingUp ? styles.trendingUpText : styles.trendingDownText
+              }
+            >
+              ${roundTwoDecimalPlaces(graphTrendData.priceDifferenceRaw)} (
+              {roundTwoDecimalPlaces(graphTrendData.priceDifferencePercent)}
+              %)
+            </Text>
+            <View style={styles.trendingIcon}>
+              {isTrendingUp ? (
+                <Ionicons
+                  name="caret-up-outline"
+                  size={THEME.icon.size.xSmall}
+                  color={THEME.colors.trendingUp}
+                />
+              ) : (
+                <Ionicons
+                  name="caret-down-outline"
+                  size={THEME.icon.size.xSmall}
+                  color={THEME.colors.trendingDown}
+                />
+              )}
+            </View>
 
-          <Text style={styles.text}>{timeframeText}</Text>
+            <Text style={styles.text}>{timeframeText}</Text>
+          </View>
         </View>
       </View>
     </View>
