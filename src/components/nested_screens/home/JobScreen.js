@@ -26,12 +26,15 @@ import { jobHistoryColumns } from "../../../helpers/tableColumns";
 
 export default function JobScreen(props) {
   const { jobID, jobType } = props.route.params;
+
+  // We need this to navigate the user back home after stopping a job
   const navigation = useNavigation();
 
   // Screen refresh
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isScrollEnabled, setIsScrollEnabled] = useState(true);
 
   // Graph state
   // initial value is an array because victorycharts takes data prop as array or objects only
@@ -56,6 +59,19 @@ export default function JobScreen(props) {
   const [snackbarMessage, setSnackbarMessage] = useState(null);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
 
+  const [history, setHistory] = useState([]);
+  const [lastQuery, setLastQuery] = useState(false);
+
+  // State variables used to access algoquant SDK API and display/ keep state of user data from database
+  const algoquantApi = useContext(AlgoquantApiContext);
+  const [lastKey, setLastKey] = useState(null);
+  const [isTableLoading, setIsTableLoading] = useState(false);
+
+  // state variable to store the job based on the clicked job from the list using the job id
+  const [job, setJob] = useState();
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
   // Stuff that we need to set to create the stop job modal
   const modalProps = {
     isModalVisible,
@@ -79,19 +95,14 @@ export default function JobScreen(props) {
   function handleStopIconPress() {
     stopJobModalBuilder(modalProps);
   }
-  // INTEGRATION CODE
-  const [history, setHistory] = useState([]);
-  const [lastQuery, setLastQuery] = useState(false);
 
-  // State variables used to access algoquant SDK API and display/ keep state of user data from database
-  const algoquantApi = useContext(AlgoquantApiContext);
-  const [lastKey, setLastKey] = useState(null);
-  const [isTableLoading, setIsTableLoading] = useState(false);
+  function handlePressInGraph() {
+    setIsScrollEnabled(false);
+  }
 
-  // state variable to store the job based on the clicked job from the list using the job id
-  const [job, setJob] = useState();
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  function handlePressOutGraph() {
+    setIsScrollEnabled(true);
+  }
 
   // Do this when the user pulls down the screen to refresh
   function onRefresh() {
@@ -206,8 +217,6 @@ export default function JobScreen(props) {
             );
             setRecentPrice(resp.data["recent_price"].toFixed(2));
             setMarketClosed(resp.data["is_market_closed"]);
-
-            // setGraphLoading(false);
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
@@ -225,7 +234,7 @@ export default function JobScreen(props) {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 0);
     fetchJobsTrades();
     getGraphData("D");
     getJob();
@@ -243,6 +252,7 @@ export default function JobScreen(props) {
       ) : (
         <ScrollView
           style={{ flexGrow: 1 }}
+          scrollEnabled={isScrollEnabled}
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
@@ -272,51 +282,59 @@ export default function JobScreen(props) {
           />
           {/* Header Row */}
           <View style={styles.headerContainer}>
-            <GraphDetailsHeader
-              graphTitle={job?.name}
-              graphTrendData={jobsAggregatedData}
-              selectedTimeframe={selectedTimeframe}
-            />
-            {job?.status === "active-I" ? (
-              <TouchableOpacity
-                style={styles.headerRowIcon}
-                onPress={handleStopIconPress}
-              >
-                <View>
-                  <Text style={styles.text}>Job Active</Text>
-                  <Text style={styles.text}>{startDate}</Text>
-                </View>
+            <View style={{ width: "65%" }}>
+              <GraphDetailsHeader
+                graphTitle={job?.name}
+                graphTrendData={jobsAggregatedData}
+                selectedTimeframe={selectedTimeframe}
+              />
+            </View>
 
-                <Ionicons
-                  name={THEME.icon.name.stopJob}
-                  color={THEME.icon.color.primary}
-                  size={THEME.icon.size.large}
-                />
-              </TouchableOpacity>
-            ) : job?.status === "stopping" ? (
-              <View style={styles.headerRowIcon}>
-                <View>
-                  <Text style={styles.text}>Job Stopping</Text>
-                </View>
+            <View style={{ width: "35%" }}>
+              {job?.status === "active-I" ? (
+                <TouchableOpacity
+                  style={styles.headerRowIcon}
+                  onPress={handleStopIconPress}
+                >
+                  <View>
+                    <Text style={styles.text}>Job Active</Text>
+                    <Text style={styles.text}>{startDate}</Text>
+                  </View>
 
-                <ActivityIndicator color={THEME.icon.color.primary} size={32} />
-              </View>
-            ) : (
-              <View style={styles.headerRowIcon}>
-                <View>
-                  <Text style={styles.text}>Job Inactive</Text>
-                  <Text style={styles.text}>
-                    {startDate} - {endDate}
-                  </Text>
-                </View>
+                  <Ionicons
+                    name={THEME.icon.name.stopJob}
+                    color={THEME.icon.color.primary}
+                    size={THEME.icon.size.large}
+                  />
+                </TouchableOpacity>
+              ) : job?.status === "stopping" ? (
+                <View style={styles.headerRowIcon}>
+                  <View>
+                    <Text style={styles.text}>Job Stopping</Text>
+                  </View>
 
-                <Ionicons
-                  name={THEME.icon.name.inactiveJob}
-                  color={THEME.icon.color.primary}
-                  size={32}
-                />
-              </View>
-            )}
+                  <ActivityIndicator
+                    color={THEME.icon.color.primary}
+                    size={32}
+                  />
+                </View>
+              ) : (
+                <View style={styles.headerRowIcon}>
+                  <View>
+                    <Text style={styles.text}>Job Inactive</Text>
+                    <Text style={styles.text}>
+                      {startDate} - {endDate}
+                    </Text>
+                  </View>
+
+                  <Ionicons
+                    name={THEME.icon.name.inactiveJob}
+                    color={THEME.icon.color.primary}
+                    size={32}
+                  />
+                </View>
+              )}
+            </View>
           </View>
           {/* Graph */}
           <View style={styles.graphContainer}>
@@ -333,6 +351,8 @@ export default function JobScreen(props) {
                 percentChanged={percentChanged}
                 yVals={yValues}
                 timeframeEnabled={true}
+                handlePressInGraph={handlePressInGraph}
+                handlePressOutGraph={handlePressOutGraph}
               />
             ) : (
               <CustomGraph
@@ -340,6 +360,8 @@ export default function JobScreen(props) {
                 yVals={yValues}
                 percentChanged={percentChanged}
                 timeframeEnabled={false}
+                handlePressInGraph={handlePressInGraph}
+                handlePressOutGraph={handlePressOutGraph}
               />
             )}
           </View>

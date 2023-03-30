@@ -51,7 +51,10 @@ export default function GraphDetailsHeader(props) {
 
   return (
     <View style={styles.headerContainer}>
-      <Text style={styles.headerText}>{graphTitle}</Text>
+      <Text numberOfLines={2} ellipsizeMode="tail" style={styles.headerText}>
+        {graphTitle}
+      </Text>
+
       <View>
         <Text style={styles.recentPriceText}>
           {graphTrendData.recentPrice === null ? (
