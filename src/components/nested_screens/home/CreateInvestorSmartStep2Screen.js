@@ -52,7 +52,7 @@ export default function CreateInvestorSmartStep2Screen(props) {
 
   function addInvestorImage() {
     investorObject.image_id =
-      INVESTOR_IMAGE_BASE_URL + "/AI/" + investorImageNumber;
+      INVESTOR_IMAGE_BASE_URL + "/AI/" + investorImageNumber + ".png";
   }
 
   function hasErrors() {
