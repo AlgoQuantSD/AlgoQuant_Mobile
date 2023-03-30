@@ -26,8 +26,6 @@ export default function InvestItemList(props) {
     navigation,
   } = props;
 
-  console.log("LIST DATA: ", listData[0].image_id);
-
   // Show the start job modal and pass in the investor id
   function handlePressStartJob(investorId) {
     modalProps.setInvestorId(investorId);

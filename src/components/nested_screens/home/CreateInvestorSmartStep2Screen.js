@@ -10,6 +10,10 @@ import { Button, TextInput, Snackbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { profitOrLossStopErrorHandler } from "../../../helpers/errorHandler";
+import {
+  INVESTOR_IMAGE_BASE_URL,
+  NUM_INVESTOR_IMAGES_PER_FREQ,
+} from "../../../constants/InvestorImagePaths";
 import { THEME } from "../../../constants/Theme";
 
 export default function CreateInvestorSmartStep2Screen(props) {
@@ -21,6 +25,10 @@ export default function CreateInvestorSmartStep2Screen(props) {
 
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState(false);
+
+  const [investorImageNumber, setInvestorImageNumber] = useState(
+    Math.floor(Math.random() * NUM_INVESTOR_IMAGES_PER_FREQ) + 1
+  );
 
   function handlePressNext() {
     // Checl for errors
@@ -43,7 +51,8 @@ export default function CreateInvestorSmartStep2Screen(props) {
   }
 
   function addInvestorImage() {
-    investorObject.image_id = 6;
+    investorObject.image_id =
+      INVESTOR_IMAGE_BASE_URL + "/AI/" + investorImageNumber;
   }
 
   function hasErrors() {

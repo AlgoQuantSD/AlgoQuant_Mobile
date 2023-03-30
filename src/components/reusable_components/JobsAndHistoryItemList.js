@@ -19,8 +19,6 @@ export default function JobsAndHistoryItemList(props) {
   const { listData, isLoading, handleFetchMoreData, type } = props;
   const navigation = useNavigation();
 
-  console.log("LIST DATA: ", listData[0]);
-
   // Get reference of scrollview component
   const scrollViewRef = useRef(null);
 
