@@ -7,7 +7,7 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
-import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeOutDown } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import { Ionicons } from "@expo/vector-icons";
 import { INVESTOR_PERIOD_ENUM } from "../../constants/InvestorPeriodEnums";
@@ -82,8 +82,8 @@ export default function InvestorTradeFrequencyCarousel(props) {
   }, []);
   return (
     <Animated.View
-      entering={BounceIn.delay(500)}
-      exiting={BounceOut}
+      entering={FadeInUp.delay(500)}
+      exiting={FadeOutDown}
       style={{ flex: 1 }}
     >
       <Carousel

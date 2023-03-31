@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Dimensions, StyleSheet } from "react-native";
-import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeOutDown } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import { THEME } from "../../constants/Theme";
 
@@ -9,8 +9,8 @@ export default function CustomParallaxCarousel(props) {
   const width = Dimensions.get("window").width;
   return (
     <Animated.View
-      entering={BounceIn.delay(500)}
-      exiting={BounceOut}
+      entering={FadeInUp.delay(500)}
+      exiting={FadeOutDown}
       style={{ flex: 1 }}
     >
       <Carousel

@@ -142,6 +142,7 @@ export default function CreateInvestorStep1Screen({ navigation }) {
             buttonColor={THEME.button.primaryColorBackground}
             textColor={THEME.text.color.secondary}
             onPress={handleNextPress}
+            style={{ paddingLeft: "3%", paddingRight: "3%" }}
           >
             Next
           </Button>
@@ -173,7 +174,8 @@ export default function CreateInvestorStep1Screen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
+    paddingTop: "3%",
     paddingLeft: "5%",
     paddingRight: "5%",
     backgroundColor: THEME.colors.background,
@@ -183,33 +185,24 @@ const styles = StyleSheet.create({
     color: THEME.text.color.primary,
   },
   headerContainer: {
-    flex: 0.1,
-    justifyContent: "center",
+    paddingBottom: "5%",
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
     color: THEME.text.color.primary,
   },
   investorNameInputContainer: {
-    flex: 0.1,
-    justifyContent: "center",
-  },
-  investorTypeContainer: {
-    flex: 0.6,
-    justifyContent: "center",
+    paddingBottom: "10%",
   },
   investorType: {
-    flex: 0.5,
-    justifyContent: "center",
+    paddingBottom: "10%",
   },
   investorTitleText: {
     fontSize: THEME.text.fontSize.H4,
     color: THEME.text.color.primary,
   },
   nextButtonContainer: {
-    flex: 0.15,
     marginTop: "auto",
-    justifyContent: "center",
     alignItems: "flex-end",
   },
   snackbarContainer: {

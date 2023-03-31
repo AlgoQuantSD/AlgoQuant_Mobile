@@ -166,6 +166,7 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
             buttonColor={THEME.button.primaryColorBackground}
             textColor={THEME.text.color.secondary}
             onPress={handlePressNext}
+            style={{ paddingLeft: "3%", paddingRight: "3%" }}
           >
             Next
           </Button>
@@ -198,13 +199,12 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: "5%",
-    marginLeft: "5%",
-    marginRight: "5%",
+    paddingTop: "3%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   headerContainer: {
-    flex: 0.1,
-    justifyContent: "center",
+    paddingBottom: "5%",
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
@@ -216,11 +216,10 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flex: 0.5,
-    marginTop: "5%",
   },
   selectedStocksContainer: {
     flex: 0.35,
-    marginTop: "5%",
+    paddingTop: "5%",
   },
   selectedStockItem: {
     flexDirection: "row",
@@ -232,9 +231,7 @@ const styles = StyleSheet.create({
     borderColor: THEME.colors.foreground,
   },
   nextButtonContainer: {
-    justifyContent: "center",
-    paddingTop: "10%",
-    paddingBottom: "10%",
+    marginTop: "auto",
     alignItems: "flex-end",
   },
   snackbarContainer: {

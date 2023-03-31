@@ -354,6 +354,7 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
               buttonColor={THEME.button.primaryColorBackground}
               textColor={THEME.text.color.secondary}
               onPress={handlePressNext}
+              style={{ paddingLeft: "3%", paddingRight: "3%" }}
             >
               Next
             </Button>
@@ -387,6 +388,7 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: "3%",
     paddingLeft: "5%",
     paddingRight: "5%",
     backgroundColor: THEME.colors.background,
@@ -401,7 +403,6 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     justifyContent: "center",
-    marginTop: "5%",
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
@@ -448,7 +449,7 @@ const styles = StyleSheet.create({
   nextButtonContainer: {
     justifyContent: "center",
     paddingTop: "10%",
-    paddingBottom: "10%",
+    paddingBottom: "5%",
     alignItems: "flex-end",
   },
   snackbar: {
