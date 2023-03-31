@@ -26,6 +26,7 @@ export const THEME = {
     background: PALETTE.cokeWhite,
     foreground: PALETTE.primaryGreen,
     primary: PALETTE.primaryGreen,
+    ternary: PALETTE.smokeWhite,
     success: PALETTE.brightGreen,
     danger: PALETTE.red,
     trendingUp: PALETTE.mediumGreen,

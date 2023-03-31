@@ -7,10 +7,10 @@ export default function CustomTooltip(props) {
   const { indicator } = props;
   return (
     <Animated.View
-      entering={SlideInUp}
+      entering={SlideInUp.delay(300)}
       exiting={SlideOutDown}
       style={{
-        backgroundColor: THEME.colors.background,
+        backgroundColor: THEME.colors.ternary,
         padding: "4%",
         borderWidth: 2,
         borderColor: THEME.colors.foreground,
