@@ -7,13 +7,18 @@ import {
   KeyboardAvoidingView,
   StyleSheet,
 } from "react-native";
-import { Button, TextInput, Snackbar } from "react-native-paper";
+import {
+  Button,
+  TextInput,
+  Tooltip,
+  Snackbar,
+  IconButton,
+} from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import InvestorTradeFrequencyCarousel from "../../reusable_components/InvestorTradeFrequencyCarousel";
 import SnackbarContent from "../../reusable_components/SnackbarContent";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-
 import { profitOrLossStopErrorHandler } from "../../../helpers/errorHandler";
 import {
   INDICATOR_LIST,
@@ -220,7 +225,24 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
             <Text style={styles.sectionTitleText}>Indicators</Text>
             {INDICATOR_LIST.map((indicator) => (
               <View key={indicator.id} style={styles.indicatorItem}>
-                <Text style={styles.text}>{indicator.abbreviation}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignContent: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <TouchableOpacity>
+                    <Ionicons
+                      name="information-circle-outline"
+                      color={THEME.icon.color.primary}
+                      size={THEME.icon.size.medium}
+                    />
+                  </TouchableOpacity>
+                  <Text style={[styles.text, { alignSelf: "center" }]}>
+                    {indicator.abbreviation}
+                  </Text>
+                </View>
                 {isIndicatorSelected(indicator.id) ? (
                   <TouchableOpacity
                     onPress={() => setIsIndicatorSelected(indicator.id)}
@@ -370,9 +392,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    paddingTop: "4%",
   },
   tradeFrequencyContainer: {
-    marginTop: "5%",
+    paddingTop: "8%",
   },
   conditionsContainer: {
     flex: 1,
