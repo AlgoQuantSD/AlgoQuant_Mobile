@@ -100,13 +100,13 @@ export default function CreateInvestorStep1Screen({ navigation }) {
             <TouchableOpacity onPress={(e) => setInvestorType("ALGORITHMIC")}>
               {investorType === "ALGORITHMIC" ? (
                 <Ionicons
-                  name="ellipse"
-                  color={THEME.icon.color.primary}
+                  name={THEME.icon.name.selectOptionCircleFilledIn}
+                  color={THEME.icon.color.ternary}
                   size={THEME.icon.size.medium}
                 />
               ) : (
                 <Ionicons
-                  name="ellipse-outline"
+                  name={THEME.icon.name.selectOptionCircleOutline}
                   color={THEME.icon.color.primary}
                   size={THEME.icon.size.medium}
                 />
@@ -123,7 +123,7 @@ export default function CreateInvestorStep1Screen({ navigation }) {
               {investorType === "AI" ? (
                 <Ionicons
                   name={THEME.icon.name.selectOptionCircleFilledIn}
-                  color={THEME.icon.color.primary}
+                  color={THEME.icon.color.ternary}
                   size={THEME.icon.size.medium}
                 />
               ) : (

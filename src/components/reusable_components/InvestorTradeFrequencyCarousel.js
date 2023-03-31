@@ -137,7 +137,7 @@ export default function InvestorTradeFrequencyCarousel(props) {
                 ) : (
                   <Ionicons
                     name={THEME.icon.name.selectOptionCircleOutline}
-                    color={THEME.icon.color.secondary}
+                    color={THEME.icon.color.primary}
                     size={THEME.icon.size.medium}
                   />
                 )}
@@ -153,13 +153,13 @@ export default function InvestorTradeFrequencyCarousel(props) {
 const styles = StyleSheet.create({
   card: {
     flex: 1,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: THEME.colors.primary,
-    backgroundColor: THEME.indicatorAndStockCards.backgroundColor,
+    backgroundColor: THEME.colors.primary,
   },
   text: {
     fontSize: THEME.text.fontSize.body,
-    color: THEME.text.color.secondary,
+    color: THEME.text.color.primary,
   },
   headerText: {
     textAlign: "center",
@@ -183,13 +183,13 @@ const styles = StyleSheet.create({
     width: "30%",
   },
   tradeFrequencyDescriptionContainer: {
-    flex: 0.2,
-    justifyContent: "center",
-    paddingLeft: "1%",
-    paddingRight: "1%",
+    flex: 0.225,
+    padding: "2%",
+    backgroundColor: THEME.colors.ternary,
   },
   footerRow: {
-    flex: 0.15,
+    flex: 0.125,
+    backgroundColor: THEME.colors.ternary,
     justifyContent: "center",
     alignItems: "flex-end",
     paddingRight: "1%",

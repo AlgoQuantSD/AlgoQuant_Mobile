@@ -264,7 +264,7 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
                     >
                       <Ionicons
                         name={THEME.icon.name.selectOptionCircleFilledIn}
-                        color={THEME.icon.color.primary}
+                        color={THEME.icon.color.ternary}
                         size={THEME.icon.size.medium}
                       />
                     </TouchableOpacity>
