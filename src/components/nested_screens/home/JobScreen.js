@@ -287,6 +287,7 @@ export default function JobScreen(props) {
                 graphTitle={job?.name}
                 graphTrendData={jobsAggregatedData}
                 selectedTimeframe={selectedTimeframe}
+                showTimeframeText={job?.status === "active-I"}
               />
             </View>
 

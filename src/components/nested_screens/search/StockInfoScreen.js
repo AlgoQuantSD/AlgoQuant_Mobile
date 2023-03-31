@@ -167,6 +167,7 @@ export default function StockInfoScreen(props) {
           graphTitle={stockName}
           graphTrendData={stockData}
           selectedTimeframe={selectedTimeframe}
+          showTimeframeText={true}
         />
       </View>
       <View style={styles.graphContainer}>

@@ -5,7 +5,8 @@ import { timeframeEnums } from "../../constants/graphEnums";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function GraphDetailsHeader(props) {
-  const { graphTitle, graphTrendData, selectedTimeframe } = props;
+  const { graphTitle, graphTrendData, selectedTimeframe, showTimeframeText } =
+    props;
 
   // Format the unix timestamp recieved from parent component and convert it to date string to show on screen.
   // Date is when the market closed
@@ -55,7 +56,6 @@ export default function GraphDetailsHeader(props) {
         <Text numberOfLines={2} ellipsizeMode="tail" style={styles.headerText}>
           {graphTitle}
         </Text>
-
         <View>
           <Text style={styles.recentPriceText}>
             {graphTrendData.recentPrice === null ? (
@@ -93,8 +93,9 @@ export default function GraphDetailsHeader(props) {
                 />
               )}
             </View>
-
-            <Text style={styles.text}>{timeframeText}</Text>
+            {showTimeframeText ? (
+              <Text style={styles.text}>{timeframeText}</Text>
+            ) : null}
           </View>
         </View>
       </View>
