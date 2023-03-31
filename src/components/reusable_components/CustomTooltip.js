@@ -1,0 +1,24 @@
+import React from "react";
+import { Text } from "react-native";
+import Animated, { SlideInUp, SlideOutDown } from "react-native-reanimated";
+import { THEME } from "../../constants/Theme";
+
+export default function CustomTooltip(props) {
+  const { indicator } = props;
+  return (
+    <Animated.View
+      entering={SlideInUp}
+      exiting={SlideOutDown}
+      style={{
+        backgroundColor: THEME.colors.background,
+        padding: "4%",
+        borderWidth: 2,
+        borderColor: THEME.colors.foreground,
+      }}
+    >
+      <Text style={{ color: THEME.text.color.primary, lineHeight: 25 }}>
+        {indicator.description}
+      </Text>
+    </Animated.View>
+  );
+}

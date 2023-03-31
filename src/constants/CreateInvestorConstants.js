@@ -2,37 +2,43 @@ export const INDICATOR_LIST = [
   {
     name: "Moving Average Convergence/Divergence",
     abbreviation: "MACD",
-    description: "MACD is yada yada yada",
+    description:
+      "MACD (Moving Average Convergence Divergence) is a technical analysis indicator that uses two exponential moving averages to identify the direction and momentum of an asset, with the crossing of the MACD line and signal line generating buy and sell signals.",
     id: "INDICATOR_MACD",
   },
   {
     name: "Relative Strength Index",
     abbreviation: "RSI",
-    description: "RSI makes money",
+    description:
+      "RSI (Relative Strength Index) is a technical analysis indicator that measures the strength and momentum of an asset, typically ranging from 0 to 100. Traders use RSI to identify potential buying or selling opportunities based on overbought and oversold readings, calculated from average gains and losses over a specified time period.",
     id: "INDICATOR_RSI",
   },
   {
     name: "Accumulation Distribution Line",
     abbreviation: "ADL",
-    description: "ADL makes more money",
+    description:
+      "ADL (Accumulation/Distribution Line) is a technical analysis indicator that uses volume and price data to measure the buying and selling pressure of an asset. It is used to confirm price trends and predict potential reversals.",
     id: "INDICATOR_ADL",
   },
   {
     name: "On-Balance Volume",
     abbreviation: "OBV",
-    description: "OBV does stuff",
+    description:
+      "OBV (On-Balance Volume) is a technical analysis indicator that uses volume data to measure buying and selling pressure of an asset. It compares the total volume of buying and selling over a specified time period to determine the strength of a trend or potential reversal.",
     id: "INDICATOR_OBV",
   },
   {
     name: "Bollinger Bands",
     abbreviation: "BB",
-    description: "BB does stuff",
+    description:
+      "BB (Bollinger Bands) is a technical analysis tool that uses a set of three bands, typically based on a moving average and standard deviation, to indicate the volatility and potential trading range of an asset. The bands expand or contract based on the level of volatility, with price movements outside the bands indicating potential trend reversal points.",
     id: "INDICATOR_BB",
   },
   {
     name: "Stochastic Oscillator",
     abbreviation: "SO",
-    description: "SO does other stuff",
+    description:
+      "SO (Stochastic Oscillator) is a momentum indicator that compares an asset's closing price to its price range over a specified time period, typically 14 days. It measures the level of buying and selling pressure and indicates potential trend reversal points.",
     id: "INDICATOR_SO",
   },
 ];

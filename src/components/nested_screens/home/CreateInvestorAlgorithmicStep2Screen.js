@@ -7,17 +7,12 @@ import {
   KeyboardAvoidingView,
   StyleSheet,
 } from "react-native";
-import {
-  Button,
-  TextInput,
-  Tooltip,
-  Snackbar,
-  IconButton,
-} from "react-native-paper";
+import { Button, TextInput, Snackbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import InvestorTradeFrequencyCarousel from "../../reusable_components/InvestorTradeFrequencyCarousel";
 import SnackbarContent from "../../reusable_components/SnackbarContent";
+import CustomTooltip from "../../reusable_components/CustomTooltip";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { profitOrLossStopErrorHandler } from "../../../helpers/errorHandler";
 import {
@@ -37,6 +32,10 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
   const [isOBVSelected, setIsOBVSelected] = useState(false);
   const [isBBSelected, setIsBBSelected] = useState(false);
   const [isSOSelected, setIsSOSelected] = useState(false);
+
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const [selectedTooltipIndicator, setSelectedTooltipIndicator] =
+    useState(null);
 
   // Frequency selection state management
   const [selectedFrequency, setSelectedFrequency] = useState(
@@ -111,6 +110,16 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
     navigation.navigate("CreateInvestorAlgorithmicStep3Screen", {
       investorObject: investorObject,
     });
+  }
+
+  function handlePressTooltip(indicator) {
+    setSelectedTooltipIndicator(indicator.abbreviation);
+    // Handle opening and closing the tooltip
+    if (indicator.abbreviation === selectedTooltipIndicator) {
+      setIsTooltipVisible(!isTooltipVisible);
+    } else {
+      setIsTooltipVisible(true);
+    }
   }
 
   function addIndicators() {
@@ -224,46 +233,60 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
           <View style={styles.indicatorsContainer}>
             <Text style={styles.sectionTitleText}>Indicators</Text>
             {INDICATOR_LIST.map((indicator) => (
-              <View key={indicator.id} style={styles.indicatorItem}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignContent: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <TouchableOpacity>
-                    <Ionicons
-                      name="information-circle-outline"
-                      color={THEME.icon.color.primary}
-                      size={THEME.icon.size.medium}
-                    />
-                  </TouchableOpacity>
-                  <Text style={[styles.text, { alignSelf: "center" }]}>
-                    {indicator.abbreviation}
-                  </Text>
+              <View key={indicator.id}>
+                <View style={styles.indicatorItem}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignContent: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {/* Info icon */}
+                    <TouchableOpacity
+                      onPress={() => handlePressTooltip(indicator)}
+                      style={{ flexDirection: "row" }}
+                    >
+                      <Ionicons
+                        name="information-circle"
+                        color={THEME.icon.color.primary}
+                        size={THEME.icon.size.medium}
+                      />
+                      <Text style={[styles.text, { alignSelf: "center" }]}>
+                        {indicator.abbreviation}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  {/* Selection circles */}
+                  {isIndicatorSelected(indicator.id) ? (
+                    <TouchableOpacity
+                      onPress={() => setIsIndicatorSelected(indicator.id)}
+                    >
+                      <Ionicons
+                        name={THEME.icon.name.selectOptionCircleFilledIn}
+                        color={THEME.icon.color.primary}
+                        size={THEME.icon.size.medium}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => setIsIndicatorSelected(indicator.id)}
+                    >
+                      <Ionicons
+                        name={THEME.icon.name.selectOptionCircleOutline}
+                        color={THEME.icon.color.primary}
+                        size={THEME.icon.size.medium}
+                      />
+                    </TouchableOpacity>
+                  )}
                 </View>
-                {isIndicatorSelected(indicator.id) ? (
-                  <TouchableOpacity
-                    onPress={() => setIsIndicatorSelected(indicator.id)}
-                  >
-                    <Ionicons
-                      name={THEME.icon.name.selectOptionCircleFilledIn}
-                      color={THEME.icon.color.primary}
-                      size={THEME.icon.size.medium}
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={() => setIsIndicatorSelected(indicator.id)}
-                  >
-                    <Ionicons
-                      name={THEME.icon.name.selectOptionCircleOutline}
-                      color={THEME.icon.color.primary}
-                      size={THEME.icon.size.medium}
-                    />
-                  </TouchableOpacity>
-                )}
+                {/* Tooltip */}
+                {isTooltipVisible &&
+                selectedTooltipIndicator === indicator.abbreviation ? (
+                  <View>
+                    <CustomTooltip indicator={indicator} />
+                  </View>
+                ) : null}
               </View>
             ))}
           </View>
