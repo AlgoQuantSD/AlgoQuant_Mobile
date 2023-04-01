@@ -4,7 +4,7 @@ import Animated, { SlideInUp, SlideOutDown } from "react-native-reanimated";
 import { THEME } from "../../constants/Theme";
 
 export default function CustomTooltip(props) {
-  const { indicator } = props;
+  const { text } = props;
   return (
     <Animated.View
       entering={SlideInUp.delay(300)}
@@ -17,7 +17,7 @@ export default function CustomTooltip(props) {
       }}
     >
       <Text style={{ color: THEME.text.color.primary, lineHeight: 25 }}>
-        {indicator.description}
+        {text}
       </Text>
     </Animated.View>
   );

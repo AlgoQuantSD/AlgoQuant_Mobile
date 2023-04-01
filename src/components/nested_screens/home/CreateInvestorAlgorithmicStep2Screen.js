@@ -284,7 +284,7 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
                 {isTooltipVisible &&
                 selectedTooltipIndicator === indicator.abbreviation ? (
                   <View>
-                    <CustomTooltip indicator={indicator} />
+                    <CustomTooltip text={indicator.description} />
                   </View>
                 ) : null}
               </View>
@@ -310,6 +310,8 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
                 onChangeText={(text) => {
                   setProfitStop(parseFloat(text));
                 }}
+                keyboardType="numeric"
+                maxLength={2}
                 selectionColor={THEME.colors.foreground}
                 underlineColor={THEME.colors.transparent}
                 activeUnderlineColor={THEME.colors.transparent}
@@ -318,7 +320,6 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
                 textColor={THEME.colors.foreground}
                 placeholderTextColor={THEME.colors.foreground}
                 contentStyle={{ color: THEME.colors.foreground }}
-                maxLength={2}
                 style={styles.percentTextInput}
               />
               <View style={styles.percentMark}>
@@ -332,6 +333,8 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
                 onChangeText={(text) => {
                   setLossStop(parseFloat(text));
                 }}
+                keyboardType="numeric"
+                maxLength={2}
                 selectionColor={THEME.colors.foreground}
                 underlineColor={THEME.colors.transparent}
                 activeUnderlineColor={THEME.colors.transparent}
@@ -340,7 +343,6 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
                 textColor={THEME.colors.foreground}
                 placeholderTextColor={THEME.colors.foreground}
                 contentStyle={{ color: THEME.colors.foreground }}
-                maxLength={2}
                 style={styles.percentTextInput}
               />
               <View style={styles.percentMark}>

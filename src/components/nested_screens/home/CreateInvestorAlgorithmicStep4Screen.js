@@ -1,12 +1,7 @@
 import React, { useState, useRef, useContext } from "react";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Animated, {
-  BounceIn,
-  BounceOut,
-  FadeIn,
-  FadeOut,
-} from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { Button, Snackbar } from "react-native-paper";
 import CustomParallaxCarousel from "../../reusable_components/CustomParallaxCarousel";
 import IndicatorsOrStocksListView from "../../reusable_components/IndicatorsOrStocksListView";
@@ -271,9 +266,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  stocksContainer: {
-    
-  },
+  stocksContainer: {},
   nextButtonContainer: {
     marginTop: "auto",
     alignItems: "flex-end",

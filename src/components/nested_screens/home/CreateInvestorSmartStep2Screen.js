@@ -2,18 +2,21 @@ import React, { useState } from "react";
 import {
   View,
   Text,
+  ScrollView,
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
 import { Button, TextInput, Snackbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import CustomTooltip from "../../reusable_components/CustomTooltip";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { profitOrLossStopErrorHandler } from "../../../helpers/errorHandler";
 import {
   INVESTOR_IMAGE_BASE_URL,
   NUM_INVESTOR_IMAGES_PER_FREQ,
 } from "../../../constants/InvestorImagePaths";
+import { AI_INVESTOR_DESCRIPTION } from "../../../constants/CreateInvestorConstants";
 import { THEME } from "../../../constants/Theme";
 
 export default function CreateInvestorSmartStep2Screen(props) {
@@ -69,8 +72,8 @@ export default function CreateInvestorSmartStep2Screen(props) {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1 }}>
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>Configure Investor</Text>
         </View>
@@ -84,6 +87,8 @@ export default function CreateInvestorSmartStep2Screen(props) {
               onChangeText={(text) => {
                 setProfitStop(parseFloat(text));
               }}
+              keyboardType="numeric"
+              maxLength={2}
               selectionColor={THEME.colors.foreground}
               underlineColor={THEME.colors.transparent}
               activeUnderlineColor={THEME.colors.transparent}
@@ -92,7 +97,6 @@ export default function CreateInvestorSmartStep2Screen(props) {
               textColor={THEME.colors.foreground}
               placeholderTextColor={THEME.colors.foreground}
               contentStyle={{ color: THEME.colors.foreground }}
-              maxLength={2}
               style={styles.percentTextInput}
             />
             <View style={styles.percentMark}>
@@ -106,6 +110,8 @@ export default function CreateInvestorSmartStep2Screen(props) {
               onChangeText={(text) => {
                 setLossStop(parseFloat(text));
               }}
+              keyboardType="numeric"
+              maxLength={2}
               selectionColor={THEME.colors.foreground}
               underlineColor={THEME.colors.transparent}
               activeUnderlineColor={THEME.colors.transparent}
@@ -114,13 +120,18 @@ export default function CreateInvestorSmartStep2Screen(props) {
               textColor={THEME.colors.foreground}
               placeholderTextColor={THEME.colors.foreground}
               contentStyle={{ color: THEME.colors.foreground }}
-              maxLength={2}
               style={styles.percentTextInput}
             />
             <View style={styles.percentMark}>
               <Text style={styles.text}>%</Text>
             </View>
           </View>
+        </View>
+        <View>
+          <Text style={styles.sectionTitleText}>
+            How does an AI Investor work?
+          </Text>
+          <CustomTooltip text={AI_INVESTOR_DESCRIPTION} />
         </View>
 
         {/* Next Button */}
@@ -129,6 +140,7 @@ export default function CreateInvestorSmartStep2Screen(props) {
             buttonColor={THEME.button.primaryColorBackground}
             textColor={THEME.text.color.secondary}
             onPress={handlePressNext}
+            style={{ paddingLeft: "3%", paddingRight: "3%" }}
           >
             Next
           </Button>
@@ -153,14 +165,15 @@ export default function CreateInvestorSmartStep2Screen(props) {
             {snackbarMessage}
           </Snackbar>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: "3%",
     paddingLeft: "5%",
     paddingRight: "5%",
     backgroundColor: THEME.colors.background,
@@ -174,19 +187,16 @@ const styles = StyleSheet.create({
     color: THEME.text.color.primary,
   },
   headerContainer: {
-    flex: 0.1,
-    justifyContent: "center",
+    paddingBottom: "5%",
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
     color: THEME.text.color.primary,
   },
   conditionsContainer: {
-    flex: 0.3,
-    paddingTop: "5%",
+    paddingBottom: "15%",
   },
   conditionsRow: {
-    flex: 0.5,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -200,16 +210,11 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.colors.transparent,
     width: "15%",
   },
-  percentMark: {
-    height: "100%",
-    justifyContent: "center",
-  },
 
   nextButtonContainer: {
-    flex: 0.55,
-    justifyContent: "flex-end",
+    justifyContent: "center",
     paddingTop: "10%",
-    paddingBottom: "10%",
+    paddingBottom: "5%",
     alignItems: "flex-end",
   },
   snackbarContainer: {

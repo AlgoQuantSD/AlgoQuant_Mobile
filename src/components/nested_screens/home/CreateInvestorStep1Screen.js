@@ -54,7 +54,7 @@ export default function CreateInvestorStep1Screen({ navigation }) {
           iconName={THEME.icon.name.error}
           iconSize={THEME.icon.size.snackbarIconSize}
           iconColor={THEME.colors.danger}
-          text="ERROR: Investor name must be at least 2 characters long."
+          text="ERROR: Investor name must be at least 3 characters long."
           textColor={THEME.colors.danger}
         />
       );
@@ -174,7 +174,7 @@ export default function CreateInvestorStep1Screen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
     paddingTop: "3%",
     paddingLeft: "5%",
     paddingRight: "5%",
@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: THEME.text.fontSize.body,
     color: THEME.text.color.primary,
+    paddingBottom: "2%",
   },
   headerContainer: {
     paddingBottom: "5%",
@@ -200,6 +201,7 @@ const styles = StyleSheet.create({
   investorTitleText: {
     fontSize: THEME.text.fontSize.H4,
     color: THEME.text.color.primary,
+    paddingBottom: "2%",
   },
   nextButtonContainer: {
     marginTop: "auto",

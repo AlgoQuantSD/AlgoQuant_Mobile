@@ -71,9 +71,9 @@ export default function CreateInvestorSmartStep3Screen(props) {
   }
 
   return (
-    <Animated.View style={styles.container}>
+    <View style={styles.container}>
       {isLoading ? (
-        <Animated.View
+        <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           entering={FadeIn.delay(1000)}
         >
@@ -85,43 +85,35 @@ export default function CreateInvestorSmartStep3Screen(props) {
           <Animated.Text entering={FadeIn.delay(500)}>
             Creating your investor!
           </Animated.Text>
-        </Animated.View>
+        </View>
       ) : (
-        <Animated.View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
           {/* Header */}
-          <Animated.View
-            style={styles.headerContainer}
-            entering={FadeIn}
-            exiting={FadeOut}
-          >
+          <View style={styles.headerContainer}>
             <Text style={styles.headerText}>Confirm Investor Creation</Text>
-          </Animated.View>
+          </View>
           {/* Investor Configuration */}
-          <Animated.View
-            style={styles.investorConfigurationContainer}
-            entering={FadeIn}
-            exiting={FadeOut}
-          >
+          <View style={styles.investorConfigurationContainer}>
             <Text style={styles.sectionTitleText}>Investor Configuration</Text>
-            <Animated.View style={styles.investorConfigurationItem}>
+            <View style={styles.investorConfigurationItem}>
               <Text style={styles.text}>Investor name:</Text>
               <Text style={styles.text}>{investorObject.investor_name}</Text>
-            </Animated.View>
-            <Animated.View style={styles.investorConfigurationItem}>
+            </View>
+            <View style={styles.investorConfigurationItem}>
               <Text style={styles.text}>Investor type:</Text>
               <Text style={styles.text}>{investorObject.type}</Text>
-            </Animated.View>
-            <Animated.View style={styles.investorConfigurationItem}>
+            </View>
+            <View style={styles.investorConfigurationItem}>
               <Text style={styles.text}>Profit stop:</Text>
               <Text style={styles.text}>{investorObject.profit_stop}%</Text>
-            </Animated.View>
-            <Animated.View style={styles.investorConfigurationItem}>
+            </View>
+            <View style={styles.investorConfigurationItem}>
               <Text style={styles.text}>Loss stop:</Text>
               <Text style={styles.text}>{investorObject.loss_stop}%</Text>
-            </Animated.View>
-          </Animated.View>
+            </View>
+          </View>
           {/* Create Investor Button */}
-          <Animated.View style={styles.nextButtonContainer}>
+          <View style={styles.nextButtonContainer}>
             <Button
               buttonColor={THEME.button.primaryColorBackground}
               textColor={THEME.text.color.secondary}
@@ -129,9 +121,9 @@ export default function CreateInvestorSmartStep3Screen(props) {
             >
               Create Investor
             </Button>
-          </Animated.View>
+          </View>
           {/* Snackbar */}
-          <Animated.View style={styles.snackbarContainer}>
+          <View style={styles.snackbarContainer}>
             <Snackbar
               visible={isSnackbarVisible}
               onDismiss={() =>
@@ -149,16 +141,17 @@ export default function CreateInvestorSmartStep3Screen(props) {
             >
               {snackbarMessage}
             </Snackbar>
-          </Animated.View>
-        </Animated.View>
+          </View>
+        </View>
       )}
-    </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: "3%",
     paddingLeft: "5%",
     paddingRight: "5%",
     backgroundColor: THEME.colors.background,
@@ -170,21 +163,16 @@ const styles = StyleSheet.create({
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H4,
     color: THEME.text.color.primary,
-    paddingTop: "2%",
     paddingBottom: "2%",
   },
   headerContainer: {
-    flex: 0.1,
-    justifyContent: "center",
+    paddingBottom: "5%",
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
     color: THEME.text.color.primary,
   },
-  investorConfigurationContainer: {
-    flex: 0.25,
-    justifyContent: "center",
-  },
+
   investorConfigurationItem: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -192,10 +180,7 @@ const styles = StyleSheet.create({
     paddingBottom: "1%",
   },
   nextButtonContainer: {
-    flex: 0.6,
-    justifyContent: "flex-end",
-    paddingTop: "10%",
-    paddingBottom: "10%",
+    marginTop: "auto",
     alignItems: "flex-end",
   },
   snackbarContainer: {
