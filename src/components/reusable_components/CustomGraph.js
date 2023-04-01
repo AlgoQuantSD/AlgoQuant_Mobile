@@ -3,6 +3,7 @@ import {
   View,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  ActivityIndicator,
   StyleSheet,
 } from "react-native";
 import {
@@ -13,7 +14,6 @@ import {
   VictoryAxis,
 } from "victory-native";
 import { Button } from "react-native-paper";
-import { MOCK_GRAPH_DATA } from "../../constants/MockData";
 import { THEME, LINE_GRAPH_THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 import { format } from "d3-format";
@@ -86,10 +86,6 @@ export default function CustomGraph(props) {
         });
     }
   };
-
-  function integerTickFormat(value) {
-    return Math.round(value).toString();
-  }
 
   return (
     <View>

@@ -633,8 +633,6 @@ export async function submitStartJobModal(props) {
 
   const jobName = inputValues[0];
   const initialInvestment = inputValues[1];
-  // REMOVE this when implementing API endpoint call
-  const userBalance = 600;
 
   // Check for valid input
   function validateInput() {
@@ -653,15 +651,14 @@ export async function submitStartJobModal(props) {
       return false;
     } else if (
       !containsOnlyNumbers(initialInvestment) ||
-      initialInvestment < 1 ||
-      initialInvestment > userBalance
+      initialInvestment < 1
     ) {
       setModalSnackbarMessage(
         <SnackbarContent
           iconName={THEME.icon.name.error}
           iconSize={THEME.icon.size.snackbarIconSize}
           iconColor={THEME.colors.danger}
-          text="ERROR: Insufficient funds to start this job."
+          text="ERROR: Initial investment should be at least $1."
           textColor={THEME.colors.danger}
         />
       );
@@ -716,9 +713,12 @@ export async function submitStopJobModal(props) {
     jobID,
     setSnackbarMessage,
     setIsSnackbarVisible,
+    setIsLoading,
+    navigation,
   } = props;
   // Call algoquant api and send bodyData to stop job
   if (algoquant.token) {
+    setIsLoading(true);
     algoquant
       .stopJob(jobID)
       .then(() => {
@@ -734,6 +734,8 @@ export async function submitStopJobModal(props) {
         setIsSnackbarVisible(true);
         // Clear state upon successful submit
         cleanUpState(props);
+        setIsLoading(false);
+        navigation.navigate("HomeScreen");
       })
       .catch((err) => {
         // Show error message

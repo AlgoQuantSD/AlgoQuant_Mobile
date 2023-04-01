@@ -5,7 +5,8 @@ import { timeframeEnums } from "../../constants/graphEnums";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function GraphDetailsHeader(props) {
-  const { graphTitle, graphTrendData, selectedTimeframe } = props;
+  const { graphTitle, graphTrendData, selectedTimeframe, showTimeframeText } =
+    props;
 
   // Format the unix timestamp recieved from parent component and convert it to date string to show on screen.
   // Date is when the market closed
@@ -51,46 +52,51 @@ export default function GraphDetailsHeader(props) {
 
   return (
     <View style={styles.headerContainer}>
-      <Text style={styles.headerText}>{graphTitle}</Text>
       <View>
-        <Text style={styles.recentPriceText}>
-          {graphTrendData.recentPrice === null ? (
-            <ActivityIndicator
-              size="small"
-              color={THEME.activityIndicator.color.primary}
-              style={styles.activity}
-            />
-          ) : (
-            "$" + roundTwoDecimalPlaces(graphTrendData.recentPrice)
-          )}
+        <Text numberOfLines={2} ellipsizeMode="tail" style={styles.headerText}>
+          {graphTitle}
         </Text>
-        <View style={styles.priceDifferenceContainer}>
-          <Text
-            style={
-              isTrendingUp ? styles.trendingUpText : styles.trendingDownText
-            }
-          >
-            ${roundTwoDecimalPlaces(graphTrendData.priceDifferenceRaw)} (
-            {roundTwoDecimalPlaces(graphTrendData.priceDifferencePercent)}
-            %)
-          </Text>
-          <View style={styles.trendingIcon}>
-            {isTrendingUp ? (
-              <Ionicons
-                name="caret-up-outline"
-                size={THEME.icon.size.xSmall}
-                color={THEME.colors.trendingUp}
+        <View>
+          <Text style={styles.recentPriceText}>
+            {graphTrendData.recentPrice === null ? (
+              <ActivityIndicator
+                size="small"
+                color={THEME.activityIndicator.color.primary}
+                style={styles.activity}
               />
             ) : (
-              <Ionicons
-                name="caret-down-outline"
-                size={THEME.icon.size.xSmall}
-                color={THEME.colors.trendingDown}
-              />
+              "$" + roundTwoDecimalPlaces(graphTrendData.recentPrice)
             )}
+          </Text>
+          <View style={styles.priceDifferenceContainer}>
+            <Text
+              style={
+                isTrendingUp ? styles.trendingUpText : styles.trendingDownText
+              }
+            >
+              ${roundTwoDecimalPlaces(graphTrendData.priceDifferenceRaw)} (
+              {roundTwoDecimalPlaces(graphTrendData.priceDifferencePercent)}
+              %)
+            </Text>
+            <View style={styles.trendingIcon}>
+              {isTrendingUp ? (
+                <Ionicons
+                  name="caret-up-outline"
+                  size={THEME.icon.size.xSmall}
+                  color={THEME.colors.trendingUp}
+                />
+              ) : (
+                <Ionicons
+                  name="caret-down-outline"
+                  size={THEME.icon.size.xSmall}
+                  color={THEME.colors.trendingDown}
+                />
+              )}
+            </View>
+            {showTimeframeText ? (
+              <Text style={styles.text}>{timeframeText}</Text>
+            ) : null}
           </View>
-
-          <Text style={styles.text}>{timeframeText}</Text>
         </View>
       </View>
     </View>

@@ -263,6 +263,7 @@ export default function HomeScreen() {
                   graphTitle="Your Assets"
                   graphTrendData={portfolioData}
                   selectedTimeframe={selectedTimeframe}
+                  showTimeframeText={true}
                 />
               </View>
               <View style={styles.graphContainer}>
