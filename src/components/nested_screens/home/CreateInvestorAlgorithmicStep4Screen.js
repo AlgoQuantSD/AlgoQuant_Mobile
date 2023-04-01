@@ -1,12 +1,7 @@
 import React, { useState, useRef, useContext } from "react";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Animated, {
-  BounceIn,
-  BounceOut,
-  FadeIn,
-  FadeOut,
-} from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { Button, Snackbar } from "react-native-paper";
 import CustomParallaxCarousel from "../../reusable_components/CustomParallaxCarousel";
 import IndicatorsOrStocksListView from "../../reusable_components/IndicatorsOrStocksListView";
@@ -168,7 +163,7 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
             {isIndicatorSetToCarouselView ? (
               <CustomParallaxCarousel data={investorObject.indicators} />
             ) : (
-              <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
+              <Animated.View entering={FadeIn.delay(500)} exiting={FadeOut}>
                 <IndicatorsOrStocksListView data={chunkedIndicators} />
               </Animated.View>
             )}
@@ -182,13 +177,13 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
                 textColor={THEME.text.color.secondary}
                 onPress={handleStockViewChange}
               >
-                {isIndicatorSetToCarouselView ? "List View" : "Carousel View"}
+                {isStockSetToCarouselView ? "List View" : "Carousel View"}
               </Button>
             </View>
             {isStockSetToCarouselView ? (
               <CustomParallaxCarousel data={investorObject.assets_to_track} />
             ) : (
-              <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
+              <Animated.View entering={FadeIn.delay(500)} exiting={FadeOut}>
                 <IndicatorsOrStocksListView data={chunkedStocks} />
               </Animated.View>
             )}
@@ -232,13 +227,12 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: "5%",
-    marginLeft: "5%",
-    marginRight: "5%",
+    paddingTop: "3%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   headerContainer: {
-    flex: 0.1,
-    justifyContent: "center",
+    paddingBottom: "5%",
   },
   text: { fontSize: THEME.text.fontSize.body, color: THEME.text.color.primary },
   headerText: {
@@ -248,12 +242,10 @@ const styles = StyleSheet.create({
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H4,
     color: THEME.text.color.primary,
-    paddingTop: "2%",
-    paddingBottom: "2%",
+    paddingBottom: "3%",
   },
   investorConfigurationContainer: {
-    flex: 0.25,
-    justifyContent: "center",
+    paddingBottom: "10%",
   },
   investorConfigurationItem: {
     flexDirection: "row",
@@ -262,8 +254,7 @@ const styles = StyleSheet.create({
     paddingBottom: "1%",
   },
   indicatorsContainer: {
-    flex: 0.25,
-    marginTop: "10%",
+    paddingBottom: "25%",
   },
   indicatorsHeaderRow: {
     flexDirection: "row",
@@ -275,14 +266,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  stocksContainer: {
-    flex: 0.25,
-  },
+  stocksContainer: {},
   nextButtonContainer: {
-    flex: 0.1,
-    justifyContent: "center",
-    paddingTop: "10%",
-    paddingBottom: "10%",
+    marginTop: "auto",
     alignItems: "flex-end",
   },
   snackbarContainer: {

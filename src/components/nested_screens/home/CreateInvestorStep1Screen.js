@@ -54,7 +54,7 @@ export default function CreateInvestorStep1Screen({ navigation }) {
           iconName={THEME.icon.name.error}
           iconSize={THEME.icon.size.snackbarIconSize}
           iconColor={THEME.colors.danger}
-          text="ERROR: Investor name must be at least 2 characters long."
+          text="ERROR: Investor name must be at least 3 characters long."
           textColor={THEME.colors.danger}
         />
       );
@@ -100,13 +100,13 @@ export default function CreateInvestorStep1Screen({ navigation }) {
             <TouchableOpacity onPress={(e) => setInvestorType("ALGORITHMIC")}>
               {investorType === "ALGORITHMIC" ? (
                 <Ionicons
-                  name="ellipse"
-                  color={THEME.icon.color.primary}
+                  name={THEME.icon.name.selectOptionCircleFilledIn}
+                  color={THEME.icon.color.ternary}
                   size={THEME.icon.size.medium}
                 />
               ) : (
                 <Ionicons
-                  name="ellipse-outline"
+                  name={THEME.icon.name.selectOptionCircleOutline}
                   color={THEME.icon.color.primary}
                   size={THEME.icon.size.medium}
                 />
@@ -123,7 +123,7 @@ export default function CreateInvestorStep1Screen({ navigation }) {
               {investorType === "AI" ? (
                 <Ionicons
                   name={THEME.icon.name.selectOptionCircleFilledIn}
-                  color={THEME.icon.color.primary}
+                  color={THEME.icon.color.ternary}
                   size={THEME.icon.size.medium}
                 />
               ) : (
@@ -142,6 +142,7 @@ export default function CreateInvestorStep1Screen({ navigation }) {
             buttonColor={THEME.button.primaryColorBackground}
             textColor={THEME.text.color.secondary}
             onPress={handleNextPress}
+            style={{ paddingLeft: "3%", paddingRight: "3%" }}
           >
             Next
           </Button>
@@ -174,6 +175,7 @@ export default function CreateInvestorStep1Screen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: "3%",
     paddingLeft: "5%",
     paddingRight: "5%",
     backgroundColor: THEME.colors.background,
@@ -181,35 +183,28 @@ const styles = StyleSheet.create({
   text: {
     fontSize: THEME.text.fontSize.body,
     color: THEME.text.color.primary,
+    paddingBottom: "2%",
   },
   headerContainer: {
-    flex: 0.1,
-    justifyContent: "center",
+    paddingBottom: "5%",
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
     color: THEME.text.color.primary,
   },
   investorNameInputContainer: {
-    flex: 0.1,
-    justifyContent: "center",
-  },
-  investorTypeContainer: {
-    flex: 0.6,
-    justifyContent: "center",
+    paddingBottom: "10%",
   },
   investorType: {
-    flex: 0.5,
-    justifyContent: "center",
+    paddingBottom: "10%",
   },
   investorTitleText: {
     fontSize: THEME.text.fontSize.H4,
     color: THEME.text.color.primary,
+    paddingBottom: "2%",
   },
   nextButtonContainer: {
-    flex: 0.15,
     marginTop: "auto",
-    justifyContent: "center",
     alignItems: "flex-end",
   },
   snackbarContainer: {
