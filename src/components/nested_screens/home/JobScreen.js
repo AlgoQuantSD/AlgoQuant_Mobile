@@ -11,6 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { Snackbar } from "react-native-paper";
+import { VictoryPie } from "victory-native";
 import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
 import CustomGraph from "../../reusable_components/CustomGraph";
 import CustomTable from "../../reusable_components/CustomTable";
@@ -23,6 +24,7 @@ import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
 import { THEME } from "../../../constants/Theme";
 import { ChipJobTypes } from "../../../constants/ChipJobTypeEnum";
 import { jobHistoryColumns } from "../../../helpers/tableColumns";
+import BuyingPowerAndHoldings from "../../reusable_components/BuyingPowerAndHoldings";
 
 export default function JobScreen(props) {
   const { jobID, jobType } = props.route.params;
@@ -252,6 +254,7 @@ export default function JobScreen(props) {
       ) : (
         <ScrollView
           style={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
           scrollEnabled={isScrollEnabled}
           refreshControl={
             <RefreshControl
@@ -366,6 +369,12 @@ export default function JobScreen(props) {
               />
             )}
           </View>
+          <View>
+            <Text style={[styles.sectionTitleText, { paddingBottom: "5%" }]}>
+              Buying Power and Holdings
+            </Text>
+            <BuyingPowerAndHoldings job={job} />
+          </View>
           {/* Recent Trades */}
           <View style={styles.recentTradesContainer}>
             <Text style={styles.sectionTitleText}>Recent Trades</Text>
@@ -437,6 +446,7 @@ const styles = StyleSheet.create({
   graphContainer: {
     flexDirection: "row",
     justifyContent: "center",
+    paddingBottom: "5%",
   },
   recentTradesContainer: {
     maxHeight: 600,
