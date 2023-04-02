@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text } from "react-native";
 import { VictoryPie } from "victory-native";
-import { THEME } from "../../constants/Theme";
 
 export default function BuyingPowerAndHoldings(props) {
   const { job } = props;
@@ -38,34 +37,36 @@ export default function BuyingPowerAndHoldings(props) {
           alignItems: "center",
         }}
       >
-        <VictoryPie
-          colorScale={["tomato", "navy", "gold", "cyan", "orange"]}
-          data={data}
-          height={315}
-          events={[
-            {
-              target: "data",
-              eventHandlers: {
-                onPress: (evt, pressedProps) => {
-                  const { datum, x, shares } = pressedProps;
-                  return [
-                    {
-                      target: "labels",
-                      mutation: (props) => {
-                        return props.text ===
-                          `$${datum.holdings}\n(${datum.shares} shares)`
-                          ? null
-                          : {
-                              text: `$${datum.holdings}\n(${datum.shares} shares)`,
-                            };
+        {data?.length >= 1 ? (
+          <VictoryPie
+            colorScale={["tomato", "navy", "gold", "cyan", "orange"]}
+            data={data}
+            height={315}
+            events={[
+              {
+                target: "data",
+                eventHandlers: {
+                  onPress: (evt, pressedProps) => {
+                    const { datum } = pressedProps;
+                    return [
+                      {
+                        target: "labels",
+                        mutation: (props) => {
+                          return props.text ===
+                            `$${datum.holdings}\n(${datum.shares} shares)`
+                            ? null
+                            : {
+                                text: `$${datum.holdings}\n(${datum.shares} shares)`,
+                              };
+                        },
                       },
-                    },
-                  ];
+                    ];
+                  },
                 },
               },
-            },
-          ]}
-        ></VictoryPie>
+            ]}
+          ></VictoryPie>
+        ) : null}
       </View>
     </View>
   );
