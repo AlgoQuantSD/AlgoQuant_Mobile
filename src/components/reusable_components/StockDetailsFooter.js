@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
 
   headerText: {
-    fontSize: THEME.text.fontSize.H1,
+    fontSize: THEME.text.fontSize.H3,
     color: THEME.text.color.primary,
     paddingBottom: "5%",
   },

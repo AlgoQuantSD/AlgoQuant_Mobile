@@ -168,7 +168,15 @@ export default function StockInfoScreen(props) {
   // Update graph data / information based on selected timeframe and change the selected timeframe
 
   return (
-    <View style={{ flex: 1, backgroundColor: THEME.colors.background }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: THEME.colors.background,
+        paddingLeft: "5%",
+        paddingRight: "5%",
+        justifyContent: "center",
+      }}
+    >
       {isGraphDataLoading || isStockInfoLoading ? (
         <View style={{ flex: 1, justifyContent: "center" }}>
           <ActivityIndicator
@@ -224,31 +232,16 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.colors.background,
   },
   graphDetailsContainer: {
-    flex: 0.2,
-    width: "90%",
-    marginTop: "5%",
-    marginLeft: "5%",
-    marginRight: "5%",
+    paddingTop: "3%",
   },
   graphContainer: {
-    flex: 0.5,
-    width: "90%",
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: "5%",
-    marginRight: "5%",
   },
   stockDetailsFooterContainer: {
-    flex: 0.3,
-    marginTop: "5%",
-    marginLeft: "5%",
-    marginRight: "5%",
+    paddingTop: "5%",
   },
-  headerText: {
-    fontSize: THEME.text.fontSize.H1,
-    color: THEME.text.color.primary,
-    paddingBottom: "5%",
-  },
+
   text: {
     fontSize: THEME.text.fontSize.body,
     color: THEME.text.color.primary,
