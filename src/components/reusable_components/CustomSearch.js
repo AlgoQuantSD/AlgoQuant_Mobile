@@ -49,9 +49,6 @@ export default function CustomSearch(props) {
               <View style={styles.textCell}>
                 <Text style={styles.text}>{item}</Text>
               </View>
-              <View style={styles.textCell}>
-                <Text style={styles.text}>{item}</Text>
-              </View>
             </TouchableOpacity>
           )}
         />
