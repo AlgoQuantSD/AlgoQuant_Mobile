@@ -28,7 +28,7 @@ export default function CustomTable(props) {
   }
 
   return (
-    <View style={{ height: 500 }}>
+    <View style={{ minHeight: 200, maxHeight: 500 }}>
       <ScrollView horizontal={true}>
         <DataTable>
           <DataTable.Header>

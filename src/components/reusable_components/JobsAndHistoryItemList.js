@@ -10,14 +10,15 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { investorImagePathList } from "../../constants/InvestorImagePaths";
 import { THEME } from "../../constants/Theme";
 import Animated, { SlideInDown } from "react-native-reanimated";
-import { ChipJobTypes } from "../../constants/ChipJobTypeEnum";
+import { CHIP_JOB_TYPES } from "../../constants/ChipJobTypeEnum";
 
 export default function JobsAndHistoryItemList(props) {
   const { listData, isLoading, handleFetchMoreData, type } = props;
   const navigation = useNavigation();
+
+  console.log("Job list loading: ", isLoading);
 
   // Get reference of scrollview component
   const scrollViewRef = useRef(null);
@@ -35,7 +36,7 @@ export default function JobsAndHistoryItemList(props) {
 
       // ternary operator to handle the tab data loading in the home page
       // tenary operator to handle the chip data loading in the investor screen
-      type === ChipJobTypes.Past || type === "CAROUSEL_TAB_HISTORY"
+      type === CHIP_JOB_TYPES.Past || type === "CAROUSEL_TAB_HISTORY"
         ? handleFetchMoreData("complete")
         : handleFetchMoreData("active");
     }
@@ -54,7 +55,7 @@ export default function JobsAndHistoryItemList(props) {
         <View style={styles.listItems}>
           {listData.length === 0 ? (
             <View style={styles.noResultsContainer}>
-              {type === "CAROUSEL_TAB_JOBS" || ChipJobTypes.Active ? (
+              {type === "CAROUSEL_TAB_JOBS" || CHIP_JOB_TYPES.Active ? (
                 <Text style={styles.text2}>
                   You don't have any jobs yet. You can create a job from one of
                   your investors.
@@ -133,8 +134,7 @@ export default function JobsAndHistoryItemList(props) {
 
 const styles = StyleSheet.create({
   container: {
-    height: "90%",
-    marginTop: "5%",
+    paddingTop: "5%",
   },
   text: {
     color: THEME.text.color.secondary,
@@ -144,11 +144,12 @@ const styles = StyleSheet.create({
   },
   activityIndicator: {
     paddingTop: "10%",
+    minHeight: 150,
   },
   listItems: {
-    height: 700,
+    minHeight: 150,
+    maxHeight: 450,
     alignItems: "center",
-    width: "100%",
   },
   listItem: {
     flex: 1,
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "80%",
     alignItems: "center",
-    marginTop: "5%",
+    paddingTop: "5%",
   },
   itemName: {
     width: "33%",

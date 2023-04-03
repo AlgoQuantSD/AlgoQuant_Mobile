@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     color: THEME.text.color.primary,
   },
   headerText: {
-    fontSize: THEME.text.fontSize.H1,
+    fontSize: THEME.text.fontSize.H2,
     color: THEME.text.color.primary,
     paddingBottom: "2%",
   },

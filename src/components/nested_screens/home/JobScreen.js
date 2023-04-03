@@ -22,7 +22,7 @@ import { stopJobModalBuilder } from "../../../helpers/modalFactory";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
 import { THEME } from "../../../constants/Theme";
-import { ChipJobTypes } from "../../../constants/ChipJobTypeEnum";
+import { CHIP_JOB_TYPES } from "../../../constants/ChipJobTypeEnum";
 import { jobHistoryColumns } from "../../../helpers/tableColumns";
 import BuyingPowerAndHoldings from "../../reusable_components/BuyingPowerAndHoldings";
 
@@ -138,7 +138,7 @@ export default function JobScreen(props) {
               year: "numeric",
             })
           );
-          setIsLoading(false);
+          setIsJobLoading(false);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
@@ -351,7 +351,7 @@ export default function JobScreen(props) {
         If the graph is in the background while we activate the modal, 
         the modal will have a laggy enter and exit animation */}
               {isModalVisible ? null : jobType === "CAROUSEL_TAB_JOBS" ||
-                jobType === ChipJobTypes.Active ? (
+                jobType === CHIP_JOB_TYPES.Active ? (
                 <CustomGraph
                   graphData={graphData}
                   getGraphData={getGraphData}
@@ -374,7 +374,7 @@ export default function JobScreen(props) {
                 />
               )}
             </View>
-            <View>
+            <View style={{ paddingBottom: "10%" }}>
               <Text style={[styles.sectionTitleText, { paddingBottom: "5%" }]}>
                 Buying Power and Holdings
               </Text>
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
     color: THEME.text.color.primary,
   },
   sectionTitleText: {
-    fontSize: THEME.text.fontSize.H2,
+    fontSize: THEME.text.fontSize.H3,
     color: THEME.text.color.primary,
   },
   headerContainer: {
@@ -452,11 +452,10 @@ const styles = StyleSheet.create({
   graphContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    paddingBottom: "5%",
+    paddingBottom: "10%",
   },
   recentTradesContainer: {
     maxHeight: 600,
-    paddingTop: "10%",
     paddingBottom: 5,
   },
   snackbarContainer: { flex: 0.05 },

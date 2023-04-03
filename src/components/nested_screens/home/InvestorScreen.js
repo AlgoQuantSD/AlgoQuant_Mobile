@@ -1,17 +1,23 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+  useRef,
+} from "react";
 import {
   View,
   Text,
   Image,
   TouchableOpacity,
   ScrollView,
+  Dimensions,
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeOutDown } from "react-native-reanimated";
 import { Button, Snackbar } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
-import { investorImagePathList } from "../../../constants/InvestorImagePaths";
 import CustomParallaxCarousel from "../../reusable_components/CustomParallaxCarousel";
 import IndicatorsOrStocksListView from "../../reusable_components/IndicatorsOrStocksListView";
 import JobsAndHistoryItemList from "../../reusable_components/JobsAndHistoryItemList";
@@ -25,7 +31,7 @@ import { Chip } from "react-native-paper";
 import { chunker } from "../../../helpers/chunker";
 import { THEME } from "../../../constants/Theme";
 import AlgoquantApiContext from "../../../constants/ApiContext";
-import { ChipJobTypes } from "../../../constants/ChipJobTypeEnum";
+import { CHIP_JOB_TYPES } from "../../../constants/ChipJobTypeEnum";
 
 export default function InvestorScreen(props) {
   const { investorID } = props.route.params;
@@ -72,11 +78,13 @@ export default function InvestorScreen(props) {
   const [lekJobId, setlekJobId] = useState(null);
   const [lastQuery, setLastQuery] = useState(false);
 
-  // State variable to track the selected chip. usees the ChipJobTypes Enum
-  const [chipState, setChipState] = useState(ChipJobTypes.Active);
+  // State variable to track the selected chip. usees the CHIP_JOB_TYPES Enum
+  const [chipState, setChipState] = useState(CHIP_JOB_TYPES.Active);
   // state variables to track what chip is currently selected
   const [selectedChipActive, setSelectedChipActive] = useState(true);
   const [selectedChipPast, setSelectedChipPast] = useState(false);
+
+  const scrollViewRef = useRef();
 
   const modalProps = {
     isModalVisible,
@@ -110,8 +118,8 @@ export default function InvestorScreen(props) {
   // UPDATE: USE THE INVESTOR OF FROM THE SECOND API CALL !!!
   const getJobList = useCallback(
     (fetchType) => {
-      setIsJobListLoading(true);
       if (!lastQuery) {
+        setIsJobListLoading(true);
         if (algoquantApi.token) {
           algoquantApi
             .getJobList(fetchType, investorID, lekJobId)
@@ -129,6 +137,7 @@ export default function InvestorScreen(props) {
             .catch((err) => {
               // TODO: Need to implement better error handling
               console.log(err);
+              setIsJobListLoading(false);
             });
         }
       }
@@ -164,28 +173,32 @@ export default function InvestorScreen(props) {
   const handleJobTypeChipPress = (JobChipType) => {
     // Reset the dependent values used to fetch the pagniated job / history list data
     // and the useEffect on line 110 will be called
+
     setJobList([]);
     setLastQuery(false);
     setlekJobId(null);
 
     switch (JobChipType) {
-      case ChipJobTypes.Active:
-        setChipState(ChipJobTypes.Active);
+      case CHIP_JOB_TYPES.Active:
+        setChipState(CHIP_JOB_TYPES.Active);
         setSelectedChipActive(true);
         setSelectedChipPast(false);
         break;
-      case ChipJobTypes.Past:
-        setChipState(ChipJobTypes.Past);
+      case CHIP_JOB_TYPES.Past:
+        setChipState(CHIP_JOB_TYPES.Past);
         setSelectedChipPast(true);
         setSelectedChipActive(false);
     }
+    setTimeout(() => {
+      scrollViewRef.current.scrollToEnd({ animated: true });
+    }, 200);
   };
 
   // Useeffect that gets triggered when the values of the dependent list changes
   // Used to fetch the list of data for active or past jobs based on the tab the user has selected
   useEffect(() => {
     if (!lastQuery && jobList.length === 0 && lekJobId === null)
-      if (chipState === ChipJobTypes.Active) {
+      if (chipState === CHIP_JOB_TYPES.Active) {
         getJobList("active");
       } else {
         getJobList("complete");
@@ -198,187 +211,206 @@ export default function InvestorScreen(props) {
   }, [investorID]);
 
   return (
-    <View style={styles.container}>
-      {shouldNavigateBack ? navigation.navigate("HomeScreen") : null}
-      {/* Modal */}
-      <CustomModal
-        isModalVisible={isModalVisible}
-        setIsModalVisible={setIsModalVisible}
-        modalType={modalType}
-        setModalType={setModalType}
-        modalTitle={modalTitle}
-        setModalTitle={setModalTitle}
-        modalHeader={modalHeader}
-        setModalHeader={setModalHeader}
-        modalBody={modalBody}
-        setModalBody={setModalBody}
-        modalInputFields={modalInputFields}
-        setModalInputFields={setModalInputFields}
-        modalButtons={modalButtons}
-        setModalButtons={setModalButtons}
-        setSnackbarMessage={setSnackbarMessage}
-        setIsSnackbarVisible={setIsSnackbarVisible}
-        modalSnackbarMessage={modalSnackbarMessage}
-        setModalSnackbarMessage={setModalSnackbarMessage}
-        isModalSnackbarVisible={isModalSnackbarVisible}
-        setIsModalSnackbarVisible={setIsModalSnackbarVisible}
-        setShouldNavigateBack={setShouldNavigateBack}
-        investorID={investorID}
-      />
-      {/* Header (name, image, start/delete buttons) */}
-      <View style={styles.headerContainer}>
-        <View style={styles.headerTextAndInvestorImageContainer}>
-          <View
-            style={{ flexDirection: "row", width: "80%", alignItems: "center" }}
-          >
-            <Text
-              adjustsFontSizeToFit
-              minimumFontScale={0.5}
-              numberOfLines={1}
-              style={styles.headerText}
+    <View style={{ flex: 1 }}>
+      <ScrollView ref={scrollViewRef} style={styles.container}>
+        {shouldNavigateBack ? navigation.navigate("HomeScreen") : null}
+        {/* Modal */}
+        <CustomModal
+          isModalVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          modalType={modalType}
+          setModalType={setModalType}
+          modalTitle={modalTitle}
+          setModalTitle={setModalTitle}
+          modalHeader={modalHeader}
+          setModalHeader={setModalHeader}
+          modalBody={modalBody}
+          setModalBody={setModalBody}
+          modalInputFields={modalInputFields}
+          setModalInputFields={setModalInputFields}
+          modalButtons={modalButtons}
+          setModalButtons={setModalButtons}
+          setSnackbarMessage={setSnackbarMessage}
+          setIsSnackbarVisible={setIsSnackbarVisible}
+          modalSnackbarMessage={modalSnackbarMessage}
+          setModalSnackbarMessage={setModalSnackbarMessage}
+          isModalSnackbarVisible={isModalSnackbarVisible}
+          setIsModalSnackbarVisible={setIsModalSnackbarVisible}
+          setShouldNavigateBack={setShouldNavigateBack}
+          investorID={investorID}
+        />
+        {/* Header (name, image, start/delete buttons) */}
+        <View style={styles.headerContainer}>
+          <View style={styles.headerTextAndInvestorImageContainer}>
+            <View
+              style={{
+                flexDirection: "row",
+                width: "80%",
+                alignItems: "center",
+              }}
             >
-              {investor?.investor_name}
-            </Text>
+              <Text
+                numberOfLines={2}
+                ellipsizeMode="tail"
+                style={styles.headerText}
+              >
+                {investor?.investor_name}
+              </Text>
 
-            <Image
-              style={styles.investorImage}
-              source={{ uri: investor?.image_id }}
-            />
+              <Image
+                style={styles.investorImage}
+                source={{ uri: investor?.image_id }}
+              />
+            </View>
           </View>
-        </View>
-        <View style={styles.iconsContainer}>
-          <TouchableOpacity
-            style={styles.headerRowIcon}
-            onPress={handleStartJobIconPress}
-          >
-            <Ionicons
-              name={THEME.icon.name.investorStartJob}
-              size={THEME.icon.size.large}
-              color={THEME.icon.color.primary}
-            />
-          </TouchableOpacity>
-          {/* Only show start backtest button if its an algorithmic investor (AI investors cant backtest) */}
-          {investor?.type === "I" ? (
+          <View style={styles.iconsContainer}>
             <TouchableOpacity
               style={styles.headerRowIcon}
-              onPress={handleBacktestIconPress}
+              onPress={handleStartJobIconPress}
             >
               <Ionicons
-                name={THEME.icon.name.backtest}
+                name={THEME.icon.name.investorStartJob}
                 size={THEME.icon.size.large}
                 color={THEME.icon.color.primary}
               />
             </TouchableOpacity>
-          ) : null}
+            {/* Only show start backtest button if its an algorithmic investor (AI investors cant backtest) */}
+            {investor?.type === "I" ? (
+              <TouchableOpacity
+                style={styles.headerRowIcon}
+                onPress={handleBacktestIconPress}
+              >
+                <Ionicons
+                  name={THEME.icon.name.backtest}
+                  size={THEME.icon.size.large}
+                  color={THEME.icon.color.primary}
+                />
+              </TouchableOpacity>
+            ) : null}
 
-          <TouchableOpacity
-            style={styles.headerRowIcon}
-            onPress={handleTrashIconPress}
-          >
-            <Ionicons
-              name="trash"
-              size={THEME.icon.size.large}
-              color={THEME.icon.color.primary}
+            <TouchableOpacity
+              style={styles.headerRowIcon}
+              onPress={handleTrashIconPress}
+            >
+              <Ionicons
+                name="trash"
+                size={THEME.icon.size.large}
+                color={THEME.icon.color.primary}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+        {/* Investor Configuration */}
+        <View style={styles.investorConfigurationContainer}>
+          <Text style={styles.sectionTitleText}>Investor Configuration</Text>
+          <View style={styles.investorConfigurationDetailsRow}>
+            <View style={styles.investorConfigurationDetailsCol}>
+              <Text style={styles.investorConfigurationDetailsText}>
+                Profit stop:
+              </Text>
+              <Text style={styles.text}>Loss stop:</Text>
+            </View>
+            <View style={styles.investorConfigurationDetailsCol}>
+              <Text style={styles.investorConfigurationDetailsText}>
+                {investor?.profit_stop * 100 + "%"}
+              </Text>
+              <Text style={styles.text}>{investor?.loss_stop * 100 + "%"}</Text>
+            </View>
+          </View>
+        </View>
+        {investor?.type === "I" ? (
+          <View style={{ flex: 0.5 }}>
+            {/* Indicators */}
+            <View style={styles.indicatorsContainer}>
+              <View style={styles.indicatorsHeaderRow}>
+                <Text style={styles.sectionTitleText}>Indicators</Text>
+                <Button
+                  buttonColor={THEME.button.primaryColorBackground}
+                  textColor={THEME.text.color.secondary}
+                  onPress={handleIndicatorViewChange}
+                >
+                  {isIndicatorSetToCarouselView ? "List View" : "Carousel View"}
+                </Button>
+              </View>
+              {isIndicatorSetToCarouselView ? (
+                <CustomParallaxCarousel
+                  data={investor?.indicators}
+                  height={Dimensions.get("window").width / 5}
+                  width={Dimensions.get("window").width}
+                />
+              ) : (
+                <Animated.View
+                  entering={FadeInUp.delay(500)}
+                  exiting={FadeOutDown}
+                >
+                  <IndicatorsOrStocksListView data={chunkedIndicators} />
+                </Animated.View>
+              )}
+            </View>
+            {/* Stocks */}
+            <View style={styles.stocksContainer}>
+              <View style={styles.stocksHeaderRow}>
+                <Text style={styles.sectionTitleText}>Stocks</Text>
+                <Button
+                  buttonColor={THEME.button.color.primary}
+                  textColor={THEME.text.color.secondary}
+                  onPress={handleStockViewChange}
+                >
+                  {isStockSetToCarouselView ? "List View" : "Carousel View"}
+                </Button>
+              </View>
+
+              {isStockSetToCarouselView ? (
+                <CustomParallaxCarousel
+                  data={investor?.assets_to_track}
+                  height={Dimensions.get("window").width / 5}
+                  width={Dimensions.get("window").width}
+                />
+              ) : (
+                <Animated.View
+                  entering={FadeInUp.delay(500)}
+                  exiting={FadeOutDown}
+                >
+                  <IndicatorsOrStocksListView data={chunkedStocks} />
+                </Animated.View>
+              )}
+            </View>
+          </View>
+        ) : null}
+
+        {/* Jobs */}
+        <View style={styles.jobsContainer}>
+          <View style={styles.sectionTitleContainer}>
+            <Text style={styles.sectionTitleText}>Jobs</Text>
+            <Chip
+              mode="flat"
+              style={styles.chip}
+              selected={selectedChipActive}
+              elevated
+              onPress={() => handleJobTypeChipPress(CHIP_JOB_TYPES.Active)}
+            >
+              Active
+            </Chip>
+            <Chip
+              mode="flat"
+              style={styles.chip}
+              selected={selectedChipPast}
+              elevated
+              onPress={() => handleJobTypeChipPress(CHIP_JOB_TYPES.Past)}
+            >
+              Past
+            </Chip>
+          </View>
+          <View style={styles.jobList}>
+            <JobsAndHistoryItemList
+              listData={jobList}
+              isLoading={isJobListLoading}
+              type={chipState}
+              handleFetchMoreData={getJobList}
             />
-          </TouchableOpacity>
-        </View>
-      </View>
-      {/* Investor Configuration */}
-      <View style={styles.investorConfigurationContainer}>
-        <Text style={styles.sectionTitleText}>Investor Configuration</Text>
-        <View style={styles.investorConfigurationDetailsRow}>
-          <View style={styles.investorConfigurationDetailsCol}>
-            <Text style={styles.investorConfigurationDetailsText}>
-              Profit stop:
-            </Text>
-            <Text style={styles.text}>Loss stop:</Text>
-          </View>
-          <View style={styles.investorConfigurationDetailsCol}>
-            <Text style={styles.investorConfigurationDetailsText}>
-              {investor?.profit_stop * 100 + "%"}
-            </Text>
-            <Text style={styles.text}>{investor?.loss_stop * 100 + "%"}</Text>
           </View>
         </View>
-      </View>
-      {investor?.type === "I" ? (
-        <View style={{ flex: 0.5 }}>
-          {/* Indicators */}
-          <View style={styles.indicatorsContainer}>
-            <View style={styles.indicatorsHeaderRow}>
-              <Text style={styles.sectionTitleText}>Indicators</Text>
-              <Button
-                buttonColor={THEME.button.primaryColorBackground}
-                textColor={THEME.text.color.secondary}
-                onPress={handleIndicatorViewChange}
-              >
-                {isIndicatorSetToCarouselView ? "List View" : "Carousel View"}
-              </Button>
-            </View>
-            {isIndicatorSetToCarouselView ? (
-              <CustomParallaxCarousel data={investor?.indicators} />
-            ) : (
-              <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
-                <IndicatorsOrStocksListView data={chunkedIndicators} />
-              </Animated.View>
-            )}
-          </View>
-          {/* Stocks */}
-          <View style={styles.stocksContainer}>
-            <View style={styles.stocksHeaderRow}>
-              <Text style={styles.sectionTitleText}>Stocks</Text>
-              <Button
-                buttonColor={THEME.button.color.primary}
-                textColor={THEME.text.color.secondary}
-                onPress={handleStockViewChange}
-              >
-                {isStockSetToCarouselView ? "List View" : "Carousel View"}
-              </Button>
-            </View>
-
-            {isStockSetToCarouselView ? (
-              <CustomParallaxCarousel data={investor?.assets_to_track} />
-            ) : (
-              <Animated.View entering={BounceIn.delay(500)} exiting={BounceOut}>
-                <IndicatorsOrStocksListView data={chunkedStocks} />
-              </Animated.View>
-            )}
-          </View>
-        </View>
-      ) : null}
-
-      {/* Jobs */}
-      <View style={styles.jobsContainer}>
-        <View style={styles.sectionTitleContainer}>
-          <Text style={styles.sectionTitleText}>Jobs</Text>
-          <Chip
-            mode="flat"
-            style={styles.chip}
-            selected={selectedChipActive}
-            elevated
-            onPress={() => handleJobTypeChipPress(ChipJobTypes.Active)}
-          >
-            Active
-          </Chip>
-          <Chip
-            mode="flat"
-            style={styles.chip}
-            selected={selectedChipPast}
-            elevated
-            onPress={() => handleJobTypeChipPress(ChipJobTypes.Past)}
-          >
-            Past
-          </Chip>
-        </View>
-        <View style={styles.jobList}>
-          <JobsAndHistoryItemList
-            listData={jobList}
-            isLoading={isJobListLoading}
-            type={chipState}
-            handleFetchMoreData={getJobList}
-          />
-        </View>
-      </View>
+      </ScrollView>
       {/* Snackbar */}
       <View style={styles.snackbarContainer}>
         <Snackbar
@@ -405,21 +437,19 @@ export default function InvestorScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: THEME.colors.background,
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   text: {
     fontSize: THEME.text.fontSize.body,
     color: THEME.text.color.primary,
   },
   headerContainer: {
-    flex: 0.15,
-    width: "90%",
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: "5%",
-    marginTop: "2%",
-    marginRight: "5%",
+    paddingTop: "3%",
+    paddingBottom: "5%",
   },
   headerTextAndInvestorImageContainer: {
     width: "65%",
@@ -441,30 +471,24 @@ const styles = StyleSheet.create({
     paddingRight: "5%",
   },
   investorConfigurationContainer: {
-    flex: 0.15,
-    width: "90%",
-    marginTop: "5%",
-    marginLeft: "5%",
-    marginRight: "5%",
+    paddingTop: "5%",
+    paddingBottom: "10%",
   },
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H4,
     color: THEME.text.color.primary,
     marginRight: 10,
+    paddingBottom: "2%",
   },
   sectionTitleContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
   investorConfigurationDetailsRow: {
-    flex: 1,
     flexDirection: "row",
-    width: "100%",
     justifyContent: "space-between",
-    // backgroundColor: "green",
   },
   investorConfigurationDetailsCol: {
-    height: "100%",
     justifyContent: "center",
   },
   investorConfigurationDetailsText: {
@@ -473,36 +497,22 @@ const styles = StyleSheet.create({
     paddingBottom: "2%",
   },
   indicatorsContainer: {
-    flex: 0.5,
-    width: "90%",
-    marginTop: "10%",
-    marginLeft: "5%",
-    marginRight: "5%",
+    paddingBottom: "5%",
   },
   indicatorsHeaderRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  stocksContainer: {
-    flex: 0.5,
-    width: "90%",
-    marginTop: "10%",
-    marginLeft: "5%",
-    marginRight: "5%",
-  },
+
   stocksHeaderRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   jobsContainer: {
-    flex: 0.45,
-    width: "90%",
-    marginTop: "10%",
-    marginLeft: "5%",
-    marginRight: "5%",
-    marginBottom: "5%",
+    paddingTop: "10%",
+    paddingBottom: "5%",
   },
   jobList: {
     width: "100%",
