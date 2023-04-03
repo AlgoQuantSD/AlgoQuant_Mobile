@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { View, ScrollView, RefreshControl, StyleSheet } from "react-native";
+import {
+  View,
+  ScrollView,
+  RefreshControl,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
 import { THEME } from "../../../constants/Theme";
 import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
 import CustomGraph from "../../reusable_components/CustomGraph";
@@ -15,6 +21,9 @@ export default function StockInfoScreen(props) {
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isScrollEnabled, setIsScrollEnabled] = useState(true);
+
+  const [isStockInfoLoading, setIsStockInfoLoading] = useState(false);
+  const [isGraphDataLoading, setIsGraphDataLoading] = useState(false);
 
   // State variables to store the ticker the user selected information
   const [high52w, setHigh52w] = useState(null);
@@ -67,6 +76,7 @@ export default function StockInfoScreen(props) {
   // Callback function to get the graph data from the Algoquant API
   const getGraphData = useCallback(
     (timeframe) => {
+      setIsGraphDataLoading(true);
       if (algoquantApi.token) {
         algoquantApi
           .getGraphData(stockName, timeframe)
@@ -90,20 +100,22 @@ export default function StockInfoScreen(props) {
             if (timeframe === "D") {
               setDateClosed(resp.data["timestamp"][0]);
             }
+            setIsGraphDataLoading(false);
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
             console.log(err);
+            setIsGraphDataLoading(false);
           });
       }
     },
     [algoquantApi, setGraphData, setYValues]
   );
-  // WILL : fix graphh tick spacing and make graph larger plss
 
   // Do this when the user pulls down the screen to refresh
   function onRefresh() {
     setIsRefreshing(true);
+    setIsStockInfoLoading(true);
     // Get updated stock info
     if (algoquantApi.token) {
       algoquantApi
@@ -115,10 +127,12 @@ export default function StockInfoScreen(props) {
           setLow(resp.data["low"]);
           setOpen(resp.data["open"]);
           setRecentPrice(resp.data["recent_price"]);
+          setIsStockInfoLoading(false);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
           console.log(err);
+          setIsStockInfoLoading(false);
         });
     }
     getGraphData(selectedTimeframe);
@@ -129,6 +143,7 @@ export default function StockInfoScreen(props) {
 
   // loads the data for stock along with the day graph because day is the initial graph shown on the info screen
   useEffect(() => {
+    setIsStockInfoLoading(true);
     if (algoquantApi.token) {
       algoquantApi
         .getStockInfo(stockName)
@@ -139,10 +154,12 @@ export default function StockInfoScreen(props) {
           setLow(resp.data["low"]);
           setOpen(resp.data["open"]);
           setRecentPrice(resp.data["recent_price"]);
+          setIsStockInfoLoading(false);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
           console.log(err);
+          setIsStockInfoLoading(false);
         });
     }
     getGraphData("D");
@@ -151,49 +168,59 @@ export default function StockInfoScreen(props) {
   // Update graph data / information based on selected timeframe and change the selected timeframe
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl
-          refreshing={isRefreshing}
-          onRefresh={onRefresh}
-          tintColor={THEME.colors.primary}
-        />
-      }
-      scrollEnabled={isScrollEnabled}
-      style={styles.container}
-    >
-      <View style={styles.graphDetailsContainer}>
-        <GraphDetailsHeader
-          graphTitle={stockName}
-          graphTrendData={stockData}
-          selectedTimeframe={selectedTimeframe}
-          showTimeframeText={true}
-        />
-      </View>
-      <View style={styles.graphContainer}>
-        <CustomGraph
-          graphData={graphData}
-          getGraphData={getGraphData}
-          setSelectedTimeframe={setSelectedTimeframe}
-          selectedTimeframe={selectedTimeframe}
-          percentChanged={percentChanged}
-          yVals={yValues}
-          handlePressInGraph={handlePressInGraph}
-          handlePressOutGraph={handlePressOutGraph}
-          timeframeEnabled={true}
-        />
-      </View>
-      <View style={styles.stockDetailsFooterContainer}>
-        <StockDetailsFooter stockData={stockData} />
-      </View>
-    </ScrollView>
+    <View style={{ flex: 1, backgroundColor: THEME.colors.background }}>
+      {isGraphDataLoading || isStockInfoLoading ? (
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <ActivityIndicator
+            size="large"
+            color={THEME.activityIndicator.color.primary}
+          />
+        </View>
+      ) : (
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefresh}
+              tintColor={THEME.colors.primary}
+            />
+          }
+          scrollEnabled={isScrollEnabled}
+          style={styles.container}
+        >
+          <View style={styles.graphDetailsContainer}>
+            <GraphDetailsHeader
+              graphTitle={stockName}
+              graphTrendData={stockData}
+              selectedTimeframe={selectedTimeframe}
+              showTimeframeText={true}
+            />
+          </View>
+          <View style={styles.graphContainer}>
+            <CustomGraph
+              graphData={graphData}
+              getGraphData={getGraphData}
+              setSelectedTimeframe={setSelectedTimeframe}
+              selectedTimeframe={selectedTimeframe}
+              percentChanged={percentChanged}
+              yVals={yValues}
+              handlePressInGraph={handlePressInGraph}
+              handlePressOutGraph={handlePressOutGraph}
+              timeframeEnabled={true}
+            />
+          </View>
+          <View style={styles.stockDetailsFooterContainer}>
+            <StockDetailsFooter stockData={stockData} />
+          </View>
+        </ScrollView>
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-
     backgroundColor: THEME.colors.background,
   },
   graphDetailsContainer: {
