@@ -20,7 +20,9 @@ export default function BacktestResultsScreen(props) {
   const [backtestDataObject, setBacktestDataObject] = useState(null);
   // initial value is an array because victorycharts takes data prop as array or objects only
   const [graphData, setGraphData] = useState([0]);
+  const [graphData2, setGraphData2] = useState([0]);
   const [yValues, setYValues] = useState([]);
+  const [yValues2, setYValues2] = useState([]);
   const [algoquantRating, setAlgoquantRating] = useState(null);
   const [percentChanged, setPercentChanged] = useState(0);
   const [daysBetween, setDaysBetween] = useState(0);
@@ -66,18 +68,28 @@ export default function BacktestResultsScreen(props) {
       algoquantApi
         .getBacktest(backtestId)
         .then((resp) => {
+          console.log(resp.data);
           setBacktestDataObject(resp.data);
           algoquantRatingGenerator(resp.data);
           const combinedData = resp.data["value_timestamps"].map((x, i) => ({
             x,
             y: resp.data["portfolio_value_history"][i],
           }));
+          const combinedData2 = resp.data["value_timestamps"].map((x, i) => ({
+            x,
+            y: resp.data["portfolio_value_history_hold"][i],
+          }));
           setGraphData(combinedData);
+          setGraphData2(combinedData2);
           // putting y values in acsending order for y ticks on graph
           const yTickValues = resp.data["portfolio_value_history"]
             .map((datum) => datum)
             .sort((a, b) => a - b);
           setYValues(yTickValues);
+          const yTickValues2 = resp.data["portfolio_value_history_hold"]
+            .map((datum) => datum)
+            .sort((a, b) => a - b);
+          setYValues2(yTickValues2);
           setIsLoading(false);
         })
         .catch((err) => {
@@ -136,7 +148,10 @@ export default function BacktestResultsScreen(props) {
             <View style={styles.graphContainer}>
               <CustomGraph
                 graphData={graphData}
-                yVals={yValues}
+                graphData2={graphData2}
+                lineColor1="red"
+                lineColor2="blue"
+                yVals={yValues2}
                 timeframeEnabled={false}
                 handlePressInGraph={handlePressInGraph}
                 handlePressOutGraph={handlePressOutGraph}
