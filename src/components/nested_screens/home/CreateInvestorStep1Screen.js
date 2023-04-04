@@ -12,8 +12,10 @@ import { Button, TextInput, Snackbar } from "react-native-paper";
 import SnackbarContent from "../../reusable_components/SnackbarContent";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { THEME } from "../../../constants/Theme";
+import { useNavigation } from "@react-navigation/native";
 
-export default function CreateInvestorStep1Screen({ navigation }) {
+export default function CreateInvestorStep1Screen(props) {
+  const navigation = useNavigation();
   const [investorName, setInvestorName] = useState("");
   const [investorType, setInvestorType] = useState("ALGORITHMIC");
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);

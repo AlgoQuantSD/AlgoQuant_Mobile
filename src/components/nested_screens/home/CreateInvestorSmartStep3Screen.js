@@ -7,10 +7,12 @@ import SnackbarContent from "../../reusable_components/SnackbarContent";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { THEME } from "../../../constants/Theme";
 import AlgoquantApiContext from "../../../constants/ApiContext";
+import InvestorCreationContext from "../../../constants/investorCreationContext";
 
 export default function CreateInvestorSmartStep3Screen(props) {
   const { investorObject } = props.route.params;
   const navigation = useNavigation();
+  const { setInvestorMade } = useContext(InvestorCreationContext);
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
 
@@ -37,6 +39,7 @@ export default function CreateInvestorSmartStep3Screen(props) {
           "A"
         )
         .then((resp) => {
+          setInvestorMade(true);
           console.log(resp.data);
           setIsLoading(false);
           setSnackbarMessage(
@@ -51,6 +54,7 @@ export default function CreateInvestorSmartStep3Screen(props) {
           setIsSnackbarVisible(true);
         })
         .catch((err) => {
+          setInvestorMade(false);
           // TODO: Need to implement better error handling
           console.log(err);
           // Set snackbar message if there is an error

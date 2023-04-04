@@ -9,7 +9,7 @@ import InvestItemList from "../reusable_components/InvestItemList";
 import JobsAndHistoryItemList from "../reusable_components/JobsAndHistoryItemList";
 import { THEME } from "../../constants/Theme";
 import AlgoquantApiContext from "../../constants/ApiContext";
-
+import InvestorCreationContext from "../../constants/investorCreationContext";
 export default function InvestCarousel(props) {
   const {
     setSnackbarMessage,
@@ -20,6 +20,8 @@ export default function InvestCarousel(props) {
   } = props;
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
+  const { investorMade, setInvestorMade } = useContext(InvestorCreationContext);
+
   // Options for the carousel tabs
   const carouselOptions = [
     { name: "Investors", key: "CAROUSEL_TAB_INVESTORS", index: 0 },
@@ -109,6 +111,14 @@ export default function InvestCarousel(props) {
         getjobList("complete");
       }
   }, [selectedCarouselOptionIndex, lastQuery, lekJobId, jobList]);
+
+  useEffect(() => {
+    console.log("KSJKLSAJKLSJDKASKDSAKJSKLDJLSKDJLKSJDLKSJDLKALKDJSKLJDKL");
+    if (investorMade) {
+      getInvestorList();
+    }
+    setInvestorMade(false);
+  }, [investorMade]);
 
   // Handles what happens when the user presses one of the carousel tabs or swipes left or right inside of the component
   async function handleCarouselOptionChange(index) {
