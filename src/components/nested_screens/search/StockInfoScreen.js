@@ -128,17 +128,16 @@ export default function StockInfoScreen(props) {
           setOpen(resp.data["open"]);
           setRecentPrice(resp.data["recent_price"]);
           setIsStockInfoLoading(false);
+          setIsRefreshing(false);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
           console.log(err);
           setIsStockInfoLoading(false);
+          setIsRefreshing(false);
         });
     }
     getGraphData(selectedTimeframe);
-    setTimeout(() => {
-      setIsRefreshing(false);
-    }, 2000);
   }
 
   // loads the data for stock along with the day graph because day is the initial graph shown on the info screen
