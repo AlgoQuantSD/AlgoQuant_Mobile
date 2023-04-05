@@ -1,5 +1,10 @@
 import React, { useContext, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+  StyleSheet,
+} from "react-native";
 import { THEME } from "../../constants/Theme";
 import CustomSearch from "../reusable_components/CustomSearch";
 import AlgoquantApiContext from "../../constants/ApiContext";
@@ -43,14 +48,16 @@ export default function SearchScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <CustomSearch
-        onSelectStock={onSelectStock}
-        isLoading={isLoading}
-        searchResults={searchResults}
-        getSearchResults={getSearchResults}
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <CustomSearch
+          onSelectStock={onSelectStock}
+          isLoading={isLoading}
+          searchResults={searchResults}
+          getSearchResults={getSearchResults}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 

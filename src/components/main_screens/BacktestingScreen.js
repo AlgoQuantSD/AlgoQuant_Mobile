@@ -81,10 +81,13 @@ export default function BacktestingScreen() {
             }
             setHistory(history.concat(historyBuffer));
             setIsTableLoading(false);
+            setRefreshing(false);
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
             console.log("getBacktestList:" + err);
+            setIsTableLoading(false);
+            setRefreshing(false);
           });
       }
     }
@@ -92,14 +95,7 @@ export default function BacktestingScreen() {
 
   // Do this when the user pulls down the screen to refresh
   function onRefresh() {
-    setRefreshing(true);
-    setHistory([]);
-    setLastKey(null);
-    setLastQuery(false);
-    // Your refresh logic here
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
+    fetchBacktestHistory();
   }
 
   // Open the desired backtest in a new screen and pass its data

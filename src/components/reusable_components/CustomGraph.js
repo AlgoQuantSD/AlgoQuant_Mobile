@@ -3,6 +3,7 @@ import {
   View,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Text,
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
@@ -17,10 +18,14 @@ import { Button } from "react-native-paper";
 import { THEME, LINE_GRAPH_THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 import { format } from "d3-format";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function CustomGraph(props) {
   const {
     graphData,
+    graphData2,
+    lineColor1,
+    lineColor2,
     getGraphData,
     percentChanged,
     selectedTimeframe,
@@ -31,9 +36,11 @@ export default function CustomGraph(props) {
     timeframeEnabled,
   } = props;
 
-  console.log("Graph data: ", graphData);
+  console.log("GRAPH DATA 1 :", graphData);
+  console.log("GRAPH DATA 2: ", graphData2);
 
   const formatter = format(".2f");
+  const formatter2 = format(".0f");
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = percentChanged >= 0;
 
@@ -112,7 +119,7 @@ export default function CustomGraph(props) {
                 <VictoryVoronoiContainer
                   onTouchStart={handlePressInGraph}
                   onTouchEnd={handlePressOutGraph}
-                  labels={({ datum }) => `${formatter(datum.y)}`}
+                  labels={({ datum }) => `$${formatter(datum.y)}`}
                   labelComponent={
                     <VictoryTooltip
                       flyoutStyle={{
@@ -138,7 +145,11 @@ export default function CustomGraph(props) {
                 data={graphData}
                 style={
                   // If the graph is trending downwards show red otherwise show primary color
-                  isTrendingUp
+                  lineColor1
+                    ? {
+                        data: { stroke: lineColor1 },
+                      }
+                    : isTrendingUp
                     ? {
                         data: { stroke: THEME.colors.trendingUp },
                       }
@@ -147,18 +158,47 @@ export default function CustomGraph(props) {
                       }
                 }
               />
+              {graphData2 ? (
+                <VictoryLine
+                  animate={{
+                    onExit: {
+                      duration: 500,
+                      before: () => ({
+                        _y: 0,
+                        fill: THEME.colors.primary,
+                      }),
+                    },
+                  }}
+                  interpolation="natural"
+                  data={graphData2}
+                  style={
+                    // If the graph is trending downwards show red otherwise show primary color
+                    lineColor2
+                      ? {
+                          data: { stroke: lineColor2 },
+                        }
+                      : isTrendingUp
+                      ? {
+                          data: { stroke: THEME.colors.trendingUp },
+                        }
+                      : {
+                          data: { stroke: THEME.colors.trendingDown },
+                        }
+                  }
+                />
+              ) : null}
+
               {/* // X-axis */}
-              <VictoryAxis
-                dependentAxis
-                tickValues={yVals}
-                tickFormat={(t) => `${Math.round(t)}`}
-                tickCount={4}
-              />
-              {/* // Y-axis */}
               <VictoryAxis
                 dependentAxis={false}
                 tickFormat={(x) => determineTimeFrame(x)}
                 tickCount={4}
+              />
+              {/* // Y-axis */}
+              <VictoryAxis
+                dependentAxis
+                tickCount={4}
+                tickFormat={(x) => formatter2(x)}
               />
             </VictoryChart>
           </View>
@@ -246,6 +286,25 @@ export default function CustomGraph(props) {
                   Y
                 </Button>
               </TouchableOpacity>
+            </View>
+          ) : null}
+          {/* Show legend that explains what each color line is if there are multiple lines */}
+          {graphData2 ? (
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                paddingBottom: "5%",
+              }}
+            >
+              <View style={{ flexDirection: "row", paddingRight: "5%" }}>
+                <Ionicons name="ellipse" size={16} color="red" />
+                <Text>Investor Performance</Text>
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <Ionicons name="ellipse" size={16} color="blue" />
+                <Text>Buy/Hold Performance</Text>
+              </View>
             </View>
           ) : null}
         </View>

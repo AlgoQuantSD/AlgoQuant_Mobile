@@ -5,6 +5,7 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { Button, Snackbar } from "react-native-paper";
 import CustomParallaxCarousel from "../../reusable_components/CustomParallaxCarousel";
 import IndicatorsOrStocksListView from "../../reusable_components/IndicatorsOrStocksListView";
+import SuccessScreen from "../../reusable_components/SuccessScreen";
 import SnackbarContent from "../../reusable_components/SnackbarContent";
 import { PERIOD_LIST } from "../../../constants/CreateInvestorConstants";
 import { chunker } from "../../../helpers/chunker";
@@ -23,11 +24,14 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
     useState(true);
   const [isStockSetToCarouselView, setIsStockSetToCarouselView] =
     useState(true);
-  const chunkedIndicators = chunker(investorObject.indicators, 3);
-  const chunkedStocks = chunker(investorObject.assets_to_track, 3);
-  const [isLoading, setIsLoading] = useState(false);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [shouldShowSuccessScreen, setShouldShowSuccessScreen] = useState(false);
+
+  const chunkedIndicators = chunker(investorObject.indicators, 3);
+  const chunkedStocks = chunker(investorObject.assets_to_track, 3);
 
   function handleIndicatorViewChange() {
     setIsIndicatorSetToCarouselView(!isIndicatorSetToCarouselView);
@@ -35,6 +39,15 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
 
   function handleStockViewChange() {
     setIsStockSetToCarouselView(!isStockSetToCarouselView);
+  }
+
+  // Do this if the create backetest endpoint returns success
+  function handleSuccess() {
+    setShouldShowSuccessScreen(true);
+    setTimeout(() => {
+      setShouldShowSuccessScreen(false);
+      navigation.navigate("HomeScreen");
+    }, 3000);
   }
 
   function handleCreateInvestorPress() {
@@ -56,16 +69,7 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
         .then((resp) => {
           console.log(resp.data);
           setIsLoading(false);
-          setSnackbarMessage(
-            <SnackbarContent
-              iconName={THEME.icon.name.error}
-              iconSize={THEME.icon.size.snackbarIconSize}
-              iconColor={THEME.colors.danger}
-              text="Success: investor created."
-              textColor={THEME.colors.success}
-            />
-          );
-          setIsSnackbarVisible(true);
+          handleSuccess();
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
@@ -83,8 +87,6 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
           setIsSnackbarVisible(true);
         });
     }
-    // Navigate back home after successfully creating investor
-    navigation.navigate("HomeScreen");
   }
 
   return (
@@ -104,6 +106,12 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
             Creating your investor!
           </Animated.Text>
         </Animated.View>
+      ) : shouldShowSuccessScreen ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <SuccessScreen message="Successfully created investor!" />
+        </View>
       ) : (
         <Animated.View style={{ flex: 1 }}>
           {/* Header */}

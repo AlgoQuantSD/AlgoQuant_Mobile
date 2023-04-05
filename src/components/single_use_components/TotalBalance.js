@@ -47,7 +47,7 @@ export default function TotalBalance(props) {
       <Text style={styles.text}>
         {/* if the user is conntected to alpaca already it will show whether the buying power is simulated or not */}
         {alpacaConnection
-          ? "Alpaca verfied Buying Power"
+          ? "Alpaca Verfied Buying Power"
           : "Simulated Buying Power"}
       </Text>
       <View style={styles.balance}>

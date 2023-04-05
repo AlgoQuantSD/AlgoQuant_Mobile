@@ -5,18 +5,18 @@ import Carousel from "react-native-reanimated-carousel";
 import { THEME } from "../../constants/Theme";
 
 export default function CustomParallaxCarousel(props) {
-  const { data } = props;
-  const width = Dimensions.get("window").width;
+  const { data, height, width } = props;
+  const defaultWidth = Dimensions.get("window").width;
   return (
     <Animated.View
       entering={FadeInUp.delay(500)}
       exiting={FadeOutDown}
-      style={{ flex: 1 }}
+      style={{ flex: 1, alignItems: "center" }}
     >
       <Carousel
         loop
-        width={width}
-        height={width / 2}
+        width={width ? width : defaultWidth}
+        height={height ? height : defaultWidth / 2}
         mode="parallax"
         data={data}
         scrollAnimationDuration={1000}

@@ -17,7 +17,7 @@ export default function SuccessScreen(props) {
         color={THEME.colors.success}
         size={164}
       />
-      <Text style={{ color: THEME.text.color.primary }}>{message}</Text>
+      <Text style={{ fontSize: THEME.text.fontSize.H4,color: THEME.text.color.primary }}>{message}</Text>
     </Animated.View>
   );
 }
