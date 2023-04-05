@@ -62,8 +62,6 @@ export default function InvestItemList(props) {
                       onPress={() =>
                         navigation.navigate("InvestorScreen", {
                           investorID: item.investor_id,
-                          setHomeSnackbarMessage: setSnackbarMessage,
-                          setIsHomeSnackbarVisible: setIsSnackbarVisible,
                         })
                       }
                     >

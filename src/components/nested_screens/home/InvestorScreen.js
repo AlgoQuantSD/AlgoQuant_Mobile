@@ -32,6 +32,7 @@ import { Chip } from "react-native-paper";
 import { chunker } from "../../../helpers/chunker";
 import { THEME } from "../../../constants/Theme";
 import AlgoquantApiContext from "../../../constants/ApiContext";
+import InvestorListContext from "../../../constants/InvestorListContext";
 import { CHIP_JOB_TYPES } from "../../../constants/ChipJobTypeEnum";
 
 export default function InvestorScreen(props) {
@@ -40,6 +41,7 @@ export default function InvestorScreen(props) {
   // State variables used to access algoquant SDK APfI and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
   const navigation = useNavigation();
+  const { setInvestorListRefresh } = useContext(InvestorListContext);
 
   // state variable to hold the investor using the investor ID passed from the investorItemList
   const [investor, setInvestor] = useState(null);
@@ -65,15 +67,12 @@ export default function InvestorScreen(props) {
   const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
   const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(null);
 
-  const [isInvestorLoading, setIsInvestorLoading] = useState(false);
-  const [isJobListLoading, setIsJobListLoading] = useState(false);
-
-  // This state variable tells will only be true if we just deleted an investor so we can navigate back home
-  const [shouldNavigateBack, setShouldNavigateBack] = useState(false);
-
   // State variables for an investors job list
   // State variable to hold array of job objects
   const [jobList, setJobList] = useState([]);
+  // Loading stop when switching from viewing active jobs to past jobs
+  const [isJobListLoading, setIsJobListLoading] = useState(false);
+  const [isInvestorLoading, setIsInvestorLoading] = useState(false);
 
   // Used for pagination of the job list data
   // last evaluated key - used for the api to know if there is more data to fetch
@@ -228,7 +227,6 @@ export default function InvestorScreen(props) {
       ) : (
         <View>
           <ScrollView ref={scrollViewRef} style={styles.container}>
-            {shouldNavigateBack ? navigation.navigate("HomeScreen") : null}
             {/* Modal */}
             <CustomModal
               isModalVisible={isModalVisible}
@@ -251,8 +249,9 @@ export default function InvestorScreen(props) {
               setModalSnackbarMessage={setModalSnackbarMessage}
               isModalSnackbarVisible={isModalSnackbarVisible}
               setIsModalSnackbarVisible={setIsModalSnackbarVisible}
-              setShouldNavigateBack={setShouldNavigateBack}
+              setInvestorListRefresh={setInvestorListRefresh}
               investorID={investorID}
+              navigation={navigation}
             />
             {/* Header (name, image, start/delete buttons) */}
             <View style={styles.headerContainer}>

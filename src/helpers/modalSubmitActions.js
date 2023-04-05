@@ -218,7 +218,7 @@ export async function submitResetBalanceModal(props) {
             iconName={THEME.icon.name.success}
             iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.icon.color.primary}
-            text="SUCCESS: Balance reset."
+            text={resp.data.message}
             textColor={THEME.colors.success}
           />
         );
@@ -233,7 +233,7 @@ export async function submitResetBalanceModal(props) {
             iconName={THEME.icon.errorIcon}
             iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.colors.danger}
-            text="ERROR: Unable to reset Alpaca balance, please try again."
+            text={err.toString()}
             textColor={THEME.colors.danger}
           />
         );
@@ -267,7 +267,7 @@ export async function submitConnectAlpacaModal(props) {
             iconName={THEME.icon.name.success}
             iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.colors.success}
-            text="SUCCESS: Connected to Alpaca."
+            text={resp.data.message}
             textColor={THEME.colors.success}
           />
         );
@@ -282,7 +282,7 @@ export async function submitConnectAlpacaModal(props) {
             iconName={THEME.icon.name.error}
             iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.colors.danger}
-            text="ERROR: Unable to connect to Alpaca, please try again."
+            text={err.toString()}
             textColor={THEME.colors.danger}
           />
         );
@@ -312,7 +312,7 @@ export async function submitDisconnectAlpacaModal(props) {
             iconName={THEME.icon.name.success}
             iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.colors.success}
-            text="SUCCESS: Disconnected from Alpaca."
+            text={resp.data.message}
             textColor={THEME.colors.success}
           />
         );
@@ -327,7 +327,7 @@ export async function submitDisconnectAlpacaModal(props) {
             iconName={THEME.icon.name.error}
             iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.colors.danger}
-            text="ERROR: Unable to disconnect from Alpaca, please try again."
+            text={err.toString()}
             textColor={THEME.colors.danger}
           />
         );
@@ -574,40 +574,39 @@ export async function submitUpdatePhoneModal(props) {
 
 export async function submitDeleteInvestorModal(props) {
   const {
-    isModalVisible,
-    setIsModalVisible,
-    setModalType,
-    setModalTitle,
-    setModalHeader,
-    setModalBody,
-    setModalButtons,
-    setSnackbarMessage,
-    setIsSnackbarVisible,
-    setShouldNavigateBack,
+    setIsLoading,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+    setInvestorListRefresh,
     investorID,
+    navigation,
   } = props;
+  console.log("Delete investor props: ", props);
   // Call algoquant api and send bodyData to stop job
   if (algoquant.token) {
+    setIsLoading(true);
     algoquant
       .deleteInvestor(investorID)
-      .then(() => {
-        setSnackbarMessage(
-          <SnackbarContent
-            iconName={THEME.icon.name.success}
-            iconSize={THEME.icon.size.snackbarIconSize}
-            iconColor={THEME.icon.color.primary}
-            text="SUCCESS: Investor has been deleted"
-            textColor={THEME.colors.success}
-          />
-        );
-        setIsSnackbarVisible(true);
+      .then((resp) => {
+        setIsLoading(false);
         // Clear state upon successful submit
         cleanUpState(props);
-        setShouldNavigateBack(true);
+        setInvestorListRefresh(true);
+        navigation.navigate("HomeScreen");
       })
       .catch((err) => {
-        // will can u add the snackbar error handling and laoding
-        console.log("Delete Investor:" + err.message);
+        setModalSnackbarMessage(
+          <SnackbarContent
+            iconName={THEME.icon.name.error}
+            iconSize={THEME.icon.size.snackbarIconSize}
+            iconColor={THEME.colors.danger}
+            text={err.toString()}
+            textColor={THEME.colors.danger}
+          />
+        );
+        setIsModalSnackbarVisible(true);
+        setInvestorListRefresh(false);
+        setIsLoading(false);
       });
   }
 }
@@ -679,7 +678,7 @@ export async function submitStartJobModal(props) {
             iconName={THEME.icon.name.success}
             iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.colors.success}
-            text="SUCCESS: Job has been started"
+            text={resp.data.message}
             textColor={THEME.colors.success}
           />
         );
@@ -690,7 +689,7 @@ export async function submitStartJobModal(props) {
             iconName={THEME.icon.name.error}
             iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.colors.danger}
-            text="Error: Unable to start job"
+            text={err.toString()}
             textColor={THEME.colors.danger}
           />
         );
@@ -721,13 +720,13 @@ export async function submitStopJobModal(props) {
     setIsLoading(true);
     algoquant
       .stopJob(jobID)
-      .then(() => {
+      .then((resp) => {
         setSnackbarMessage(
           <SnackbarContent
             iconName={THEME.icon.name.success}
             iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.icon.color.primary}
-            text="SUCCESS: Job has been stopped"
+            text={resp.data.message}
             textColor={THEME.colors.success}
           />
         );
@@ -744,7 +743,7 @@ export async function submitStopJobModal(props) {
             iconName={THEME.icon.name.error}
             iconSize={THEME.icon.size.snackbarIconSize}
             iconColor={THEME.colors.danger}
-            text="ERROR: Job was not stopped, try again later"
+            text={err.toString()}
             textColor={THEME.colors.danger}
           />
         );

@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState, useMemo } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   HomeScreenStackNavigator,
@@ -11,7 +11,7 @@ import { THEME } from "../../constants/Theme";
 import { useAuthenticator } from "@aws-amplify/ui-react-native";
 import initAlgoQuantApi from "../../constants/ApiUtils";
 import AlgoquantApiContext from "../../constants/ApiContext";
-
+import InvestorListContext from "../../constants/InvestorListContext";
 const Tab = createBottomTabNavigator();
 
 // This is the bottom tab nav you see in the app
@@ -20,6 +20,7 @@ const Tab = createBottomTabNavigator();
 export default function BottomTabNavigaton() {
   // Utilizing amplify's useAuthenticator hook to access logged in user information
   const { user } = useAuthenticator((context) => [context.user]);
+  const [investorListRefresh, setInvestorListRefresh] = useState(false);
 
   // Create Algoquant object, used to access algoquant SDK api
   let algoquant = undefined;
@@ -29,55 +30,61 @@ export default function BottomTabNavigaton() {
     console.log(err);
   }
 
+  const memoizedInvestorListContextValue = useMemo(() => {
+    return { investorListRefresh, setInvestorListRefresh };
+  }, [investorListRefresh, setInvestorListRefresh]);
+
   return (
     // Context Provider allowing access to the algoquant to any child component of the provider
     <AlgoquantApiContext.Provider value={algoquant}>
-      <Tab.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerShown: false,
-          tabBarActiveTintColor: THEME.bottomTab.tabActiveColor,
-          tabBarInactiveTintColor: THEME.bottomTab.tabInactiveColor,
-          tabBarStyle: {
-            backgroundColor: THEME.bottomTab.backgroundColor,
-            borderTopColor: THEME.bottomTab.topBorderColor,
-            borderTopWidth: THEME.bottomTab.topBorderWidth,
-          },
-        }}
-      >
-        <Tab.Screen
-          name="Home"
-          component={HomeScreenStackNavigator}
-          options={{
-            tabBarIcon: ({ color, size, name = "home" }) =>
-              BottomTabIcon({ color, size, name }),
+      <InvestorListContext.Provider value={memoizedInvestorListContextValue}>
+        <Tab.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false,
+            tabBarActiveTintColor: THEME.bottomTab.tabActiveColor,
+            tabBarInactiveTintColor: THEME.bottomTab.tabInactiveColor,
+            tabBarStyle: {
+              backgroundColor: THEME.bottomTab.backgroundColor,
+              borderTopColor: THEME.bottomTab.topBorderColor,
+              borderTopWidth: THEME.bottomTab.topBorderWidth,
+            },
           }}
-        />
-        <Tab.Screen
-          name="Search"
-          component={SearchScreenStackNavigator}
-          options={{
-            tabBarIcon: ({ color, size, name = "search" }) =>
-              BottomTabIcon({ color, size, name }),
-          }}
-        />
-        <Tab.Screen
-          name="Backtesting"
-          component={BacktestingScreenStackNavigator}
-          options={{
-            tabBarIcon: ({ color, size, name = "flask" }) =>
-              BottomTabIcon({ color, size, name }),
-          }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={ProfileScreenStackNavigator}
-          options={{
-            tabBarIcon: ({ color, size, name = "person" }) =>
-              BottomTabIcon({ color, size, name }),
-          }}
-        />
-      </Tab.Navigator>
+        >
+          <Tab.Screen
+            name="Home"
+            component={HomeScreenStackNavigator}
+            options={{
+              tabBarIcon: ({ color, size, name = "home" }) =>
+                BottomTabIcon({ color, size, name }),
+            }}
+          />
+          <Tab.Screen
+            name="Search"
+            component={SearchScreenStackNavigator}
+            options={{
+              tabBarIcon: ({ color, size, name = "search" }) =>
+                BottomTabIcon({ color, size, name }),
+            }}
+          />
+          <Tab.Screen
+            name="Backtesting"
+            component={BacktestingScreenStackNavigator}
+            options={{
+              tabBarIcon: ({ color, size, name = "flask" }) =>
+                BottomTabIcon({ color, size, name }),
+            }}
+          />
+          <Tab.Screen
+            name="Profile"
+            component={ProfileScreenStackNavigator}
+            options={{
+              tabBarIcon: ({ color, size, name = "person" }) =>
+                BottomTabIcon({ color, size, name }),
+            }}
+          />
+        </Tab.Navigator>
+      </InvestorListContext.Provider>
     </AlgoquantApiContext.Provider>
   );
 }

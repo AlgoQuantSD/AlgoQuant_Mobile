@@ -12,11 +12,14 @@ import { chunker } from "../../../helpers/chunker";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { THEME } from "../../../constants/Theme";
 import AlgoquantApiContext from "../../../constants/ApiContext";
+import InvestorListContext from "../../../constants/InvestorListContext";
 
 export default function CreateInvestorAlgorithmicStep4Screen(props) {
   const { investorObject } = props.route.params;
   // State variables used to access algoquant SDK APfI and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
+  const { setInvestorListRefresh } = useContext(InvestorListContext);
+
   console.log("Step 4: ", investorObject);
   const navigation = useNavigation();
 
@@ -68,10 +71,12 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
         )
         .then((resp) => {
           console.log(resp.data);
+          setInvestorListRefresh(true);
           setIsLoading(false);
           handleSuccess();
         })
         .catch((err) => {
+          setInvestorListRefresh(false);
           // TODO: Need to implement better error handling
           console.log(err);
           // Set snackbar message if there is an error

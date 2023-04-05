@@ -36,9 +36,6 @@ export default function CustomGraph(props) {
     timeframeEnabled,
   } = props;
 
-  console.log("GRAPH DATA 1 :", graphData);
-  console.log("GRAPH DATA 2: ", graphData2);
-
   const formatter = format(".2f");
   const formatter2 = format(".0f");
   // This is used to conditionally style the text ot be green or red based on the stock trend
