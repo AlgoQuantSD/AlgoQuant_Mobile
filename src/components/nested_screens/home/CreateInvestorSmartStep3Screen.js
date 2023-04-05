@@ -2,7 +2,8 @@ import React, { useState, useContext } from "react";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { Button, Snackbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import Animated, { FadeIn } from "react-native-reanimated";
+import SuccessScreen from "../../reusable_components/SuccessScreen";
 import SnackbarContent from "../../reusable_components/SnackbarContent";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { THEME } from "../../../constants/Theme";
@@ -17,11 +18,20 @@ export default function CreateInvestorSmartStep3Screen(props) {
   const algoquantApi = useContext(AlgoquantApiContext);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [shouldShowSuccessScreen, setShouldShowSuccessScreen] = useState(false);
   // Manage snackbar state
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState(null);
 
-  console.log("AI investor: ", investorObject);
+  // Do this if the create backetest endpoint returns success
+  function handleSuccess() {
+    setShouldShowSuccessScreen(true);
+    setTimeout(() => {
+      setShouldShowSuccessScreen(false);
+      navigation.navigate("HomeScreen");
+    }, 3000);
+  }
+
   function handleCreateInvestorPress() {
     // Put API call to create investor here
     // investorObject contains all the information needed to pass in the API call
@@ -42,16 +52,7 @@ export default function CreateInvestorSmartStep3Screen(props) {
           setInvestorListRefresh(true);
           console.log(resp.data);
           setIsLoading(false);
-          setSnackbarMessage(
-            <SnackbarContent
-              iconName={THEME.icon.name.error}
-              iconSize={THEME.icon.size.snackbarIconSize}
-              iconColor={THEME.colors.danger}
-              text="Success: investor created."
-              textColor={THEME.colors.success}
-            />
-          );
-          setIsSnackbarVisible(true);
+          handleSuccess();
         })
         .catch((err) => {
           setInvestorListRefresh(false);
@@ -70,8 +71,6 @@ export default function CreateInvestorSmartStep3Screen(props) {
           setIsSnackbarVisible(true);
         });
     }
-    // Navigate back home after successfully creating investor
-    navigation.navigate("HomeScreen");
   }
 
   return (
@@ -89,6 +88,12 @@ export default function CreateInvestorSmartStep3Screen(props) {
           <Animated.Text entering={FadeIn.delay(500)}>
             Creating your investor!
           </Animated.Text>
+        </View>
+      ) : shouldShowSuccessScreen ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <SuccessScreen message="Successfully created investor!" />
         </View>
       ) : (
         <View style={{ flex: 1 }}>

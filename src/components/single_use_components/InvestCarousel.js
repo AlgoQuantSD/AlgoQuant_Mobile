@@ -16,6 +16,7 @@ export default function InvestCarousel(props) {
     setIsSnackbarVisible,
     modalProps,
     isRefreshing,
+    scrollToBottom,
     navigation,
   } = props;
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
@@ -53,15 +54,18 @@ export default function InvestCarousel(props) {
 
   // CallBack function to get list of investors in bulk
   const getInvestorList = useCallback(() => {
+    setIsLoading(true);
     if (algoquantApi.token) {
       algoquantApi
         .getInvestorList()
         .then((resp) => {
           setInvestorList(resp.data["investors"]);
+          setIsLoading(false);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
           console.log(err);
+          setIsLoading(false);
         });
     }
   }, [setInvestorList, algoquantApi]);
@@ -69,6 +73,7 @@ export default function InvestCarousel(props) {
   // CallBack function that fetchs for job list data in a paginiated manner
   const getjobList = useCallback(
     (fetchType) => {
+      setIsLoading(true);
       if (!lastQuery) {
         if (algoquantApi.token) {
           algoquantApi
@@ -83,10 +88,12 @@ export default function InvestCarousel(props) {
               } else {
                 setlekJobId(resp.data.LEK_job_id);
               }
+              setIsLoading(false);
             })
             .catch((err) => {
               // TODO: Need to implement better error handling
               console.log(err);
+              setIsLoading(false);
             });
         }
       }
@@ -122,7 +129,6 @@ export default function InvestCarousel(props) {
 
   // Handles what happens when the user presses one of the carousel tabs or swipes left or right inside of the component
   async function handleCarouselOptionChange(index) {
-    setIsLoading(true);
     setSelectedCarouselOptionIndex(index);
     switch (index) {
       case 0:
@@ -145,9 +151,7 @@ export default function InvestCarousel(props) {
       default:
         break;
     }
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
+    scrollToBottom();
   }
 
   // Call investorlist when home page is loaded so investors are loaded when home page is

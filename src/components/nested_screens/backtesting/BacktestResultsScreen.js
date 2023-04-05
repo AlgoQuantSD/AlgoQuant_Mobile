@@ -3,67 +3,106 @@ import {
   View,
   Text,
   ScrollView,
-  RefreshControl,
   SafeAreaView,
+  ActivityIndicator,
   StyleSheet,
 } from "react-native";
 import CustomGraph from "../../reusable_components/CustomGraph";
 import BacktestAnalysisView from "../../single_use_components/BacktestAnalysisView";
 import { THEME } from "../../../constants/Theme";
 import AlgoquantApiContext from "../../../constants/ApiContext";
+import { format } from "d3-format";
 
 export default function BacktestResultsScreen(props) {
   const { backtestId } = props.route.params;
   // State variables used to access algoquant SDK API and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
-  console.log("POPP", backtestId);
   const [backtestDataObject, setBacktestDataObject] = useState(null);
   // initial value is an array because victorycharts takes data prop as array or objects only
   const [graphData, setGraphData] = useState([0]);
+  const [graphData2, setGraphData2] = useState([0]);
   const [yValues, setYValues] = useState([]);
+  const [yValues2, setYValues2] = useState([]);
+  const [algoquantRating, setAlgoquantRating] = useState(null);
+  const [percentChanged, setPercentChanged] = useState(0);
+  const [daysBetween, setDaysBetween] = useState(0);
+
+  const [isScrollEnabled, setIsScrollEnabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const formatter = format(".2f");
+
+  // Get variable values that go in text prompt
+  function algoquantRatingGenerator(backtest) {
+    const initialInvestment = backtest.initial_investment;
+    const finalBalance = backtest.final_portfolio_value;
+    const profitRatio = finalBalance / initialInvestment;
+    setPercentChanged(
+      formatter((finalBalance - initialInvestment) / initialInvestment)
+    );
+    console.log("Start: ", backtest.end_time, " End: ", backtest.start_time);
+    setDaysBetween(Math.ceil((backtest.end_time - backtest.start_time) / 86400));
+    if (profitRatio > 2) {
+      setAlgoquantRating("phenomenal");
+    } else if (profitRatio > 1.8) {
+      setAlgoquantRating("fantastic");
+    } else if (profitRatio > 1.6) {
+      setAlgoquantRating("great");
+    } else if (profitRatio > 1.3) {
+      setAlgoquantRating("well");
+    } else if (profitRatio > 1.1) {
+      setAlgoquantRating("decent");
+    } else if (profitRatio > 0.9) {
+      setAlgoquantRating("subpar");
+    } else if (profitRatio > 0.7) {
+      setAlgoquantRating("poor");
+    } else {
+      setAlgoquantRating("extremely poor");
+    }
+  }
 
   // API call to get backtest based on the clicked backtest from the backtestScreen using the backtest ID
   const getBacktestData = () => {
     if (algoquantApi.token) {
+      setIsLoading(true);
       algoquantApi
         .getBacktest(backtestId)
         .then((resp) => {
-          setBacktestDataObject(resp.data);
           console.log(resp.data);
-
+          setBacktestDataObject(resp.data);
+          algoquantRatingGenerator(resp.data);
           const combinedData = resp.data["value_timestamps"].map((x, i) => ({
             x,
             y: resp.data["portfolio_value_history"][i],
           }));
+          const combinedData2 = resp.data["value_timestamps"].map((x, i) => ({
+            x,
+            y: resp.data["portfolio_value_history_hold"][i],
+          }));
           setGraphData(combinedData);
+          setGraphData2(combinedData2);
           // putting y values in acsending order for y ticks on graph
           const yTickValues = resp.data["portfolio_value_history"]
             .map((datum) => datum)
             .sort((a, b) => a - b);
           setYValues(yTickValues);
+          const yTickValues2 = resp.data["portfolio_value_history_hold"]
+            .map((datum) => datum)
+            .sort((a, b) => a - b);
+          setYValues2(yTickValues2);
+          setIsLoading(false);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
           console.log(err);
+          setIsLoading(false);
         });
     }
   };
-  const [refreshing, setRefreshing] = useState(false);
-  const [isScrollEnabled, setIsScrollEnabled] = useState(true);
 
   useEffect(() => {
     getBacktestData();
   }, []);
-
-  // Do this when the user pulls down the screen to refresh
-  function onRefresh() {
-    setRefreshing(true);
-
-    // Your refresh logic here
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }
 
   // Stop screen from scrolling when the user is trying to interact with the graph
   function handlePressInGraph() {
@@ -73,65 +112,69 @@ export default function BacktestResultsScreen(props) {
     setIsScrollEnabled(true);
   }
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            tintColor={THEME.colors.primary}
-          />
-        }
-        scrollEnabled={isScrollEnabled}
-        showsVerticalScrollIndicator={false}
-        style={styles.mainScrollViewContainer}
-      >
-        {/* Header */}
-        <View style={styles.headerContainer}>
-          <View style={{ width: "70%" }}>
-            <Text
-              numberOfLines={1}
-              ellipsizeMode="tail"
-              style={styles.headerText}
-            >
-              {backtestDataObject?.backtest_name}
-            </Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        {isLoading ? (
+          <View style={{ flex: 1, justifyContent: "center" }}>
+            <ActivityIndicator
+              size="large"
+              color={THEME.activityIndicator.color.primary}
+            />
           </View>
-          <Text style={styles.text}>
-            {backtestDataObject?.backtest_name} performed well according to
-            AlgoQuant metrics, yielding a 40% profit over the course of 150
-            days.
-          </Text>
-        </View>
-        {/* Graph */}
-        <View style={styles.graphContainer}>
-          <CustomGraph
-            graphData={graphData}
-            yVals={yValues}
-            timeframeEnabled={false}
-            handlePressInGraph={handlePressInGraph}
-            handlePressOutGraph={handlePressOutGraph}
-          />
-        </View>
-        {/* Analysis */}
-        <View style={styles.analysisContainer}>
-          <BacktestAnalysisView backtest={backtestDataObject} />
-        </View>
-      </ScrollView>
+        ) : (
+          <ScrollView
+            scrollEnabled={isScrollEnabled}
+            showsVerticalScrollIndicator={false}
+            style={styles.mainScrollViewContainer}
+          >
+            {/* Header */}
+            <View style={styles.headerContainer}>
+              <View>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={styles.headerText}
+                >
+                  {backtestDataObject?.backtest_name}
+                </Text>
+              </View>
+              <Text style={styles.text}>
+                {backtestDataObject?.backtest_name} performed {algoquantRating}{" "}
+                according to AlgoQuant metrics, yielding a {percentChanged}%{" "}
+                profit over the course of {daysBetween} days.
+              </Text>
+            </View>
+            {/* Graph */}
+            <View style={styles.graphContainer}>
+              <CustomGraph
+                graphData={graphData}
+                graphData2={graphData2}
+                lineColor1="red"
+                lineColor2="blue"
+                yVals={yValues2}
+                timeframeEnabled={false}
+                handlePressInGraph={handlePressInGraph}
+                handlePressOutGraph={handlePressOutGraph}
+              />
+            </View>
+            {/* Analysis */}
+            <View style={styles.analysisContainer}>
+              <BacktestAnalysisView backtest={backtestDataObject} />
+            </View>
+          </ScrollView>
+        )}
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: THEME.colors.background,
-  },
+  container: {},
   mainScrollViewContainer: {
     flexGrow: 1,
-    width: "90%",
-    paddingTop: "5%",
+    paddingTop: "3%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
     backgroundColor: THEME.colors.background,
   },
   text: {

@@ -11,6 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { Snackbar } from "react-native-paper";
+import { VictoryPie } from "victory-native";
 import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
 import CustomGraph from "../../reusable_components/CustomGraph";
 import CustomTable from "../../reusable_components/CustomTable";
@@ -21,8 +22,9 @@ import { stopJobModalBuilder } from "../../../helpers/modalFactory";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
 import { THEME } from "../../../constants/Theme";
-import { ChipJobTypes } from "../../../constants/ChipJobTypeEnum";
+import { CHIP_JOB_TYPES } from "../../../constants/ChipJobTypeEnum";
 import { jobHistoryColumns } from "../../../helpers/tableColumns";
+import BuyingPowerAndHoldings from "../../reusable_components/BuyingPowerAndHoldings";
 
 export default function JobScreen(props) {
   const { jobID, jobType } = props.route.params;
@@ -32,8 +34,6 @@ export default function JobScreen(props) {
 
   // Screen refresh
   const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false);
   const [isScrollEnabled, setIsScrollEnabled] = useState(true);
 
   // Graph state
@@ -66,6 +66,8 @@ export default function JobScreen(props) {
   const algoquantApi = useContext(AlgoquantApiContext);
   const [lastKey, setLastKey] = useState(null);
   const [isTableLoading, setIsTableLoading] = useState(false);
+  const [isJobLoading, setIsJobLoading] = useState(false);
+  const [isGraphDataLoading, setIsGraphDataLoading] = useState(false);
 
   // state variable to store the job based on the clicked job from the list using the job id
   const [job, setJob] = useState();
@@ -114,6 +116,7 @@ export default function JobScreen(props) {
 
   // Function to get the job clicked by the user using the jobID passed from the getJobList endpoint
   const getJob = () => {
+    setIsJobLoading(true);
     if (algoquantApi.token) {
       algoquantApi
         .getJob(jobID)
@@ -135,10 +138,12 @@ export default function JobScreen(props) {
               year: "numeric",
             })
           );
+          setIsJobLoading(false);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
           console.log("GetJob: " + err);
+          setIsJobLoading(false);
         });
     }
   };
@@ -196,6 +201,7 @@ export default function JobScreen(props) {
   // Callback function to get the graph data from the Algoquant API
   const getGraphData = useCallback(
     (timeframe) => {
+      setIsGraphDataLoading(true);
       if (algoquantApi.token) {
         algoquantApi
           .getPerformance(timeframe, jobID)
@@ -217,10 +223,12 @@ export default function JobScreen(props) {
             );
             setRecentPrice(resp.data["recent_price"].toFixed(2));
             setMarketClosed(resp.data["is_market_closed"]);
+            setIsGraphDataLoading(false);
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
             console.log(err);
+            setIsGraphDataLoading(false);
           });
       }
     },
@@ -231,10 +239,6 @@ export default function JobScreen(props) {
   // there are any trades in history and to populate the first few into the History array
   // get the data for the job clicked by the user
   useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
     fetchJobsTrades();
     getGraphData("D");
     getJob();
@@ -242,164 +246,181 @@ export default function JobScreen(props) {
 
   return (
     <View style={styles.container}>
-      {isLoading ? (
+      {isJobLoading || isGraphDataLoading || isTableLoading ? (
         <View style={{ flex: 1, justifyContent: "center" }}>
           <ActivityIndicator
-            color={THEME.activityIndicator.color.primary}
             size="large"
+            color={THEME.activityIndicator.color.primary}
           />
         </View>
       ) : (
-        <ScrollView
-          style={{ flexGrow: 1 }}
-          scrollEnabled={isScrollEnabled}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={onRefresh}
-              tintColor={THEME.colors.primary}
-            />
-          }
-        >
-          {/* Modal */}
-          <CustomModal
-            isModalVisible={isModalVisible}
-            setIsModalVisible={setIsModalVisible}
-            modalType={modalType}
-            setModalType={setModalType}
-            modalTitle={modalTitle}
-            setModalTitle={setModalTitle}
-            modalHeader={modalHeader}
-            setModalHeader={setModalHeader}
-            modalBody={modalBody}
-            setModalBody={setModalBody}
-            modalButtons={modalButtons}
-            setModalButtons={setModalButtons}
-            setSnackbarMessage={setSnackbarMessage}
-            setIsSnackbarVisible={setIsSnackbarVisible}
-            jobID={jobID}
-            navigation={navigation}
-          />
-          {/* Header Row */}
-          <View style={styles.headerContainer}>
-            <View style={{ width: "65%" }}>
-              <GraphDetailsHeader
-                graphTitle={job?.name}
-                graphTrendData={jobsAggregatedData}
-                selectedTimeframe={selectedTimeframe}
-                showTimeframeText={job?.status === "active-I"}
+        <View>
+          <ScrollView
+            style={{ flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={isScrollEnabled}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={onRefresh}
+                tintColor={THEME.colors.primary}
               />
+            }
+          >
+            {/* Modal */}
+            <CustomModal
+              isModalVisible={isModalVisible}
+              setIsModalVisible={setIsModalVisible}
+              modalType={modalType}
+              setModalType={setModalType}
+              modalTitle={modalTitle}
+              setModalTitle={setModalTitle}
+              modalHeader={modalHeader}
+              setModalHeader={setModalHeader}
+              modalBody={modalBody}
+              setModalBody={setModalBody}
+              modalButtons={modalButtons}
+              setModalButtons={setModalButtons}
+              setSnackbarMessage={setSnackbarMessage}
+              setIsSnackbarVisible={setIsSnackbarVisible}
+              jobID={jobID}
+              navigation={navigation}
+            />
+            {/* Header Row */}
+            <View style={styles.headerContainer}>
+              <View style={{ width: "65%" }}>
+                <GraphDetailsHeader
+                  graphTitle={job?.name}
+                  graphTrendData={jobsAggregatedData}
+                  selectedTimeframe={selectedTimeframe}
+                  showTimeframeText={job?.status === "active-I"}
+                  isJobNameLoading={isJobLoading}
+                  isPriceTrendLoading={isGraphDataLoading}
+                />
+              </View>
+
+              <View style={{ width: "35%" }}>
+                {job?.status === "active-I" ? (
+                  <TouchableOpacity
+                    style={styles.headerRowIcon}
+                    onPress={handleStopIconPress}
+                  >
+                    <View>
+                      <Text style={styles.text}>Job Active</Text>
+                      <Text style={styles.text}>{startDate}</Text>
+                    </View>
+
+                    <Ionicons
+                      name={THEME.icon.name.stopJob}
+                      color={THEME.icon.color.primary}
+                      size={THEME.icon.size.large}
+                    />
+                  </TouchableOpacity>
+                ) : job?.status === "stopping" ? (
+                  <View style={styles.headerRowIcon}>
+                    <View>
+                      <Text style={styles.text}>Job Stopping</Text>
+                    </View>
+
+                    <ActivityIndicator
+                      color={THEME.icon.color.primary}
+                      size={32}
+                    />
+                  </View>
+                ) : (
+                  <View style={styles.headerRowIcon}>
+                    <View>
+                      <Text style={styles.text}>Job Inactive</Text>
+                      <Text style={styles.text}>
+                        {startDate} - {endDate}
+                      </Text>
+                    </View>
+
+                    <Ionicons
+                      name={THEME.icon.name.inactiveJob}
+                      color={THEME.icon.color.primary}
+                      size={32}
+                    />
+                  </View>
+                )}
+              </View>
             </View>
-
-            <View style={{ width: "35%" }}>
-              {job?.status === "active-I" ? (
-                <TouchableOpacity
-                  style={styles.headerRowIcon}
-                  onPress={handleStopIconPress}
-                >
-                  <View>
-                    <Text style={styles.text}>Job Active</Text>
-                    <Text style={styles.text}>{startDate}</Text>
-                  </View>
-
-                  <Ionicons
-                    name={THEME.icon.name.stopJob}
-                    color={THEME.icon.color.primary}
-                    size={THEME.icon.size.large}
-                  />
-                </TouchableOpacity>
-              ) : job?.status === "stopping" ? (
-                <View style={styles.headerRowIcon}>
-                  <View>
-                    <Text style={styles.text}>Job Stopping</Text>
-                  </View>
-
-                  <ActivityIndicator
-                    color={THEME.icon.color.primary}
-                    size={32}
-                  />
-                </View>
-              ) : (
-                <View style={styles.headerRowIcon}>
-                  <View>
-                    <Text style={styles.text}>Job Inactive</Text>
-                    <Text style={styles.text}>
-                      {startDate} - {endDate}
-                    </Text>
-                  </View>
-
-                  <Ionicons
-                    name={THEME.icon.name.inactiveJob}
-                    color={THEME.icon.color.primary}
-                    size={32}
-                  />
-                </View>
-              )}
-            </View>
-          </View>
-          {/* Graph */}
-          <View style={styles.graphContainer}>
-            {/* This is was added to enhance the performance of the modal. 
+            {/* Graph */}
+            <View style={styles.graphContainer}>
+              {/* This is was added to enhance the performance of the modal. 
         If the graph is in the background while we activate the modal, 
         the modal will have a laggy enter and exit animation */}
-            {isModalVisible ? null : jobType === "CAROUSEL_TAB_JOBS" ||
-              jobType === ChipJobTypes.Active ? (
-              <CustomGraph
-                graphData={graphData}
-                getGraphData={getGraphData}
-                setSelectedTimeframe={setSelectedTimeframe}
-                selectedTimeframe={selectedTimeframe}
-                percentChanged={percentChanged}
-                yVals={yValues}
-                timeframeEnabled={true}
-                handlePressInGraph={handlePressInGraph}
-                handlePressOutGraph={handlePressOutGraph}
-              />
-            ) : (
-              <CustomGraph
-                graphData={graphData}
-                yVals={yValues}
-                percentChanged={percentChanged}
-                timeframeEnabled={false}
-                handlePressInGraph={handlePressInGraph}
-                handlePressOutGraph={handlePressOutGraph}
-              />
-            )}
-          </View>
-          {/* Recent Trades */}
-          <View style={styles.recentTradesContainer}>
-            <Text style={styles.sectionTitleText}>Recent Trades</Text>
-            <CustomTable
-              data={history}
-              columns={jobHistoryColumns}
-              isLoading={isTableLoading}
-              handleLoadMore={fetchJobsTrades}
-              nullMessage="No trades made yet"
-            />
-          </View>
-        </ScrollView>
-      )}
+              {isModalVisible ? null : jobType === "CAROUSEL_TAB_JOBS" ||
+                jobType === CHIP_JOB_TYPES.Active ? (
+                <CustomGraph
+                  graphData={graphData}
+                  getGraphData={getGraphData}
+                  setSelectedTimeframe={setSelectedTimeframe}
+                  selectedTimeframe={selectedTimeframe}
+                  percentChanged={percentChanged}
+                  yVals={yValues}
+                  timeframeEnabled={true}
+                  handlePressInGraph={handlePressInGraph}
+                  handlePressOutGraph={handlePressOutGraph}
+                />
+              ) : (
+                <CustomGraph
+                  graphData={graphData}
+                  yVals={yValues}
+                  percentChanged={percentChanged}
+                  timeframeEnabled={false}
+                  handlePressInGraph={handlePressInGraph}
+                  handlePressOutGraph={handlePressOutGraph}
+                />
+              )}
+            </View>
+            {/* Buying power and holdings */}
+            {job?.status === "active-I" ? (
+              <View style={{ paddingBottom: "10%" }}>
+                <Text
+                  style={[styles.sectionTitleText, { paddingBottom: "5%" }]}
+                >
+                  Buying Power and Holdings
+                </Text>
+                <BuyingPowerAndHoldings job={job} />
+              </View>
+            ) : null}
 
-      {/* Snackbar */}
-      <View style={styles.snackbar}>
-        <Snackbar
-          visible={isSnackbarVisible}
-          onDismiss={() =>
-            snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage)
-          }
-          duration={3500}
-          action={{
-            label: "Dismiss",
-            textColor: THEME.snackbar.text.color,
-            onPress: () => {
-              snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
-            },
-          }}
-          style={styles.snackbar}
-        >
-          {snackbarMessage}
-        </Snackbar>
-      </View>
+            {/* Recent Trades */}
+            <View style={styles.recentTradesContainer}>
+              <Text style={styles.sectionTitleText}>Recent Trades</Text>
+              <CustomTable
+                data={history}
+                columns={jobHistoryColumns}
+                isLoading={isTableLoading}
+                handleLoadMore={fetchJobsTrades}
+                nullMessage="No trades made yet"
+              />
+            </View>
+          </ScrollView>
+
+          {/* Snackbar */}
+          <View style={styles.snackbar}>
+            <Snackbar
+              visible={isSnackbarVisible}
+              onDismiss={() =>
+                snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage)
+              }
+              duration={3500}
+              action={{
+                label: "Dismiss",
+                textColor: THEME.snackbar.text.color,
+                onPress: () => {
+                  snackbarCleanUp(setIsSnackbarVisible, setSnackbarMessage);
+                },
+              }}
+              style={styles.snackbar}
+            >
+              {snackbarMessage}
+            </Snackbar>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -416,7 +437,7 @@ const styles = StyleSheet.create({
     color: THEME.text.color.primary,
   },
   sectionTitleText: {
-    fontSize: THEME.text.fontSize.H2,
+    fontSize: THEME.text.fontSize.H3,
     color: THEME.text.color.primary,
   },
   headerContainer: {
@@ -437,10 +458,10 @@ const styles = StyleSheet.create({
   graphContainer: {
     flexDirection: "row",
     justifyContent: "center",
+    paddingBottom: "10%",
   },
   recentTradesContainer: {
     maxHeight: 600,
-    paddingTop: "10%",
     paddingBottom: 5,
   },
   snackbarContainer: { flex: 0.05 },

@@ -48,8 +48,8 @@ export default function InvestItemList(props) {
           {listData.length === 0 ? (
             <View style={styles.noResultsContainer}>
               <Text style={styles.primaryText}>
-                You don't have any investors yet. Press the plus icon above to
-                create one.
+                You don't have any investors yet. Press the plus icon in the
+                bottom right corner of the screen to create one.
               </Text>
             </View>
           ) : (
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   },
   listItems: {
     alignItems: "center",
-    height: 700,
+    maxHeight: 700,
     width: "100%",
   },
   listItem: {

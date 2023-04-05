@@ -111,6 +111,12 @@ export default function HomeScreen() {
     }, 2000);
   }
 
+  function scrollToBottom() {
+    setTimeout(() => {
+      scrollViewRef.current.scrollToEnd({ animated: true });
+    }, 400);
+  }
+
   const portfolioData = {
     recentPrice: recentPrice,
     priceDifferenceRaw: priceChange,
@@ -191,6 +197,7 @@ export default function HomeScreen() {
     <View style={{ backgroundColor: THEME.colors.background }}>
       <ScrollView
         scrollEnabled={isScrollEnabled}
+        scrollsToTop={true}
         ref={scrollViewRef}
         onContentSizeChange={handleContentSizeChange}
         onScroll={handleScroll}
@@ -289,6 +296,7 @@ export default function HomeScreen() {
               setIsSnackbarVisible={setIsSnackbarVisible}
               modalProps={modalProps}
               isRefreshing={isRefreshing}
+              scrollToBottom={scrollToBottom}
               navigation={navigation}
             />
           </View>
@@ -344,7 +352,6 @@ const styles = StyleSheet.create({
     paddingTop: "10%",
     paddingLeft: "5%",
     paddingRight: "5%",
-    backgroundColor: THEME.colors.background,
   },
   scrollViewContainer: {
     flexGrow: 1,
@@ -375,6 +382,7 @@ const styles = StyleSheet.create({
   investContainer: {
     alignItems: "center",
     paddingTop: "2%",
+    paddingBottom: "10%",
     maxHeight: 820,
   },
   snackbar: {

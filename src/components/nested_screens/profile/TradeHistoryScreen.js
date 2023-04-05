@@ -1,7 +1,12 @@
 import React, { useState, useContext, useCallback, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  RefreshControl,
+  StyleSheet,
+} from "react-native";
 import { THEME } from "../../../constants/Theme";
-import HeaderContainer from "../../reusable_components/HeaderContainer";
 import CustomTable from "../../reusable_components/CustomTable";
 import AlgoquantApiContext from "../../../constants/ApiContext";
 import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
@@ -15,9 +20,13 @@ export default function TradeHistoryScreen() {
   const algoquantApi = useContext(AlgoquantApiContext);
   const [lastKey, setLastKey] = useState(null);
   const [isTableLoading, setIsTableLoading] = useState(false);
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  function onRefresh() {
+    fetchTrades();
+  }
   const fetchTrades = () => {
     const historyBuffer = [];
-
     // once its the last query do nothing
     // first query always sends a last key of null
     if (!lastQuery) {
@@ -57,10 +66,12 @@ export default function TradeHistoryScreen() {
             }
             setHistory(history.concat(historyBuffer));
             setIsTableLoading(false);
+            setIsRefreshing(false);
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
             console.log(err);
+            setIsRefreshing(false);
           });
       }
     }
@@ -74,20 +85,41 @@ export default function TradeHistoryScreen() {
 
   return (
     <View style={styles.container}>
-      <HeaderContainer
-        headerText="Trade History"
-        bodyText="A detailed view of all transactions made by your jobs."
-        size={THEME.flexboxSizes.headerContainerLarge}
-      />
-      <View style={styles.mainContentContainer}>
-        <CustomTable
-          data={history}
-          columns={jobHistoryColumns}
-          loading={isTableLoading}
-          handleLoadMore={fetchTrades}
-          nullMessage="No trades currently"
-        />
-      </View>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            tintColor={THEME.colors.primary}
+          />
+        }
+      >
+        <View style={{ paddingBottom: "15%" }}>
+          <Text
+            style={{
+              ...styles.text,
+              fontSize: THEME.text.fontSize.H2,
+              paddingBottom: "2%",
+            }}
+          >
+            Trade History
+          </Text>
+          <View style={{ maxWidth: "70%" }}>
+            <Text style={styles.text}>
+              A detailed view of all transactions made by your jobs.
+            </Text>
+          </View>
+        </View>
+        <View>
+          <CustomTable
+            data={history}
+            columns={jobHistoryColumns}
+            loading={isTableLoading}
+            handleLoadMore={fetchTrades}
+            nullMessage="No trades currently"
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -95,13 +127,10 @@ export default function TradeHistoryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    paddingTop: "3%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
     backgroundColor: THEME.colors.background,
-  },
-  mainContentContainer: {
-    flex: 0.75,
-    width: "100%",
   },
   text: {
     fontSize: THEME.text.fontSize.body,
