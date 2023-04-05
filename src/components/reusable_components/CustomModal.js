@@ -56,7 +56,7 @@ export default function CustomModal(props) {
     setIsModalSnackbarVisible,
     modalErrorMessage,
     setModalErrorMessage,
-    setShouldNavigateBack,
+    setInvestorMade,
     jobID,
     investorID,
     navigation,
@@ -114,7 +114,7 @@ export default function CustomModal(props) {
       setModalErrorMessage,
       isLoading,
       setIsLoading,
-      setShouldNavigateBack,
+      setInvestorMade,
       jobID,
       investorID,
       navigation,
@@ -190,7 +190,10 @@ export default function CustomModal(props) {
       >
         {isLoading ? (
           <View style={styles.loadingIndicator}>
-            <ActivityIndicator size="large" color={THEME.activityIndicator.color} />
+            <ActivityIndicator
+              size="large"
+              color={THEME.activityIndicator.color}
+            />
           </View>
         ) : null}
         <View style={styles.headerContainer}>

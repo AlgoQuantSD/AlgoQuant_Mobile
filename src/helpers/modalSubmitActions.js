@@ -574,36 +574,25 @@ export async function submitUpdatePhoneModal(props) {
 
 export async function submitDeleteInvestorModal(props) {
   const {
-    isModalVisible,
-    setIsModalVisible,
-    setModalType,
-    setModalTitle,
-    setModalHeader,
-    setModalBody,
-    setModalButtons,
-    setSnackbarMessage,
-    setIsSnackbarVisible,
-    setShouldNavigateBack,
+    setIsLoading,
+    setModalSnackbarMessage,
+    setIsModalSnackbarVisible,
+    setInvestorMade,
     investorID,
+    navigation,
   } = props;
+  console.log("Delete investor props: ", props);
   // Call algoquant api and send bodyData to stop job
   if (algoquant.token) {
+    setIsLoading(true);
     algoquant
       .deleteInvestor(investorID)
       .then((resp) => {
-        setSnackbarMessage(
-          <SnackbarContent
-            iconName={THEME.icon.name.success}
-            iconSize={THEME.icon.size.snackbarIconSize}
-            iconColor={THEME.icon.color.primary}
-            text={resp.data.message}
-            textColor={THEME.colors.success}
-          />
-        );
-        setIsSnackbarVisible(true);
+        setInvestorMade(true);
         // Clear state upon successful submit
         cleanUpState(props);
-        setShouldNavigateBack(true);
+        setIsLoading(false);
+        navigation.navigate("HomeScreen");
       })
       .catch((err) => {
         setModalSnackbarMessage(
@@ -616,6 +605,8 @@ export async function submitDeleteInvestorModal(props) {
           />
         );
         setIsModalSnackbarVisible(true);
+        setInvestorMade(false);
+        setIsLoading(false);
       });
   }
 }
