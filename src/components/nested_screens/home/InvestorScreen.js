@@ -26,7 +26,7 @@ import { chunker } from "../../../helpers/chunker";
 import { THEME } from "../../../constants/Theme";
 import AlgoquantApiContext from "../../../constants/ApiContext";
 import { ChipJobTypes } from "../../../constants/ChipJobTypeEnum";
-import InvestorCreationContext from "../../../constants/investorCreationContext";
+import InvestorListContext from "../../../constants/InvestorListContext";
 
 export default function InvestorScreen(props) {
   const { investorID } = props.route.params;
@@ -34,7 +34,7 @@ export default function InvestorScreen(props) {
   // State variables used to access algoquant SDK APfI and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
   const navigation = useNavigation();
-  const { setInvestorMade } = useContext(InvestorCreationContext);
+  const { setInvestorListRefresh } = useContext(InvestorListContext);
 
   // state variable to hold the investor using the investor ID passed from the investorItemList
   const [investor, setInvestor] = useState(null);
@@ -221,7 +221,7 @@ export default function InvestorScreen(props) {
         setModalSnackbarMessage={setModalSnackbarMessage}
         isModalSnackbarVisible={isModalSnackbarVisible}
         setIsModalSnackbarVisible={setIsModalSnackbarVisible}
-        setInvestorMade={setInvestorMade}
+        setInvestorListRefresh={setInvestorListRefresh}
         investorID={investorID}
         navigation={navigation}
       />

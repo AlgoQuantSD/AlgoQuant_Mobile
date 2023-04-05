@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useMemo } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   HomeScreenStackNavigator,
@@ -11,7 +11,7 @@ import { THEME } from "../../constants/Theme";
 import { useAuthenticator } from "@aws-amplify/ui-react-native";
 import initAlgoQuantApi from "../../constants/ApiUtils";
 import AlgoquantApiContext from "../../constants/ApiContext";
-import InvestorCreationContext from "../../constants/investorCreationContext";
+import InvestorListContext from "../../constants/InvestorListContext";
 const Tab = createBottomTabNavigator();
 
 // This is the bottom tab nav you see in the app
@@ -20,7 +20,7 @@ const Tab = createBottomTabNavigator();
 export default function BottomTabNavigaton() {
   // Utilizing amplify's useAuthenticator hook to access logged in user information
   const { user } = useAuthenticator((context) => [context.user]);
-  const [investorMade, setInvestorMade] = useState(false);
+  const [investorListRefresh, setInvestorListRefresh] = useState(false);
 
   // Create Algoquant object, used to access algoquant SDK api
   let algoquant = undefined;
@@ -30,12 +30,14 @@ export default function BottomTabNavigaton() {
     console.log(err);
   }
 
+  const memoizedInvestorListContextValue = useMemo(() => {
+    return { investorListRefresh, setInvestorListRefresh };
+  }, [investorListRefresh, setInvestorListRefresh]);
+
   return (
     // Context Provider allowing access to the algoquant to any child component of the provider
     <AlgoquantApiContext.Provider value={algoquant}>
-      <InvestorCreationContext.Provider
-        value={{ investorMade, setInvestorMade }}
-      >
+      <InvestorListContext.Provider value={memoizedInvestorListContextValue}>
         <Tab.Navigator
           initialRouteName="Home"
           screenOptions={{
@@ -82,7 +84,7 @@ export default function BottomTabNavigaton() {
             }}
           />
         </Tab.Navigator>
-      </InvestorCreationContext.Provider>
+      </InvestorListContext.Provider>
     </AlgoquantApiContext.Provider>
   );
 }

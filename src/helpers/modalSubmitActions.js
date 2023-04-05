@@ -577,7 +577,7 @@ export async function submitDeleteInvestorModal(props) {
     setIsLoading,
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
-    setInvestorMade,
+    setInvestorListRefresh,
     investorID,
     navigation,
   } = props;
@@ -588,10 +588,10 @@ export async function submitDeleteInvestorModal(props) {
     algoquant
       .deleteInvestor(investorID)
       .then((resp) => {
-        setInvestorMade(true);
+        setIsLoading(false);
         // Clear state upon successful submit
         cleanUpState(props);
-        setIsLoading(false);
+        setInvestorListRefresh(true);
         navigation.navigate("HomeScreen");
       })
       .catch((err) => {
@@ -605,7 +605,7 @@ export async function submitDeleteInvestorModal(props) {
           />
         );
         setIsModalSnackbarVisible(true);
-        setInvestorMade(false);
+        setInvestorListRefresh(false);
         setIsLoading(false);
       });
   }
