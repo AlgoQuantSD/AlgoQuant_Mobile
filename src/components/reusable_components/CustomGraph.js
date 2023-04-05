@@ -40,6 +40,7 @@ export default function CustomGraph(props) {
   console.log("GRAPH DATA 2: ", graphData2);
 
   const formatter = format(".2f");
+  const formatter2 = format(".0f");
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = percentChanged >= 0;
 
@@ -194,7 +195,11 @@ export default function CustomGraph(props) {
                 tickCount={4}
               />
               {/* // Y-axis */}
-              <VictoryAxis dependentAxis tickCount={4} />
+              <VictoryAxis
+                dependentAxis
+                tickCount={4}
+                tickFormat={(x) => formatter2(x)}
+              />
             </VictoryChart>
           </View>
 
@@ -301,7 +306,7 @@ export default function CustomGraph(props) {
                 <Text>Buy/Hold Performance</Text>
               </View>
             </View>
-           ) : null}
+          ) : null}
         </View>
       </TouchableWithoutFeedback>
     </View>
