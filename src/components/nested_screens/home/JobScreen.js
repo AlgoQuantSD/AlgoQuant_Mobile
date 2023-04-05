@@ -374,12 +374,18 @@ export default function JobScreen(props) {
                 />
               )}
             </View>
-            <View style={{ paddingBottom: "10%" }}>
-              <Text style={[styles.sectionTitleText, { paddingBottom: "5%" }]}>
-                Buying Power and Holdings
-              </Text>
-              <BuyingPowerAndHoldings job={job} />
-            </View>
+            {/* Buying power and holdings */}
+            {job?.status === "active-I" ? (
+              <View style={{ paddingBottom: "10%" }}>
+                <Text
+                  style={[styles.sectionTitleText, { paddingBottom: "5%" }]}
+                >
+                  Buying Power and Holdings
+                </Text>
+                <BuyingPowerAndHoldings job={job} />
+              </View>
+            ) : null}
+
             {/* Recent Trades */}
             <View style={styles.recentTradesContainer}>
               <Text style={styles.sectionTitleText}>Recent Trades</Text>

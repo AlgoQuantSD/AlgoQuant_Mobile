@@ -41,23 +41,23 @@ export default function BacktestResultsScreen(props) {
       formatter((finalBalance - initialInvestment) / initialInvestment)
     );
     console.log("Start: ", backtest.end_time, " End: ", backtest.start_time);
-    setDaysBetween((backtest.end_time - backtest.start_time) / 86400);
+    setDaysBetween(Math.ceil((backtest.end_time - backtest.start_time) / 86400));
     if (profitRatio > 2) {
-      setAlgoquantRating("Phenomenal");
+      setAlgoquantRating("phenomenal");
     } else if (profitRatio > 1.8) {
-      setAlgoquantRating("Fantastic");
+      setAlgoquantRating("fantastic");
     } else if (profitRatio > 1.6) {
-      setAlgoquantRating("Great");
+      setAlgoquantRating("great");
     } else if (profitRatio > 1.3) {
-      setAlgoquantRating("Well");
+      setAlgoquantRating("well");
     } else if (profitRatio > 1.1) {
-      setAlgoquantRating("Decent");
+      setAlgoquantRating("decent");
     } else if (profitRatio > 0.9) {
-      setAlgoquantRating("Sub par");
+      setAlgoquantRating("subpar");
     } else if (profitRatio > 0.7) {
-      setAlgoquantRating("Poor");
+      setAlgoquantRating("poor");
     } else {
-      setAlgoquantRating("Delete this investor now");
+      setAlgoquantRating("extremely poor");
     }
   }
 
@@ -139,7 +139,7 @@ export default function BacktestResultsScreen(props) {
                 </Text>
               </View>
               <Text style={styles.text}>
-                {backtestDataObject?.backtest_name}performed {algoquantRating}{" "}
+                {backtestDataObject?.backtest_name} performed {algoquantRating}{" "}
                 according to AlgoQuant metrics, yielding a {percentChanged}%{" "}
                 profit over the course of {daysBetween} days.
               </Text>
