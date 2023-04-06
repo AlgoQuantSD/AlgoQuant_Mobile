@@ -142,6 +142,7 @@ export default function BacktestingScreen() {
             handleRowPress={handleRowPress}
             isLoading={isTableLoading}
             handleLoadMore={fetchBacktestHistory}
+            height={550}
             nullMessage="No backtests have been created yet"
           />
         </View>

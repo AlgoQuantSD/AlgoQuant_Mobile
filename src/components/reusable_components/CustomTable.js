@@ -1,13 +1,13 @@
+import { FlashList } from "@shopify/flash-list";
 import React from "react";
 import {
-  View,
-  StyleSheet,
   ActivityIndicator,
-  Text,
   ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 import { DataTable } from "react-native-paper";
-import { FlashList } from "@shopify/flash-list";
 import { THEME } from "../../constants/Theme";
 
 export default function CustomTable(props) {
@@ -35,13 +35,13 @@ export default function CustomTable(props) {
       }}
     >
       <ScrollView horizontal={true}>
-        <DataTable>
+        <DataTable> 
           <DataTable.Header>
             {columns.map((column) => (
               <DataTable.Title
                 key={column.id}
                 style={styles.column}
-                textStyle={{ color: THEME.text.color.primary }}
+                textStyle={{ color: THEME.text.color.primary, fontSize: 16 ,fontWeight: "500" }}
               >
                 {column.label}
               </DataTable.Title>

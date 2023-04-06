@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
 import {
-  View,
+  ActivityIndicator,
+  Keyboard,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  StyleSheet,
-  Keyboard,
   TouchableWithoutFeedback,
-  ActivityIndicator,
+  View,
 } from "react-native";
-import { TextInput, Button, Snackbar } from "react-native-paper";
 import Modal from "react-native-modal";
-import { Ionicons } from "@expo/vector-icons";
+import { Button, Snackbar, TextInput } from "react-native-paper";
 import { THEME } from "../../constants/Theme";
 import {
-  submitEditNameModal,
-  submitDeleteAccountModal,
-  submitResetBalanceModal,
   submitConnectAlpacaModal,
-  submitDisconnectAlpacaModal,
-  submitResetPasswordModal,
-  submitUpdateEmailModalNewEmailStep,
-  submitUpdateEmailConfirmNewEmailStep,
-  submitUpdatePhoneModal,
+  submitDeleteAccountModal,
   submitDeleteInvestorModal,
+  submitDisconnectAlpacaModal,
+  submitEditNameModal,
+  submitResetBalanceModal,
+  submitResetPasswordModal,
   submitStartJobModal,
   submitStopJobModal,
+  submitUpdateEmailConfirmNewEmailStep,
+  submitUpdateEmailModalNewEmailStep,
+  submitUpdatePhoneModal,
 } from "../../helpers/modalSubmitActions";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import TypewriterAnimatedText from "./TypewriterAnimatedText";
@@ -381,6 +381,7 @@ const styles = StyleSheet.create({
   headerText: {
     color: THEME.text.color.secondary,
     fontSize: THEME.text.fontSize.H3,
+    fontWeight: "500",
   },
   modalErrorMessageText: {
     color: THEME.colors.danger,

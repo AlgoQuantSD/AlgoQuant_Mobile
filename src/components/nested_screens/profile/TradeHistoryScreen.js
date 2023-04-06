@@ -1,16 +1,16 @@
-import React, { useState, useContext, useCallback, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  ScrollView,
   RefreshControl,
+  ScrollView,
   StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import { THEME } from "../../../constants/Theme";
-import CustomTable from "../../reusable_components/CustomTable";
-import AlgoquantApiContext from "../../../constants/ApiContext";
 import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
+import AlgoquantApiContext from "../../../constants/ApiContext";
+import { THEME } from "../../../constants/Theme";
 import { jobHistoryColumns } from "../../../helpers/tableColumns";
+import CustomTable from "../../reusable_components/CustomTable";
 
 export default function TradeHistoryScreen() {
   const [history, setHistory] = useState([]);
@@ -94,11 +94,12 @@ export default function TradeHistoryScreen() {
           />
         }
       >
-        <View style={{ paddingBottom: "15%" }}>
+        <View style={{ paddingBottom: "5%" }}>
           <Text
             style={{
               ...styles.text,
               fontSize: THEME.text.fontSize.H2,
+              fontWeight: "bold",
               paddingBottom: "2%",
             }}
           >
@@ -110,13 +111,13 @@ export default function TradeHistoryScreen() {
             </Text>
           </View>
         </View>
-        <View style={{paddingBottom: "2%"}}>
+        <View>
           <CustomTable
             data={history}
             columns={jobHistoryColumns}
             loading={isTableLoading}
             handleLoadMore={fetchTrades}
-            height={550}
+            height={620}
             nullMessage="No trades currently"
           />
         </View>
