@@ -110,12 +110,13 @@ export default function TradeHistoryScreen() {
             </Text>
           </View>
         </View>
-        <View>
+        <View style={{paddingBottom: "2%"}}>
           <CustomTable
             data={history}
             columns={jobHistoryColumns}
             loading={isTableLoading}
             handleLoadMore={fetchTrades}
+            height={550}
             nullMessage="No trades currently"
           />
         </View>

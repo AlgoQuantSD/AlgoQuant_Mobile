@@ -394,6 +394,7 @@ export default function JobScreen(props) {
                 columns={jobHistoryColumns}
                 isLoading={isTableLoading}
                 handleLoadMore={fetchJobsTrades}
+                height={250}
                 nullMessage="No trades made yet"
               />
             </View>
@@ -461,8 +462,8 @@ const styles = StyleSheet.create({
     paddingBottom: "10%",
   },
   recentTradesContainer: {
-    maxHeight: 600,
-    paddingBottom: 5,
+    
+    paddingBottom: 10,
   },
   snackbarContainer: { flex: 0.05 },
   snackbar: {

@@ -18,6 +18,7 @@ export default function CustomTable(props) {
     handleLoadMore,
     isLoading,
     nullMessage,
+    height,
   } = props;
 
   // Make sure we don't look for an onPress action if the table does not have pressable rows
@@ -28,7 +29,11 @@ export default function CustomTable(props) {
   }
 
   return (
-    <View style={{ minHeight: 200, maxHeight: 500 }}>
+    <View
+      style={{
+        height: height,
+      }}
+    >
       <ScrollView horizontal={true}>
         <DataTable>
           <DataTable.Header>
