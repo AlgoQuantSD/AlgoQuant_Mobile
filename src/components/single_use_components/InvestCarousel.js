@@ -1,10 +1,11 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import {
   GestureHandlerRootView,
   PanGestureHandler,
   State,
 } from "react-native-gesture-handler";
+import { Button } from "react-native-paper";
 import AlgoquantApiContext from "../../constants/ApiContext";
 import InvestorListContext from "../../constants/InvestorListContext";
 import { THEME } from "../../constants/Theme";
@@ -212,17 +213,19 @@ export default function InvestCarousel(props) {
                   hitSlop={{ top: 30, bottom: 30 }}
                   style={styles.carouselHeader}
                 >
-                 
-                  <Text
-                    style={
-                      item.key ===
-                      carouselOptions[selectedCarouselOptionIndex].key
-                        ? styles.selectedCarouselOption
-                        : styles.text
-                    }
-                  >
-                    {item.name}
-                  </Text>
+                  <Button
+                  style={{borderColor: THEME.colors.primary, borderWidth: 1}}
+                  buttonColor={
+                    item.key === carouselOptions[selectedCarouselOptionIndex].key ? 
+                    THEME.button.color.primary : THEME.button.color.secondary
+                  }
+                  textColor={
+                    item.key === carouselOptions[selectedCarouselOptionIndex].key ? 
+                    THEME.text.color.secondary : THEME.text.color.primary
+                  }
+                >
+                  {item.name}
+                </Button>
                 </TouchableOpacity>
               ))}
             </View>
