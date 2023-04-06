@@ -1,18 +1,18 @@
-import React, { useState, useRef, useContext } from "react";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import React, { useContext, useState } from "react";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { Button, Snackbar } from "react-native-paper";
-import CustomParallaxCarousel from "../../reusable_components/CustomParallaxCarousel";
-import IndicatorsOrStocksListView from "../../reusable_components/IndicatorsOrStocksListView";
-import SuccessScreen from "../../reusable_components/SuccessScreen";
-import SnackbarContent from "../../reusable_components/SnackbarContent";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import AlgoquantApiContext from "../../../constants/ApiContext";
 import { PERIOD_LIST } from "../../../constants/CreateInvestorConstants";
+import InvestorListContext from "../../../constants/InvestorListContext";
+import { THEME } from "../../../constants/Theme";
 import { chunker } from "../../../helpers/chunker";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import { THEME } from "../../../constants/Theme";
-import AlgoquantApiContext from "../../../constants/ApiContext";
-import InvestorListContext from "../../../constants/InvestorListContext";
+import CustomParallaxCarousel from "../../reusable_components/CustomParallaxCarousel";
+import IndicatorsOrStocksListView from "../../reusable_components/IndicatorsOrStocksListView";
+import SnackbarContent from "../../reusable_components/SnackbarContent";
+import SuccessScreen from "../../reusable_components/SuccessScreen";
 
 export default function CreateInvestorAlgorithmicStep4Screen(props) {
   const { investorObject } = props.route.params;
@@ -125,7 +125,7 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
             entering={FadeIn}
             exiting={FadeOut}
           >
-            <Text style={styles.headerText}>Confirm Investor Creation</Text>
+            <Text style={styles.headerText}>Finalize Your Investor</Text>
           </Animated.View>
           {/* Investor Configuration */}
           <Animated.View
@@ -250,10 +250,12 @@ const styles = StyleSheet.create({
   text: { fontSize: THEME.text.fontSize.body, color: THEME.text.color.primary },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
+    fontWeight: "bold",
     color: THEME.text.color.primary,
   },
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H4,
+    fontWeight: "600",
     color: THEME.text.color.primary,
     paddingBottom: "3%",
   },
