@@ -1,15 +1,15 @@
-import React, { useState, useCallback, useContext, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
+  GestureHandlerRootView,
   PanGestureHandler,
   State,
-  GestureHandlerRootView,
 } from "react-native-gesture-handler";
-import InvestItemList from "../reusable_components/InvestItemList";
-import JobsAndHistoryItemList from "../reusable_components/JobsAndHistoryItemList";
-import { THEME } from "../../constants/Theme";
 import AlgoquantApiContext from "../../constants/ApiContext";
 import InvestorListContext from "../../constants/InvestorListContext";
+import { THEME } from "../../constants/Theme";
+import InvestItemList from "../reusable_components/InvestItemList";
+import JobsAndHistoryItemList from "../reusable_components/JobsAndHistoryItemList";
 export default function InvestCarousel(props) {
   const {
     setSnackbarMessage,
@@ -212,6 +212,7 @@ export default function InvestCarousel(props) {
                   hitSlop={{ top: 30, bottom: 30 }}
                   style={styles.carouselHeader}
                 >
+                 
                   <Text
                     style={
                       item.key ===
@@ -258,7 +259,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text: {
-    fontSize: THEME.text.fontSize.body,
+    fontSize: 18,
+    fontWeight: "500",
     color: THEME.text.color.primary,
   },
   carouselHeader: {
@@ -266,7 +268,8 @@ const styles = StyleSheet.create({
     paddingRight: "4%",
   },
   selectedCarouselOption: {
-    fontSize: THEME.text.fontSize.body,
+    fontSize: 18,
+    fontWeight: "600",
     color: THEME.colors.primaryColor,
     textDecorationLine: "underline",
   },

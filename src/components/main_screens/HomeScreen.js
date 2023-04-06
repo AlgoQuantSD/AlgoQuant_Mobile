@@ -1,29 +1,29 @@
+import { useNavigation } from "@react-navigation/native";
 import React, {
-  useState,
-  useRef,
   useCallback,
   useContext,
   useEffect,
+  useRef,
+  useState,
 } from "react";
 import {
-  View,
-  ScrollView,
   ActivityIndicator,
-  Text,
   RefreshControl,
+  ScrollView,
   StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Snackbar, AnimatedFAB } from "react-native-paper";
-import CustomModal from "../reusable_components/CustomModal";
-import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
+import { AnimatedFAB, Snackbar } from "react-native-paper";
+import AlgoquantApiContext from "../../constants/ApiContext";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
+import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import CustomGraph from "../reusable_components/CustomGraph";
+import CustomModal from "../reusable_components/CustomModal";
 import { FailedStateView } from "../reusable_components/FailedStateView";
 import GraphDetailsHeader from "../reusable_components/GraphDetailsHeader";
 import InvestCarousel from "../single_use_components/InvestCarousel";
-import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -361,7 +361,8 @@ const styles = StyleSheet.create({
     color: THEME.text.color.primary,
   },
   headerText: {
-    fontSize: THEME.text.fontSize.H1,
+    fontSize: THEME.text.fontSize.H2,
+    fontWeight: "bold",
     color: THEME.text.color.primary,
     alignSelf: "flex-start",
     paddingTop: "5%",

@@ -1,39 +1,38 @@
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React, {
-  useEffect,
-  useState,
-  useContext,
   useCallback,
+  useContext,
+  useEffect,
   useRef,
+  useState,
 } from "react";
 import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
   ActivityIndicator,
   Dimensions,
+  Image,
+  ScrollView,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { Button, Chip, Snackbar } from "react-native-paper";
 import Animated, { FadeInUp, FadeOutDown } from "react-native-reanimated";
-import { Button, Snackbar } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
-import CustomParallaxCarousel from "../../reusable_components/CustomParallaxCarousel";
-import IndicatorsOrStocksListView from "../../reusable_components/IndicatorsOrStocksListView";
-import JobsAndHistoryItemList from "../../reusable_components/JobsAndHistoryItemList";
-import CustomModal from "../../reusable_components/CustomModal";
+import AlgoquantApiContext from "../../../constants/ApiContext";
+import { CHIP_JOB_TYPES } from "../../../constants/ChipJobTypeEnum";
+import InvestorListContext from "../../../constants/InvestorListContext";
+import { THEME } from "../../../constants/Theme";
+import { chunker } from "../../../helpers/chunker";
 import {
   deleteInvestorModalBuilder,
   startJobModalBuilder,
 } from "../../../helpers/modalFactory";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import { Chip } from "react-native-paper";
-import { chunker } from "../../../helpers/chunker";
-import { THEME } from "../../../constants/Theme";
-import AlgoquantApiContext from "../../../constants/ApiContext";
-import InvestorListContext from "../../../constants/InvestorListContext";
-import { CHIP_JOB_TYPES } from "../../../constants/ChipJobTypeEnum";
+import CustomModal from "../../reusable_components/CustomModal";
+import CustomParallaxCarousel from "../../reusable_components/CustomParallaxCarousel";
+import IndicatorsOrStocksListView from "../../reusable_components/IndicatorsOrStocksListView";
+import JobsAndHistoryItemList from "../../reusable_components/JobsAndHistoryItemList";
 
 export default function InvestorScreen(props) {
   const { investorID } = props.route.params;
@@ -479,6 +478,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: THEME.text.fontSize.H2,
+    fontWeight: "bold",
     color: THEME.text.color.primary,
 
     paddingRight: "2%",
@@ -498,6 +498,7 @@ const styles = StyleSheet.create({
   },
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H4,
+    fontWeight: "600",
     color: THEME.text.color.primary,
     marginRight: 10,
     paddingBottom: "2%",

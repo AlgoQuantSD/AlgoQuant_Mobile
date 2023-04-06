@@ -1,8 +1,8 @@
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
-import { Ionicons } from "@expo/vector-icons";
 
 export default function GraphDetailsHeader(props) {
   const {
@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: THEME.text.fontSize.H2,
+    fontWeight: "bold",
     color: THEME.text.color.primary,
     paddingBottom: "2%",
   },

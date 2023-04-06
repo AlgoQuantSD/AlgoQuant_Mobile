@@ -1,30 +1,29 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
   ActivityIndicator,
   RefreshControl,
+  ScrollView,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
 import { Snackbar } from "react-native-paper";
-import { VictoryPie } from "victory-native";
-import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
-import CustomGraph from "../../reusable_components/CustomGraph";
-import CustomTable from "../../reusable_components/CustomTable";
-import CustomModal from "../../reusable_components/CustomModal";
+import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
 import AlgoquantApiContext from "../../../constants/ApiContext";
+import { CHIP_JOB_TYPES } from "../../../constants/ChipJobTypeEnum";
+import { THEME } from "../../../constants/Theme";
 import { timeframeEnums } from "../../../constants/graphEnums";
 import { stopJobModalBuilder } from "../../../helpers/modalFactory";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../constants/ApiConstants";
-import { THEME } from "../../../constants/Theme";
-import { CHIP_JOB_TYPES } from "../../../constants/ChipJobTypeEnum";
 import { jobHistoryColumns } from "../../../helpers/tableColumns";
 import BuyingPowerAndHoldings from "../../reusable_components/BuyingPowerAndHoldings";
+import CustomGraph from "../../reusable_components/CustomGraph";
+import CustomModal from "../../reusable_components/CustomModal";
+import CustomTable from "../../reusable_components/CustomTable";
+import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
 
 export default function JobScreen(props) {
   const { jobID, jobType } = props.route.params;
@@ -439,6 +438,7 @@ const styles = StyleSheet.create({
   },
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H3,
+    fontWeight: "600",
     color: THEME.text.color.primary,
   },
   headerContainer: {

@@ -1,18 +1,18 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
-  View,
+  Keyboard,
+  StyleSheet,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard,
-  StyleSheet,
+  View,
 } from "react-native";
-import { Button, TextInput, Snackbar } from "react-native-paper";
-import SnackbarContent from "../../reusable_components/SnackbarContent";
-import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
+import { Button, Snackbar, TextInput } from "react-native-paper";
 import { THEME } from "../../../constants/Theme";
-import { useNavigation } from "@react-navigation/native";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
+import SnackbarContent from "../../reusable_components/SnackbarContent";
 
 export default function CreateInvestorStep1Screen(props) {
   const navigation = useNavigation();
@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
+    fontWeight: "bold",
     color: THEME.text.color.primary,
   },
   investorNameInputContainer: {
@@ -202,6 +203,7 @@ const styles = StyleSheet.create({
   },
   investorTitleText: {
     fontSize: THEME.text.fontSize.H4,
+    fontWeight: "600",
     color: THEME.text.color.primary,
     paddingBottom: "2%",
   },
