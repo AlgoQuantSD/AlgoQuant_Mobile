@@ -6,7 +6,7 @@ exports[`ProfileHeader Should render 1`] = `
     Object {
       "alignItems": "center",
       "borderBottomColor": "#747272",
-      "borderBottomWidth": "1px",
+      "borderBottomWidth": 1,
       "flex": 0.25,
       "justifyContent": "center",
       "marginTop": "25%",

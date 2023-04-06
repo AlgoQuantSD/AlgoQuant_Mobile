@@ -1,19 +1,18 @@
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
+  ActivityIndicator,
   Image,
   ScrollView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  ActivityIndicator,
+  View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { startJobModalBuilder } from "../../helpers/modalFactory";
-import { investorImagePathList } from "../../constants/InvestorImagePaths";
-import { THEME } from "../../constants/Theme";
 import Animated, { SlideInDown } from "react-native-reanimated";
+import { THEME } from "../../constants/Theme";
+import { startJobModalBuilder } from "../../helpers/modalFactory";
 
 // Renders the list of investors, jobs, or history
 export default function InvestItemList(props) {
@@ -233,12 +232,12 @@ const styles = StyleSheet.create({
     color: THEME.text.color.secondary,
   },
   indicatorCol: {
-    flexDirection: "col",
+    flexDirection: "column",
     alignItems: "center",
     width: "50%",
   },
   stockCol: {
-    flexDirection: "col",
+    flexDirection: "column",
     alignItems: "center",
     width: "50%",
   },
