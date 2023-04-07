@@ -26,7 +26,6 @@ export default function BacktestingScreen() {
 
   const fetchBacktestHistory = () => {
     const historyBuffer = [];
-
     // once its the last query do nothing
     // first query always sends a last key of null
     if (!lastQuery) {
@@ -35,6 +34,7 @@ export default function BacktestingScreen() {
         algoquantApi
           .getBacktestList(BACKTEST_FETCH_AMOUNT, lastKey)
           .then((resp) => {
+            console.log("REFRESHING");
             // Last query set to trie if there is no last evaluated key from response
             if (resp.data.LEK_backtest_id === undefined) {
               setLastQuery(true);
@@ -95,6 +95,9 @@ export default function BacktestingScreen() {
 
   // Do this when the user pulls down the screen to refresh
   function onRefresh() {
+    setLastQuery(null);
+    setLastKey(null);
+    setHistory([]);
     fetchBacktestHistory();
   }
 
