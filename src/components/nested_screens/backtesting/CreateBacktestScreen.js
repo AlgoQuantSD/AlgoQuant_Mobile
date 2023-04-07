@@ -1,21 +1,20 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { useContext, useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  TouchableWithoutFeedback,
   ActivityIndicator,
   Keyboard,
   StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { TextInput, Snackbar } from "react-native-paper";
-import { Button } from "react-native-paper";
-import DateInputFieldView from "../../reusable_components/DateInputFieldView";
-import SuccessScreen from "../../reusable_components/SuccessScreen";
-import SnackbarContent from "../../reusable_components/SnackbarContent";
-import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import { THEME } from "../../../constants/Theme";
+import { Button, Snackbar, TextInput } from "react-native-paper";
 import AlgoquantApiContext from "../../../constants/ApiContext";
+import { THEME } from "../../../constants/Theme";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
+import DateInputFieldView from "../../reusable_components/DateInputFieldView";
+import SnackbarContent from "../../reusable_components/SnackbarContent";
+import SuccessScreen from "../../reusable_components/SuccessScreen";
 
 export default function CreateBacktestScreen(props) {
   const { investorID } = props.route.params;
@@ -313,6 +312,7 @@ const styles = StyleSheet.create({
   },
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H4,
+    fontWeight: "600",
     color: THEME.text.color.primary,
     paddingBottom: "5%",
   },
@@ -322,6 +322,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
+    fontWeight: "bold",
     color: THEME.text.color.primary,
   },
   descriptionContainer: {

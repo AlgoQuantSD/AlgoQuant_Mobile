@@ -39,47 +39,53 @@ export function HomeScreenStackNavigator() {
       <Stack.Screen
         name="InvestorScreen"
         component={InvestorScreen}
-        options={{...nestedScreenOptions, title: "Investor Details"}}
+        options={{ ...nestedScreenOptions, title: "Investor Details" }}
       />
       <Stack.Screen
         name="CreateInvestorStep1Screen"
         component={CreateInvestorStep1Screen}
-        options={{...nestedScreenOptions, title: "Create Investor Step 1"}}
+        options={{ ...nestedScreenOptions, title: "Create Investor Step 1" }}
       />
       <Stack.Screen
         name="CreateInvestorAlgorithmicStep2Screen"
         component={CreateInvestorAlgorithmicStep2Screen}
-        options={{...nestedScreenOptions, title: "Create Investor Step 2"}}
+        options={{ ...nestedScreenOptions, title: "Create Investor Step 2" }}
       />
       <Stack.Screen
         name="CreateInvestorSmartStep2Screen"
         component={CreateInvestorSmartStep2Screen}
-        options={{...nestedScreenOptions, title: "Create Investor Step 2"}}
+        options={{ ...nestedScreenOptions, title: "Create Investor Step 2" }}
       />
       <Stack.Screen
         name="CreateInvestorAlgorithmicStep3Screen"
         component={CreateInvestorAlgorithmicStep3Screen}
-        options={{...nestedScreenOptions, title: "Create Investor Step 3"}}
+        options={{ ...nestedScreenOptions, title: "Create Investor Step 3" }}
       />
       <Stack.Screen
         name="CreateInvestorSmartStep3Screen"
         component={CreateInvestorSmartStep3Screen}
-        options={{...nestedScreenOptions, title: "Create Investor Confirmation"}}
+        options={{
+          ...nestedScreenOptions,
+          title: "Create Investor Confirmation",
+        }}
       />
       <Stack.Screen
         name="CreateInvestorAlgorithmicStep4Screen"
         component={CreateInvestorAlgorithmicStep4Screen}
-        options={{...nestedScreenOptions, title: "Create Investor Confirmation"}}
+        options={{
+          ...nestedScreenOptions,
+          title: "Create Investor Confirmation",
+        }}
       />
       <Stack.Screen
         name="CreateBacktestScreen"
         component={CreateBacktestScreen}
-        options={nestedScreenOptions}
+        options={{ ...nestedScreenOptions, title: "Create a Backtest" }}
       />
       <Stack.Screen
         name="JobScreen"
         component={JobScreen}
-        options={{...nestedScreenOptions, title: "Job Details"}}
+        options={{ ...nestedScreenOptions, title: "Job Details" }}
       />
       <Stack.Screen
         name="StockInfoScreen"
@@ -137,7 +143,7 @@ export function BacktestingScreenStackNavigator() {
       <Stack.Screen
         name="BacktestResultsScreen"
         component={BacktestResultsScreen}
-        options={{...nestedScreenOptions, title: "Backtest Results"}}
+        options={{ ...nestedScreenOptions, title: "Backtest Results" }}
       />
     </Stack.Navigator>
   );
