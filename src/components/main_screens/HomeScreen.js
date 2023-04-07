@@ -169,12 +169,13 @@ export default function HomeScreen() {
               parseFloat(resp.data["interval_price_change"]).toFixed(2)
             );
             setRecentPrice(resp.data["recent_price"].toFixed(2));
-            setMarketClosed(resp.data["is_market_closed"]);
 
-            // If the timeframe selected was day, store the first timeframe (yVal) to keep track of the day the market was open,
-            // DateClosed variable will then used to show the date the market is closed, if it is.
-            if (timeframe === "D") {
-              setDateClosed(resp.data["timestamp"][0]);
+            if (resp.data["market_closed"] !== undefined) {
+              setDateClosed(resp.data["market_closed"]);
+              setMarketClosed(true);
+            } else {
+              setDateClosed(null);
+              setMarketClosed(false);
             }
 
             setGraphLoading(false);

@@ -94,12 +94,15 @@ export default function StockInfoScreen(props) {
             setYValues(yTickValues);
             setPriceDifferenceRaw(resp.data["interval_price_change"]);
             setPercentChanged(resp.data["percent_change"]);
-            setMarketClosed(resp.data["is_market_closed"]);
 
-            // Grab the first timestamp from day graph to store a date for when the date closed
-            if (timeframe === "D") {
-              setDateClosed(resp.data["timestamp"][0]);
+            if (resp.data["market_closed"] !== undefined) {
+              setDateClosed(resp.data["market_closed"]);
+              setMarketClosed(true);
+            } else {
+              setDateClosed(null);
+              setMarketClosed(false);
             }
+
             setIsGraphDataLoading(false);
           })
           .catch((err) => {
