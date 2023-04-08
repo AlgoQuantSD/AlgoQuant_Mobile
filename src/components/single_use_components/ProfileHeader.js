@@ -1,9 +1,9 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
 import { useAuthenticator } from "@aws-amplify/ui-react-native";
-import { THEME } from "../../constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { THEME } from "../../constants/Theme";
 import { editNameModalBuilder } from "../../helpers/modalFactory";
 
 export default function ProfileHeader(props) {
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     flex: 0.25,
     width: "100%",
     marginTop: "25%",
-    borderBottomWidth: "1px",
+    borderBottomWidth: 1,
     borderBottomColor: THEME.profileScreen.dividerColor,
   },
   text: {

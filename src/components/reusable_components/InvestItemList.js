@@ -1,30 +1,22 @@
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
+  ActivityIndicator,
   Image,
   ScrollView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  ActivityIndicator,
+  View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { startJobModalBuilder } from "../../helpers/modalFactory";
-import { investorImagePathList } from "../../constants/InvestorImagePaths";
-import { THEME } from "../../constants/Theme";
 import Animated, { SlideInDown } from "react-native-reanimated";
+import { THEME } from "../../constants/Theme";
+import { startJobModalBuilder } from "../../helpers/modalFactory";
 
 // Renders the list of investors, jobs, or history
 export default function InvestItemList(props) {
-  const {
-    listData,
-    isLoading,
-    setSnackbarMessage,
-    setIsSnackbarVisible,
-    modalProps,
-    navigation,
-  } = props;
+  const { listData, isLoading, modalProps, navigation } = props;
 
   // Show the start job modal and pass in the investor id
   function handlePressStartJob(investorId) {
@@ -85,7 +77,11 @@ export default function InvestItemList(props) {
                         {/* Investor image */}
                         <View style={styles.imageContainer}>
                           <Image
-                            style={styles.investorImage}
+                            style={
+                              item.type === "I"
+                                ? styles.investorImage
+                                : styles.aiInvestorImage
+                            }
                             source={{ uri: item.image_id }}
                           />
                         </View>
@@ -97,18 +93,16 @@ export default function InvestItemList(props) {
                                 Indicators
                               </Text>
                               <ScrollView>
-                                <View style={styles.indicatorAndStockItems}>
-                                  {item?.indicators?.map((item, index) => {
-                                    return (
-                                      <Text
-                                        key={item}
-                                        style={styles.indictorAndStockText}
-                                      >
-                                        {item}
-                                      </Text>
-                                    );
-                                  })}
-                                </View>
+                                {item?.indicators?.map((item, index) => {
+                                  return (
+                                    <Text
+                                      key={item}
+                                      style={styles.indictorAndStockText}
+                                    >
+                                      {item}
+                                    </Text>
+                                  );
+                                })}
                               </ScrollView>
                             </View>
                             {/* Stocks */}
@@ -117,18 +111,16 @@ export default function InvestItemList(props) {
                                 Stocks
                               </Text>
                               <ScrollView>
-                                <View style={styles.indicatorAndStockItems}>
-                                  {item?.assets_to_track?.map((item, index) => {
-                                    return (
-                                      <Text
-                                        key={item}
-                                        style={styles.indictorAndStockText}
-                                      >
-                                        {item}
-                                      </Text>
-                                    );
-                                  })}
-                                </View>
+                                {item?.assets_to_track?.map((item, index) => {
+                                  return (
+                                    <Text
+                                      key={item}
+                                      style={styles.indictorAndStockText}
+                                    >
+                                      {item}
+                                    </Text>
+                                  );
+                                })}
                               </ScrollView>
                             </View>
                           </View>
@@ -137,22 +129,16 @@ export default function InvestItemList(props) {
                         {/* Start job */}
                         <View style={styles.startJobContainer}>
                           <TouchableOpacity
-                            hitSlop={{
-                              top: 30,
-                              bottom: 30,
-                              left: 30,
-                              right: 30,
-                            }}
                             style={styles.startJobButton}
                             onPress={() =>
                               handlePressStartJob(item.investor_id)
                             }
                           >
-                            <Text style={styles.secondaryText}>Start Job</Text>
+                            <Text style={styles.primaryText}>Start Job</Text>
                             <Ionicons
                               name="arrow-forward"
                               size={16}
-                              color={THEME.colors.background}
+                              color={THEME.colors.foreground}
                             />
                           </TouchableOpacity>
                         </View>
@@ -212,6 +198,7 @@ const styles = StyleSheet.create({
   },
   listItemName: {
     fontSize: THEME.text.fontSize.H3,
+    fontWeight: "600",
     color: THEME.text.color.secondary,
   },
   imageContainer: {
@@ -219,13 +206,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   investorImage: { height: 150, width: 130 },
+  aiInvestorImage: { height: 200, width: 120 },
   indicatorAndStockContainer: {
-    flex: 0.3,
+    flex: 0.25,
     width: "100%",
     flexDirection: "row",
   },
   indictorAndStockHeaderText: {
     fontSize: THEME.text.fontSize.H4,
+    fontWeight: "600",
     color: THEME.text.color.secondary,
   },
   indictorAndStockText: {
@@ -233,12 +222,12 @@ const styles = StyleSheet.create({
     color: THEME.text.color.secondary,
   },
   indicatorCol: {
-    flexDirection: "col",
+    flexDirection: "column",
     alignItems: "center",
     width: "50%",
   },
   stockCol: {
-    flexDirection: "col",
+    flexDirection: "column",
     alignItems: "center",
     width: "50%",
   },
@@ -250,11 +239,14 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "flex-end",
     justifyContent: "center",
+    paddingRight: "2%",
     position: "absolute",
     bottom: 10,
   },
   startJobButton: {
     flexDirection: "row",
-    paddingRight: "2%",
+    padding: "2%",
+    backgroundColor: THEME.colors.background,
+    borderRadius: 60,
   },
 });

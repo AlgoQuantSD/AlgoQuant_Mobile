@@ -1,22 +1,22 @@
-import React, { useState, useContext } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import React, { useContext, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
-import Animated, { BounceIn, FadeIn, FadeOut } from "react-native-reanimated";
-import { useNavigation } from "@react-navigation/native";
 import { Button, Snackbar } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
-import CreateInvestorStockSearch from "../../single_use_components/CreateInvestorStockSearch";
+import Animated, { BounceIn, FadeIn, FadeOut } from "react-native-reanimated";
 import AlgoquantApiContext from "../../../constants/ApiContext";
-import SnackbarContent from "../../reusable_components/SnackbarContent";
-import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
 import { THEME } from "../../../constants/Theme";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
+import SnackbarContent from "../../reusable_components/SnackbarContent";
+import CreateInvestorStockSearch from "../../single_use_components/CreateInvestorStockSearch";
 
 export default function CreateInvestorAlgorithmicStep3Screen(props) {
   const { investorObject } = props.route.params;
@@ -208,10 +208,12 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
+    fontWeight: "bold",
     color: THEME.text.color.primary,
   },
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H4,
+    fontWeight: "600",
     color: THEME.text.color.primary,
   },
   searchContainer: {

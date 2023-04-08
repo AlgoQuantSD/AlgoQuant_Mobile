@@ -1,18 +1,18 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { useContext, useEffect, useState } from "react";
 import {
-  View,
-  StyleSheet,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
-  RefreshControl,
+  StyleSheet,
   Text,
+  View,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import CustomTable from "../reusable_components/CustomTable";
-import { backtestHistoryColumns } from "../../helpers/tableColumns";
-import { THEME } from "../../constants/Theme";
-import AlgoquantApiContext from "../../constants/ApiContext";
 import { BACKTEST_FETCH_AMOUNT } from "../../constants/ApiConstants";
+import AlgoquantApiContext from "../../constants/ApiContext";
+import { THEME } from "../../constants/Theme";
+import { backtestHistoryColumns } from "../../helpers/tableColumns";
+import CustomTable from "../reusable_components/CustomTable";
 
 export default function BacktestingScreen() {
   const navigation = useNavigation();
@@ -26,7 +26,6 @@ export default function BacktestingScreen() {
 
   const fetchBacktestHistory = () => {
     const historyBuffer = [];
-
     // once its the last query do nothing
     // first query always sends a last key of null
     if (!lastQuery) {
@@ -35,6 +34,7 @@ export default function BacktestingScreen() {
         algoquantApi
           .getBacktestList(BACKTEST_FETCH_AMOUNT, lastKey)
           .then((resp) => {
+            console.log("REFRESHING");
             // Last query set to trie if there is no last evaluated key from response
             if (resp.data.LEK_backtest_id === undefined) {
               setLastQuery(true);
@@ -95,6 +95,9 @@ export default function BacktestingScreen() {
 
   // Do this when the user pulls down the screen to refresh
   function onRefresh() {
+    setLastQuery(null);
+    setLastKey(null);
+    setHistory([]);
     fetchBacktestHistory();
   }
 
@@ -142,6 +145,7 @@ export default function BacktestingScreen() {
             handleRowPress={handleRowPress}
             isLoading={isTableLoading}
             handleLoadMore={fetchBacktestHistory}
+            height={550}
             nullMessage="No backtests have been created yet"
           />
         </View>
@@ -171,7 +175,8 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: THEME.text.color.primary,
-    fontSize: THEME.text.fontSize.H1,
+    fontSize: THEME.text.fontSize.H2,
+    fontWeight: "bold",
     paddingBottom: "2%",
   },
   tableContainer: {
@@ -179,6 +184,7 @@ const styles = StyleSheet.create({
   },
   sectionTitleText: {
     color: THEME.text.color.primary,
+    fontWeight: "600",
     fontSize: THEME.text.fontSize.H3,
   },
 });

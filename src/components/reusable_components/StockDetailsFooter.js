@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { THEME } from "../../constants/Theme";
 
 export default function StockDetailsFooter(props) {
@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
 
   headerText: {
     fontSize: THEME.text.fontSize.H3,
+    fontWeight: "600",
     color: THEME.text.color.primary,
     paddingBottom: "5%",
   },

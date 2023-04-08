@@ -1,24 +1,23 @@
+import { Ionicons } from "@expo/vector-icons";
+import { format } from "d3-format";
 import React from "react";
 import {
-  View,
+  StyleSheet,
+  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Text,
-  ActivityIndicator,
-  StyleSheet,
+  View
 } from "react-native";
+import { Button } from "react-native-paper";
 import {
+  VictoryAxis,
   VictoryChart,
   VictoryLine,
-  VictoryVoronoiContainer,
   VictoryTooltip,
-  VictoryAxis,
+  VictoryVoronoiContainer,
 } from "victory-native";
-import { Button } from "react-native-paper";
-import { THEME, LINE_GRAPH_THEME } from "../../constants/Theme";
+import { LINE_GRAPH_THEME, THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
-import { format } from "d3-format";
-import { Ionicons } from "@expo/vector-icons";
 
 export default function CustomGraph(props) {
   const {
@@ -323,5 +322,7 @@ const styles = StyleSheet.create({
   timeframeButtonInner: {
     width: 50,
     minWidth: 0,
+    borderColor: THEME.colors.primary,
+    borderWidth: 1,
   },
 });

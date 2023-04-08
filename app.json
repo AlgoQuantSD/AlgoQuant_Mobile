@@ -14,9 +14,12 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "algoquant"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,6 +29,11 @@
     },
     "web": {
       "favicon": "./assets/app_json_icons/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "24a93ce6-6291-4aed-a83c-a27c0056b0d7"
+      }
     }
   }
 }

@@ -1,25 +1,25 @@
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
-  View,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  ScrollView,
-  KeyboardAvoidingView,
-  StyleSheet,
+  View,
 } from "react-native";
-import { Button, TextInput, Snackbar } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
-import InvestorTradeFrequencyCarousel from "../../reusable_components/InvestorTradeFrequencyCarousel";
-import SnackbarContent from "../../reusable_components/SnackbarContent";
-import CustomTooltip from "../../reusable_components/CustomTooltip";
-import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import { profitOrLossStopErrorHandler } from "../../../helpers/errorHandler";
+import { Button, Snackbar, TextInput } from "react-native-paper";
 import {
   INDICATOR_LIST,
   PERIOD_LIST,
 } from "../../../constants/CreateInvestorConstants";
 import { THEME } from "../../../constants/Theme";
+import { profitOrLossStopErrorHandler } from "../../../helpers/errorHandler";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
+import CustomTooltip from "../../reusable_components/CustomTooltip";
+import InvestorTradeFrequencyCarousel from "../../reusable_components/InvestorTradeFrequencyCarousel";
+import SnackbarContent from "../../reusable_components/SnackbarContent";
 
 export default function CreateInvestorAlgorithmicStep2Screen(props) {
   const { investorObject } = props.route.params;
@@ -401,6 +401,7 @@ const styles = StyleSheet.create({
   },
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H4,
+    fontWeight: "600",
     color: THEME.text.color.primary,
   },
   headerContainer: {
@@ -408,6 +409,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
+    fontWeight: "bold",
     color: THEME.text.color.primary,
   },
   indicatorsContainer: {

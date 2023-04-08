@@ -1,14 +1,14 @@
-import React, { useState, useContext } from "react";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
-import { Button, Snackbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import React, { useContext, useState } from "react";
+import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
+import { Button, Snackbar } from "react-native-paper";
 import Animated, { FadeIn } from "react-native-reanimated";
-import SuccessScreen from "../../reusable_components/SuccessScreen";
-import SnackbarContent from "../../reusable_components/SnackbarContent";
-import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import { THEME } from "../../../constants/Theme";
 import AlgoquantApiContext from "../../../constants/ApiContext";
 import InvestorListContext from "../../../constants/InvestorListContext";
+import { THEME } from "../../../constants/Theme";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
+import SnackbarContent from "../../reusable_components/SnackbarContent";
+import SuccessScreen from "../../reusable_components/SuccessScreen";
 
 export default function CreateInvestorSmartStep3Screen(props) {
   const { investorObject } = props.route.params;
@@ -99,10 +99,10 @@ export default function CreateInvestorSmartStep3Screen(props) {
         <View style={{ flex: 1 }}>
           {/* Header */}
           <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>Confirm Investor Creation</Text>
+            <Text style={styles.headerText}>Finalize Your Investor</Text>
           </View>
           {/* Investor Configuration */}
-          <View style={styles.investorConfigurationContainer}>
+          <View>
             <Text style={styles.sectionTitleText}>Investor Configuration</Text>
             <View style={styles.investorConfigurationItem}>
               <Text style={styles.text}>Investor name:</Text>
@@ -120,6 +120,22 @@ export default function CreateInvestorSmartStep3Screen(props) {
               <Text style={styles.text}>Loss stop:</Text>
               <Text style={styles.text}>{investorObject.loss_stop}%</Text>
             </View>
+          </View>
+          <View
+            style={{
+              alignItems: "center",
+
+              borderRadius: 300,
+              padding: 20,
+            }}
+          >
+            <Image
+              style={{
+                height: 300,
+                width: 200,
+              }}
+              source={{ uri: investorObject.image_id }}
+            />
           </View>
           {/* Create Investor Button */}
           <View style={styles.nextButtonContainer}>
@@ -171,6 +187,7 @@ const styles = StyleSheet.create({
   },
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H4,
+    fontWeight: "600",
     color: THEME.text.color.primary,
     paddingBottom: "2%",
   },
@@ -179,6 +196,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: THEME.text.fontSize.H3,
+    fontWeight: "bold",
     color: THEME.text.color.primary,
   },
 

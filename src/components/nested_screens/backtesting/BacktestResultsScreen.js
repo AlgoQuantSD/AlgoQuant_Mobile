@@ -1,17 +1,17 @@
-import React, { useState, useContext, useEffect } from "react";
+import { format } from "d3-format";
+import React, { useContext, useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  ScrollView,
-  SafeAreaView,
   ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
   StyleSheet,
+  Text,
+  View,
 } from "react-native";
+import AlgoquantApiContext from "../../../constants/ApiContext";
+import { THEME } from "../../../constants/Theme";
 import CustomGraph from "../../reusable_components/CustomGraph";
 import BacktestAnalysisView from "../../single_use_components/BacktestAnalysisView";
-import { THEME } from "../../../constants/Theme";
-import AlgoquantApiContext from "../../../constants/ApiContext";
-import { format } from "d3-format";
 
 export default function BacktestResultsScreen(props) {
   const { backtestId } = props.route.params;
@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
   sectionTitleText: {
     color: THEME.text.color.primary,
     fontSize: THEME.text.fontSize.H3,
+    fontWeight: "600",
     paddingBottom: "2%",
   },
   headerContainer: {
@@ -191,7 +192,8 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: THEME.text.color.primary,
-    fontSize: THEME.text.fontSize.H1,
+    fontSize: THEME.text.fontSize.H2,
+    fontWeight: "bold",
     paddingBottom: "2%",
   },
   graphContainer: {
