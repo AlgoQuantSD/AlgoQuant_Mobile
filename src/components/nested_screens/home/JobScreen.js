@@ -206,7 +206,7 @@ export default function JobScreen(props) {
           .getPerformance(timeframe, jobID)
           .then((resp) => {
             const combinedData = resp.data["timestamp"].map((x, i) => ({
-              x,
+              x: `${x}`,
               y: resp.data["close"][i],
             }));
             setGraphData(combinedData);

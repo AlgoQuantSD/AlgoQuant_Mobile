@@ -12,10 +12,13 @@ import { Button } from "react-native-paper";
 import {
   VictoryAxis,
   VictoryChart,
-  VictoryLine,
   VictoryTooltip,
+  VictoryArea,
   VictoryVoronoiContainer,
 } from "victory-native";
+
+import {Defs, LinearGradient, Stop} from "react-native-svg";
+
 import { LINE_GRAPH_THEME, THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 
@@ -40,6 +43,8 @@ export default function CustomGraph(props) {
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = percentChanged >= 0;
 
+
+
   // Update graphdata and change the selected timeframe
   function handleTimeframeChange(timeframe) {
     setSelectedTimeframe(timeframe);
@@ -57,6 +62,21 @@ export default function CustomGraph(props) {
         getGraphData("Y");
         break;
     }
+  }
+
+  // Used to 
+  const yValsUnique = [...new Set(yVals)];
+
+  // Get the max domain of the graph , will be the max in the list with some padding
+  const getMaxDomain = (yVals) => {
+    let max = Math.max.apply(Math,yVals)
+    return max + (0.001 * max)
+  }
+
+  // Get the max domain of the graph
+  const getMinDomain = (yVals) => {
+    let min = Math.min.apply(Math,yVals)
+    return min - (0.001 * min)
   }
 
   // Helper function used to determine what date / time format to show for independent (y) axis
@@ -99,10 +119,12 @@ export default function CustomGraph(props) {
         <View>
           <View>
             <VictoryChart
+              minDomain={{y:getMinDomain(yVals)}}
+              maxDomain={{y:getMaxDomain(yVals)}}
               onTouchStart={handlePressInGraph}
               onTouchEnd={handlePressOutGraph}
               theme={LINE_GRAPH_THEME}
-              animate={{
+              animate={yValsUnique.length > 1 ? ({
                 onExit: {
                   duration: 500,
                   before: () => ({
@@ -110,7 +132,7 @@ export default function CustomGraph(props) {
                     fill: THEME.colors.primary,
                   }),
                 },
-              }}
+              }): undefined}
               containerComponent={
                 <VictoryVoronoiContainer
                   onTouchStart={handlePressInGraph}
@@ -127,8 +149,36 @@ export default function CustomGraph(props) {
                 />
               }
             >
-              <VictoryLine
-                animate={{
+              {/* The graph gradients are defined here, update to change gradient schemes*/}
+              <Defs>
+                <LinearGradient id="gradientGreen" x1={'0'} y={'0%'} x2={'0'} y2={'100%'}>
+                  <Stop offset="0%"  stopColor="#2EB62C"/>
+                  <Stop offset="20%" stopColor="#57C84D"/>
+                  <Stop offset="40%" stopColor="#83D475"/>
+                  <Stop offset="60%" stopColor="#ABE098"/>
+                  <Stop offset="80%" stopColor="#C5E8B7"/>
+                </LinearGradient>
+              </Defs>
+
+              <Defs>
+                <LinearGradient id="gradientRed" x1={'0'} y={'0%'} x2={'0'} y2={'100%'}>
+                  <Stop offset="0%" stopColor="#DA2C43"/>
+                  <Stop offset="20%" stopColor="#E15566"/>
+                  <Stop offset="40%" stopColor="#E97E88"/>
+                </LinearGradient>
+              </Defs>
+
+              <Defs>
+                <LinearGradient id="gradientBacktest" x1={'0'} y={'0%'} x2={'0'} y2={'100%'}>
+                  <Stop offset="20%" stopColor="#c364fa"/>
+                  <Stop offset="40%" stopColor="#a230ed"/>
+                  <Stop offset="60%" stopColor="#00FFFFFF"/>
+                  <Stop offset="80%" stopColor="#00FFFFFF"/>
+                </LinearGradient>
+              </Defs>
+
+              <VictoryArea
+                animate={yValsUnique.length > 1 ? ({
                   onExit: {
                     duration: 500,
                     before: () => ({
@@ -136,27 +186,28 @@ export default function CustomGraph(props) {
                       fill: THEME.colors.primary,
                     }),
                   },
-                }}
+                }): undefined}
                 interpolation="natural"
                 data={graphData}
                 style={
                   // If the graph is trending downwards show red otherwise show primary color
                   lineColor1
                     ? {
-                        data: { stroke: lineColor1 },
+                        data: { fill: 'url(#gradientStroke)'},
                       }
                     : isTrendingUp
                     ? {
-                        data: { stroke: THEME.colors.trendingUp },
+                        data: { fill: 'url(#gradientGreen)' },
                       }
                     : {
-                        data: { stroke: THEME.colors.trendingDown },
+                        data: { fill: 'url(#gradientRed)' },
                       }
                 }
               />
+              
               {graphData2 ? (
-                <VictoryLine
-                  animate={{
+                <VictoryArea
+                  animate={ yValsUnique.length > 1 ?({
                     onExit: {
                       duration: 500,
                       before: () => ({
@@ -164,22 +215,22 @@ export default function CustomGraph(props) {
                         fill: THEME.colors.primary,
                       }),
                     },
-                  }}
+                  }): undefined}
                   interpolation="natural"
                   data={graphData2}
                   style={
                     // If the graph is trending downwards show red otherwise show primary color
                     lineColor2
-                      ? {
-                          data: { stroke: lineColor2 },
-                        }
-                      : isTrendingUp
-                      ? {
-                          data: { stroke: THEME.colors.trendingUp },
-                        }
-                      : {
-                          data: { stroke: THEME.colors.trendingDown },
-                        }
+                    ? {
+                        data: { fill: 'url(#gradientBacktest)'},
+                      }
+                    : isTrendingUp
+                    ? {
+                        data: { fill: 'url(#gradientBacktest)' },
+                      }
+                    : {
+                        data: { fill: 'url(#gradientBacktest)' },
+                      }
                   }
                 />
               ) : null}
@@ -187,13 +238,17 @@ export default function CustomGraph(props) {
               {/* // X-axis */}
               <VictoryAxis
                 dependentAxis={false}
-                tickFormat={(x) => determineTimeFrame(x)}
                 tickCount={4}
+                tickFormat={(x) => determineTimeFrame(x)}
+                fixLabelOverlap={true}
               />
               {/* // Y-axis */}
               <VictoryAxis
-                dependentAxis
-                tickCount={4}
+                dependentAxis={true}
+                orientation="left"
+                // If the number of unique values is less than 8 use the number of unique valeus
+                tickCount={yValsUnique.length < 6 ? (yValsUnique.length): 6}
+                fixLabelOverlap={true}
                 tickFormat={(x) => formatter2(x)}
               />
             </VictoryChart>
