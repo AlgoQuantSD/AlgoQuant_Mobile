@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { format } from "d3-format";
-import {React,useState} from "react";
+import { React, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -74,33 +74,43 @@ export default function CustomGraph(props) {
   This will be called when a point is selected on the graph. This is responsible for setting
   the selectedPoints state variables so they can be displayed at the top of the graph
   */
-  const selectPoint = (point) => {  
-
-    let points = []
+  const selectPoint = (point) => {
+    let points = [];
 
     // Determine if this is a two line graph
-    if(graphData2) {
+    if (graphData2) {
+      // Find the points that correspond to the selected point in each graph data
+      let graph2Point = graphData2.filter(function (graphData) {
+        return graphData.x == point[0].x;
+      });
 
-        // Find the points that correspond to the selected point in each graph data
-        let graph2Point = graphData2.filter(
-          function(graphData) {return graphData.x == point[0].x})
+      let graph1Point = graphData.filter(function (graphData) {
+        return graphData.x == point[0].x;
+      });
 
-        let graph1Point = graphData.filter(
-          function(graphData) {return graphData.x == point[0].x})
-        
-        // Add the formatted points to the list
-        points.push({x:determineTimeFrame(graph1Point[0].x),y:`$${formatter(graph1Point[0].y)}`})
-        points.push({x:determineTimeFrame(graph2Point[0].x),y:`$${formatter(graph2Point[0].y)}`})
-
-      } else {
-        // Only a single point so can be added directly to the list
-        points.push({x:determineTimeFrame(point[0].x),y:`$${formatter(point[0].y)}`})
-      }
-      return points
-  }
+      // Add the formatted points to the list
+      points.push({
+        x: determineTimeFrame(graph1Point[0].x),
+        y: `$${formatter(graph1Point[0].y)}`,
+      });
+      points.push({
+        x: determineTimeFrame(graph2Point[0].x),
+        y: `$${formatter(graph2Point[0].y)}`,
+      });
+    } else {
+      // Only a single point so can be added directly to the list
+      points.push({
+        x: determineTimeFrame(point[0].x),
+        y: `$${formatter(point[0].y)}`,
+      });
+    }
+    return points;
+  };
 
   // Set the selected point as the first point in the list initially
-  const [selectedPoints,setSelectedPoints] = useState(selectPoint([graphData[0]]));
+  const [selectedPoints, setSelectedPoints] = useState(
+    selectPoint([graphData[0]])
+  );
 
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = percentChanged >= 0;
@@ -131,29 +141,27 @@ export default function CustomGraph(props) {
   are two areas and has to fine the max between both
   */
   const getMaxDomain = () => {
-
     let max = 0;
 
     // If two graphs need to fine max between both
-    if(graphData2){
-      let yVals2 = []
+    if (graphData2) {
+      let yVals2 = [];
 
       // Get the list of y values for the second graph
-      graphData2.forEach(element => {
-          yVals2.push(element.y)
+      graphData2.forEach((element) => {
+        yVals2.push(element.y);
       });
 
-      let max1 = Math.max.apply(Math, yVals)
-      let max2 = Math.max.apply(Math, yVals2)
-      
-      if (max1 > max2){
-        max = max1
-      } else {
-        max = max2
-      }
+      let max1 = Math.max.apply(Math, yVals);
+      let max2 = Math.max.apply(Math, yVals2);
 
+      if (max1 > max2) {
+        max = max1;
+      } else {
+        max = max2;
+      }
     } else {
-      max = Math.max.apply(Math, yVals)
+      max = Math.max.apply(Math, yVals);
     }
 
     return max + 0.01 * max;
@@ -164,27 +172,26 @@ export default function CustomGraph(props) {
   are two areas and has to fine the min between both
   */
   const getMinDomain = () => {
-    
     let min = 0;
     // If two graphs need to fine max between both
-    if(graphData2){
-      let yVals2 = []
+    if (graphData2) {
+      let yVals2 = [];
 
       // Get the list of y values for the second graph
-      graphData2.forEach(element => {
-          yVals2.push(element.y)
+      graphData2.forEach((element) => {
+        yVals2.push(element.y);
       });
 
-      let min1 = Math.min.apply(Math, yVals)
-      let min2 = Math.min.apply(Math, yVals2)
-      
-      if (min1 < min2){
-        min = min1
+      let min1 = Math.min.apply(Math, yVals);
+      let min2 = Math.min.apply(Math, yVals2);
+
+      if (min1 < min2) {
+        min = min1;
       } else {
-        min = min2
+        min = min2;
       }
     } else {
-      min = Math.min.apply(Math, yVals)
+      min = Math.min.apply(Math, yVals);
     }
     return min - 0.01 * min;
   };
@@ -194,20 +201,23 @@ export default function CustomGraph(props) {
       <View>
         <View style={{}}>
           {
-              // Determine how many points have been selected
-              selectedPoints?.length > 1 ? (        
-                <Text> 
-                  {"      "}{selectedPoints[0].x}
-                  {"\n"}
-                  {"      "}Investor: {selectedPoints[0].y} 
-                  {"\n"}
-                  {"      "}Buy/Hold: {selectedPoints[1].y} 
-                </Text>
-              ) : (
-                <Text> 
-                {"      "}{selectedPoints[0].x}
+            // Determine how many points have been selected
+            selectedPoints?.length > 1 ? (
+              <Text>
+                {"      "}
+                Date: {selectedPoints[0].x}
                 {"\n"}
-                {"      "}{selectedPoints[0].y} 
+                {"      "}Investor: {selectedPoints[0].y}
+                {"\n"}
+                {"      "}Buy/Hold: {selectedPoints[1].y}
+              </Text>
+            ) : (
+              <Text>
+                {"      "}
+                Date: {selectedPoints[0].x}
+                {"\n"}
+                {"      "}
+                Balance: {selectedPoints[0].y}
               </Text>
             )
           }
@@ -222,7 +232,7 @@ export default function CustomGraph(props) {
             <VictoryChart
               minDomain={{ y: getMinDomain() }}
               maxDomain={{ y: getMaxDomain() }}
-              padding={{left:0,right:0,top:20,bottom:20}}
+              padding={{ left: 0, right: 0, top: 20, bottom: 20 }}
               onTouchStart={handlePressInGraph}
               onTouchEnd={handlePressOutGraph}
               theme={LINE_GRAPH_THEME}
@@ -241,7 +251,9 @@ export default function CustomGraph(props) {
               }
               containerComponent={
                 <VictoryVoronoiContainer
-                  onActivated={(points, props) => setSelectedPoints(selectPoint(points))}
+                  onActivated={(points, props) =>
+                    setSelectedPoints(selectPoint(points))
+                  }
                   onTouchStart={handlePressInGraph}
                   onTouchEnd={handlePressOutGraph}
                 />
@@ -361,16 +373,18 @@ export default function CustomGraph(props) {
                       }
                     : isTrendingUp
                     ? {
-                        data: { fill: "url(#gradientGreen)",
-                        stroke: "#2EB62C",
-                        strokeWidth:2 
-                       },
+                        data: {
+                          fill: "url(#gradientGreen)",
+                          stroke: "#2EB62C",
+                          strokeWidth: 2,
+                        },
                       }
                     : {
-                        data: { fill: "url(#gradientRed)",
-                        stroke: "#DA2C43",
-                        strokeWidth:2
-                      },
+                        data: {
+                          fill: "url(#gradientRed)",
+                          stroke: "#DA2C43",
+                          strokeWidth: 2,
+                        },
                       }
                 }
               />
@@ -417,9 +431,9 @@ export default function CustomGraph(props) {
               <VictoryAxis
                 dependentAxis={false}
                 tickCount={3}
-                style={{ 
-                  ticks: {stroke: "transparent"},
-                  tickLabels: { fill:"transparent"} 
+                style={{
+                  ticks: { stroke: "transparent" },
+                  tickLabels: { fill: "transparent" },
                 }}
                 tickFormat={(x) => determineTimeFrame(x)}
                 fixLabelOverlap={true}
