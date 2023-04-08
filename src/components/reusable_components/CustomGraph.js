@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { format } from "d3-format";
-import React from "react";
+import {React,useState} from "react";
 import {
   StyleSheet,
   Text,
@@ -18,7 +18,6 @@ import {
 } from "victory-native";
 
 import {Defs, LinearGradient, Stop} from "react-native-svg";
-
 import { LINE_GRAPH_THEME, THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 
@@ -40,10 +39,48 @@ export default function CustomGraph(props) {
 
   const formatter = format(".2f");
   const formatter2 = format(".0f");
+
+
+  // Helper function used to determine what date / time format to show for independent (y) axis
+  const determineTimeFrame = (x) => {
+    switch (selectedTimeframe) {
+      case timeframeEnums.DAY:
+        return new Date(x * 1000).toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      case timeframeEnums.FIVE:
+        return new Date(x * 1000).toLocaleDateString("en-US", {
+          month: "numeric",
+          day: "numeric",
+        });
+      case timeframeEnums.MONTH:
+        return new Date(x * 1000).toLocaleDateString("en-US", {
+          month: "numeric",
+          day: "numeric",
+        });
+      case timeframeEnums.YEAR:
+        return new Date(x * 1000).toLocaleDateString("en-US", {
+          month: "numeric",
+          year: "numeric",
+        });
+      default:
+        return new Date(x * 1000).toLocaleDateString("en-US", {
+          month: "numeric",
+          year: "numeric",
+        });
+    }
+  };
+
+  const formatGraphPoint = (point) => {
+    return {x:determineTimeFrame(point.x),y:`$${formatter(point.y)}`}
+  }
+
+  const [selectedPoint,setSelectedPoint] = useState(formatGraphPoint(graphData[0]));
+
+
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = percentChanged >= 0;
-
-
 
   // Update graphdata and change the selected timeframe
   function handleTimeframeChange(timeframe) {
@@ -79,39 +116,15 @@ export default function CustomGraph(props) {
     return min - (0.001 * min)
   }
 
-  // Helper function used to determine what date / time format to show for independent (y) axis
-  const determineTimeFrame = (x) => {
-    switch (selectedTimeframe) {
-      case timeframeEnums.DAY:
-        return new Date(x * 1000).toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-        });
-      case timeframeEnums.FIVE:
-        return new Date(x * 1000).toLocaleDateString("en-US", {
-          month: "numeric",
-          day: "numeric",
-        });
-      case timeframeEnums.MONTH:
-        return new Date(x * 1000).toLocaleDateString("en-US", {
-          month: "numeric",
-          day: "numeric",
-        });
-      case timeframeEnums.YEAR:
-        return new Date(x * 1000).toLocaleDateString("en-US", {
-          month: "numeric",
-          year: "numeric",
-        });
-      default:
-        return new Date(x * 1000).toLocaleDateString("en-US", {
-          month: "numeric",
-          year: "numeric",
-        });
-    }
-  };
-
   return (
     <View>
+      <View>
+        <View style={{}}>
+          <Text></Text>
+          <Text> {"    "}{selectedPoint.x} </Text>
+          <Text> {"    "}{selectedPoint.y}  </Text>
+        </View>
+      </View>
       <TouchableWithoutFeedback
         onPressIn={handlePressInGraph}
         onPressOut={handlePressOutGraph}
@@ -119,6 +132,7 @@ export default function CustomGraph(props) {
         <View>
           <View>
             <VictoryChart
+              padding={{bottom:40,top:20,left:0,right:0}}
               minDomain={{y:getMinDomain(yVals)}}
               maxDomain={{y:getMaxDomain(yVals)}}
               onTouchStart={handlePressInGraph}
@@ -135,17 +149,9 @@ export default function CustomGraph(props) {
               }): undefined}
               containerComponent={
                 <VictoryVoronoiContainer
+                  onActivated={(points, props) => setSelectedPoint(formatGraphPoint(points[0]))}
                   onTouchStart={handlePressInGraph}
                   onTouchEnd={handlePressOutGraph}
-                  labels={({ datum }) => `$${formatter(datum.y)}`}
-                  labelComponent={
-                    <VictoryTooltip
-                      flyoutStyle={{
-                        fill: THEME.colors.background,
-                      }}
-                      style={{ fill: THEME.colors.foreground }}
-                    />
-                  }
                 />
               }
             >
@@ -193,15 +199,15 @@ export default function CustomGraph(props) {
                   // If the graph is trending downwards show red otherwise show primary color
                   lineColor1
                     ? {
-                        data: { fill: 'url(#gradientStroke)'},
+                      data: { fill: 'url(#gradientStroke)'},
                       }
                     : isTrendingUp
                     ? {
-                        data: { fill: 'url(#gradientGreen)' },
-                      }
+                      data: { fill: 'url(#gradientGreen)', stroke: "#006400", strokeWidth: 1 },
+                    }
                     : {
-                        data: { fill: 'url(#gradientRed)' },
-                      }
+                      data: { fill: 'url(#gradientRed)' },
+                    }
                 }
               />
               
@@ -222,11 +228,11 @@ export default function CustomGraph(props) {
                     // If the graph is trending downwards show red otherwise show primary color
                     lineColor2
                     ? {
-                        data: { fill: 'url(#gradientBacktest)'},
+                        data: { fill: 'url(#gradientBacktest)', stroke: "#c43a31", strokeWidth: 3},
                       }
                     : isTrendingUp
                     ? {
-                        data: { fill: 'url(#gradientBacktest)' },
+                        data: { fill: 'url(#gradientBacktest)', stroke: "#c43a31", strokeWidth: 3 },
                       }
                     : {
                         data: { fill: 'url(#gradientBacktest)' },
@@ -238,15 +244,23 @@ export default function CustomGraph(props) {
               {/* // X-axis */}
               <VictoryAxis
                 dependentAxis={false}
-                tickCount={4}
+                tickCount={3}
+                style={{ 
+                  ticks: {stroke: "transparent"},
+                  tickLabels: { fill:"transparent"} 
+                }}
                 tickFormat={(x) => determineTimeFrame(x)}
                 fixLabelOverlap={true}
               />
               {/* // Y-axis */}
               <VictoryAxis
                 dependentAxis={true}
+                style={{ 
+                  axis: {stroke: "transparent"}, 
+                  ticks: {stroke: "transparent"},
+                  tickLabels: { fill:"transparent"} 
+                }}
                 orientation="left"
-                // If the number of unique values is less than 8 use the number of unique valeus
                 tickCount={yValsUnique.length < 6 ? (yValsUnique.length): 6}
                 fixLabelOverlap={true}
                 tickFormat={(x) => formatter2(x)}
