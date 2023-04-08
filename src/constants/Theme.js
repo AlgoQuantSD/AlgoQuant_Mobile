@@ -1,6 +1,5 @@
-import { PixelRatio } from "react-native";
-import { VictoryTheme } from "victory-native";
 import { MD3LightTheme as DefaultTheme } from "react-native-paper";
+import { VictoryTheme } from "victory-native";
 
 const PALETTE = {
   primaryGreen: "#1F302B",
@@ -169,6 +168,16 @@ export const THEME = {
     color: {
       primary: PALETTE.primaryGreen,
       secondary: PALETTE.cokeWhite,
+    },
+  },
+  graphGradients: {
+    backtest1: {
+      start: "#1F302B",
+      finish: "#3B856D",
+    },
+    backtest2: {
+      start: "#CCB3D1",
+      finish: "#5E2573",
     },
   },
 };

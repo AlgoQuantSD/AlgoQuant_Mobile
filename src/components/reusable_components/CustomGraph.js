@@ -6,18 +6,18 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View
+  View,
 } from "react-native";
 import { Button } from "react-native-paper";
 import {
+  VictoryArea,
   VictoryAxis,
   VictoryChart,
-  VictoryTooltip,
-  VictoryArea,
   VictoryVoronoiContainer,
 } from "victory-native";
 
-import {Defs, LinearGradient, Stop} from "react-native-svg";
+import { Defs, LinearGradient, Stop } from "react-native-svg";
+
 import { LINE_GRAPH_THEME, THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
 
@@ -38,8 +38,6 @@ export default function CustomGraph(props) {
   } = props;
 
   const formatter = format(".2f");
-  const formatter2 = format(".0f");
-
 
   // Helper function used to determine what date / time format to show for independent (y) axis
   const determineTimeFrame = (x) => {
@@ -67,17 +65,42 @@ export default function CustomGraph(props) {
       default:
         return new Date(x * 1000).toLocaleDateString("en-US", {
           month: "numeric",
-          year: "numeric",
+          day: "numeric",
         });
     }
   };
 
-  const formatGraphPoint = (point) => {
-    return {x:determineTimeFrame(point.x),y:`$${formatter(point.y)}`}
+  /*
+  This will be called when a point is selected on the graph. This is responsible for setting
+  the selectedPoints state variables so they can be displayed at the top of the graph
+  */
+  const selectPoint = (point) => {  
+
+    let points = []
+
+    // Determine if this is a two line graph
+    if(graphData2) {
+
+        // Find the points that correspond to the selected point in each graph data
+        let graph2Point = graphData2.filter(
+          function(graphData) {return graphData.x == point[0].x})
+
+        let graph1Point = graphData.filter(
+          function(graphData) {return graphData.x == point[0].x})
+        
+        // Add the formatted points to the list
+        points.push({x:determineTimeFrame(graph1Point[0].x),y:`$${formatter(graph1Point[0].y)}`})
+        points.push({x:determineTimeFrame(graph2Point[0].x),y:`$${formatter(graph2Point[0].y)}`})
+
+      } else {
+        // Only a single point so can be added directly to the list
+        points.push({x:determineTimeFrame(point[0].x),y:`$${formatter(point[0].y)}`})
+      }
+      return points
   }
 
-  const [selectedPoint,setSelectedPoint] = useState(formatGraphPoint(graphData[0]));
-
+  // Set the selected point as the first point in the list initially
+  const [selectedPoints,setSelectedPoints] = useState(selectPoint([graphData[0]]));
 
   // This is used to conditionally style the text ot be green or red based on the stock trend
   const isTrendingUp = percentChanged >= 0;
@@ -101,28 +124,93 @@ export default function CustomGraph(props) {
     }
   }
 
-  // Used to 
   const yValsUnique = [...new Set(yVals)];
 
-  // Get the max domain of the graph , will be the max in the list with some padding
-  const getMaxDomain = (yVals) => {
-    let max = Math.max.apply(Math,yVals)
-    return max + (0.001 * max)
-  }
+  /*
+  Get the max domain for the area graph. This will need to consider the case where there 
+  are two areas and has to fine the max between both
+  */
+  const getMaxDomain = () => {
 
-  // Get the max domain of the graph
-  const getMinDomain = (yVals) => {
-    let min = Math.min.apply(Math,yVals)
-    return min - (0.001 * min)
-  }
+    let max = 0;
+
+    // If two graphs need to fine max between both
+    if(graphData2){
+      let yVals2 = []
+
+      // Get the list of y values for the second graph
+      graphData2.forEach(element => {
+          yVals2.push(element.y)
+      });
+
+      let max1 = Math.max.apply(Math, yVals)
+      let max2 = Math.max.apply(Math, yVals2)
+      
+      if (max1 > max2){
+        max = max1
+      } else {
+        max = max2
+      }
+
+    } else {
+      max = Math.max.apply(Math, yVals)
+    }
+
+    return max + 0.01 * max;
+  };
+
+  /*
+  Get the max domain for the area graph. This will need to consider the case where there 
+  are two areas and has to fine the min between both
+  */
+  const getMinDomain = () => {
+    
+    let min = 0;
+    // If two graphs need to fine max between both
+    if(graphData2){
+      let yVals2 = []
+
+      // Get the list of y values for the second graph
+      graphData2.forEach(element => {
+          yVals2.push(element.y)
+      });
+
+      let min1 = Math.min.apply(Math, yVals)
+      let min2 = Math.min.apply(Math, yVals2)
+      
+      if (min1 < min2){
+        min = min1
+      } else {
+        min = min2
+      }
+    } else {
+      min = Math.min.apply(Math, yVals)
+    }
+    return min - 0.01 * min;
+  };
 
   return (
     <View>
       <View>
         <View style={{}}>
-          <Text></Text>
-          <Text> {"    "}{selectedPoint.x} </Text>
-          <Text> {"    "}{selectedPoint.y}  </Text>
+          {
+              // Determine how many points have been selected
+              selectedPoints?.length > 1 ? (        
+                <Text> 
+                  {"      "}{selectedPoints[0].x}
+                  {"\n"}
+                  {"      "}Investor: {selectedPoints[0].y} 
+                  {"\n"}
+                  {"      "}Buy/Hold: {selectedPoints[1].y} 
+                </Text>
+              ) : (
+                <Text> 
+                {"      "}{selectedPoints[0].x}
+                {"\n"}
+                {"      "}{selectedPoints[0].y} 
+              </Text>
+            )
+          }
         </View>
       </View>
       <TouchableWithoutFeedback
@@ -132,24 +220,28 @@ export default function CustomGraph(props) {
         <View>
           <View>
             <VictoryChart
-              padding={{bottom:40,top:20,left:0,right:0}}
-              minDomain={{y:getMinDomain(yVals)}}
-              maxDomain={{y:getMaxDomain(yVals)}}
+              minDomain={{ y: getMinDomain() }}
+              maxDomain={{ y: getMaxDomain() }}
+              padding={{left:0,right:0,top:20,bottom:20}}
               onTouchStart={handlePressInGraph}
               onTouchEnd={handlePressOutGraph}
               theme={LINE_GRAPH_THEME}
-              animate={yValsUnique.length > 1 ? ({
-                onExit: {
-                  duration: 500,
-                  before: () => ({
-                    _y: 0,
-                    fill: THEME.colors.primary,
-                  }),
-                },
-              }): undefined}
+              animate={
+                yValsUnique.length > 1
+                  ? {
+                      onExit: {
+                        duration: 500,
+                        before: () => ({
+                          _y: 0,
+                          fill: THEME.colors.primary,
+                        }),
+                      },
+                    }
+                  : undefined
+              }
               containerComponent={
                 <VictoryVoronoiContainer
-                  onActivated={(points, props) => setSelectedPoint(formatGraphPoint(points[0]))}
+                  onActivated={(points, props) => setSelectedPoints(selectPoint(points))}
                   onTouchStart={handlePressInGraph}
                   onTouchEnd={handlePressOutGraph}
                 />
@@ -157,86 +249,166 @@ export default function CustomGraph(props) {
             >
               {/* The graph gradients are defined here, update to change gradient schemes*/}
               <Defs>
-                <LinearGradient id="gradientGreen" x1={'0'} y={'0%'} x2={'0'} y2={'100%'}>
-                  <Stop offset="0%"  stopColor="#2EB62C"/>
-                  <Stop offset="20%" stopColor="#57C84D"/>
-                  <Stop offset="40%" stopColor="#83D475"/>
-                  <Stop offset="60%" stopColor="#ABE098"/>
-                  <Stop offset="80%" stopColor="#C5E8B7"/>
+                <LinearGradient
+                  id="gradientGreen"
+                  x1={"0"}
+                  y={"0%"}
+                  x2={"0"}
+                  y2={"100%"}
+                >
+                  <Stop offset="0%" stopColor="#2EB62C" />
+                  <Stop offset="20%" stopColor="#57C84D" />
+                  <Stop offset="40%" stopColor="#83D475" />
+                  <Stop offset="60%" stopColor="#ABE098" />
+                  <Stop offset="80%" stopColor="#C5E8B7" />
                 </LinearGradient>
               </Defs>
 
               <Defs>
-                <LinearGradient id="gradientRed" x1={'0'} y={'0%'} x2={'0'} y2={'100%'}>
-                  <Stop offset="0%" stopColor="#DA2C43"/>
-                  <Stop offset="20%" stopColor="#E15566"/>
-                  <Stop offset="40%" stopColor="#E97E88"/>
+                <LinearGradient
+                  id="gradientRed"
+                  x1={"0"}
+                  y={"0%"}
+                  x2={"0"}
+                  y2={"100%"}
+                >
+                  <Stop offset="0%" stopColor="#DA2C43" />
+                  <Stop offset="20%" stopColor="#E15566" />
+                  <Stop offset="40%" stopColor="#E97E88" />
+                  <Stop offset="60%" stopColor="#F0A8AB" />
+                  <Stop offset="80%" stopColor="#F8D1CD" />
+                  <Stop offset="100%" stopColor="#FFFAFF" />
                 </LinearGradient>
               </Defs>
 
               <Defs>
-                <LinearGradient id="gradientBacktest" x1={'0'} y={'0%'} x2={'0'} y2={'100%'}>
-                  <Stop offset="20%" stopColor="#c364fa"/>
-                  <Stop offset="40%" stopColor="#a230ed"/>
-                  <Stop offset="60%" stopColor="#00FFFFFF"/>
-                  <Stop offset="80%" stopColor="#00FFFFFF"/>
+                <LinearGradient
+                  id="gradientBacktest"
+                  x1={"0"}
+                  y={"0%"}
+                  x2={"0"}
+                  y2={"100%"}
+                >
+                  <Stop offset="20%" stopColor="#c364fa" />
+                  <Stop offset="40%" stopColor="#a230ed" />
+                  <Stop offset="60%" stopColor="#00FFFFFF" />
+                  <Stop offset="80%" stopColor="#00FFFFFF" />
                 </LinearGradient>
               </Defs>
 
+              <Defs>
+                <LinearGradient
+                  id="gradientBacktest1"
+                  x1={"0"}
+                  y={"0%"}
+                  x2={"0"}
+                  y2={"100%"}
+                >
+                  <Stop
+                    offset="20%"
+                    stopColor={THEME.graphGradients.backtest1.start}
+                  />
+                  <Stop
+                    offset="80%"
+                    stopColor={THEME.graphGradients.backtest1.finish}
+                  />
+                </LinearGradient>
+              </Defs>
+
+              <Defs>
+                <LinearGradient
+                  id="gradientBacktest2"
+                  x1={"0"}
+                  y={"0%"}
+                  x2={"0"}
+                  y2={"100%"}
+                >
+                  <Stop
+                    offset="40%"
+                    stopColor={THEME.graphGradients.backtest2.start}
+                  />
+                  <Stop
+                    offset="80%"
+                    stopColor={THEME.graphGradients.backtest2.finish}
+                  />
+                </LinearGradient>
+              </Defs>
               <VictoryArea
-                animate={yValsUnique.length > 1 ? ({
-                  onExit: {
-                    duration: 500,
-                    before: () => ({
-                      _y: 0,
-                      fill: THEME.colors.primary,
-                    }),
-                  },
-                }): undefined}
+                animate={
+                  yValsUnique.length > 1
+                    ? {
+                        onExit: {
+                          duration: 500,
+                          before: () => ({
+                            _y: 0,
+                            fill: THEME.colors.primary,
+                          }),
+                        },
+                      }
+                    : undefined
+                }
                 interpolation="natural"
                 data={graphData}
                 style={
                   // If the graph is trending downwards show red otherwise show primary color
                   lineColor1
                     ? {
-                      data: { fill: 'url(#gradientStroke)'},
+                        data: {
+                          fill: "url(#gradientBacktest1)",
+                          fillOpacity: 0.6,
+                          stroke: "#1F302B",
+                        },
                       }
                     : isTrendingUp
                     ? {
-                      data: { fill: 'url(#gradientGreen)', stroke: "#006400", strokeWidth: 1 },
-                    }
+                        data: { fill: "url(#gradientGreen)",
+                        stroke: "#2EB62C",
+                        strokeWidth:2 
+                       },
+                      }
                     : {
-                      data: { fill: 'url(#gradientRed)' },
-                    }
+                        data: { fill: "url(#gradientRed)",
+                        stroke: "#DA2C43",
+                        strokeWidth:2
+                      },
+                      }
                 }
               />
-              
+
               {graphData2 ? (
                 <VictoryArea
-                  animate={ yValsUnique.length > 1 ?({
-                    onExit: {
-                      duration: 500,
-                      before: () => ({
-                        _y: 0,
-                        fill: THEME.colors.primary,
-                      }),
-                    },
-                  }): undefined}
+                  animate={
+                    yValsUnique.length > 1
+                      ? {
+                          onExit: {
+                            duration: 500,
+                            before: () => ({
+                              _y: 0,
+                              fill: THEME.colors.primary,
+                            }),
+                          },
+                        }
+                      : undefined
+                  }
                   interpolation="natural"
                   data={graphData2}
                   style={
                     // If the graph is trending downwards show red otherwise show primary color
                     lineColor2
-                    ? {
-                        data: { fill: 'url(#gradientBacktest)', stroke: "#c43a31", strokeWidth: 3},
-                      }
-                    : isTrendingUp
-                    ? {
-                        data: { fill: 'url(#gradientBacktest)', stroke: "#c43a31", strokeWidth: 3 },
-                      }
-                    : {
-                        data: { fill: 'url(#gradientBacktest)' },
-                      }
+                      ? {
+                          data: {
+                            fill: "url(#gradientBacktest2)",
+                            fillOpacity: 0.6,
+                            stroke: "#360947",
+                          },
+                        }
+                      : isTrendingUp
+                      ? {
+                          data: { fill: "url(#gradientBacktest)" },
+                        }
+                      : {
+                          data: { fill: "url(#gradientBacktest)" },
+                        }
                   }
                 />
               ) : null}
@@ -251,19 +423,6 @@ export default function CustomGraph(props) {
                 }}
                 tickFormat={(x) => determineTimeFrame(x)}
                 fixLabelOverlap={true}
-              />
-              {/* // Y-axis */}
-              <VictoryAxis
-                dependentAxis={true}
-                style={{ 
-                  axis: {stroke: "transparent"}, 
-                  ticks: {stroke: "transparent"},
-                  tickLabels: { fill:"transparent"} 
-                }}
-                orientation="left"
-                tickCount={yValsUnique.length < 6 ? (yValsUnique.length): 6}
-                fixLabelOverlap={true}
-                tickFormat={(x) => formatter2(x)}
               />
             </VictoryChart>
           </View>
@@ -363,11 +522,19 @@ export default function CustomGraph(props) {
               }}
             >
               <View style={{ flexDirection: "row", paddingRight: "5%" }}>
-                <Ionicons name="ellipse" size={16} color="red" />
+                <Ionicons
+                  name="ellipse"
+                  size={16}
+                  color={THEME.graphGradients.backtest1.finish}
+                />
                 <Text>Investor Performance</Text>
               </View>
               <View style={{ flexDirection: "row" }}>
-                <Ionicons name="ellipse" size={16} color="blue" />
+                <Ionicons
+                  name="ellipse"
+                  size={16}
+                  color={THEME.graphGradients.backtest2.finish}
+                />
                 <Text>Buy/Hold Performance</Text>
               </View>
             </View>
