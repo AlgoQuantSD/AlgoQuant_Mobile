@@ -9,17 +9,17 @@ import {
   View,
 } from "react-native";
 import { Button } from "react-native-paper";
+import { Defs, LinearGradient, Stop } from "react-native-svg";
 import {
   VictoryArea,
   VictoryAxis,
   VictoryChart,
+  VictoryTooltip,
   VictoryVoronoiContainer,
 } from "victory-native";
-
-import { Defs, LinearGradient, Stop } from "react-native-svg";
-
 import { LINE_GRAPH_THEME, THEME } from "../../constants/Theme";
 import { timeframeEnums } from "../../constants/graphEnums";
+import CustomFlyout from "./CustomFlyout";
 
 export default function CustomGraph(props) {
   const {
@@ -36,6 +36,10 @@ export default function CustomGraph(props) {
     handlePressOutGraph,
     timeframeEnabled,
   } = props;
+
+  const [dateOrTimeText, setDateOrTimeText] = useState(
+    selectedTimeframe === timeframeEnums.DAY ? "Time" : "Date"
+  );
 
   const formatter = format(".2f");
 
@@ -127,6 +131,7 @@ export default function CustomGraph(props) {
         break;
       case timeframeEnums.MONTH:
         getGraphData("M");
+
         break;
       case timeframeEnums.YEAR:
         getGraphData("Y");
@@ -199,24 +204,21 @@ export default function CustomGraph(props) {
   return (
     <View>
       <View>
-        <View style={{}}>
+        <View style={{ paddingLeft: "5%", paddingRight: "5%" }}>
           {
             // Determine how many points have been selected
             selectedPoints?.length > 1 ? (
               <Text>
-                {"      "}
                 Date: {selectedPoints[0].x}
                 {"\n"}
-                {"      "}Investor: {selectedPoints[0].y}
+                Investor: {selectedPoints[0].y}
                 {"\n"}
-                {"      "}Buy/Hold: {selectedPoints[1].y}
+                Buy/Hold: {selectedPoints[1].y}
               </Text>
             ) : (
               <Text>
-                {"      "}
-                Date: {selectedPoints[0].x}
+                {dateOrTimeText}: {selectedPoints[0].x}
                 {"\n"}
-                {"      "}
                 Balance: {selectedPoints[0].y}
               </Text>
             )
@@ -233,8 +235,6 @@ export default function CustomGraph(props) {
               minDomain={{ y: getMinDomain() }}
               maxDomain={{ y: getMaxDomain() }}
               padding={{ left: 0, right: 0, top: 20, bottom: 20 }}
-              onTouchStart={handlePressInGraph}
-              onTouchEnd={handlePressOutGraph}
               theme={LINE_GRAPH_THEME}
               animate={
                 yValsUnique.length > 1
@@ -250,13 +250,25 @@ export default function CustomGraph(props) {
                   : undefined
               }
               containerComponent={
-                <VictoryVoronoiContainer
-                  onActivated={(points, props) =>
-                    setSelectedPoints(selectPoint(points))
-                  }
-                  onTouchStart={handlePressInGraph}
-                  onTouchEnd={handlePressOutGraph}
-                />
+                graphData2 ? (
+                  <VictoryVoronoiContainer />
+                ) : (
+                  <VictoryVoronoiContainer
+                    onActivated={(points, props) => {
+                      setSelectedPoints(selectPoint(points));
+                    }}
+                    onTouchStart={handlePressInGraph}
+                    onTouchEnd={handlePressOutGraph}
+                    labels={() => " "}
+                    labelComponent={
+                      <VictoryTooltip
+                        dy={-7}
+                        constrainToVisibleArea
+                        flyoutComponent={<CustomFlyout active={true} />}
+                      />
+                    }
+                  />
+                )
               }
             >
               {/* The graph gradients are defined here, update to change gradient schemes*/}
@@ -290,21 +302,6 @@ export default function CustomGraph(props) {
                   <Stop offset="60%" stopColor="#F0A8AB" />
                   <Stop offset="80%" stopColor="#F8D1CD" />
                   <Stop offset="100%" stopColor="#FFFAFF" />
-                </LinearGradient>
-              </Defs>
-
-              <Defs>
-                <LinearGradient
-                  id="gradientBacktest"
-                  x1={"0"}
-                  y={"0%"}
-                  x2={"0"}
-                  y2={"100%"}
-                >
-                  <Stop offset="20%" stopColor="#c364fa" />
-                  <Stop offset="40%" stopColor="#a230ed" />
-                  <Stop offset="60%" stopColor="#00FFFFFF" />
-                  <Stop offset="80%" stopColor="#00FFFFFF" />
                 </LinearGradient>
               </Defs>
 
