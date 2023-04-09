@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
-  View,
-  ScrollView,
-  RefreshControl,
   ActivityIndicator,
+  RefreshControl,
+  ScrollView,
   StyleSheet,
+  View,
 } from "react-native";
-import { THEME } from "../../../constants/Theme";
-import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
-import CustomGraph from "../../reusable_components/CustomGraph";
-import StockDetailsFooter from "../../reusable_components/StockDetailsFooter";
-import { timeframeEnums } from "../../../constants/graphEnums";
 import AlgoquantApiContext from "../../../constants/ApiContext";
+import { THEME } from "../../../constants/Theme";
+import { timeframeEnums } from "../../../constants/graphEnums";
+import CustomGraph from "../../reusable_components/CustomGraph";
+import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
+import StockDetailsFooter from "../../reusable_components/StockDetailsFooter";
 
 export default function StockInfoScreen(props) {
   // variable containing the searched stock ticker user selected from SearchScreen
@@ -171,8 +171,6 @@ export default function StockInfoScreen(props) {
       style={{
         flex: 1,
         backgroundColor: THEME.colors.background,
-        paddingLeft: "5%",
-        paddingRight: "5%",
         justifyContent: "center",
       }}
     >
@@ -232,6 +230,8 @@ const styles = StyleSheet.create({
   },
   graphDetailsContainer: {
     paddingTop: "3%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   graphContainer: {
     justifyContent: "center",
@@ -239,6 +239,8 @@ const styles = StyleSheet.create({
   },
   stockDetailsFooterContainer: {
     paddingTop: "5%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
 
   text: {

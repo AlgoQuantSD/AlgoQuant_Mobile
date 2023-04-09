@@ -375,9 +375,20 @@ export default function JobScreen(props) {
             </View>
             {/* Buying power and holdings */}
             {job?.status === "active-I" ? (
-              <View style={{ paddingBottom: "10%" }}>
+              <View
+                style={{
+                  paddingBottom: "10%",
+                  paddingLeft: "5%",
+                  paddingRight: "5%",
+                }}
+              >
                 <Text
-                  style={[styles.sectionTitleText, { paddingBottom: "5%" }]}
+                  style={[
+                    styles.sectionTitleText,
+                    {
+                      paddingBottom: "5%",
+                    },
+                  ]}
                 >
                   Buying Power and Holdings
                 </Text>
@@ -428,8 +439,6 @@ export default function JobScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingLeft: "5%",
-    paddingRight: "5%",
     backgroundColor: THEME.colors.background,
   },
   text: {
@@ -444,6 +453,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     paddingTop: "2%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   headerText: {
     fontSize: THEME.text.fontSize.H2,
@@ -462,8 +473,9 @@ const styles = StyleSheet.create({
     paddingBottom: "10%",
   },
   recentTradesContainer: {
-    
     paddingBottom: 10,
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   snackbarContainer: { flex: 0.05 },
   snackbar: {
