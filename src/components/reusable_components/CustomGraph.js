@@ -145,7 +145,7 @@ export default function CustomGraph(props) {
   Get the max domain for the area graph. This will need to consider the case where there 
   are two areas and has to fine the max between both
   */
-  const getMaxDomain = () => {
+  const getMaxRange = () => {
     let max = 0;
 
     // If two graphs need to fine max between both
@@ -178,7 +178,7 @@ export default function CustomGraph(props) {
   Get the max domain for the area graph. This will need to consider the case where there 
   are two areas and has to fine the min between both
   */
-  const getMinDomain = () => {
+  const getMinRange = () => {
     let min = 0;
     // If two graphs need to fine max between both
     if (graphData2) {
@@ -280,8 +280,8 @@ export default function CustomGraph(props) {
         <View>
           <View>
             <VictoryChart
-              minDomain={{ y: getMinDomain() }}
-              maxDomain={{ y: getMaxDomain() }}
+              minRange={{ y: getMinRange() }}
+              maxRange={{ y: getMaxRange() }}
               padding={{ left: 0, right: 0, top: 20, bottom: 20 }}
               theme={LINE_GRAPH_THEME}
               animate={
