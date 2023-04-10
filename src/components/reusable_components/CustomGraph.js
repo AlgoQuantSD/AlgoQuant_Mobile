@@ -153,12 +153,14 @@ export default function CustomGraph(props) {
       let yVals2 = [];
 
       // Get the list of y values for the second graph
-      graphData2.forEach((element) => {
+      graphData.forEach((element) => {
         yVals2.push(element.y);
       });
 
       let max1 = Math.max.apply(Math, yVals);
       let max2 = Math.max.apply(Math, yVals2);
+      console.log("Max 1", max1);
+      console.log("Max 2", max2);
 
       if (max1 > max2) {
         max = max1;
@@ -183,7 +185,7 @@ export default function CustomGraph(props) {
       let yVals2 = [];
 
       // Get the list of y values for the second graph
-      graphData2.forEach((element) => {
+      graphData.forEach((element) => {
         yVals2.push(element.y);
       });
 
@@ -213,20 +215,59 @@ export default function CustomGraph(props) {
           // Determine how many points have been selected
           selectedPoints?.length > 1 ? (
             <View>
-              <Text>
-                Date: {selectedPoints[0].x}
-                {"\n"}
-                Investor: {selectedPoints[0].y}
-                {"\n"}
-                Buy/Hold: {selectedPoints[1].y}
-              </Text>
+              <View style={{ flexDirection: "row" }}>
+                <Ionicons
+                  name="time"
+                  size={16}
+                  color={THEME.icon.color.primary}
+                  style={{ paddingBottom: "1%" }}
+                />
+                <Text style={{ color: THEME.text.color.primary }}>
+                  Date: {selectedPoints[0].x}
+                </Text>
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <Ionicons
+                  name="wallet"
+                  size={16}
+                  color={THEME.icon.color.primary}
+                  style={{ paddingBottom: "1%" }}
+                />
+                <Text>Investor: {selectedPoints[0].y}</Text>
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <Ionicons
+                  name="wallet"
+                  size={16}
+                  color={THEME.icon.color.primary}
+                />
+                <Text>Buy/Hold: {selectedPoints[1].y}</Text>
+              </View>
             </View>
           ) : (
-            <View>
-              <Text>
-                {dateOrTimeText}: {selectedPoints[0].x}
-              </Text>
-              <Text>Balance: {selectedPoints[0].y}</Text>
+            <View style={{ flexDirection: "row", paddingTop: "1%" }}>
+              <View style={{ flexDirection: "row", paddingRight: "3%" }}>
+                <Ionicons
+                  name="time"
+                  size={16}
+                  color={THEME.icon.color.primary}
+                  style={{ paddingRight: "1%" }}
+                />
+                <Text style={{ color: THEME.text.color.primary }}>
+                  {selectedPoints[0].x}
+                </Text>
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <Ionicons
+                  name="wallet"
+                  size={16}
+                  color={THEME.icon.color.primary}
+                  style={{ paddingRight: "1%" }}
+                />
+                <Text style={{ color: THEME.text.color.primary }}>
+                  {selectedPoints[0].y}
+                </Text>
+              </View>
             </View>
           )
         }
@@ -264,6 +305,16 @@ export default function CustomGraph(props) {
                     }}
                     onTouchStart={handlePressInGraph}
                     onTouchEnd={handlePressOutGraph}
+                    labels={() => " "}
+                    labelComponent={
+                      <VictoryTooltip
+                        dy={-7}
+                        constrainToVisibleArea
+                        flyoutComponent={
+                          <CustomFlyout active={true} shape="line" />
+                        }
+                      />
+                    }
                   />
                 ) : (
                   <VictoryVoronoiContainer
@@ -277,7 +328,9 @@ export default function CustomGraph(props) {
                       <VictoryTooltip
                         dy={-7}
                         constrainToVisibleArea
-                        flyoutComponent={<CustomFlyout active={true} />}
+                        flyoutComponent={
+                          <CustomFlyout active={true} shape="circle" />
+                        }
                       />
                     }
                   />
