@@ -203,11 +203,16 @@ export default function CustomGraph(props) {
 
   return (
     <View>
-      <View>
-        <View style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-          {
-            // Determine how many points have been selected
-            selectedPoints?.length > 1 ? (
+      <View
+        style={{
+          paddingLeft: "5%",
+          paddingRight: "5%",
+        }}
+      >
+        {
+          // Determine how many points have been selected
+          selectedPoints?.length > 1 ? (
+            <View>
               <Text>
                 Date: {selectedPoints[0].x}
                 {"\n"}
@@ -215,16 +220,18 @@ export default function CustomGraph(props) {
                 {"\n"}
                 Buy/Hold: {selectedPoints[1].y}
               </Text>
-            ) : (
+            </View>
+          ) : (
+            <View>
               <Text>
                 {dateOrTimeText}: {selectedPoints[0].x}
-                {"\n"}
-                Balance: {selectedPoints[0].y}
               </Text>
-            )
-          }
-        </View>
+              <Text>Balance: {selectedPoints[0].y}</Text>
+            </View>
+          )
+        }
       </View>
+
       <TouchableWithoutFeedback
         onPressIn={handlePressInGraph}
         onPressOut={handlePressOutGraph}
@@ -251,7 +258,13 @@ export default function CustomGraph(props) {
               }
               containerComponent={
                 graphData2 ? (
-                  <VictoryVoronoiContainer />
+                  <VictoryVoronoiContainer
+                    onActivated={(points, props) => {
+                      setSelectedPoints(selectPoint(points));
+                    }}
+                    onTouchStart={handlePressInGraph}
+                    onTouchEnd={handlePressOutGraph}
+                  />
                 ) : (
                   <VictoryVoronoiContainer
                     onActivated={(points, props) => {
