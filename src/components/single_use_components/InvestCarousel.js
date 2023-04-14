@@ -65,7 +65,6 @@ export default function InvestCarousel(props) {
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
-          console.log(err);
           setIsLoading(false);
         });
     }
@@ -74,13 +73,12 @@ export default function InvestCarousel(props) {
   // CallBack function that fetchs for job list data in a paginiated manner
   const getjobList = useCallback(
     (fetchType) => {
-      setIsLoading(true);
       if (!lastQuery) {
+        setIsLoading(true);
         if (algoquantApi.token) {
           algoquantApi
             .getJobList(fetchType, null, lekJobId)
             .then((resp) => {
-              console.log("job endpoint");
               setlekJobId(resp.data.LEK_job_id);
               setJobList(jobList.concat(resp.data.jobs));
 
@@ -93,7 +91,6 @@ export default function InvestCarousel(props) {
             })
             .catch((err) => {
               // TODO: Need to implement better error handling
-              console.log(err);
               setIsLoading(false);
             });
         }
@@ -214,18 +211,25 @@ export default function InvestCarousel(props) {
                   style={styles.carouselHeader}
                 >
                   <Button
-                  style={{borderColor: THEME.colors.primary, borderWidth: 1}}
-                  buttonColor={
-                    item.key === carouselOptions[selectedCarouselOptionIndex].key ? 
-                    THEME.button.color.primary : THEME.button.color.secondary
-                  }
-                  textColor={
-                    item.key === carouselOptions[selectedCarouselOptionIndex].key ? 
-                    THEME.text.color.secondary : THEME.text.color.primary
-                  }
-                >
-                  {item.name}
-                </Button>
+                    style={{
+                      borderColor: THEME.colors.primary,
+                      borderWidth: 1,
+                    }}
+                    buttonColor={
+                      item.key ===
+                      carouselOptions[selectedCarouselOptionIndex].key
+                        ? THEME.button.color.primary
+                        : THEME.button.color.secondary
+                    }
+                    textColor={
+                      item.key ===
+                      carouselOptions[selectedCarouselOptionIndex].key
+                        ? THEME.text.color.secondary
+                        : THEME.text.color.primary
+                    }
+                  >
+                    {item.name}
+                  </Button>
                 </TouchableOpacity>
               ))}
             </View>

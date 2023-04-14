@@ -20,7 +20,6 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
   const algoquantApi = useContext(AlgoquantApiContext);
   const { setInvestorListRefresh } = useContext(InvestorListContext);
 
-  console.log("Step 4: ", investorObject);
   const navigation = useNavigation();
 
   const [isIndicatorSetToCarouselView, setIsIndicatorSetToCarouselView] =
@@ -70,7 +69,6 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
           "I"
         )
         .then((resp) => {
-          console.log(resp.data);
           setInvestorListRefresh(true);
           setIsLoading(false);
           handleSuccess();
@@ -78,7 +76,6 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
         .catch((err) => {
           setInvestorListRefresh(false);
           // TODO: Need to implement better error handling
-          console.log(err);
           // Set snackbar message if there is an error
           setSnackbarMessage(
             <SnackbarContent
@@ -207,6 +204,7 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
               buttonColor={THEME.button.primaryColorBackground}
               textColor={THEME.text.color.secondary}
               onPress={handleCreateInvestorPress}
+              style={THEME.button.style}
             >
               Create Investor
             </Button>

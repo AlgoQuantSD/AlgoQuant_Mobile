@@ -184,7 +184,6 @@ export default function HomeScreen() {
             // TODO: Need to implement better error handling
             setGraphLoading(false);
             setGraphLoadingFailed(true);
-            console.log(err);
           });
       }
     },

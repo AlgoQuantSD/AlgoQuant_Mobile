@@ -1,10 +1,10 @@
-import React from "react";
-import { getCurrentUser } from "./user";
 import { Auth } from "aws-amplify";
+import React from "react";
+import SnackbarContent from "../components/reusable_components/SnackbarContent";
 import initAlgoQuantApi from "../constants/ApiUtils";
 import { THEME } from "../constants/Theme";
-import SnackbarContent from "../components/reusable_components/SnackbarContent";
 import { containsOnlyNumbers } from "./regex";
+import { getCurrentUser } from "./user";
 
 // Get access to the algoquant sdk api. Declaring an algoquant object and initializing it
 // This is done because React hooks cant be used here since this is a regular JS function
@@ -104,7 +104,6 @@ export async function submitEditNameModal(props) {
       />
     );
     setIsModalSnackbarVisible(true);
-    console.log("Invalid name");
   } else {
     try {
       setIsLoading(true);
@@ -122,12 +121,10 @@ export async function submitEditNameModal(props) {
         />
       );
       setIsSnackbarVisible(true);
-      console.log("New name saved successfully: ", inputValues);
       // Clear state upon succesful submit
       cleanUpState(props);
     } catch (error) {
       setIsLoading(false);
-      console.log("Error updating name: ", error);
       setModalErrorMessage(error.message);
     }
   }
@@ -167,7 +164,6 @@ export async function submitDeleteAccountModal(props) {
     }
   } catch (error) {
     setIsLoading(false);
-    console.log("Error signing in: ", error);
     setModalSnackbarMessage(
       <SnackbarContent
         iconName={THEME.icon.name.error}
@@ -300,8 +296,6 @@ export async function submitDisconnectAlpacaModal(props) {
     setIsModalSnackbarVisible,
     setIsLoading,
   } = props;
-  console.log("Disconnected from Alpaca");
-  console.log(algoquant.token);
   if (algoquant.token) {
     setIsLoading(true);
     algoquant
@@ -332,7 +326,6 @@ export async function submitDisconnectAlpacaModal(props) {
           />
         );
         setIsModalSnackbarVisible(true);
-        console.log(err);
       });
   }
 }
@@ -412,7 +405,6 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
 
   const newEmail = inputValues[0].toLowerCase();
   const confirmNewEmail = inputValues[1].toLowerCase();
-  console.log("Email: ", inputValues[0], " Confirm email: ", inputValues[1]);
 
   const user = await getCurrentUser();
   if (newEmail !== confirmNewEmail) {
@@ -445,7 +437,6 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
           key: "UPDATE_EMAIL_NEW_EMAIL_VERIFICATION",
         },
       ]);
-      console.log("Success updating email");
     } catch (error) {
       setIsLoading(false);
       setModalSnackbarMessage(
@@ -458,7 +449,6 @@ export async function submitUpdateEmailModalNewEmailStep(props) {
         />
       );
       setIsModalSnackbarVisible(true);
-      console.log(error);
     }
   }
 }
@@ -475,7 +465,6 @@ export async function submitUpdateEmailConfirmNewEmailStep(props) {
   } = props;
 
   const verificationCode = inputValues[0];
-  console.log("Verification code: ", verificationCode);
   try {
     setIsLoading(true);
     await Auth.verifyCurrentUserAttributeSubmit("email", verificationCode);
@@ -503,7 +492,6 @@ export async function submitUpdateEmailConfirmNewEmailStep(props) {
       />
     );
     setIsModalSnackbarVisible(true);
-    console.log("Error submitting verification code: ", error);
   }
 }
 
@@ -520,12 +508,6 @@ export async function submitUpdatePhoneModal(props) {
 
   const newPhone = inputValues[0].toLowerCase();
   const confirmNewPhone = inputValues[1].toLowerCase();
-  console.log(
-    "Phone Number: ",
-    inputValues[0],
-    " Confirm email: ",
-    inputValues[1]
-  );
 
   const user = await getCurrentUser();
   if (newPhone !== confirmNewPhone) {
@@ -554,7 +536,6 @@ export async function submitUpdatePhoneModal(props) {
       );
       cleanUpState(props);
       setIsSnackbarVisible(true);
-      console.log("Success updating phone number");
     } catch (error) {
       setIsLoading(false);
       setModalSnackbarMessage(
@@ -567,7 +548,6 @@ export async function submitUpdatePhoneModal(props) {
         />
       );
       setIsModalSnackbarVisible(true);
-      console.log(error);
     }
   }
 }
@@ -581,7 +561,7 @@ export async function submitDeleteInvestorModal(props) {
     investorID,
     navigation,
   } = props;
-  console.log("Delete investor props: ", props);
+
   // Call algoquant api and send bodyData to stop job
   if (algoquant.token) {
     setIsLoading(true);
@@ -628,8 +608,6 @@ export async function submitStartJobModal(props) {
     setIsModalSnackbarVisible,
   } = props;
 
-  console.log("Submit start job props: ", props);
-
   const jobName = inputValues[0];
   const initialInvestment = inputValues[1];
 
@@ -672,7 +650,6 @@ export async function submitStartJobModal(props) {
     algoquant
       .createJob(parseInt(initialInvestment), investorID, jobName)
       .then((resp) => {
-        console.log(resp.data);
         setSnackbarMessage(
           <SnackbarContent
             iconName={THEME.icon.name.success}
@@ -682,6 +659,7 @@ export async function submitStartJobModal(props) {
             textColor={THEME.colors.success}
           />
         );
+        setIsSnackbarVisible(true);
       })
       .catch((err) => {
         setSnackbarMessage(
@@ -694,7 +672,6 @@ export async function submitStartJobModal(props) {
           />
         );
       });
-    setIsSnackbarVisible(true);
     // Clear state upon successful submit
     cleanUpState(props);
   }
@@ -750,7 +727,6 @@ export async function submitStopJobModal(props) {
         setIsSnackbarVisible(true);
         // Clear state upon submit
         cleanUpState(props);
-        console.log(err.message);
       });
   }
 }

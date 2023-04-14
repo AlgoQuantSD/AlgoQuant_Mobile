@@ -1,13 +1,10 @@
-import React from "react";
-import { Alert } from "react-native";
 import { Auth } from "aws-amplify";
+import { Alert } from "react-native";
 
 async function signOut() {
   try {
     await Auth.signOut();
-  } catch (error) {
-    console.log("error signing out: ", error);
-  }
+  } catch (error) {}
 }
 
 export function handleSignOut() {

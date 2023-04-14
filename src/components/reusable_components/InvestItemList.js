@@ -245,8 +245,13 @@ const styles = StyleSheet.create({
   },
   startJobButton: {
     flexDirection: "row",
-    padding: "2%",
+
     backgroundColor: THEME.colors.background,
-    borderRadius: 60,
+
+    paddingTop: "2%",
+    paddingBottom: "2%",
+    paddingLeft: "4%",
+    paddingRight: "4%",
+    borderRadius: 10,
   },
 });

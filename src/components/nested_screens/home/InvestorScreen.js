@@ -45,8 +45,6 @@ export default function InvestorScreen(props) {
   // state variable to hold the investor using the investor ID passed from the investorItemList
   const [investor, setInvestor] = useState(null);
 
-  console.log("Investor type: ", investor?.type);
-
   const chunkedIndicators = chunker(investor?.indicators, 3);
   const chunkedStocks = chunker(investor?.assets_to_track, 3);
 
@@ -137,7 +135,6 @@ export default function InvestorScreen(props) {
             })
             .catch((err) => {
               // TODO: Need to implement better error handling
-              console.log(err);
               setIsJobListLoading(false);
             });
         }
@@ -160,13 +157,11 @@ export default function InvestorScreen(props) {
       algoquantApi
         .getInvestor(investorID)
         .then((resp) => {
-          console.log(resp.data);
           setInvestor(resp.data);
           setIsInvestorLoading(false);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
-          console.log("getInvestor: " + err);
           setIsInvestorLoading(false);
         });
     }
@@ -224,7 +219,7 @@ export default function InvestorScreen(props) {
           />
         </View>
       ) : (
-        <View>
+        <View style={{ flex: 1 }}>
           <ScrollView ref={scrollViewRef} style={styles.container}>
             {/* Modal */}
             <CustomModal
@@ -329,7 +324,7 @@ export default function InvestorScreen(props) {
                   <Text style={styles.investorConfigurationDetailsText}>
                     {investor?.profit_stop * 100 + "%"}
                   </Text>
-                  <Text style={styles.text}>
+                  <Text style={styles.investorConfigurationDetailsText}>
                     {investor?.loss_stop * 100 + "%"}
                   </Text>
                 </View>
@@ -517,6 +512,7 @@ const styles = StyleSheet.create({
   investorConfigurationDetailsText: {
     fontSize: THEME.text.fontSize.body,
     color: THEME.text.color.primary,
+    alignSelf: "flex-end",
     paddingBottom: "2%",
   },
   indicatorsContainer: {
@@ -540,7 +536,7 @@ const styles = StyleSheet.create({
   jobList: {
     width: "100%",
   },
-  snackbarContainer: { flex: 0.05 },
+  snackbarContainer: { justifyContent: "flex-end" },
   snackbar: {
     backgroundColor: THEME.snackbar.color.background,
     position: "absolute",

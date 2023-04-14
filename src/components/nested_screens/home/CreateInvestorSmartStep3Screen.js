@@ -50,14 +50,12 @@ export default function CreateInvestorSmartStep3Screen(props) {
         )
         .then((resp) => {
           setInvestorListRefresh(true);
-          console.log(resp.data);
           setIsLoading(false);
           handleSuccess();
         })
         .catch((err) => {
           setInvestorListRefresh(false);
           // TODO: Need to implement better error handling
-          console.log(err);
           // Set snackbar message if there is an error
           setSnackbarMessage(
             <SnackbarContent
@@ -143,6 +141,7 @@ export default function CreateInvestorSmartStep3Screen(props) {
               buttonColor={THEME.button.primaryColorBackground}
               textColor={THEME.text.color.secondary}
               onPress={handleCreateInvestorPress}
+              style={THEME.button.style}
             >
               Create Investor
             </Button>

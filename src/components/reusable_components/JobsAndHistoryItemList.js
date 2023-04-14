@@ -1,24 +1,22 @@
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React, { useRef, useState } from "react";
 import {
-  View,
-  Text,
   ActivityIndicator,
-  ScrollView,
-  TouchableWithoutFeedback,
   Image,
+  ScrollView,
   StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
-import { THEME } from "../../constants/Theme";
 import Animated, { SlideInDown } from "react-native-reanimated";
 import { CHIP_JOB_TYPES } from "../../constants/ChipJobTypeEnum";
+import { THEME } from "../../constants/Theme";
 
 export default function JobsAndHistoryItemList(props) {
   const { listData, isLoading, handleFetchMoreData, type } = props;
   const navigation = useNavigation();
-
-  console.log("Job list loading: ", isLoading);
 
   // Get reference of scrollview component
   const scrollViewRef = useRef(null);
@@ -32,8 +30,6 @@ export default function JobsAndHistoryItemList(props) {
     const contentHeight = event.nativeEvent.contentSize.height;
 
     if (contentOffsetY + scrollViewHeight >= contentHeight) {
-      console.log("at the bottom");
-
       // ternary operator to handle the tab data loading in the home page
       // tenary operator to handle the chip data loading in the investor screen
       type === CHIP_JOB_TYPES.Past || type === "CAROUSEL_TAB_HISTORY"
@@ -170,8 +166,9 @@ const styles = StyleSheet.create({
     paddingTop: "5%",
   },
   itemName: {
-    width: "33%",
+    width: "30%",
     alignItems: "center",
+    paddingRight: "3%",
     justifyContent: "center",
   },
   itemBalance: {

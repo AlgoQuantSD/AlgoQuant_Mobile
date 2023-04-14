@@ -120,28 +120,26 @@ export default function JobScreen(props) {
       algoquantApi
         .getJob(jobID)
         .then((resp) => {
-          console.log("Job response: ", resp.data);
           setJob(resp.data);
           setStartDate(
             new Date(parseInt(resp.data.start_time)).toLocaleString("en-US", {
-              month: "numeric",
-              day: "numeric",
-              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              year: "2-digit",
             })
           );
 
           setEndDate(
             new Date(parseInt(resp.data.end_time)).toLocaleString("en-US", {
-              month: "numeric",
-              day: "numeric",
-              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              year: "2-digit",
             })
           );
           setIsJobLoading(false);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
-          console.log("GetJob: " + err);
           setIsJobLoading(false);
         });
     }
@@ -191,7 +189,6 @@ export default function JobScreen(props) {
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
-            console.log(err);
           });
       }
     }
@@ -206,7 +203,7 @@ export default function JobScreen(props) {
           .getPerformance(timeframe, jobID)
           .then((resp) => {
             const combinedData = resp.data["timestamp"].map((x, i) => ({
-              x,
+              x: `${x}`,
               y: resp.data["close"][i],
             }));
             setGraphData(combinedData);
@@ -226,7 +223,6 @@ export default function JobScreen(props) {
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
-            console.log(err);
             setIsGraphDataLoading(false);
           });
       }
@@ -299,7 +295,7 @@ export default function JobScreen(props) {
               </View>
 
               <View style={{ width: "35%" }}>
-                {job?.status === "active-I" ? (
+                {job?.status.includes("active") ? (
                   <TouchableOpacity
                     style={styles.headerRowIcon}
                     onPress={handleStopIconPress}
@@ -375,9 +371,20 @@ export default function JobScreen(props) {
             </View>
             {/* Buying power and holdings */}
             {job?.status === "active-I" ? (
-              <View style={{ paddingBottom: "10%" }}>
+              <View
+                style={{
+                  paddingBottom: "10%",
+                  paddingLeft: "5%",
+                  paddingRight: "5%",
+                }}
+              >
                 <Text
-                  style={[styles.sectionTitleText, { paddingBottom: "5%" }]}
+                  style={[
+                    styles.sectionTitleText,
+                    {
+                      paddingBottom: "5%",
+                    },
+                  ]}
                 >
                   Buying Power and Holdings
                 </Text>
@@ -428,8 +435,6 @@ export default function JobScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingLeft: "5%",
-    paddingRight: "5%",
     backgroundColor: THEME.colors.background,
   },
   text: {
@@ -444,6 +449,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     paddingTop: "2%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   headerText: {
     fontSize: THEME.text.fontSize.H2,
@@ -462,8 +469,9 @@ const styles = StyleSheet.create({
     paddingBottom: "10%",
   },
   recentTradesContainer: {
-    
     paddingBottom: 10,
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   snackbarContainer: { flex: 0.05 },
   snackbar: {

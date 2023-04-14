@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -34,7 +35,6 @@ export default function BacktestingScreen() {
         algoquantApi
           .getBacktestList(BACKTEST_FETCH_AMOUNT, lastKey)
           .then((resp) => {
-            console.log("REFRESHING");
             // Last query set to trie if there is no last evaluated key from response
             if (resp.data.LEK_backtest_id === undefined) {
               setLastQuery(true);
@@ -52,9 +52,9 @@ export default function BacktestingScreen() {
                 parseInt(resp.data.backtests[i].end_time) * 1000
               );
               const options = {
-                year: "numeric",
-                month: "numeric",
-                day: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                year: "2-digit",
               };
               const formattedStartTime = startTimeDate.toLocaleString(
                 [],
@@ -85,7 +85,6 @@ export default function BacktestingScreen() {
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
-            console.log("getBacktestList:" + err);
             setIsTableLoading(false);
             setRefreshing(false);
           });
@@ -137,17 +136,26 @@ export default function BacktestingScreen() {
           </Text>
         </View>
         {/* Table */}
-        <View style={styles.historyTableContainer}>
+        <View>
           <Text style={styles.sectionTitleText}>History</Text>
-          <CustomTable
-            data={history}
-            columns={backtestHistoryColumns}
-            handleRowPress={handleRowPress}
-            isLoading={isTableLoading}
-            handleLoadMore={fetchBacktestHistory}
-            height={550}
-            nullMessage="No backtests have been created yet"
-          />
+          {isTableLoading ? (
+            <View>
+              <ActivityIndicator
+                color={THEME.activityIndicator.color.primary}
+                size={16}
+              />
+            </View>
+          ) : (
+            <CustomTable
+              data={history}
+              columns={backtestHistoryColumns}
+              handleRowPress={handleRowPress}
+              isLoading={isTableLoading}
+              handleLoadMore={fetchBacktestHistory}
+              height={550}
+              nullMessage="No backtests have been created yet"
+            />
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

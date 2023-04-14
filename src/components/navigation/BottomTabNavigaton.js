@@ -1,17 +1,17 @@
-import { React, useState, useMemo } from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  HomeScreenStackNavigator,
-  SearchScreenStackNavigator,
-  BacktestingScreenStackNavigator,
-  ProfileScreenStackNavigator,
-} from "./StackNavigation";
-import { BottomTabIcon } from "./NavigationHelpers";
-import { THEME } from "../../constants/Theme";
 import { useAuthenticator } from "@aws-amplify/ui-react-native";
-import initAlgoQuantApi from "../../constants/ApiUtils";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { React, useMemo, useState } from "react";
 import AlgoquantApiContext from "../../constants/ApiContext";
+import initAlgoQuantApi from "../../constants/ApiUtils";
 import InvestorListContext from "../../constants/InvestorListContext";
+import { THEME } from "../../constants/Theme";
+import { BottomTabIcon } from "./NavigationHelpers";
+import {
+  BacktestingScreenStackNavigator,
+  HomeScreenStackNavigator,
+  ProfileScreenStackNavigator,
+  SearchScreenStackNavigator,
+} from "./StackNavigation";
 const Tab = createBottomTabNavigator();
 
 // This is the bottom tab nav you see in the app
@@ -26,9 +26,7 @@ export default function BottomTabNavigaton() {
   let algoquant = undefined;
   try {
     algoquant = initAlgoQuantApi(user);
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 
   const memoizedInvestorListContextValue = useMemo(() => {
     return { investorListRefresh, setInvestorListRefresh };

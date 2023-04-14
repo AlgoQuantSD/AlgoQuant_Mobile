@@ -24,7 +24,6 @@ import SnackbarContent from "../../reusable_components/SnackbarContent";
 export default function CreateInvestorAlgorithmicStep2Screen(props) {
   const { investorObject } = props.route.params;
   const navigation = useNavigation();
-  console.log("Invesor object: ", investorObject);
   // Indicator selection state management
   const [isMACDSelected, setIsMACDSelected] = useState(false);
   const [isRSISelected, setIsRSISelected] = useState(false);
@@ -356,7 +355,7 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
               buttonColor={THEME.button.primaryColorBackground}
               textColor={THEME.text.color.secondary}
               onPress={handlePressNext}
-              style={{ paddingLeft: "3%", paddingRight: "3%" }}
+              style={THEME.button.style}
             >
               Next
             </Button>

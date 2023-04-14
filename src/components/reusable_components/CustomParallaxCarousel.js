@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import Animated, { FadeInUp, FadeOutDown } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import { THEME } from "../../constants/Theme";
@@ -20,7 +20,6 @@ export default function CustomParallaxCarousel(props) {
         mode="parallax"
         data={data}
         scrollAnimationDuration={1000}
-        onSnapToItem={(index) => console.log("current index:", index)}
         renderItem={({ item, index }) => (
           <View style={styles.card}>
             <Text style={styles.text}>{item}</Text>

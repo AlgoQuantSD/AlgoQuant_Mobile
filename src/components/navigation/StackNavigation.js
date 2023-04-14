@@ -90,7 +90,7 @@ export function HomeScreenStackNavigator() {
       <Stack.Screen
         name="StockInfoScreen"
         component={StockInfoScreen}
-        options={nestedScreenOptions}
+        options={{ ...nestedScreenOptions, title: "Stock Info" }}
       />
     </Stack.Navigator>
   );
@@ -114,7 +114,7 @@ export function SearchScreenStackNavigator() {
       <Stack.Screen
         name="StockInfoScreen"
         component={StockInfoScreen}
-        options={nestedScreenOptions}
+        options={{ ...nestedScreenOptions, title: "Stock Info" }}
       />
     </Stack.Navigator>
   );
