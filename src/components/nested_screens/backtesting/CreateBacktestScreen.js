@@ -263,7 +263,7 @@ export default function CreateBacktestScreen(props) {
           {/* Create Backtest Button */}
           <View style={styles.nextButtonContainer}>
             <Button
-              buttonColor={THEME.button.primaryColorBackground}
+              buttonColor={THEME.button.color.secondary}
               textColor={THEME.text.color.secondary}
               onPress={handlePressCreateBacktest}
             >

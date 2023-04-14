@@ -204,6 +204,7 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
               buttonColor={THEME.button.primaryColorBackground}
               textColor={THEME.text.color.secondary}
               onPress={handleCreateInvestorPress}
+              style={THEME.button.style}
             >
               Create Investor
             </Button>

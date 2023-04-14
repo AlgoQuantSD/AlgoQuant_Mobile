@@ -298,7 +298,7 @@ export default function CustomModal(props) {
                   children={item.label}
                   buttonColor={item.buttonColor}
                   textColor={item.textColor}
-                  style={{ width: 100 }}
+                  style={THEME.button.style}
                 />
               </TouchableOpacity>
             ))}

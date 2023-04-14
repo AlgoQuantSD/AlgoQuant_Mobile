@@ -65,6 +65,13 @@ export const THEME = {
     primaryColorBackground: PALETTE.primaryGreen,
     secondaryColorBackground: PALETTE.cokeWhite,
     disabledBackgroundColor: PALETTE.primaryGreenOpacity95,
+    style: {
+      paddingTop: "3%",
+      paddingBottom: "3%",
+      paddingLeft: "6%",
+      paddingRight: "6%",
+      borderRadius: 10,
+    },
   },
   bottomTab: {
     backgroundColor: PALETTE.primaryGreen,

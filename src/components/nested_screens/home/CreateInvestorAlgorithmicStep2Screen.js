@@ -355,7 +355,7 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
               buttonColor={THEME.button.primaryColorBackground}
               textColor={THEME.text.color.secondary}
               onPress={handlePressNext}
-              style={{ paddingLeft: "3%", paddingRight: "3%" }}
+              style={THEME.button.style}
             >
               Next
             </Button>

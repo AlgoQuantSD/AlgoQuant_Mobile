@@ -144,7 +144,7 @@ export default function CreateInvestorStep1Screen(props) {
             buttonColor={THEME.button.primaryColorBackground}
             textColor={THEME.text.color.secondary}
             onPress={handleNextPress}
-            style={{ paddingLeft: "3%", paddingRight: "3%" }}
+            style={THEME.button.style}
           >
             Next
           </Button>
@@ -220,5 +220,12 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  button: {
+    paddingTop: "3%",
+    paddingBottom: "3%",
+    paddingLeft: "6%",
+    paddingRight: "6%",
+    borderRadius: 10,
   },
 });

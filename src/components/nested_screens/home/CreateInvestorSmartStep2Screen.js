@@ -1,11 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button, Snackbar, TextInput } from "react-native-paper";
 import { AI_INVESTOR_DESCRIPTION } from "../../../constants/CreateInvestorConstants";
 import {
@@ -138,7 +133,7 @@ export default function CreateInvestorSmartStep2Screen(props) {
             buttonColor={THEME.button.primaryColorBackground}
             textColor={THEME.text.color.secondary}
             onPress={handlePressNext}
-            style={{ paddingLeft: "3%", paddingRight: "3%" }}
+            style={THEME.button.style}
           >
             Next
           </Button>
