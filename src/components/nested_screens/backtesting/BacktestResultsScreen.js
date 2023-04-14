@@ -38,7 +38,7 @@ export default function BacktestResultsScreen(props) {
     const finalBalance = backtest.final_portfolio_value;
     const profitRatio = finalBalance / initialInvestment;
     setPercentChanged(
-      formatter((finalBalance - initialInvestment) / initialInvestment)
+      formatter(((finalBalance - initialInvestment) / initialInvestment) * 100)
     );
     setDaysBetween(
       Math.ceil((backtest.end_time - backtest.start_time) / 86400)

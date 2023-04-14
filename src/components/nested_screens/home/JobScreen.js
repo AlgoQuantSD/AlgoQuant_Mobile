@@ -295,7 +295,7 @@ export default function JobScreen(props) {
               </View>
 
               <View style={{ width: "35%" }}>
-                {job?.status === "active-I" ? (
+                {job?.status.includes("active") ? (
                   <TouchableOpacity
                     style={styles.headerRowIcon}
                     onPress={handleStopIconPress}

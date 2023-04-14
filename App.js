@@ -1,12 +1,12 @@
-import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react-native";
-import config from "./src/authentication/aws-exports";
-import { withAuthenticator } from "aws-amplify-react-native";
-import { signUpConfig } from "./src/authentication/SignUpConfig";
-import { CUSTOM_AUTH_THEME } from "./src/constants/CustomAuthTheme";
 import { NavigationContainer } from "@react-navigation/native";
-import BottomTabNavigaton from "./src/components/navigation/BottomTabNavigaton";
+import { Amplify } from "aws-amplify";
+import { withAuthenticator } from "aws-amplify-react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { signUpConfig } from "./src/authentication/SignUpConfig";
+import config from "./src/authentication/aws-exports";
+import BottomTabNavigaton from "./src/components/navigation/BottomTabNavigaton";
+import { CUSTOM_AUTH_THEME } from "./src/constants/CustomAuthTheme";
 
 // Analytics disabled since it is unnecesary and causes an unhandled promise rejection warning
 Amplify.configure({ ...config, Analytics: { disabled: true } });
