@@ -288,14 +288,14 @@ export default function JobScreen(props) {
                   graphTitle={job?.name}
                   graphTrendData={jobsAggregatedData}
                   selectedTimeframe={selectedTimeframe}
-                  showTimeframeText={job?.status === "active-I"}
+                  showTimeframeText={job?.status?.includes("active")}
                   isJobNameLoading={isJobLoading}
                   isPriceTrendLoading={isGraphDataLoading}
                 />
               </View>
 
               <View style={{ width: "35%" }}>
-                {job?.status.includes("active") ? (
+                {job?.status?.includes("active") ? (
                   <TouchableOpacity
                     style={styles.headerRowIcon}
                     onPress={handleStopIconPress}
@@ -370,7 +370,7 @@ export default function JobScreen(props) {
               )}
             </View>
             {/* Buying power and holdings */}
-            {job?.status === "active-I" ? (
+            {job?.status?.includes("active") ? (
               <View
                 style={{
                   paddingBottom: "10%",
