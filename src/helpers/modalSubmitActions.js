@@ -659,6 +659,7 @@ export async function submitStartJobModal(props) {
             textColor={THEME.colors.success}
           />
         );
+        setIsSnackbarVisible(true);
       })
       .catch((err) => {
         setSnackbarMessage(
@@ -671,7 +672,6 @@ export async function submitStartJobModal(props) {
           />
         );
       });
-    setIsSnackbarVisible(true);
     // Clear state upon successful submit
     cleanUpState(props);
   }
