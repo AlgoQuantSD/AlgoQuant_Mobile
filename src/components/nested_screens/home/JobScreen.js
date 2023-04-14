@@ -370,7 +370,7 @@ export default function JobScreen(props) {
               )}
             </View>
             {/* Buying power and holdings */}
-            {job?.status.includes("active") ? (
+            {job?.status?.includes("active") ? (
               <View
                 style={{
                   paddingBottom: "10%",
