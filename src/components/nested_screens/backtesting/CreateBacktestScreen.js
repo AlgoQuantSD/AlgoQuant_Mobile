@@ -144,12 +144,9 @@ export default function CreateBacktestScreen(props) {
           backtestName,
           initialInvestment
         )
-        .then((resp) => {
-          console.log(resp.data);
-        })
+        .then((resp) => {})
         .catch((err) => {
           // TODO: Need to implement better error handling
-          console.log(err);
           handleError();
         });
     }

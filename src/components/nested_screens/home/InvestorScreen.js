@@ -45,8 +45,6 @@ export default function InvestorScreen(props) {
   // state variable to hold the investor using the investor ID passed from the investorItemList
   const [investor, setInvestor] = useState(null);
 
-  console.log("Investor type: ", investor?.type);
-
   const chunkedIndicators = chunker(investor?.indicators, 3);
   const chunkedStocks = chunker(investor?.assets_to_track, 3);
 
@@ -137,7 +135,6 @@ export default function InvestorScreen(props) {
             })
             .catch((err) => {
               // TODO: Need to implement better error handling
-              console.log(err);
               setIsJobListLoading(false);
             });
         }
@@ -160,13 +157,11 @@ export default function InvestorScreen(props) {
       algoquantApi
         .getInvestor(investorID)
         .then((resp) => {
-          console.log(resp.data);
           setInvestor(resp.data);
           setIsInvestorLoading(false);
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
-          console.log("getInvestor: " + err);
           setIsInvestorLoading(false);
         });
     }

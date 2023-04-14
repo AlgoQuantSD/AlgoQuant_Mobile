@@ -20,7 +20,6 @@ import CreateInvestorStockSearch from "../../single_use_components/CreateInvesto
 
 export default function CreateInvestorAlgorithmicStep3Screen(props) {
   const { investorObject } = props.route.params;
-  console.log("Step 3 ", investorObject);
   const navigation = useNavigation();
   const algoquantApi = useContext(AlgoquantApiContext);
 
@@ -38,18 +37,15 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
   function addOrRemoveStock(newStock) {
     // If the stock that the user pressed is already in the list we should remove it otherwise add it
     if (selectedStocks.includes(newStock)) {
-      console.log("Remove stock");
       const newStockList = selectedStocks.filter((item) => item !== newStock);
       setSelectedStocks(newStockList);
     } else {
-      console.log("Add stock");
       setSelectedStocks((selectedStocks) => [...selectedStocks, newStock]);
     }
   }
 
   // handle action when user selects a stock from the list of queries
   function onSelectStock(item) {
-    console.log(item);
     if (!searchResults.includes("Ticker not found")) {
       navigation.navigate("StockInfoScreen", { stockName: item });
     }
@@ -70,7 +66,6 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
-          console.log(err);
         });
     }
   }
@@ -88,7 +83,6 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
 
   function hasErrors() {
     if (selectedStocks.length < 1) {
-      console.log("Select at least one stock");
       setSnackbarMessage(
         <SnackbarContent
           iconName={THEME.icon.name.error}

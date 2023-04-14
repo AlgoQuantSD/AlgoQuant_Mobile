@@ -34,7 +34,6 @@ export default function BacktestingScreen() {
         algoquantApi
           .getBacktestList(BACKTEST_FETCH_AMOUNT, lastKey)
           .then((resp) => {
-            console.log("REFRESHING");
             // Last query set to trie if there is no last evaluated key from response
             if (resp.data.LEK_backtest_id === undefined) {
               setLastQuery(true);
@@ -85,7 +84,6 @@ export default function BacktestingScreen() {
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
-            console.log("getBacktestList:" + err);
             setIsTableLoading(false);
             setRefreshing(false);
           });

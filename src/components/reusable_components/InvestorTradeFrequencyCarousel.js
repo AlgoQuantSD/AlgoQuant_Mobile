@@ -1,26 +1,25 @@
-import React, { useState, useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
   Dimensions,
-  TouchableOpacity,
   Image,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import Animated, { FadeInUp, FadeOutDown } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import { Ionicons } from "@expo/vector-icons";
-import { INVESTOR_PERIOD_ENUM } from "../../constants/InvestorPeriodEnums";
 import {
-  NUM_INVESTOR_IMAGES_PER_FREQ,
   INVESTOR_IMAGE_BASE_URL,
+  NUM_INVESTOR_IMAGES_PER_FREQ,
 } from "../../constants/InvestorImagePaths";
+import { INVESTOR_PERIOD_ENUM } from "../../constants/InvestorPeriodEnums";
 import { THEME } from "../../constants/Theme";
 
 export default function InvestorTradeFrequencyCarousel(props) {
   const { data, selectedFrequency, setSelectedFrequency, setImageId } = props;
   const width = Dimensions.get("window").width;
-  console.log("Investor item: ", data);
 
   // Set random investor images
   const [investorImageDayHighFreq, setInvestorImageDayHighFreq] = useState(
@@ -44,7 +43,6 @@ export default function InvestorTradeFrequencyCarousel(props) {
 
   // Assign values for selected frequency and the investor image in the investor object
   function handleSelectFrequency(freq) {
-    console.log("Selected freq: ", freq);
     setSelectedFrequency(freq);
     setImageId(
       INVESTOR_IMAGE_BASE_URL +
@@ -57,7 +55,6 @@ export default function InvestorTradeFrequencyCarousel(props) {
   }
   // Get the correct investor image based on trade frequency
   function getInvestorImageNumber(freq) {
-    console.log("Period: ", freq);
     switch (freq) {
       case INVESTOR_PERIOD_ENUM.DAY_HIGH_FREQ:
         return investorImageDayHighFreq;
@@ -93,7 +90,6 @@ export default function InvestorTradeFrequencyCarousel(props) {
         mode="parallax"
         data={data}
         scrollAnimationDuration={1000}
-        onSnapToItem={(index) => console.log("current index:", index)}
         renderItem={({ item, index }) => (
           <View style={styles.card}>
             <View style={styles.headerRowContainer}>

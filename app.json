@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "AlgoQuant",
+    "name": "AlgoQuant_Mobile",
     "slug": "AlgoQuant_Mobile",
     "version": "1.0.1",
     "orientation": "portrait",
@@ -12,17 +12,22 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/24a93ce6-6291-4aed-a83c-a27c0056b0d7"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "algoquant"
+      "bundleIdentifier": "algoquant",
+      "runtimeVersion": "1.0.1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/app_json_icons/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "runtimeVersion": {
+        "policy": "sdkVersion"
       }
     },
     "web": {

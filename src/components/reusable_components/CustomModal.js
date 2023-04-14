@@ -147,18 +147,14 @@ export default function CustomModal(props) {
         break;
       case "DELETE_ACCOUNT":
         submitDeleteAccountModal(submitProps);
-        console.log("Account deleted!");
         break;
       case "DELETE_INVESTOR":
-        console.log("Investor Deleted");
         submitDeleteInvestorModal(submitProps);
         break;
       case "START_JOB":
-        console.log("Job started");
         submitStartJobModal(submitProps);
         break;
       case "STOP_JOB":
-        console.log("Job Stopped");
         submitStopJobModal(submitProps);
         break;
       default:

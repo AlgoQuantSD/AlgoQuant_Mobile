@@ -159,8 +159,6 @@ export default function CustomGraph(props) {
 
       let max1 = Math.max.apply(Math, yVals);
       let max2 = Math.max.apply(Math, yVals2);
-      console.log("Max 1", max1);
-      console.log("Max 2", max2);
 
       if (max1 > max2) {
         max = max1;

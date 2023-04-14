@@ -104,7 +104,6 @@ export default function StockInfoScreen(props) {
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
-            console.log(err);
             setIsGraphDataLoading(false);
           });
       }
@@ -132,7 +131,6 @@ export default function StockInfoScreen(props) {
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
-          console.log(err);
           setIsStockInfoLoading(false);
           setIsRefreshing(false);
         });
@@ -157,7 +155,6 @@ export default function StockInfoScreen(props) {
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
-          console.log(err);
           setIsStockInfoLoading(false);
         });
     }

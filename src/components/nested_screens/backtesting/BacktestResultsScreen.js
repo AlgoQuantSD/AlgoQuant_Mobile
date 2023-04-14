@@ -40,8 +40,9 @@ export default function BacktestResultsScreen(props) {
     setPercentChanged(
       formatter((finalBalance - initialInvestment) / initialInvestment)
     );
-    console.log("Start: ", backtest.end_time, " End: ", backtest.start_time);
-    setDaysBetween(Math.ceil((backtest.end_time - backtest.start_time) / 86400));
+    setDaysBetween(
+      Math.ceil((backtest.end_time - backtest.start_time) / 86400)
+    );
     if (profitRatio > 2) {
       setAlgoquantRating("phenomenal");
     } else if (profitRatio > 1.8) {
@@ -68,7 +69,6 @@ export default function BacktestResultsScreen(props) {
       algoquantApi
         .getBacktest(backtestId)
         .then((resp) => {
-          console.log(resp.data);
           setBacktestDataObject(resp.data);
           algoquantRatingGenerator(resp.data);
           const combinedData = resp.data["value_timestamps"].map((x, i) => ({
@@ -94,7 +94,6 @@ export default function BacktestResultsScreen(props) {
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
-          console.log(err);
           setIsLoading(false);
         });
     }

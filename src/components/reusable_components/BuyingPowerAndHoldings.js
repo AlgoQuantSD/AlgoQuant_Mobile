@@ -1,10 +1,9 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 import { VictoryPie } from "victory-native";
 
 export default function BuyingPowerAndHoldings(props) {
   const { job } = props;
-  console.log("Job: ", job);
 
   // Create an array of objects for each asset in the job object if job.assets is not null
   const data =

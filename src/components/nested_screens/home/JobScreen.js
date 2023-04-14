@@ -120,7 +120,6 @@ export default function JobScreen(props) {
       algoquantApi
         .getJob(jobID)
         .then((resp) => {
-          console.log("Job response: ", resp.data);
           setJob(resp.data);
           setStartDate(
             new Date(parseInt(resp.data.start_time)).toLocaleString("en-US", {
@@ -141,7 +140,6 @@ export default function JobScreen(props) {
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
-          console.log("GetJob: " + err);
           setIsJobLoading(false);
         });
     }
@@ -191,7 +189,6 @@ export default function JobScreen(props) {
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
-            console.log(err);
           });
       }
     }
@@ -226,7 +223,6 @@ export default function JobScreen(props) {
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
-            console.log(err);
             setIsGraphDataLoading(false);
           });
       }

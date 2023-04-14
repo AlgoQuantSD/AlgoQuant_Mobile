@@ -1,6 +1,4 @@
 import { Auth } from "aws-amplify";
-import SnackbarContent from "../components/reusable_components/SnackbarContent";
-import { THEME } from "../constants/Theme";
 
 export async function getCurrentUser() {
   try {
@@ -9,7 +7,6 @@ export async function getCurrentUser() {
     });
     return user;
   } catch (err) {
-    console.log(err);
     return null;
   }
 }

@@ -70,7 +70,6 @@ export default function TradeHistoryScreen() {
           })
           .catch((err) => {
             // TODO: Need to implement better error handling
-            console.log(err);
             setIsRefreshing(false);
           });
       }

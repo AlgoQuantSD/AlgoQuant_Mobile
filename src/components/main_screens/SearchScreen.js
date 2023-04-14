@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import {
-  View,
-  TouchableWithoutFeedback,
   Keyboard,
   StyleSheet,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
+import AlgoquantApiContext from "../../constants/ApiContext";
 import { THEME } from "../../constants/Theme";
 import CustomSearch from "../reusable_components/CustomSearch";
-import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function SearchScreen({ navigation }) {
   // State variable to hold the values of the latest query
@@ -42,7 +42,6 @@ export default function SearchScreen({ navigation }) {
         })
         .catch((err) => {
           // TODO: Need to implement better error handling
-          console.log(err);
         });
     }
   }
