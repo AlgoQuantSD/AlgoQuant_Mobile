@@ -123,17 +123,17 @@ export default function JobScreen(props) {
           setJob(resp.data);
           setStartDate(
             new Date(parseInt(resp.data.start_time)).toLocaleString("en-US", {
-              month: "numeric",
-              day: "numeric",
-              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              year: "2-digit",
             })
           );
 
           setEndDate(
             new Date(parseInt(resp.data.end_time)).toLocaleString("en-US", {
-              month: "numeric",
-              day: "numeric",
-              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              year: "2-digit",
             })
           );
           setIsJobLoading(false);

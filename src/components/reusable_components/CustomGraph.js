@@ -53,23 +53,27 @@ export default function CustomGraph(props) {
         });
       case timeframeEnums.FIVE:
         return new Date(x * 1000).toLocaleDateString("en-US", {
-          month: "numeric",
-          day: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          year: "2-digit",
         });
       case timeframeEnums.MONTH:
         return new Date(x * 1000).toLocaleDateString("en-US", {
-          month: "numeric",
-          day: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
         });
       case timeframeEnums.YEAR:
         return new Date(x * 1000).toLocaleDateString("en-US", {
-          month: "numeric",
-          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          year: "2-digit",
         });
       default:
         return new Date(x * 1000).toLocaleDateString("en-US", {
-          month: "numeric",
-          day: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          year: "2-digit",
         });
     }
   };
