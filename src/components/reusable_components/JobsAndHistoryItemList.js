@@ -174,11 +174,13 @@ const styles = StyleSheet.create({
   itemBalance: {
     flexDirection: "row",
     width: "33%",
+    paddingLeft: "10%",
     alignItems: "center",
     justifyContent: "center",
   },
   itemInvestor: {
     width: "33%",
+    paddingLeft: "5%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -190,11 +192,11 @@ const styles = StyleSheet.create({
   percentChangeUpText: {
     fontSize: THEME.text.fontSize.body,
     color: THEME.colors.trendingUp,
-    marginLeft: "2%",
+    paddingLeft: "4%",
   },
   percentChangeDownText: {
     fontSize: THEME.text.fontSize.body,
     color: THEME.colors.trendingDown,
-    marginLeft: "2%",
+    paddingLeft: "4%",
   },
 });
