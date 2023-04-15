@@ -335,6 +335,7 @@ export default function HomeScreen() {
         label={"Create Investor"}
         extended={isExtended}
         onPress={handlePressCreateInvestor}
+        onLongPress={() => setIsExtended(!isExtended)}
         visible={true}
         animateFrom={"right"}
         iconMode={"static"}
