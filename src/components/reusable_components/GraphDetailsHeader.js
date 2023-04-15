@@ -104,7 +104,7 @@ export default function GraphDetailsHeader(props) {
                 )}
               </View>
               {showTimeframeText ? (
-                <Text style={styles.text}>{timeframeText}</Text>
+                <Text style={styles.textSmall}>{timeframeText}</Text>
               ) : null}
             </View>
           </View>
@@ -127,6 +127,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: THEME.text.fontSize.body,
+    color: THEME.text.color.primary,
+  },
+  textSmall: {
+    fontSize: 14,
+    fontWeight: "200",
     color: THEME.text.color.primary,
   },
   headerText: {
