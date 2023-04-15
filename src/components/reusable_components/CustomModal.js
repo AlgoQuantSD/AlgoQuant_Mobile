@@ -235,6 +235,11 @@ export default function CustomModal(props) {
                         ? isSensitiveTextHidden
                         : false
                     }
+                    keyboardType={
+                      item.keyboardType === "number-pad"
+                        ? "number-pad"
+                        : "default"
+                    }
                     defaultValue={item.defaultValue}
                     onChangeText={(text) => {
                       const newInputValues = [...inputValues];

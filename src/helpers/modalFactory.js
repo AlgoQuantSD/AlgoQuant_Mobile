@@ -1,8 +1,8 @@
+import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
+import { Linking, Text, TouchableOpacity, View } from "react-native";
 import { THEME } from "../constants/Theme";
 import { getCurrentUser } from "./user";
-import { View, Text, TouchableOpacity, Linking } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
 
 // All of the builders follow the same pattern
 // 1) Get all the functions from props needed to set the modal content
@@ -288,10 +288,15 @@ export function updatePhoneModalBuilder(props) {
   setModalHeader("Enter your new phone number");
   setModalBody(null);
   setModalInputFields([
-    { label: "New Phone Number", key: "UPDATE_PHONE_NEW_PHONE" },
+    {
+      label: "New Phone Number",
+      key: "UPDATE_PHONE_NEW_PHONE",
+      keyboardType: "number-pad",
+    },
     {
       label: "Confirm New Phone Number",
       key: "UPDATE_PHONE_CONFIRM_NEW_PHONE",
+      keyboardType: "number-pad",
     },
   ]);
   setModalButtons([
@@ -401,6 +406,7 @@ export function startJobModalBuilder(props) {
     {
       label: "Initial investment",
       key: "START_JOB_INITIAL_INVESTMENT",
+      keyboardType: "number-pad",
     },
   ]);
 
