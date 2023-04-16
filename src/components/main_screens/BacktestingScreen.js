@@ -76,6 +76,7 @@ export default function BacktestingScreen() {
                 finalBalance: finalBalance,
                 startDate: formattedStartTime,
                 endDate: formattedEndTime,
+                investorName: resp.data.backtests[i].investor_name,
                 id: resp.data.backtests[i].backtest_id,
               });
             }
