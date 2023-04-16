@@ -2,7 +2,7 @@
   "expo": {
     "name": "AlgoQuant_Mobile",
     "slug": "AlgoQuant_Mobile",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/app_json_icons/icon.png",
     "userInterfaceStyle": "automatic",
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "algoquant",
-      "runtimeVersion": "1.0.0"
+      "runtimeVersion": "1.0.2"
     },
     "android": {
       "adaptiveIcon": {
