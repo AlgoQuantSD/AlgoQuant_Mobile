@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   RefreshControl,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -195,6 +196,7 @@ export default function HomeScreen() {
 
   return (
     <View style={{ backgroundColor: THEME.colors.background }}>
+      <StatusBar barStyle={"dark-content"} />
       <ScrollView
         scrollEnabled={isScrollEnabled}
         scrollsToTop={true}

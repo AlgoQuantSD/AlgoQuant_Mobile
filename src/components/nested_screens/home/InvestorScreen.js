@@ -12,6 +12,7 @@ import {
   Dimensions,
   Image,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -211,6 +212,7 @@ export default function InvestorScreen(props) {
 
   return (
     <View style={{ flex: 1, backgroundColor: THEME.colors.background }}>
+      <StatusBar barStyle={"light-content"} />
       {isInvestorLoading ? (
         <View style={{ flex: 1, justifyContent: "center" }}>
           <ActivityIndicator

@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   RefreshControl,
   ScrollView,
+  StatusBar,
   StyleSheet,
   View,
 } from "react-native";
@@ -174,6 +175,7 @@ export default function StockInfoScreen(props) {
         justifyContent: "center",
       }}
     >
+      <StatusBar barStyle={"light-content"} />
       {isGraphDataLoading || isStockInfoLoading ? (
         <View style={{ flex: 1, justifyContent: "center" }}>
           <ActivityIndicator

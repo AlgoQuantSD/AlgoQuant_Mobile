@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Keyboard,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -163,6 +164,7 @@ export default function CreateBacktestScreen(props) {
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
+          <StatusBar barStyle={"light-content"} />
           <ActivityIndicator
             size={"large"}
             color={THEME.activityIndicator.color.primary}
@@ -178,6 +180,7 @@ export default function CreateBacktestScreen(props) {
         </View>
       ) : (
         <View style={styles.container}>
+          <StatusBar barStyle={"light-content"} />
           <View style={styles.headerContainer}>
             <Text style={styles.headerText}>Create a Backtest</Text>
           </View>

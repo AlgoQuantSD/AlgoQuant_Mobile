@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -112,6 +113,7 @@ export default function BacktestResultsScreen(props) {
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar barStyle={"light-content"} />
       <View style={{ flex: 1 }}>
         {isLoading ? (
           <View style={{ flex: 1, justifyContent: "center" }}>

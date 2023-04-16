@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import {
   KeyboardAvoidingView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -219,6 +220,7 @@ export default function CreateInvestorAlgorithmicStep2Screen(props) {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle={"light-content"} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
