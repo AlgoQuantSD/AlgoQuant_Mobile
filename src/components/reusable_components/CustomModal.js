@@ -181,7 +181,7 @@ export default function CustomModal(props) {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Modal
         isVisible={isModalVisible}
-        onBackdropPress={() => setIsModalVisible(false)}
+        onBackdropPress={handleModalClose}
         style={styles.modalContainer}
       >
         {isLoading ? (
