@@ -188,7 +188,7 @@ export default function CustomModal(props) {
           <View style={styles.loadingIndicator}>
             <ActivityIndicator
               size="large"
-              color={THEME.activityIndicator.color}
+              color={THEME.activityIndicator.color.secondary}
             />
           </View>
         ) : null}

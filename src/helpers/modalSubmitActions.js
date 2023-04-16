@@ -606,6 +606,7 @@ export async function submitStartJobModal(props) {
     setIsSnackbarVisible,
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
+    setIsLoading,
   } = props;
 
   const jobName = inputValues[0];
@@ -647,6 +648,7 @@ export async function submitStartJobModal(props) {
 
   // Create job API call
   if (validateInput() && algoquant.token) {
+    setIsLoading(true);
     algoquant
       .createJob(parseInt(initialInvestment), investorID, jobName)
       .then((resp) => {
@@ -660,6 +662,8 @@ export async function submitStartJobModal(props) {
           />
         );
         setIsSnackbarVisible(true);
+        // Clear state upon successful submit
+        cleanUpState(props);
       })
       .catch((err) => {
         setSnackbarMessage(
@@ -671,9 +675,8 @@ export async function submitStartJobModal(props) {
             textColor={THEME.colors.danger}
           />
         );
+        cleanUpState(props);
       });
-    // Clear state upon successful submit
-    cleanUpState(props);
   }
 }
 
