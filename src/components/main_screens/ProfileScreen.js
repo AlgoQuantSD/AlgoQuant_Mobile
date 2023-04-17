@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
+import { Snackbar } from "react-native-paper";
 import { THEME } from "../../constants/Theme";
-import ProfileHeader from "../single_use_components/ProfileHeader";
-import TotalBalance from "../single_use_components/TotalBalance";
-import ProfileListOptions from "../single_use_components/ProfileListOptions";
-import CustomModal from "../reusable_components/CustomModal";
-import { Button, Snackbar } from "react-native-paper";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
+import CustomModal from "../reusable_components/CustomModal";
+import ProfileHeader from "../single_use_components/ProfileHeader";
+import ProfileListOptions from "../single_use_components/ProfileListOptions";
+import TotalBalance from "../single_use_components/TotalBalance";
 
 export default function ProfileScreen({ navigation }) {
   // Keep track of whether the modal is visible or not and what type of modal we should render
@@ -25,6 +25,7 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle={"dark-content"} />
       {/* Profile pic and full name */}
       {/* Here we pass in all the information that we want in our modal. Since the profile header deals with the edit 
       name modal only we want to give it the ability to have input fields. Everything else is that it must have is standard 

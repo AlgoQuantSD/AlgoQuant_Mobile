@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 import {
   Keyboard,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -100,6 +101,7 @@ export default function CreateInvestorAlgorithmicStep3Screen(props) {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
+        <StatusBar barStyle={"light-content"} />
         {/* Header */}
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>Select Your Stocks</Text>

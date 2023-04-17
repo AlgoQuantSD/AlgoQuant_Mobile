@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   RefreshControl,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -84,6 +85,7 @@ export default function TradeHistoryScreen() {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle={"light-content"} />
       <ScrollView
         refreshControl={
           <RefreshControl

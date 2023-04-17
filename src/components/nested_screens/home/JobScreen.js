@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   RefreshControl,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -241,6 +242,7 @@ export default function JobScreen(props) {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle={"light-content"} />
       {isJobLoading || isGraphDataLoading || isTableLoading ? (
         <View style={{ flex: 1, justifyContent: "center" }}>
           <ActivityIndicator

@@ -14,4 +14,5 @@ export const backtestHistoryColumns = [
   { label: "Final Balance", id: "finalBalance" },
   { label: "Start Date", id: "startDate" },
   { label: "End Date", id: "endDate" },
+  { label: "Investor", id: "investorName" },
 ];

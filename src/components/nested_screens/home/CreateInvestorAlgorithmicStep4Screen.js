@@ -1,6 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useState } from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Button, Snackbar } from "react-native-paper";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import AlgoquantApiContext from "../../../constants/ApiContext";
@@ -93,6 +99,7 @@ export default function CreateInvestorAlgorithmicStep4Screen(props) {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle={"light-content"} />
       {/* Show loading view if loading */}
       {isLoading ? (
         <Animated.View

@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   Keyboard,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -68,6 +69,7 @@ export default function CreateInvestorStep1Screen(props) {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
+        <StatusBar barStyle={"light-content"} />
         {/* Header */}
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>Create Your Investor</Text>

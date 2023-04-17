@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import {
   Keyboard,
+  StatusBar,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
@@ -49,6 +50,7 @@ export default function SearchScreen({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
+        <StatusBar barStyle={"dark-content"} />
         <CustomSearch
           onSelectStock={onSelectStock}
           isLoading={isLoading}
