@@ -1,6 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useState } from "react";
-import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Button, Snackbar } from "react-native-paper";
 import Animated, { FadeIn } from "react-native-reanimated";
 import AlgoquantApiContext from "../../../constants/ApiContext";
@@ -73,6 +80,7 @@ export default function CreateInvestorSmartStep3Screen(props) {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle={"light-content"} />
       {isLoading ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}

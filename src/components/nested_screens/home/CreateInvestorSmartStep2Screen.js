@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { Button, Snackbar, TextInput } from "react-native-paper";
 import { AI_INVESTOR_DESCRIPTION } from "../../../constants/CreateInvestorConstants";
 import {
@@ -66,6 +66,7 @@ export default function CreateInvestorSmartStep2Screen(props) {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle={"light-content"} />
       <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1 }}>
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>Configure Investor</Text>

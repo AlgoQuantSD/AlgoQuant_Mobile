@@ -5,6 +5,7 @@ import {
   RefreshControl,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -76,6 +77,7 @@ export default function BacktestingScreen() {
                 finalBalance: finalBalance,
                 startDate: formattedStartTime,
                 endDate: formattedEndTime,
+                investorName: resp.data.backtests[i].investor_name,
                 id: resp.data.backtests[i].backtest_id,
               });
             }
@@ -116,6 +118,7 @@ export default function BacktestingScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={"dark-content"} />
       <ScrollView
         refreshControl={
           <RefreshControl
