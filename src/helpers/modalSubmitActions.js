@@ -1,22 +1,9 @@
 import { Auth } from "aws-amplify";
 import React from "react";
 import SnackbarContent from "../components/reusable_components/SnackbarContent";
-import initAlgoQuantApi from "../constants/ApiUtils";
 import { THEME } from "../constants/Theme";
 import { containsOnlyNumbers } from "./regex";
 import { getCurrentUser } from "./user";
-
-// Get access to the algoquant sdk api. Declaring an algoquant object and initializing it
-// This is done because React hooks cant be used here since this is a regular JS function
-let algoquant = undefined;
-
-// Async function to ensure the user is fetched before attempting to create the Algoquant object
-async function getUserWrapper() {
-  let user = await getCurrentUser();
-  algoquant = initAlgoQuantApi(user);
-}
-
-getUserWrapper();
 
 // This function is used clear all the modal information upon a successful submission of a modal
 function cleanUpState(props) {
@@ -189,6 +176,7 @@ export async function submitResetBalanceModal(props) {
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
     setIsLoading,
+    algoquantApi
   } = props;
 
   // Data that is sent with the request
@@ -204,9 +192,9 @@ export async function submitResetBalanceModal(props) {
       : {};
 
   // Call algoquant api and send bodyData to update user information
-  if (algoquant.token) {
+  if (algoquantApi.token) {
     setIsLoading(true);
-    algoquant
+    algoquantApi
       .resetBalance(bodyData)
       .then((resp) => {
         setSnackbarMessage(
@@ -247,12 +235,13 @@ export async function submitConnectAlpacaModal(props) {
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
     setIsLoading,
+    algoquantApi
   } = props;
 
-  // Call algoquant api and send bodyData to update user information
-  if (algoquant.token) {
+  // Call algoquantApi api and send bodyData to update user information
+  if (algoquantApi.token) {
     setIsLoading(true);
-    algoquant
+    algoquantApi
       .resetBalance({
         alpaca_key: inputValues[0],
         alpaca_secret_key: inputValues[1],
@@ -295,10 +284,11 @@ export async function submitDisconnectAlpacaModal(props) {
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
     setIsLoading,
+    algoquantApi
   } = props;
-  if (algoquant.token) {
+  if (algoquantApi.token) {
     setIsLoading(true);
-    algoquant
+    algoquantApi
       .resetBalance({})
       .then((resp) => {
         setSnackbarMessage(
@@ -560,12 +550,13 @@ export async function submitDeleteInvestorModal(props) {
     setInvestorListRefresh,
     investorID,
     navigation,
+    algoquantApi
   } = props;
 
-  // Call algoquant api and send bodyData to stop job
-  if (algoquant.token) {
+  // Call algoquantApi api and send bodyData to stop job
+  if (algoquantApi.token) {
     setIsLoading(true);
-    algoquant
+    algoquantApi
       .deleteInvestor(investorID)
       .then((resp) => {
         setIsLoading(false);
@@ -607,6 +598,7 @@ export async function submitStartJobModal(props) {
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
     setIsLoading,
+    algoquantApi
   } = props;
 
   const jobName = inputValues[0];
@@ -647,9 +639,9 @@ export async function submitStartJobModal(props) {
   }
 
   // Create job API call
-  if (validateInput() && algoquant.token) {
+  if (validateInput() && algoquantApi.token) {
     setIsLoading(true);
-    algoquant
+    algoquantApi
       .createJob(parseInt(initialInvestment), investorID, jobName)
       .then((resp) => {
         setSnackbarMessage(
@@ -694,11 +686,13 @@ export async function submitStopJobModal(props) {
     setIsSnackbarVisible,
     setIsLoading,
     navigation,
+    algoquantApi
+
   } = props;
-  // Call algoquant api and send bodyData to stop job
-  if (algoquant.token) {
+  // Call algoquantApi api and send bodyData to stop job
+  if (algoquantApi.token) {
     setIsLoading(true);
-    algoquant
+    algoquantApi
       .stopJob(jobID)
       .then((resp) => {
         setSnackbarMessage(
