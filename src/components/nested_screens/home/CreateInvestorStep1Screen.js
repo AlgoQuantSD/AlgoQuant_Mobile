@@ -118,7 +118,7 @@ export default function CreateInvestorStep1Screen(props) {
             </TouchableOpacity>
           </View>
           <View style={styles.investorType}>
-            <Text style={styles.investorTitleText}>Smart Investor</Text>
+            <Text style={styles.investorTitleText}>AI Investor</Text>
             <Text style={styles.text}>
               Use AlgoQuant's Smart Trading tool powered by atrificial
               intelligence.
