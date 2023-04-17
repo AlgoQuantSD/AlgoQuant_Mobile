@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -28,6 +28,7 @@ import {
 } from "../../helpers/modalSubmitActions";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
 import TypewriterAnimatedText from "./TypewriterAnimatedText";
+import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function CustomModal(props) {
   // Get the information for the modal and the functions to clear the information when we close the modal
@@ -61,6 +62,9 @@ export default function CustomModal(props) {
     investorID,
     navigation,
   } = props;
+
+  // Get the API context for the modals that require it
+  const algoquantApi = useContext(AlgoquantApiContext);
 
   // Close the modal and clear the modal information
   function handleModalClose() {
@@ -118,6 +122,7 @@ export default function CustomModal(props) {
       jobID,
       investorID,
       navigation,
+      algoquantApi
     };
     switch (modalType) {
       case "EDIT_NAME":
