@@ -1,19 +1,19 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { THEME } from "../../constants/Theme";
 import BacktestingScreen from "../main_screens/BacktestingScreen";
-import HomeScreen from "../main_screens/HomeScreen";
 import ProfileScreen from "../main_screens/ProfileScreen";
 import SearchScreen from "../main_screens/SearchScreen";
+import HomeScreen from "../main_screens/home/HomeScreen";
+import CreateInvestorStep1Screen from "../main_screens/home/create_investor/CreateInvestorStep1Screen";
+import CreateInvestorAIStep2Screen from "../main_screens/home/create_investor/ai/CreateInvestorAIStep2Screen";
+import CreateInvestorAIStep3Screen from "../main_screens/home/create_investor/ai/CreateInvestorAIStep3Screen";
+import CreateInvestorAlgorithmicStep2Screen from "../main_screens/home/create_investor/algorithmic/CreateInvestorAlgorithmicStep2Screen";
+import CreateInvestorAlgorithmicStep3Screen from "../main_screens/home/create_investor/algorithmic/CreateInvestorAlgorithmicStep3Screen";
+import CreateInvestorAlgorithmicStep4Screen from "../main_screens/home/create_investor/algorithmic/CreateInvestorAlgorithmicStep4Screen";
+import InvestorScreen from "../main_screens/home/invest/InvestorScreen";
+import JobScreen from "../main_screens/home/invest/JobScreen";
 import BacktestResultsScreen from "../nested_screens/backtesting/BacktestResultsScreen";
 import CreateBacktestScreen from "../nested_screens/backtesting/CreateBacktestScreen";
-import CreateInvestorAlgorithmicStep2Screen from "../nested_screens/home/CreateInvestorAlgorithmicStep2Screen";
-import CreateInvestorAlgorithmicStep3Screen from "../nested_screens/home/CreateInvestorAlgorithmicStep3Screen";
-import CreateInvestorAlgorithmicStep4Screen from "../nested_screens/home/CreateInvestorAlgorithmicStep4Screen";
-import CreateInvestorSmartStep2Screen from "../nested_screens/home/CreateInvestorSmartStep2Screen";
-import CreateInvestorSmartStep3Screen from "../nested_screens/home/CreateInvestorSmartStep3Screen";
-import CreateInvestorStep1Screen from "../nested_screens/home/CreateInvestorStep1Screen";
-import InvestorScreen from "../nested_screens/home/InvestorScreen";
-import JobScreen from "../nested_screens/home/JobScreen";
 import TradeHistoryScreen from "../nested_screens/profile/TradeHistoryScreen";
 import StockInfoScreen from "../nested_screens/search/StockInfoScreen";
 import { nestedScreenOptions } from "./NavigationHelpers";
@@ -52,8 +52,8 @@ export function HomeScreenStackNavigator() {
         options={{ ...nestedScreenOptions, title: "Create Investor Step 2" }}
       />
       <Stack.Screen
-        name="CreateInvestorSmartStep2Screen"
-        component={CreateInvestorSmartStep2Screen}
+        name="CreateInvestorAIStep2Screen"
+        component={CreateInvestorAIStep2Screen}
         options={{ ...nestedScreenOptions, title: "Create Investor Step 2" }}
       />
       <Stack.Screen
@@ -62,8 +62,8 @@ export function HomeScreenStackNavigator() {
         options={{ ...nestedScreenOptions, title: "Create Investor Step 3" }}
       />
       <Stack.Screen
-        name="CreateInvestorSmartStep3Screen"
-        component={CreateInvestorSmartStep3Screen}
+        name="CreateInvestorAIStep3Screen"
+        component={CreateInvestorAIStep3Screen}
         options={{
           ...nestedScreenOptions,
           title: "Create Investor Confirmation",

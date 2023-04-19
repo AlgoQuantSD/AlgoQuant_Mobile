@@ -6,11 +6,11 @@ import {
   State,
 } from "react-native-gesture-handler";
 import { Button } from "react-native-paper";
-import AlgoquantApiContext from "../../constants/ApiContext";
-import InvestorListContext from "../../constants/InvestorListContext";
-import { THEME } from "../../constants/Theme";
-import InvestItemList from "../reusable_components/InvestItemList";
-import JobsAndHistoryItemList from "../reusable_components/JobsAndHistoryItemList";
+import AlgoquantApiContext from "../../../../../constants/ApiContext";
+import InvestorListContext from "../../../../../constants/InvestorListContext";
+import { THEME } from "../../../../../constants/Theme";
+import InvestorItemList from "./InvestorItemList";
+import JobsAndHistoryItemList from "./JobsAndHistoryItemList";
 export default function InvestCarousel(props) {
   const {
     setSnackbarMessage,
@@ -235,7 +235,7 @@ export default function InvestCarousel(props) {
             </View>
             {carouselOptions[selectedCarouselOptionIndex].key ===
             "CAROUSEL_TAB_INVESTORS" ? (
-              <InvestItemList
+              <InvestorItemList
                 listData={investorList}
                 isLoading={isLoading}
                 setSnackbarMessage={setSnackbarMessage}

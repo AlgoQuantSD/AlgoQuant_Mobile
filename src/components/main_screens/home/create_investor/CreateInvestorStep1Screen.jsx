@@ -11,9 +11,9 @@ import {
   View,
 } from "react-native";
 import { Button, Snackbar, TextInput } from "react-native-paper";
-import { THEME } from "../../../constants/Theme";
-import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import SnackbarContent from "../../reusable_components/SnackbarContent";
+import { THEME } from "../../../../constants/Theme";
+import { snackbarCleanUp } from "../../../../helpers/snackbarCleanup";
+import SnackbarContent from "../../../reusable_components/SnackbarContent";
 
 export default function CreateInvestorStep1Screen(props) {
   const navigation = useNavigation();
@@ -43,7 +43,7 @@ export default function CreateInvestorStep1Screen(props) {
         investorObject: investorObject,
       });
     } else {
-      navigation.navigate("CreateInvestorSmartStep2Screen", {
+      navigation.navigate("CreateInvestorAIStep2Screen", {
         investorObject: investorObject,
       });
     }

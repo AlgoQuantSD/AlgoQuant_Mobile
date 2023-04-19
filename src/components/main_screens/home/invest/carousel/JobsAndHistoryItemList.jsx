@@ -11,8 +11,8 @@ import {
   View,
 } from "react-native";
 import Animated, { SlideInDown } from "react-native-reanimated";
-import { CHIP_JOB_TYPES } from "../../constants/ChipJobTypeEnum";
-import { THEME } from "../../constants/Theme";
+import { CHIP_JOB_TYPES } from "../../../../../constants/ChipJobTypeEnum";
+import { THEME } from "../../../../../constants/Theme";
 
 export default function JobsAndHistoryItemList(props) {
   const { listData, isLoading, handleFetchMoreData, type } = props;

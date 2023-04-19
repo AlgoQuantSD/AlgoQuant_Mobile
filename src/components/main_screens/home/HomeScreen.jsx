@@ -16,15 +16,15 @@ import {
   View,
 } from "react-native";
 import { AnimatedFAB, Snackbar } from "react-native-paper";
-import AlgoquantApiContext from "../../constants/ApiContext";
-import { THEME } from "../../constants/Theme";
-import { timeframeEnums } from "../../constants/graphEnums";
-import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
-import CustomGraph from "../reusable_components/CustomGraph";
-import CustomModal from "../reusable_components/CustomModal";
-import { FailedStateView } from "../reusable_components/FailedStateView";
-import GraphDetailsHeader from "../reusable_components/GraphDetailsHeader";
-import InvestCarousel from "../single_use_components/InvestCarousel";
+import AlgoquantApiContext from "../../../constants/ApiContext";
+import { THEME } from "../../../constants/Theme";
+import { timeframeEnums } from "../../../constants/graphEnums";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
+import CustomGraph from "../../reusable_components/CustomGraph";
+import CustomModal from "../../reusable_components/CustomModal";
+import { FailedStateView } from "../../reusable_components/FailedStateView";
+import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
+import InvestCarousel from "./invest/carousel/InvestCarousel";
 
 export default function HomeScreen() {
   const navigation = useNavigation();

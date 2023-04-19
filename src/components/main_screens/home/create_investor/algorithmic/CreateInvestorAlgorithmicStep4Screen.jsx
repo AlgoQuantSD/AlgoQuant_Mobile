@@ -2,33 +2,52 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useState } from "react";
 import {
   ActivityIndicator,
-  Image,
   StatusBar,
   StyleSheet,
   Text,
   View,
 } from "react-native";
 import { Button, Snackbar } from "react-native-paper";
-import Animated, { FadeIn } from "react-native-reanimated";
-import AlgoquantApiContext from "../../../constants/ApiContext";
-import InvestorListContext from "../../../constants/InvestorListContext";
-import { THEME } from "../../../constants/Theme";
-import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import SnackbarContent from "../../reusable_components/SnackbarContent";
-import SuccessScreen from "../../reusable_components/SuccessScreen";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import AlgoquantApiContext from "../../../../../constants/ApiContext";
+import { PERIOD_LIST } from "../../../../../constants/CreateInvestorConstants";
+import InvestorListContext from "../../../../../constants/InvestorListContext";
+import { THEME } from "../../../../../constants/Theme";
+import { chunker } from "../../../../../helpers/chunker";
+import { snackbarCleanUp } from "../../../../../helpers/snackbarCleanup";
+import CustomParallaxCarousel from "../../../../reusable_components/CustomParallaxCarousel";
+import IndicatorsOrStocksListView from "../../../../reusable_components/IndicatorsOrStocksListView";
+import SnackbarContent from "../../../../reusable_components/SnackbarContent";
+import SuccessScreen from "../../../../reusable_components/SuccessScreen";
 
-export default function CreateInvestorSmartStep3Screen(props) {
+export default function CreateInvestorAlgorithmicStep4Screen(props) {
   const { investorObject } = props.route.params;
-  const navigation = useNavigation();
-  const { setInvestorListRefresh } = useContext(InvestorListContext);
-  // State variables used to access algoquant SDK API and display/ keep state of user data from database
+  // State variables used to access algoquant SDK APfI and display/ keep state of user data from database
   const algoquantApi = useContext(AlgoquantApiContext);
+  const { setInvestorListRefresh } = useContext(InvestorListContext);
+
+  const navigation = useNavigation();
+
+  const [isIndicatorSetToCarouselView, setIsIndicatorSetToCarouselView] =
+    useState(true);
+  const [isStockSetToCarouselView, setIsStockSetToCarouselView] =
+    useState(true);
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [shouldShowSuccessScreen, setShouldShowSuccessScreen] = useState(false);
-  // Manage snackbar state
-  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState(null);
+
+  const chunkedIndicators = chunker(investorObject.indicators, 3);
+  const chunkedStocks = chunker(investorObject.assets_to_track, 3);
+
+  function handleIndicatorViewChange() {
+    setIsIndicatorSetToCarouselView(!isIndicatorSetToCarouselView);
+  }
+
+  function handleStockViewChange() {
+    setIsStockSetToCarouselView(!isStockSetToCarouselView);
+  }
 
   // Do this if the create backetest endpoint returns success
   function handleSuccess() {
@@ -50,10 +69,10 @@ export default function CreateInvestorSmartStep3Screen(props) {
           investorObject?.indicators,
           investorObject?.image_id,
           investorObject?.investor_name,
-          investorObject?.loss_stop / 100, // update
+          investorObject?.loss_stop / 100, // update so we dont do this here
           investorObject?.period,
           investorObject?.profit_stop / 100, // update so we dont do this here
-          "A"
+          "I"
         )
         .then((resp) => {
           setInvestorListRefresh(true);
@@ -81,8 +100,9 @@ export default function CreateInvestorSmartStep3Screen(props) {
   return (
     <View style={styles.container}>
       <StatusBar barStyle={"light-content"} />
+      {/* Show loading view if loading */}
       {isLoading ? (
-        <View
+        <Animated.View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           entering={FadeIn.delay(1000)}
         >
@@ -94,7 +114,7 @@ export default function CreateInvestorSmartStep3Screen(props) {
           <Animated.Text entering={FadeIn.delay(500)}>
             Creating your investor!
           </Animated.Text>
-        </View>
+        </Animated.View>
       ) : shouldShowSuccessScreen ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -102,13 +122,21 @@ export default function CreateInvestorSmartStep3Screen(props) {
           <SuccessScreen message="Successfully created investor!" />
         </View>
       ) : (
-        <View style={{ flex: 1 }}>
+        <Animated.View style={{ flex: 1 }}>
           {/* Header */}
-          <View style={styles.headerContainer}>
+          <Animated.View
+            style={styles.headerContainer}
+            entering={FadeIn}
+            exiting={FadeOut}
+          >
             <Text style={styles.headerText}>Finalize Your Investor</Text>
-          </View>
+          </Animated.View>
           {/* Investor Configuration */}
-          <View>
+          <Animated.View
+            style={styles.investorConfigurationContainer}
+            entering={FadeIn}
+            exiting={FadeOut}
+          >
             <Text style={styles.sectionTitleText}>Investor Configuration</Text>
             <View style={styles.investorConfigurationItem}>
               <Text style={styles.text}>Investor name:</Text>
@@ -126,22 +154,56 @@ export default function CreateInvestorSmartStep3Screen(props) {
               <Text style={styles.text}>Loss stop:</Text>
               <Text style={styles.text}>{investorObject.loss_stop}%</Text>
             </View>
+            <View style={styles.investorConfigurationItem}>
+              <Text style={styles.text}>Trade frequency:</Text>
+              <Text style={styles.text}>
+                {PERIOD_LIST.map((item) => {
+                  if (item.value === investorObject.period) {
+                    return item.name;
+                  }
+                })}
+              </Text>
+            </View>
+          </Animated.View>
+          {/* Indicators */}
+          <View style={styles.indicatorsContainer}>
+            <View style={styles.indicatorsHeaderRow}>
+              <Text style={styles.sectionTitleText}>Indicators</Text>
+              <Button
+                buttonColor={THEME.button.primaryColorBackground}
+                textColor={THEME.text.color.secondary}
+                onPress={handleIndicatorViewChange}
+              >
+                {isIndicatorSetToCarouselView ? "List View" : "Carousel View"}
+              </Button>
+            </View>
+            {isIndicatorSetToCarouselView ? (
+              <CustomParallaxCarousel data={investorObject.indicators} />
+            ) : (
+              <Animated.View entering={FadeIn.delay(500)} exiting={FadeOut}>
+                <IndicatorsOrStocksListView data={chunkedIndicators} />
+              </Animated.View>
+            )}
           </View>
-          <View
-            style={{
-              alignItems: "center",
-
-              borderRadius: 300,
-              padding: 20,
-            }}
-          >
-            <Image
-              style={{
-                height: 300,
-                width: 200,
-              }}
-              source={{ uri: investorObject.image_id }}
-            />
+          {/* Stocks */}
+          <View style={styles.stocksContainer}>
+            <View style={styles.stocksHeaderRow}>
+              <Text style={styles.sectionTitleText}>Stocks</Text>
+              <Button
+                buttonColor={THEME.button.primaryColorBackground}
+                textColor={THEME.text.color.secondary}
+                onPress={handleStockViewChange}
+              >
+                {isStockSetToCarouselView ? "List View" : "Carousel View"}
+              </Button>
+            </View>
+            {isStockSetToCarouselView ? (
+              <CustomParallaxCarousel data={investorObject.assets_to_track} />
+            ) : (
+              <Animated.View entering={FadeIn.delay(500)} exiting={FadeOut}>
+                <IndicatorsOrStocksListView data={chunkedStocks} />
+              </Animated.View>
+            )}
           </View>
           {/* Create Investor Button */}
           <View style={styles.nextButtonContainer}>
@@ -174,7 +236,7 @@ export default function CreateInvestorSmartStep3Screen(props) {
               {snackbarMessage}
             </Snackbar>
           </View>
-        </View>
+        </Animated.View>
       )}
     </View>
   );
@@ -186,33 +248,45 @@ const styles = StyleSheet.create({
     paddingTop: "3%",
     paddingLeft: "5%",
     paddingRight: "5%",
-    backgroundColor: THEME.colors.background,
   },
-  text: {
-    fontSize: THEME.text.fontSize.body,
+  headerContainer: {
+    paddingBottom: "5%",
+  },
+  text: { fontSize: THEME.text.fontSize.body, color: THEME.text.color.primary },
+  headerText: {
+    fontSize: THEME.text.fontSize.H3,
+    fontWeight: "bold",
     color: THEME.text.color.primary,
   },
   sectionTitleText: {
     fontSize: THEME.text.fontSize.H4,
     fontWeight: "600",
     color: THEME.text.color.primary,
-    paddingBottom: "2%",
+    paddingBottom: "3%",
   },
-  headerContainer: {
-    paddingBottom: "5%",
+  investorConfigurationContainer: {
+    paddingBottom: "10%",
   },
-  headerText: {
-    fontSize: THEME.text.fontSize.H3,
-    fontWeight: "bold",
-    color: THEME.text.color.primary,
-  },
-
   investorConfigurationItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingTop: "1%",
     paddingBottom: "1%",
   },
+  indicatorsContainer: {
+    paddingBottom: "25%",
+  },
+  indicatorsHeaderRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  stocksHeaderRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  stocksContainer: {},
   nextButtonContainer: {
     marginTop: "auto",
     alignItems: "flex-end",
