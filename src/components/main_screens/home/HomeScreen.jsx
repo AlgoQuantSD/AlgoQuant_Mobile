@@ -20,10 +20,10 @@ import AlgoquantApiContext from "../../../constants/ApiContext";
 import { THEME } from "../../../constants/Theme";
 import { timeframeEnums } from "../../../constants/graphEnums";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import CustomGraph from "../../reusable_components/CustomGraph";
-import CustomModal from "../../reusable_components/CustomModal";
-import { FailedStateView } from "../../reusable_components/FailedStateView";
-import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
+import CustomGraph from "../../general_use/graph/CustomGraph";
+import GraphDetailsHeader from "../../general_use/graph/GraphDetailsHeader";
+import CustomModal from "../../general_use/modal/CustomModal";
+import { FailedStateView } from "../../general_use/success_error_screens/FailedStateView";
 import InvestCarousel from "./invest/carousel/InvestCarousel";
 
 export default function HomeScreen() {

@@ -1,8 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import { THEME } from "../../constants/Theme";
-import { timeframeEnums } from "../../constants/graphEnums";
+import { THEME } from "../../../constants/Theme";
+import { timeframeEnums } from "../../../constants/graphEnums";
 
 export default function GraphDetailsHeader(props) {
   const {

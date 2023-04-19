@@ -13,9 +13,9 @@ import Carousel from "react-native-reanimated-carousel";
 import {
   INVESTOR_IMAGE_BASE_URL,
   NUM_INVESTOR_IMAGES_PER_FREQ,
-} from "../../constants/InvestorImagePaths";
-import { INVESTOR_PERIOD_ENUM } from "../../constants/InvestorPeriodEnums";
-import { THEME } from "../../constants/Theme";
+} from "../../../../../../constants/InvestorImagePaths";
+import { INVESTOR_PERIOD_ENUM } from "../../../../../../constants/InvestorPeriodEnums";
+import { THEME } from "../../../../../../constants/Theme";
 
 export default function InvestorTradeFrequencyCarousel(props) {
   const { data, selectedFrequency, setSelectedFrequency, setImageId } = props;

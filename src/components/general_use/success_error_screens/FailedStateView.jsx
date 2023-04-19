@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
-import { THEME } from "../../constants/Theme";
+import { THEME } from "../../../constants/Theme";
 
 export function FailedStateView(props) {
   const { imageSize, errorMessage, buttonText, buttonAction } = props;

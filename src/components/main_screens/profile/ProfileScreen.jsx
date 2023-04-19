@@ -3,7 +3,7 @@ import { StatusBar, StyleSheet, View } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { THEME } from "../../../constants/Theme";
 import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import CustomModal from "../../reusable_components/CustomModal";
+import CustomModal from "../../general_use/modal/CustomModal";
 import ProfileHeader from "./header/ProfileHeader";
 import TotalBalance from "./header/TotalBalance";
 import ProfileListOptions from "./options/ProfileListOptions";

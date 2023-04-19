@@ -1,7 +1,7 @@
 import React from "react";
 import { Circle, G } from "react-native-svg";
 import { Line } from "victory-native";
-import { THEME } from "../../constants/Theme";
+import { THEME } from "../../../constants/Theme";
 
 export default function CustomFlyout(props) {
   const { shape, x, y, active } = props;

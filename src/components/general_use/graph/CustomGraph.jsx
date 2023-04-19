@@ -17,8 +17,8 @@ import {
   VictoryTooltip,
   VictoryVoronoiContainer,
 } from "victory-native";
-import { LINE_GRAPH_THEME, THEME } from "../../constants/Theme";
-import { timeframeEnums } from "../../constants/graphEnums";
+import { LINE_GRAPH_THEME, THEME } from "../../../constants/Theme";
+import { timeframeEnums } from "../../../constants/graphEnums";
 import CustomFlyout from "./CustomFlyout";
 
 export default function CustomGraph(props) {

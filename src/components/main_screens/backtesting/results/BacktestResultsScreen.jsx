@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import AlgoquantApiContext from "../../../../constants/ApiContext";
 import { THEME } from "../../../../constants/Theme";
-import CustomGraph from "../../../reusable_components/CustomGraph";
+import CustomGraph from "../../../general_use/graph/CustomGraph";
 import BacktestAnalysisView from "./BacktestAnalysisView";
 
 export default function BacktestResultsScreen(props) {

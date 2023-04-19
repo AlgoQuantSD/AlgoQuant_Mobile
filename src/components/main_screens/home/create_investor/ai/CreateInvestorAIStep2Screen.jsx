@@ -10,7 +10,7 @@ import {
 import { THEME } from "../../../../../constants/Theme";
 import { profitOrLossStopErrorHandler } from "../../../../../helpers/errorHandler";
 import { snackbarCleanUp } from "../../../../../helpers/snackbarCleanup";
-import CustomTooltip from "../../../../reusable_components/CustomTooltip";
+import CustomTooltip from "../../../../general_use/tooltip/CustomTooltip";
 
 export default function CreateInvestorAIStep2Screen(props) {
   const { investorObject } = props.route.params;

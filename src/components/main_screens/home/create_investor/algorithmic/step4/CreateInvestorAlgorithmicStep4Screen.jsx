@@ -9,16 +9,16 @@ import {
 } from "react-native";
 import { Button, Snackbar } from "react-native-paper";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import AlgoquantApiContext from "../../../../../constants/ApiContext";
-import { PERIOD_LIST } from "../../../../../constants/CreateInvestorConstants";
-import InvestorListContext from "../../../../../constants/InvestorListContext";
-import { THEME } from "../../../../../constants/Theme";
-import { chunker } from "../../../../../helpers/chunker";
-import { snackbarCleanUp } from "../../../../../helpers/snackbarCleanup";
-import CustomParallaxCarousel from "../../../../reusable_components/CustomParallaxCarousel";
-import IndicatorsOrStocksListView from "../../../../reusable_components/IndicatorsOrStocksListView";
-import SnackbarContent from "../../../../reusable_components/SnackbarContent";
-import SuccessScreen from "../../../../reusable_components/SuccessScreen";
+import AlgoquantApiContext from "../../../../../../constants/ApiContext";
+import { PERIOD_LIST } from "../../../../../../constants/CreateInvestorConstants";
+import InvestorListContext from "../../../../../../constants/InvestorListContext";
+import { THEME } from "../../../../../../constants/Theme";
+import { chunker } from "../../../../../../helpers/chunker";
+import { snackbarCleanUp } from "../../../../../../helpers/snackbarCleanup";
+import CustomParallaxCarousel from "../../../../../general_use/carousel_list_view_toggle/CustomParallaxCarousel";
+import IndicatorsOrStocksListView from "../../../../../general_use/carousel_list_view_toggle/IndicatorsOrStocksListView";
+import SnackbarContent from "../../../../../general_use/snackbar/SnackbarContent";
+import SuccessScreen from "../../../../../general_use/success_error_screens/SuccessScreen";
 
 export default function CreateInvestorAlgorithmicStep4Screen(props) {
   const { investorObject } = props.route.params;

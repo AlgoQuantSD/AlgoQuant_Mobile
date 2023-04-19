@@ -13,11 +13,11 @@ import {
 } from "react-native";
 import { Button, Snackbar } from "react-native-paper";
 import Animated, { BounceIn, FadeIn, FadeOut } from "react-native-reanimated";
-import AlgoquantApiContext from "../../../../../constants/ApiContext";
-import { THEME } from "../../../../../constants/Theme";
-import { snackbarCleanUp } from "../../../../../helpers/snackbarCleanup";
-import SnackbarContent from "../../../../reusable_components/SnackbarContent";
-import CreateInvestorStockSearch from "../../../../single_use_components/CreateInvestorStockSearch";
+import AlgoquantApiContext from "../../../../../../constants/ApiContext";
+import { THEME } from "../../../../../../constants/Theme";
+import { snackbarCleanUp } from "../../../../../../helpers/snackbarCleanup";
+import SnackbarContent from "../../../../../general_use/snackbar/SnackbarContent";
+import CreateInvestorStockSearch from "./CreateInvestorStockSearch";
 
 export default function CreateInvestorAlgorithmicStep3Screen(props) {
   const { investorObject } = props.route.params;

@@ -20,10 +20,10 @@ import { timeframeEnums } from "../../../../../constants/graphEnums";
 import { stopJobModalBuilder } from "../../../../../helpers/modalFactory";
 import { snackbarCleanUp } from "../../../../../helpers/snackbarCleanup";
 import { jobHistoryColumns } from "../../../../../helpers/tableColumns";
-import CustomGraph from "../../../../reusable_components/CustomGraph";
-import CustomModal from "../../../../reusable_components/CustomModal";
-import CustomTable from "../../../../reusable_components/CustomTable";
-import GraphDetailsHeader from "../../../../reusable_components/GraphDetailsHeader";
+import CustomGraph from "../../../../general_use/graph/CustomGraph";
+import GraphDetailsHeader from "../../../../general_use/graph/GraphDetailsHeader";
+import CustomModal from "../../../../general_use/modal/CustomModal";
+import CustomTable from "../../../../general_use/table/CustomTable";
 import BuyingPowerAndHoldings from "./BuyingPowerAndHoldings";
 
 export default function JobScreen(props) {

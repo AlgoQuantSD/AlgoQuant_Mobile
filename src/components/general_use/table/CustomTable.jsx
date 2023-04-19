@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { DataTable } from "react-native-paper";
-import { THEME } from "../../constants/Theme";
+import { THEME } from "../../../constants/Theme";
 
 export default function CustomTable(props) {
   const {
@@ -35,13 +35,17 @@ export default function CustomTable(props) {
       }}
     >
       <ScrollView horizontal={true}>
-        <DataTable> 
+        <DataTable>
           <DataTable.Header>
             {columns.map((column) => (
               <DataTable.Title
                 key={column.id}
                 style={styles.column}
-                textStyle={{ color: THEME.text.color.primary, fontSize: 16 ,fontWeight: "500" }}
+                textStyle={{
+                  color: THEME.text.color.primary,
+                  fontSize: 16,
+                  fontWeight: "500",
+                }}
               >
                 {column.label}
               </DataTable.Title>

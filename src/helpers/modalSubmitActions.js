@@ -1,6 +1,6 @@
 import { Auth } from "aws-amplify";
 import React from "react";
-import SnackbarContent from "../components/reusable_components/SnackbarContent";
+import SnackbarContent from "../components/general_use/snackbar/SnackbarContent";
 import { THEME } from "../constants/Theme";
 import { containsOnlyNumbers } from "./regex";
 import { getCurrentUser } from "./user";
@@ -176,7 +176,7 @@ export async function submitResetBalanceModal(props) {
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
     setIsLoading,
-    algoquantApi
+    algoquantApi,
   } = props;
 
   // Data that is sent with the request
@@ -235,7 +235,7 @@ export async function submitConnectAlpacaModal(props) {
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
     setIsLoading,
-    algoquantApi
+    algoquantApi,
   } = props;
 
   // Call algoquantApi api and send bodyData to update user information
@@ -284,7 +284,7 @@ export async function submitDisconnectAlpacaModal(props) {
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
     setIsLoading,
-    algoquantApi
+    algoquantApi,
   } = props;
   if (algoquantApi.token) {
     setIsLoading(true);
@@ -550,7 +550,7 @@ export async function submitDeleteInvestorModal(props) {
     setInvestorListRefresh,
     investorID,
     navigation,
-    algoquantApi
+    algoquantApi,
   } = props;
 
   // Call algoquantApi api and send bodyData to stop job
@@ -598,7 +598,7 @@ export async function submitStartJobModal(props) {
     setModalSnackbarMessage,
     setIsModalSnackbarVisible,
     setIsLoading,
-    algoquantApi
+    algoquantApi,
   } = props;
 
   const jobName = inputValues[0];
@@ -686,8 +686,7 @@ export async function submitStopJobModal(props) {
     setIsSnackbarVisible,
     setIsLoading,
     navigation,
-    algoquantApi
-
+    algoquantApi,
   } = props;
   // Call algoquantApi api and send bodyData to stop job
   if (algoquantApi.token) {

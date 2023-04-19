@@ -30,9 +30,9 @@ import {
   startJobModalBuilder,
 } from "../../../../../helpers/modalFactory";
 import { snackbarCleanUp } from "../../../../../helpers/snackbarCleanup";
-import CustomModal from "../../../../reusable_components/CustomModal";
-import CustomParallaxCarousel from "../../../../reusable_components/CustomParallaxCarousel";
-import IndicatorsOrStocksListView from "../../../../reusable_components/IndicatorsOrStocksListView";
+import CustomParallaxCarousel from "../../../../general_use/carousel_list_view_toggle/CustomParallaxCarousel";
+import IndicatorsOrStocksListView from "../../../../general_use/carousel_list_view_toggle/IndicatorsOrStocksListView";
+import CustomModal from "../../../../general_use/modal/CustomModal";
 import JobsAndHistoryItemList from "../carousel/JobsAndHistoryItemList";
 
 export default function InvestorScreen(props) {

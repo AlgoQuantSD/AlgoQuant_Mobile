@@ -10,8 +10,8 @@ import {
 import AlgoquantApiContext from "../../../../constants/ApiContext";
 import { THEME } from "../../../../constants/Theme";
 import { timeframeEnums } from "../../../../constants/graphEnums";
-import CustomGraph from "../../../reusable_components/CustomGraph";
-import GraphDetailsHeader from "../../../reusable_components/GraphDetailsHeader";
+import CustomGraph from "../../../general_use/graph/CustomGraph";
+import GraphDetailsHeader from "../../../general_use/graph/GraphDetailsHeader";
 import StockDetailsFooter from "./StockDetailsFooter";
 
 export default function StockInfoScreen(props) {

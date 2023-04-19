@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Text } from "react-native";
-import Animated, { SlideInUp, SlideOutDown } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
-import { THEME } from "../../constants/Theme";
+import React from "react";
+import { Text } from "react-native";
+import Animated, { SlideInUp, SlideOutDown } from "react-native-reanimated";
+import { THEME } from "../../../constants/Theme";
 
 export default function SuccessScreen(props) {
   const { message } = props;
@@ -17,7 +17,14 @@ export default function SuccessScreen(props) {
         color={THEME.colors.success}
         size={164}
       />
-      <Text style={{ fontSize: THEME.text.fontSize.H4,color: THEME.text.color.primary }}>{message}</Text>
+      <Text
+        style={{
+          fontSize: THEME.text.fontSize.H4,
+          color: THEME.text.color.primary,
+        }}
+      >
+        {message}
+      </Text>
     </Animated.View>
   );
 }

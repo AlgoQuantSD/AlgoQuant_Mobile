@@ -14,8 +14,8 @@ import AlgoquantApiContext from "../../../../../constants/ApiContext";
 import InvestorListContext from "../../../../../constants/InvestorListContext";
 import { THEME } from "../../../../../constants/Theme";
 import { snackbarCleanUp } from "../../../../../helpers/snackbarCleanup";
-import SnackbarContent from "../../../../reusable_components/SnackbarContent";
-import SuccessScreen from "../../../../reusable_components/SuccessScreen";
+import SnackbarContent from "../../../../general_use/snackbar/SnackbarContent";
+import SuccessScreen from "../../../../general_use/success_error_screens/SuccessScreen";
 
 export default function CreateInvestorAIStep3Screen(props) {
   const { investorObject } = props.route.params;

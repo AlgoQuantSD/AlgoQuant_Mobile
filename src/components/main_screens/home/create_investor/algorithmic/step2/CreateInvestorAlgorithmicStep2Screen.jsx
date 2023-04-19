@@ -14,13 +14,13 @@ import { Button, Snackbar, TextInput } from "react-native-paper";
 import {
   INDICATOR_LIST,
   PERIOD_LIST,
-} from "../../../../../constants/CreateInvestorConstants";
-import { THEME } from "../../../../../constants/Theme";
-import { profitOrLossStopErrorHandler } from "../../../../../helpers/errorHandler";
-import { snackbarCleanUp } from "../../../../../helpers/snackbarCleanup";
-import CustomTooltip from "../../../../reusable_components/CustomTooltip";
-import InvestorTradeFrequencyCarousel from "../../../../reusable_components/InvestorTradeFrequencyCarousel";
-import SnackbarContent from "../../../../reusable_components/SnackbarContent";
+} from "../../../../../../constants/CreateInvestorConstants";
+import { THEME } from "../../../../../../constants/Theme";
+import { profitOrLossStopErrorHandler } from "../../../../../../helpers/errorHandler";
+import { snackbarCleanUp } from "../../../../../../helpers/snackbarCleanup";
+import SnackbarContent from "../../../../../general_use/snackbar/SnackbarContent";
+import CustomTooltip from "../../../../../general_use/tooltip/CustomTooltip";
+import InvestorTradeFrequencyCarousel from "./InvestorTradeFrequencyCarousel";
 
 export default function CreateInvestorAlgorithmicStep2Screen(props) {
   const { investorObject } = props.route.params;

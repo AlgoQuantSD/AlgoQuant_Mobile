@@ -1,5 +1,5 @@
 import React from "react";
-import SnackbarContent from "../components/reusable_components/SnackbarContent";
+import SnackbarContent from "../components/general_use/snackbar/SnackbarContent";
 import { THEME } from "../constants/Theme";
 import { containsOnlyNumbers } from "./regex";
 

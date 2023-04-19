@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 import Animated, { SlideInUp, SlideOutDown } from "react-native-reanimated";
-import { THEME } from "../../constants/Theme";
+import { THEME } from "../../../constants/Theme";
 
 export default function CustomTooltip(props) {
   const { text } = props;

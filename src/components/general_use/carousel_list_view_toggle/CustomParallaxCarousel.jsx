@@ -2,7 +2,7 @@ import React from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import Animated, { FadeInUp, FadeOutDown } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import { THEME } from "../../constants/Theme";
+import { THEME } from "../../../constants/Theme";
 
 export default function CustomParallaxCarousel(props) {
   const { data, height, width } = props;
