@@ -1,5 +1,4 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import ProfileScreen from "../components/main_screens/ProfileScreen";
 import BacktestingScreen from "../components/main_screens/backtesting/BacktestingScreen";
 import CreateBacktestScreen from "../components/main_screens/backtesting/create/CreateBacktestScreen";
 import BacktestResultsScreen from "../components/main_screens/backtesting/results/BacktestResultsScreen";
@@ -12,9 +11,10 @@ import CreateInvestorAlgorithmicStep3Screen from "../components/main_screens/hom
 import CreateInvestorAlgorithmicStep4Screen from "../components/main_screens/home/create_investor/algorithmic/CreateInvestorAlgorithmicStep4Screen";
 import InvestorScreen from "../components/main_screens/home/invest/investor/InvestorScreen";
 import JobScreen from "../components/main_screens/home/invest/job/JobScreen";
+import ProfileScreen from "../components/main_screens/profile/ProfileScreen";
+import TradeHistoryScreen from "../components/main_screens/profile/options/TradeHistoryScreen";
 import SearchScreen from "../components/main_screens/search/SearchScreen";
 import StockInfoScreen from "../components/main_screens/search/results/StockInfoScreen";
-import TradeHistoryScreen from "../components/nested_screens/profile/TradeHistoryScreen";
 import { THEME } from "../constants/Theme";
 import { nestedScreenOptions } from "./NavigationHelpers";
 

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
 import { Snackbar } from "react-native-paper";
-import { THEME } from "../../constants/Theme";
-import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
-import CustomModal from "../reusable_components/CustomModal";
-import ProfileHeader from "../single_use_components/ProfileHeader";
-import ProfileListOptions from "../single_use_components/ProfileListOptions";
-import TotalBalance from "../single_use_components/TotalBalance";
+import { THEME } from "../../../constants/Theme";
+import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
+import CustomModal from "../../reusable_components/CustomModal";
+import ProfileHeader from "./header/ProfileHeader";
+import TotalBalance from "./header/TotalBalance";
+import ProfileListOptions from "./options/ProfileListOptions";
 
 export default function ProfileScreen({ navigation }) {
   // Keep track of whether the modal is visible or not and what type of modal we should render

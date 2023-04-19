@@ -3,8 +3,8 @@ import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { THEME } from "../../constants/Theme";
-import { editNameModalBuilder } from "../../helpers/modalFactory";
+import { THEME } from "../../../../constants/Theme";
+import { editNameModalBuilder } from "../../../../helpers/modalFactory";
 
 export default function ProfileHeader(props) {
   // Get the users initials to render in the gray circle

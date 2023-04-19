@@ -1,10 +1,10 @@
-import { React, useContext, useState, useEffect } from "react";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
-import { THEME } from "../../constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
+import { React, useContext, useEffect, useState } from "react";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import AlgoquantApiContext from "../../constants/ApiContext";
-import { resetBalanceModalBuilder } from "../../helpers/modalFactory";
+import AlgoquantApiContext from "../../../../constants/ApiContext";
+import { THEME } from "../../../../constants/Theme";
+import { resetBalanceModalBuilder } from "../../../../helpers/modalFactory";
 
 export default function TotalBalance(props) {
   function handleResetButtonPress() {
