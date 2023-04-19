@@ -1,10 +1,10 @@
 import { useAuthenticator } from "@aws-amplify/ui-react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { React, useMemo, useState } from "react";
-import AlgoquantApiContext from "../../constants/ApiContext";
-import initAlgoQuantApi from "../../constants/ApiUtils";
-import InvestorListContext from "../../constants/InvestorListContext";
-import { THEME } from "../../constants/Theme";
+import AlgoquantApiContext from "../constants/ApiContext";
+import initAlgoQuantApi from "../constants/ApiUtils";
+import InvestorListContext from "../constants/InvestorListContext";
+import { THEME } from "../constants/Theme";
 import { BottomTabIcon } from "./NavigationHelpers";
 import {
   BacktestingScreenStackNavigator,
@@ -17,7 +17,7 @@ const Tab = createBottomTabNavigator();
 // This is the bottom tab nav you see in the app
 // There are some settings in the Tab.Navigator for general styling
 // In Tab.Screen we specify route names, name of the component we want to render in that tab, and icon styling
-export default function BottomTabNavigaton() {
+export default function BottomTabNavigation() {
   // Utilizing amplify's useAuthenticator hook to access logged in user information
   const { user } = useAuthenticator((context) => [context.user]);
   const [investorListRefresh, setInvestorListRefresh] = useState(false);
