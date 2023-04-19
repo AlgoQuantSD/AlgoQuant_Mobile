@@ -2,7 +2,10 @@ import { FlashList } from "@shopify/flash-list";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Searchbar } from "react-native-paper";
-import { THEME, customRNPaperTheme } from "../../../../constants/Theme";
+import {
+  THEME,
+  customRNPaperTheme,
+} from "../../../../general_constants/theme/Theme";
 
 export default function SearchBarAndSuggestions(props) {
   const { onSelectStock, isLoading, searchResults, getSearchResults } = props;

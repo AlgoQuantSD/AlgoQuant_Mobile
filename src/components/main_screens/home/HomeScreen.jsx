@@ -16,13 +16,13 @@ import {
   View,
 } from "react-native";
 import { AnimatedFAB, Snackbar } from "react-native-paper";
-import AlgoquantApiContext from "../../../constants/ApiContext";
-import { THEME } from "../../../constants/Theme";
-import { timeframeEnums } from "../../../constants/graphEnums";
-import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
+import AlgoquantApiContext from "../../../general_constants/api/apiContext";
+import { THEME } from "../../../general_constants/theme/Theme";
 import CustomGraph from "../../general_use/graph/CustomGraph";
 import GraphDetailsHeader from "../../general_use/graph/GraphDetailsHeader";
+import { TIMEFRAME } from "../../general_use/graph/enums/graphEnums";
 import CustomModal from "../../general_use/modal/CustomModal";
+import { snackbarCleanUp } from "../../general_use/snackbar/helpers/snackbarCleanup";
 import { FailedStateView } from "../../general_use/success_error_screens/FailedStateView";
 import InvestCarousel from "./invest/carousel/InvestCarousel";
 
@@ -54,9 +54,7 @@ export default function HomeScreen() {
   const [modalSnackbarMessage, setModalSnackbarMessage] = useState(null);
   const [isModalSnackbarVisible, setIsModalSnackbarVisible] = useState(null);
 
-  const [selectedTimeframe, setSelectedTimeframe] = useState(
-    timeframeEnums.DAY
-  );
+  const [selectedTimeframe, setSelectedTimeframe] = useState(TIMEFRAME.DAY);
 
   // initial value is an array because victorycharts takes data prop as array or objects only
   const [graphData, setGraphData] = useState([0]);
@@ -83,8 +81,8 @@ export default function HomeScreen() {
   }
   function handlePressReloadGraph() {
     setGraphLoadingFailed(false);
-    setSelectedTimeframe(timeframeEnums.DAY);
-    getGraphData(timeframeEnums.DAY);
+    setSelectedTimeframe(TIMEFRAME.DAY);
+    getGraphData(TIMEFRAME.DAY);
   }
   const handleContentSizeChange = (contentWidth, contentHeight) => {
     scrollViewRef.current.scrollTo({

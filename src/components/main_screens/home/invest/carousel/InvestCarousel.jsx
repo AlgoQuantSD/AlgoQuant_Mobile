@@ -6,9 +6,9 @@ import {
   State,
 } from "react-native-gesture-handler";
 import { Button } from "react-native-paper";
-import AlgoquantApiContext from "../../../../../constants/ApiContext";
-import InvestorListContext from "../../../../../constants/InvestorListContext";
-import { THEME } from "../../../../../constants/Theme";
+import AlgoquantApiContext from "../../../../../general_constants/api/apiContext";
+import { THEME } from "../../../../../general_constants/theme/Theme";
+import InvestorListContext from "../../create_investor/context/InvestorListContext";
 import InvestorItemList from "./InvestorItemList";
 import JobsAndHistoryItemList from "./JobsAndHistoryItemList";
 export default function InvestCarousel(props) {

@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { TextInput } from "react-native-paper";
-import { THEME } from "../../../constants/Theme";
+import { THEME } from "../../../general_constants/theme/Theme";
 import DatePickerView from "./DatePickerView";
 
 export default function DateInputFieldView(props) {

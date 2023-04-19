@@ -11,8 +11,8 @@ import {
   View,
 } from "react-native";
 import Animated, { SlideInDown } from "react-native-reanimated";
-import { THEME } from "../../../../../constants/Theme";
-import { startJobModalBuilder } from "../../../../../helpers/modalFactory";
+import { THEME } from "../../../../../general_constants/theme/Theme";
+import { startJobModalBuilder } from "../../../../general_use/modal/helpers/modalFactory";
 
 // Renders the list of investors, jobs, or history
 export default function InvestorItemList(props) {

@@ -12,18 +12,18 @@ import {
   View,
 } from "react-native";
 import { Snackbar } from "react-native-paper";
-import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../../../constants/ApiConstants";
-import AlgoquantApiContext from "../../../../../constants/ApiContext";
-import { CHIP_JOB_TYPES } from "../../../../../constants/ChipJobTypeEnum";
-import { THEME } from "../../../../../constants/Theme";
-import { timeframeEnums } from "../../../../../constants/graphEnums";
-import { stopJobModalBuilder } from "../../../../../helpers/modalFactory";
-import { snackbarCleanUp } from "../../../../../helpers/snackbarCleanup";
-import { jobHistoryColumns } from "../../../../../helpers/tableColumns";
+import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../../../general_constants/api/apiConstants";
+import AlgoquantApiContext from "../../../../../general_constants/api/apiContext";
+import { THEME } from "../../../../../general_constants/theme/Theme";
+import { CHIP_JOB_TYPES } from "../../../../general_use/active_inactive_chip/enums/chipJobTypeEnum";
 import CustomGraph from "../../../../general_use/graph/CustomGraph";
 import GraphDetailsHeader from "../../../../general_use/graph/GraphDetailsHeader";
+import { TIMEFRAME } from "../../../../general_use/graph/enums/graphEnums";
 import CustomModal from "../../../../general_use/modal/CustomModal";
+import { stopJobModalBuilder } from "../../../../general_use/modal/helpers/modalFactory";
+import { snackbarCleanUp } from "../../../../general_use/snackbar/helpers/snackbarCleanup";
 import CustomTable from "../../../../general_use/table/CustomTable";
+import { jobHistoryColumns } from "../../../../general_use/table/helpers/tableColumns";
 import BuyingPowerAndHoldings from "./BuyingPowerAndHoldings";
 
 export default function JobScreen(props) {
@@ -45,9 +45,7 @@ export default function JobScreen(props) {
   const [recentPrice, setRecentPrice] = useState(0);
   const [marketClosed, setMarketClosed] = useState(false);
 
-  const [selectedTimeframe, setSelectedTimeframe] = useState(
-    timeframeEnums.DAY
-  );
+  const [selectedTimeframe, setSelectedTimeframe] = useState(TIMEFRAME.DAY);
   // Modal state
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalType, setModalType] = useState(null);

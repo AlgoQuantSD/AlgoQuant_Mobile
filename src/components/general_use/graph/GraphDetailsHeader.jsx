@@ -1,8 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import { THEME } from "../../../constants/Theme";
-import { timeframeEnums } from "../../../constants/graphEnums";
+import { THEME } from "../../../general_constants/theme/Theme";
+import { TIMEFRAME } from "./enums/graphEnums";
 
 export default function GraphDetailsHeader(props) {
   const {
@@ -29,19 +29,19 @@ export default function GraphDetailsHeader(props) {
 
   // Set the text that should display next to the perecent change based on the timeframe
   let timeframeText = null;
-  if (selectedTimeframe === timeframeEnums.DAY) {
+  if (selectedTimeframe === TIMEFRAME.DAY) {
     !graphTrendData.marketClosed
       ? (timeframeText = "Today")
       : (timeframeText = "Today - Closed " + formattedDateClosed);
-  } else if (selectedTimeframe === timeframeEnums.FIVE) {
+  } else if (selectedTimeframe === TIMEFRAME.FIVE) {
     !graphTrendData.marketClosed
       ? (timeframeText = "Past 5 days")
       : (timeframeText = "Past 5 days - Closed " + formattedDateClosed);
-  } else if (selectedTimeframe === timeframeEnums.MONTH) {
+  } else if (selectedTimeframe === TIMEFRAME.MONTH) {
     !graphTrendData.marketClosed
       ? (timeframeText = "Past month")
       : (timeframeText = "Past month - Closed " + formattedDateClosed);
-  } else if (selectedTimeframe === timeframeEnums.YEAR) {
+  } else if (selectedTimeframe === TIMEFRAME.YEAR) {
     !graphTrendData.marketClosed
       ? (timeframeText = "Past year")
       : (timeframeText = "Past year - Closed " + formattedDateClosed);

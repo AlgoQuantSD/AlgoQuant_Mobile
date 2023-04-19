@@ -1,10 +1,10 @@
 import { useAuthenticator } from "@aws-amplify/ui-react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { React, useMemo, useState } from "react";
-import AlgoquantApiContext from "../constants/ApiContext";
-import initAlgoQuantApi from "../constants/ApiUtils";
-import InvestorListContext from "../constants/InvestorListContext";
-import { THEME } from "../constants/Theme";
+import InvestorListContext from "../components/main_screens/home/create_investor/context/InvestorListContext";
+import AlgoquantApiContext from "../general_constants/api/apiContext";
+import initAlgoQuantApi from "../general_constants/api/apiUtils";
+import { THEME } from "../general_constants/theme/Theme";
 import { BottomTabIcon } from "./NavigationHelpers";
 import {
   BacktestingScreenStackNavigator,

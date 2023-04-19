@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { DataTable } from "react-native-paper";
-import { THEME } from "../../../constants/Theme";
+import { THEME } from "../../../general_constants/theme/Theme";
 
 export default function CustomTable(props) {
   const {

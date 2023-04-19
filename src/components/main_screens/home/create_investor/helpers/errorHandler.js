@@ -1,7 +1,7 @@
 import React from "react";
-import SnackbarContent from "../components/general_use/snackbar/SnackbarContent";
-import { THEME } from "../constants/Theme";
-import { containsOnlyNumbers } from "./regex";
+import { THEME } from "../../../../../general_constants/theme/Theme";
+import { containsOnlyNumbers } from "../../../../../general_helpers/containsOnlyNumbers";
+import SnackbarContent from "../../../../general_use/snackbar/SnackbarContent";
 
 // Validate the number of indicators selected, profit and loss stop are numbers 0-99
 export function profitOrLossStopErrorHandler(props) {

@@ -6,8 +6,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import AlgoquantApiContext from "../../../constants/ApiContext";
-import { THEME } from "../../../constants/Theme";
+import AlgoquantApiContext from "../../../general_constants/api/apiContext";
+import { THEME } from "../../../general_constants/theme/Theme";
 import SearchBarAndSuggestions from "./searchbar/SearchBarAndSuggestions";
 
 export default function SearchScreen({ navigation }) {

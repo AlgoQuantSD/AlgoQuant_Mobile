@@ -17,9 +17,12 @@ import {
   VictoryTooltip,
   VictoryVoronoiContainer,
 } from "victory-native";
-import { LINE_GRAPH_THEME, THEME } from "../../../constants/Theme";
-import { timeframeEnums } from "../../../constants/graphEnums";
+import {
+  LINE_GRAPH_THEME,
+  THEME,
+} from "../../../general_constants/theme/Theme";
 import CustomFlyout from "./CustomFlyout";
+import { TIMEFRAME } from "./enums/graphEnums";
 
 export default function CustomGraph(props) {
   const {
@@ -38,7 +41,7 @@ export default function CustomGraph(props) {
   } = props;
 
   const [dateOrTimeText, setDateOrTimeText] = useState(
-    selectedTimeframe === timeframeEnums.DAY ? "Time" : "Date"
+    selectedTimeframe === TIMEFRAME.DAY ? "Time" : "Date"
   );
 
   const formatter = format(".2f");
@@ -46,24 +49,24 @@ export default function CustomGraph(props) {
   // Helper function used to determine what date / time format to show for independent (y) axis
   const determineTimeFrame = (x) => {
     switch (selectedTimeframe) {
-      case timeframeEnums.DAY:
+      case TIMEFRAME.DAY:
         return new Date(x * 1000).toLocaleTimeString("en-US", {
           hour: "2-digit",
           minute: "2-digit",
         });
-      case timeframeEnums.FIVE:
+      case TIMEFRAME.FIVE:
         return new Date(x * 1000).toLocaleDateString("en-US", {
           month: "2-digit",
           day: "2-digit",
           year: "2-digit",
         });
-      case timeframeEnums.MONTH:
+      case TIMEFRAME.MONTH:
         return new Date(x * 1000).toLocaleDateString("en-US", {
           month: "2-digit",
           day: "2-digit",
           year: "numeric",
         });
-      case timeframeEnums.YEAR:
+      case TIMEFRAME.YEAR:
         return new Date(x * 1000).toLocaleDateString("en-US", {
           month: "2-digit",
           day: "2-digit",
@@ -127,17 +130,17 @@ export default function CustomGraph(props) {
   function handleTimeframeChange(timeframe) {
     setSelectedTimeframe(timeframe);
     switch (timeframe) {
-      case timeframeEnums.DAY:
+      case TIMEFRAME.DAY:
         getGraphData("D");
         break;
-      case timeframeEnums.FIVE:
+      case TIMEFRAME.FIVE:
         getGraphData("5D");
         break;
-      case timeframeEnums.MONTH:
+      case TIMEFRAME.MONTH:
         getGraphData("M");
 
         break;
-      case timeframeEnums.YEAR:
+      case TIMEFRAME.YEAR:
         getGraphData("Y");
         break;
     }
@@ -511,17 +514,17 @@ export default function CustomGraph(props) {
             <View style={styles.timeframeButtonOuterButtonRow}>
               <TouchableOpacity
                 style={styles.timeframeButtonOuter}
-                onPress={() => handleTimeframeChange(timeframeEnums.DAY)}
+                onPress={() => handleTimeframeChange(TIMEFRAME.DAY)}
               >
                 <Button
                   style={styles.timeframeButtonInner}
                   buttonColor={
-                    selectedTimeframe === timeframeEnums.DAY
+                    selectedTimeframe === TIMEFRAME.DAY
                       ? THEME.colors.primary
                       : THEME.colors.transparent
                   }
                   textColor={
-                    selectedTimeframe === timeframeEnums.DAY
+                    selectedTimeframe === TIMEFRAME.DAY
                       ? THEME.text.color.secondary
                       : THEME.text.color.primary
                   }
@@ -531,17 +534,17 @@ export default function CustomGraph(props) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.timeframeButtonOuter}
-                onPress={() => handleTimeframeChange(timeframeEnums.FIVE)}
+                onPress={() => handleTimeframeChange(TIMEFRAME.FIVE)}
               >
                 <Button
                   style={styles.timeframeButtonInner}
                   buttonColor={
-                    selectedTimeframe === timeframeEnums.FIVE
+                    selectedTimeframe === TIMEFRAME.FIVE
                       ? THEME.colors.primary
                       : THEME.colors.transparent
                   }
                   textColor={
-                    selectedTimeframe === timeframeEnums.FIVE
+                    selectedTimeframe === TIMEFRAME.FIVE
                       ? THEME.text.color.secondary
                       : THEME.text.color.primary
                   }
@@ -551,17 +554,17 @@ export default function CustomGraph(props) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.timeframeButtonOuter}
-                onPress={() => handleTimeframeChange(timeframeEnums.MONTH)}
+                onPress={() => handleTimeframeChange(TIMEFRAME.MONTH)}
               >
                 <Button
                   style={styles.timeframeButtonInner}
                   buttonColor={
-                    selectedTimeframe === timeframeEnums.MONTH
+                    selectedTimeframe === TIMEFRAME.MONTH
                       ? THEME.colors.primary
                       : THEME.colors.transparent
                   }
                   textColor={
-                    selectedTimeframe === timeframeEnums.MONTH
+                    selectedTimeframe === TIMEFRAME.MONTH
                       ? THEME.text.color.secondary
                       : THEME.text.color.primary
                   }
@@ -571,17 +574,17 @@ export default function CustomGraph(props) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.timeframeButtonOuter}
-                onPress={() => handleTimeframeChange(timeframeEnums.YEAR)}
+                onPress={() => handleTimeframeChange(TIMEFRAME.YEAR)}
               >
                 <Button
                   style={styles.timeframeButtonInner}
                   buttonColor={
-                    selectedTimeframe === timeframeEnums.YEAR
+                    selectedTimeframe === TIMEFRAME.YEAR
                       ? THEME.colors.primary
                       : THEME.colors.transparent
                   }
                   textColor={
-                    selectedTimeframe === timeframeEnums.YEAR
+                    selectedTimeframe === TIMEFRAME.YEAR
                       ? THEME.text.color.secondary
                       : THEME.text.color.primary
                   }

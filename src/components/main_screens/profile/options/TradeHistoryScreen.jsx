@@ -7,11 +7,11 @@ import {
   Text,
   View,
 } from "react-native";
-import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../../constants/ApiConstants";
-import AlgoquantApiContext from "../../../../constants/ApiContext";
-import { THEME } from "../../../../constants/Theme";
-import { jobHistoryColumns } from "../../../../helpers/tableColumns";
+import { TRADE_HISTORY_FETCH_AMOUNT } from "../../../../general_constants/api/apiConstants";
+import AlgoquantApiContext from "../../../../general_constants/api/apiContext";
+import { THEME } from "../../../../general_constants/theme/Theme";
 import CustomTable from "../../../general_use/table/CustomTable";
+import { jobHistoryColumns } from "../../../general_use/table/helpers/tableColumns";
 
 export default function TradeHistoryScreen() {
   const [history, setHistory] = useState([]);

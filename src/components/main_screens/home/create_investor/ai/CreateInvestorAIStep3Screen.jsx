@@ -10,12 +10,12 @@ import {
 } from "react-native";
 import { Button, Snackbar } from "react-native-paper";
 import Animated, { FadeIn } from "react-native-reanimated";
-import AlgoquantApiContext from "../../../../../constants/ApiContext";
-import InvestorListContext from "../../../../../constants/InvestorListContext";
-import { THEME } from "../../../../../constants/Theme";
-import { snackbarCleanUp } from "../../../../../helpers/snackbarCleanup";
+import AlgoquantApiContext from "../../../../../general_constants/api/apiContext";
+import { THEME } from "../../../../../general_constants/theme/Theme";
 import SnackbarContent from "../../../../general_use/snackbar/SnackbarContent";
+import { snackbarCleanUp } from "../../../../general_use/snackbar/helpers/snackbarCleanup";
 import SuccessScreen from "../../../../general_use/success_error_screens/SuccessScreen";
+import InvestorListContext from "../context/InvestorListContext";
 
 export default function CreateInvestorAIStep3Screen(props) {
   const { investorObject } = props.route.params;

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { THEME } from "../../../../constants/Theme";
+import { THEME } from "../../../../general_constants/theme/Theme";
 
 export default function BacktestAnalysisView(props) {
   const { backtest } = props;

@@ -20,19 +20,19 @@ import {
 } from "react-native";
 import { Button, Chip, Snackbar } from "react-native-paper";
 import Animated, { FadeInUp, FadeOutDown } from "react-native-reanimated";
-import AlgoquantApiContext from "../../../../../constants/ApiContext";
-import { CHIP_JOB_TYPES } from "../../../../../constants/ChipJobTypeEnum";
-import InvestorListContext from "../../../../../constants/InvestorListContext";
-import { THEME } from "../../../../../constants/Theme";
-import { chunker } from "../../../../../helpers/chunker";
-import {
-  deleteInvestorModalBuilder,
-  startJobModalBuilder,
-} from "../../../../../helpers/modalFactory";
-import { snackbarCleanUp } from "../../../../../helpers/snackbarCleanup";
+import AlgoquantApiContext from "../../../../../general_constants/api/apiContext";
+import { THEME } from "../../../../../general_constants/theme/Theme";
+import { chunker } from "../../../../../general_helpers/chunker";
+import { CHIP_JOB_TYPES } from "../../../../general_use/active_inactive_chip/enums/chipJobTypeEnum";
 import CustomParallaxCarousel from "../../../../general_use/carousel_list_view_toggle/CustomParallaxCarousel";
 import IndicatorsOrStocksListView from "../../../../general_use/carousel_list_view_toggle/IndicatorsOrStocksListView";
 import CustomModal from "../../../../general_use/modal/CustomModal";
+import {
+  deleteInvestorModalBuilder,
+  startJobModalBuilder,
+} from "../../../../general_use/modal/helpers/modalFactory";
+import { snackbarCleanUp } from "../../../../general_use/snackbar/helpers/snackbarCleanup";
+import InvestorListContext from "../../create_investor/context/InvestorListContext";
 import JobsAndHistoryItemList from "../carousel/JobsAndHistoryItemList";
 
 export default function InvestorScreen(props) {

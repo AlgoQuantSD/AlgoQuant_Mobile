@@ -2,15 +2,15 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { Button, Snackbar, TextInput } from "react-native-paper";
-import { AI_INVESTOR_DESCRIPTION } from "../../../../../constants/CreateInvestorConstants";
+import { THEME } from "../../../../../general_constants/theme/Theme";
+import { snackbarCleanUp } from "../../../../general_use/snackbar/helpers/snackbarCleanup";
+import CustomTooltip from "../../../../general_use/tooltip/CustomTooltip";
+import { AI_INVESTOR_DESCRIPTION } from "../constants/createInvestorConstants";
 import {
   INVESTOR_IMAGE_BASE_URL,
   NUM_INVESTOR_IMAGES_PER_FREQ,
-} from "../../../../../constants/InvestorImagePaths";
-import { THEME } from "../../../../../constants/Theme";
-import { profitOrLossStopErrorHandler } from "../../../../../helpers/errorHandler";
-import { snackbarCleanUp } from "../../../../../helpers/snackbarCleanup";
-import CustomTooltip from "../../../../general_use/tooltip/CustomTooltip";
+} from "../constants/investorImagePaths";
+import { profitOrLossStopErrorHandler } from "../helpers/errorHandler";
 
 export default function CreateInvestorAIStep2Screen(props) {
   const { investorObject } = props.route.params;

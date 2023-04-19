@@ -11,8 +11,9 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { Button, Snackbar, TextInput } from "react-native-paper";
-import AlgoquantApiContext from "../../../constants/ApiContext";
-import { THEME } from "../../../constants/Theme";
+import AlgoquantApiContext from "../../../general_constants/api/apiContext";
+import { THEME } from "../../../general_constants/theme/Theme";
+import { snackbarCleanUp } from "../snackbar/helpers/snackbarCleanup";
 import {
   submitConnectAlpacaModal,
   submitDeleteAccountModal,
@@ -26,8 +27,7 @@ import {
   submitUpdateEmailConfirmNewEmailStep,
   submitUpdateEmailModalNewEmailStep,
   submitUpdatePhoneModal,
-} from "../../../helpers/modalSubmitActions";
-import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
+} from "./helpers/modalSubmitActions";
 
 export default function CustomModal(props) {
   // Get the information for the modal and the functions to clear the information when we close the modal

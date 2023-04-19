@@ -8,7 +8,10 @@ import {
   View,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
-import { THEME, customRNPaperTheme } from "../../../../../../constants/Theme";
+import {
+  THEME,
+  customRNPaperTheme,
+} from "../../../../../../general_constants/theme/Theme";
 
 export default function CreateInvestorStockSearch(props) {
   const {

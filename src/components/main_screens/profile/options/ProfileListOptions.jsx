@@ -2,8 +2,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { React, useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import AlgoquantApiContext from "../../../../constants/ApiContext";
-import { THEME } from "../../../../constants/Theme";
+import AlgoquantApiContext from "../../../../general_constants/api/apiContext";
+import { THEME } from "../../../../general_constants/theme/Theme";
+import { handleSignOut } from "../../../../general_helpers/signOut";
 import {
   connectToAlpacaModalBuilder,
   deleteAccountModalBuilder,
@@ -11,8 +12,7 @@ import {
   resetPasswordModalBuilder,
   updateEmailModalBuilder,
   updatePhoneModalBuilder,
-} from "../../../../helpers/modalFactory";
-import { handleSignOut } from "../../../../helpers/signOut";
+} from "../../../general_use/modal/helpers/modalFactory";
 
 export default function ProfileListOptions(props) {
   // Get access to the algoquant object from parent component to use api

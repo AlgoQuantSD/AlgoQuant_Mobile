@@ -1,8 +1,8 @@
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
 import { Linking, Text, TouchableOpacity, View } from "react-native";
-import { THEME } from "../constants/Theme";
-import { getCurrentUser } from "./user";
+import { THEME } from "../../../../general_constants/theme/Theme";
+import { getCurrentUser } from "../../../../general_helpers/user";
 
 // All of the builders follow the same pattern
 // 1) Get all the functions from props needed to set the modal content

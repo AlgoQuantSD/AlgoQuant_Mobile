@@ -7,11 +7,11 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import AlgoquantApiContext from "../../../../constants/ApiContext";
-import { THEME } from "../../../../constants/Theme";
-import { timeframeEnums } from "../../../../constants/graphEnums";
+import AlgoquantApiContext from "../../../../general_constants/api/apiContext";
+import { THEME } from "../../../../general_constants/theme/Theme";
 import CustomGraph from "../../../general_use/graph/CustomGraph";
 import GraphDetailsHeader from "../../../general_use/graph/GraphDetailsHeader";
+import { TIMEFRAME } from "../../../general_use/graph/enums/graphEnums";
 import StockDetailsFooter from "./StockDetailsFooter";
 
 export default function StockInfoScreen(props) {
@@ -62,9 +62,7 @@ export default function StockInfoScreen(props) {
 
   // State variable to track what selected timeframe of data for the selected stock the user selected
   // default value is DAY because when the infoscreen is loaded in day in the first graph and info shown automatically
-  const [selectedTimeframe, setSelectedTimeframe] = useState(
-    timeframeEnums.DAY
-  );
+  const [selectedTimeframe, setSelectedTimeframe] = useState(TIMEFRAME.DAY);
 
   // Handle different presses
   function handlePressInGraph() {

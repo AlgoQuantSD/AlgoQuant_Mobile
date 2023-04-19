@@ -15,7 +15,7 @@ import ProfileScreen from "../components/main_screens/profile/ProfileScreen";
 import TradeHistoryScreen from "../components/main_screens/profile/options/TradeHistoryScreen";
 import SearchScreen from "../components/main_screens/search/SearchScreen";
 import StockInfoScreen from "../components/main_screens/search/results/StockInfoScreen";
-import { THEME } from "../constants/Theme";
+import { THEME } from "../general_constants/theme/Theme";
 import { nestedScreenOptions } from "./NavigationHelpers";
 
 const Stack = createStackNavigator();

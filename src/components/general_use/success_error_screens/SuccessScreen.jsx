@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Text } from "react-native";
 import Animated, { SlideInUp, SlideOutDown } from "react-native-reanimated";
-import { THEME } from "../../../constants/Theme";
+import { THEME } from "../../../general_constants/theme/Theme";
 
 export default function SuccessScreen(props) {
   const { message } = props;

@@ -11,9 +11,9 @@ import {
   View,
 } from "react-native";
 import { Button, Snackbar, TextInput } from "react-native-paper";
-import { THEME } from "../../../../constants/Theme";
-import { snackbarCleanUp } from "../../../../helpers/snackbarCleanup";
+import { THEME } from "../../../../general_constants/theme/Theme";
 import SnackbarContent from "../../../general_use/snackbar/SnackbarContent";
+import { snackbarCleanUp } from "../../../general_use/snackbar/helpers/snackbarCleanup";
 
 export default function CreateInvestorStep1Screen(props) {
   const navigation = useNavigation();

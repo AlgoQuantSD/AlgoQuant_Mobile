@@ -1,9 +1,9 @@
 import { Auth } from "aws-amplify";
 import React from "react";
-import SnackbarContent from "../components/general_use/snackbar/SnackbarContent";
-import { THEME } from "../constants/Theme";
-import { containsOnlyNumbers } from "./regex";
-import { getCurrentUser } from "./user";
+import { THEME } from "../../../../general_constants/theme/Theme";
+import { containsOnlyNumbers } from "../../../../general_helpers/containsOnlyNumbers";
+import { getCurrentUser } from "../../../../general_helpers/user";
+import SnackbarContent from "../../snackbar/SnackbarContent";
 
 // This function is used clear all the modal information upon a successful submission of a modal
 function cleanUpState(props) {

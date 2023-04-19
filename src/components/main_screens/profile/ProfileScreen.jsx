@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
 import { Snackbar } from "react-native-paper";
-import { THEME } from "../../../constants/Theme";
-import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
+import { THEME } from "../../../general_constants/theme/Theme";
 import CustomModal from "../../general_use/modal/CustomModal";
+import { snackbarCleanUp } from "../../general_use/snackbar/helpers/snackbarCleanup";
 import ProfileHeader from "./header/ProfileHeader";
 import TotalBalance from "./header/TotalBalance";
 import ProfileListOptions from "./options/ProfileListOptions";

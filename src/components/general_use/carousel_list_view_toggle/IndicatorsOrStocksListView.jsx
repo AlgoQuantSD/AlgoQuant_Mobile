@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
-import { THEME } from "../../../constants/Theme";
+import { THEME } from "../../../general_constants/theme/Theme";
 
 // Renders the listview of either the indicators or stocks
 export default function IndicatorsOrStocksListView(props) {

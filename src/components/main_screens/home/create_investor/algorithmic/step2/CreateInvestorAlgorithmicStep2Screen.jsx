@@ -11,15 +11,15 @@ import {
   View,
 } from "react-native";
 import { Button, Snackbar, TextInput } from "react-native-paper";
+import { THEME } from "../../../../../../general_constants/theme/Theme";
+import SnackbarContent from "../../../../../general_use/snackbar/SnackbarContent";
+import { snackbarCleanUp } from "../../../../../general_use/snackbar/helpers/snackbarCleanup";
+import CustomTooltip from "../../../../../general_use/tooltip/CustomTooltip";
 import {
   INDICATOR_LIST,
   PERIOD_LIST,
-} from "../../../../../../constants/CreateInvestorConstants";
-import { THEME } from "../../../../../../constants/Theme";
-import { profitOrLossStopErrorHandler } from "../../../../../../helpers/errorHandler";
-import { snackbarCleanUp } from "../../../../../../helpers/snackbarCleanup";
-import SnackbarContent from "../../../../../general_use/snackbar/SnackbarContent";
-import CustomTooltip from "../../../../../general_use/tooltip/CustomTooltip";
+} from "../../constants/createInvestorConstants";
+import { profitOrLossStopErrorHandler } from "../../helpers/errorHandler";
 import InvestorTradeFrequencyCarousel from "./InvestorTradeFrequencyCarousel";
 
 export default function CreateInvestorAlgorithmicStep2Screen(props) {
