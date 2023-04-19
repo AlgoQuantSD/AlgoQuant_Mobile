@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { THEME } from "../../constants/Theme";
+import { THEME } from "../../../../constants/Theme";
 
 export default function StockDetailsFooter(props) {
   const { stockData } = props;

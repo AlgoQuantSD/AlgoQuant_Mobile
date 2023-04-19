@@ -2,7 +2,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { THEME } from "../../constants/Theme";
 import BacktestingScreen from "../main_screens/BacktestingScreen";
 import ProfileScreen from "../main_screens/ProfileScreen";
-import SearchScreen from "../main_screens/SearchScreen";
 import HomeScreen from "../main_screens/home/HomeScreen";
 import CreateInvestorStep1Screen from "../main_screens/home/create_investor/CreateInvestorStep1Screen";
 import CreateInvestorAIStep2Screen from "../main_screens/home/create_investor/ai/CreateInvestorAIStep2Screen";
@@ -12,10 +11,11 @@ import CreateInvestorAlgorithmicStep3Screen from "../main_screens/home/create_in
 import CreateInvestorAlgorithmicStep4Screen from "../main_screens/home/create_investor/algorithmic/CreateInvestorAlgorithmicStep4Screen";
 import InvestorScreen from "../main_screens/home/invest/InvestorScreen";
 import JobScreen from "../main_screens/home/invest/JobScreen";
+import SearchScreen from "../main_screens/search/SearchScreen";
+import StockInfoScreen from "../main_screens/search/results/StockInfoScreen";
 import BacktestResultsScreen from "../nested_screens/backtesting/BacktestResultsScreen";
 import CreateBacktestScreen from "../nested_screens/backtesting/CreateBacktestScreen";
 import TradeHistoryScreen from "../nested_screens/profile/TradeHistoryScreen";
-import StockInfoScreen from "../nested_screens/search/StockInfoScreen";
 import { nestedScreenOptions } from "./NavigationHelpers";
 
 const Stack = createStackNavigator();

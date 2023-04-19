@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Searchbar } from "react-native-paper";
-import { THEME, customRNPaperTheme } from "../../constants/Theme";
 import { FlashList } from "@shopify/flash-list";
+import React, { useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Searchbar } from "react-native-paper";
+import { THEME, customRNPaperTheme } from "../../../../constants/Theme";
 
-export default function CustomSearch(props) {
+export default function SearchBarAndSuggestions(props) {
   const { onSelectStock, isLoading, searchResults, getSearchResults } = props;
 
   // State variable to hold user search bar input
@@ -17,7 +17,7 @@ export default function CustomSearch(props) {
   }
 
   return (
-    <View style={styles.searchbarAndResults}>
+    <View style={styles.SearchBarAndSuggestions}>
       {/* Render the searchbar */}
       <Searchbar
         placeholder="Search"
@@ -60,7 +60,7 @@ export default function CustomSearch(props) {
 }
 
 const styles = StyleSheet.create({
-  searchbarAndResults: { flex: 1, width: "90%", marginTop: "20%" },
+  SearchBarAndSuggestions: { flex: 1, width: "90%", marginTop: "20%" },
   searchbar: {
     backgroundColor: THEME.searchbar.color.background,
     borderBottomWidth: THEME.searchbar.borderBottomWidth,

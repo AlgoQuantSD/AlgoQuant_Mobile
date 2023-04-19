@@ -7,12 +7,12 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import AlgoquantApiContext from "../../../constants/ApiContext";
-import { THEME } from "../../../constants/Theme";
-import { timeframeEnums } from "../../../constants/graphEnums";
-import CustomGraph from "../../reusable_components/CustomGraph";
-import GraphDetailsHeader from "../../reusable_components/GraphDetailsHeader";
-import StockDetailsFooter from "../../reusable_components/StockDetailsFooter";
+import AlgoquantApiContext from "../../../../constants/ApiContext";
+import { THEME } from "../../../../constants/Theme";
+import { timeframeEnums } from "../../../../constants/graphEnums";
+import CustomGraph from "../../../reusable_components/CustomGraph";
+import GraphDetailsHeader from "../../../reusable_components/GraphDetailsHeader";
+import StockDetailsFooter from "./StockDetailsFooter";
 
 export default function StockInfoScreen(props) {
   // variable containing the searched stock ticker user selected from SearchScreen

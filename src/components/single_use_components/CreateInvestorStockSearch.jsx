@@ -1,15 +1,13 @@
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
   ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
+  View,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
 import { THEME, customRNPaperTheme } from "../../constants/Theme";
 
 export default function CreateInvestorStockSearch(props) {
@@ -32,7 +30,7 @@ export default function CreateInvestorStockSearch(props) {
   }
 
   return (
-    <View style={styles.searchbarAndResults}>
+    <View style={styles.SearchBarAndSuggestions}>
       {/* Render the searchbar */}
       <Searchbar
         placeholder="Search"
@@ -95,7 +93,7 @@ export default function CreateInvestorStockSearch(props) {
 }
 
 const styles = StyleSheet.create({
-  searchbarAndResults: { flex: 1 },
+  SearchBarAndSuggestions: { flex: 1 },
   searchbar: {
     backgroundColor: THEME.searchbar.color.background,
     borderBottomWidth: THEME.searchbar.borderBottomWidth,

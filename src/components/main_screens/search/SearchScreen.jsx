@@ -6,9 +6,9 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import AlgoquantApiContext from "../../constants/ApiContext";
-import { THEME } from "../../constants/Theme";
-import CustomSearch from "../reusable_components/CustomSearch";
+import AlgoquantApiContext from "../../../constants/ApiContext";
+import { THEME } from "../../../constants/Theme";
+import SearchBarAndSuggestions from "./searchbar/SearchBarAndSuggestions";
 
 export default function SearchScreen({ navigation }) {
   // State variable to hold the values of the latest query
@@ -51,7 +51,7 @@ export default function SearchScreen({ navigation }) {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <StatusBar barStyle={"dark-content"} />
-        <CustomSearch
+        <SearchBarAndSuggestions
           onSelectStock={onSelectStock}
           isLoading={isLoading}
           searchResults={searchResults}
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: THEME.colors.background,
   },
-  searchbarAndResults: {
+  SearchBarAndSuggestions: {
     flex: 1,
     width: "80%",
     marginTop: "30%",
