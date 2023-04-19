@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { Button, Snackbar, TextInput } from "react-native-paper";
+import AlgoquantApiContext from "../../constants/ApiContext";
 import { THEME } from "../../constants/Theme";
 import {
   submitConnectAlpacaModal,
@@ -27,8 +28,6 @@ import {
   submitUpdatePhoneModal,
 } from "../../helpers/modalSubmitActions";
 import { snackbarCleanUp } from "../../helpers/snackbarCleanup";
-import TypewriterAnimatedText from "./TypewriterAnimatedText";
-import AlgoquantApiContext from "../../constants/ApiContext";
 
 export default function CustomModal(props) {
   // Get the information for the modal and the functions to clear the information when we close the modal
@@ -122,7 +121,7 @@ export default function CustomModal(props) {
       jobID,
       investorID,
       navigation,
-      algoquantApi
+      algoquantApi,
     };
     switch (modalType) {
       case "EDIT_NAME":
@@ -287,14 +286,6 @@ export default function CustomModal(props) {
             </View>
           ) : null}
         </View>
-        {modalErrorMessage ? (
-          <View style={styles.modalErrorMessage}>
-            <TypewriterAnimatedText
-              text={modalErrorMessage}
-              style={styles.modalErrorMessageText}
-            />
-          </View>
-        ) : null}
         {modalButtons ? (
           <View style={styles.modalButtons}>
             {modalButtons.map((item, index) => (
