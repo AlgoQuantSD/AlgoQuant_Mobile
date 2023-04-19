@@ -1,6 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import BacktestingScreen from "../components/main_screens/BacktestingScreen";
 import ProfileScreen from "../components/main_screens/ProfileScreen";
+import BacktestingScreen from "../components/main_screens/backtesting/BacktestingScreen";
+import CreateBacktestScreen from "../components/main_screens/backtesting/create/CreateBacktestScreen";
+import BacktestResultsScreen from "../components/main_screens/backtesting/results/BacktestResultsScreen";
 import HomeScreen from "../components/main_screens/home/HomeScreen";
 import CreateInvestorStep1Screen from "../components/main_screens/home/create_investor/CreateInvestorStep1Screen";
 import CreateInvestorAIStep2Screen from "../components/main_screens/home/create_investor/ai/CreateInvestorAIStep2Screen";
@@ -8,12 +10,10 @@ import CreateInvestorAIStep3Screen from "../components/main_screens/home/create_
 import CreateInvestorAlgorithmicStep2Screen from "../components/main_screens/home/create_investor/algorithmic/CreateInvestorAlgorithmicStep2Screen";
 import CreateInvestorAlgorithmicStep3Screen from "../components/main_screens/home/create_investor/algorithmic/CreateInvestorAlgorithmicStep3Screen";
 import CreateInvestorAlgorithmicStep4Screen from "../components/main_screens/home/create_investor/algorithmic/CreateInvestorAlgorithmicStep4Screen";
-import InvestorScreen from "../components/main_screens/home/invest/InvestorScreen";
-import JobScreen from "../components/main_screens/home/invest/JobScreen";
+import InvestorScreen from "../components/main_screens/home/invest/investor/InvestorScreen";
+import JobScreen from "../components/main_screens/home/invest/job/JobScreen";
 import SearchScreen from "../components/main_screens/search/SearchScreen";
 import StockInfoScreen from "../components/main_screens/search/results/StockInfoScreen";
-import BacktestResultsScreen from "../components/nested_screens/backtesting/BacktestResultsScreen";
-import CreateBacktestScreen from "../components/nested_screens/backtesting/CreateBacktestScreen";
 import TradeHistoryScreen from "../components/nested_screens/profile/TradeHistoryScreen";
 import { THEME } from "../constants/Theme";
 import { nestedScreenOptions } from "./NavigationHelpers";

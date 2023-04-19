@@ -10,12 +10,12 @@ import {
   View,
 } from "react-native";
 import { Button, Snackbar, TextInput } from "react-native-paper";
-import AlgoquantApiContext from "../../../constants/ApiContext";
-import { THEME } from "../../../constants/Theme";
-import { snackbarCleanUp } from "../../../helpers/snackbarCleanup";
-import DateInputFieldView from "../../reusable_components/DateInputFieldView";
-import SnackbarContent from "../../reusable_components/SnackbarContent";
-import SuccessScreen from "../../reusable_components/SuccessScreen";
+import AlgoquantApiContext from "../../../../constants/ApiContext";
+import { THEME } from "../../../../constants/Theme";
+import { snackbarCleanUp } from "../../../../helpers/snackbarCleanup";
+import DateInputFieldView from "../../../reusable_components/DateInputFieldView";
+import SnackbarContent from "../../../reusable_components/SnackbarContent";
+import SuccessScreen from "../../../reusable_components/SuccessScreen";
 
 export default function CreateBacktestScreen(props) {
   const { investorID } = props.route.params;

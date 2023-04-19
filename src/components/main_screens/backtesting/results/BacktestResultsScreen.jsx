@@ -9,10 +9,10 @@ import {
   Text,
   View,
 } from "react-native";
-import AlgoquantApiContext from "../../../constants/ApiContext";
-import { THEME } from "../../../constants/Theme";
-import CustomGraph from "../../reusable_components/CustomGraph";
-import BacktestAnalysisView from "../../single_use_components/BacktestAnalysisView";
+import AlgoquantApiContext from "../../../../constants/ApiContext";
+import { THEME } from "../../../../constants/Theme";
+import CustomGraph from "../../../reusable_components/CustomGraph";
+import BacktestAnalysisView from "./BacktestAnalysisView";
 
 export default function BacktestResultsScreen(props) {
   const { backtestId } = props.route.params;

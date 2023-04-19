@@ -10,11 +10,11 @@ import {
   Text,
   View,
 } from "react-native";
-import { BACKTEST_FETCH_AMOUNT } from "../../constants/ApiConstants";
-import AlgoquantApiContext from "../../constants/ApiContext";
-import { THEME } from "../../constants/Theme";
-import { backtestHistoryColumns } from "../../helpers/tableColumns";
-import CustomTable from "../reusable_components/CustomTable";
+import { BACKTEST_FETCH_AMOUNT } from "../../../constants/ApiConstants";
+import AlgoquantApiContext from "../../../constants/ApiContext";
+import { THEME } from "../../../constants/Theme";
+import { backtestHistoryColumns } from "../../../helpers/tableColumns";
+import CustomTable from "../../reusable_components/CustomTable";
 
 export default function BacktestingScreen() {
   const navigation = useNavigation();
