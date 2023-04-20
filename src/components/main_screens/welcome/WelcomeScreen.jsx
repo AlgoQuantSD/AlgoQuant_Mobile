@@ -4,6 +4,7 @@ import { Button } from "react-native-paper";
 import Swiper from "react-native-swiper";
 import { THEME } from "../../../general_constants/theme/Theme";
 import { handleWelcomeScreenCompleted } from "./helpers/welcomScreenState";
+import FeaturesSlide from "./slides/FeaturesSlide";
 import WelcomeSlide from "./slides/WelcomeSlide";
 
 export default function WelcomeScreen(props) {
@@ -36,9 +37,7 @@ export default function WelcomeScreen(props) {
         }
       >
         <WelcomeSlide />
-        <View>
-          <Text>Slide 2</Text>
-        </View>
+        <FeaturesSlide />
         <View>
           <Text>Slide 3</Text>
         </View>
