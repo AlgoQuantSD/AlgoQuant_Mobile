@@ -1,29 +1,27 @@
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import Swiper from "react-native-swiper";
 import { THEME } from "../../../general_constants/theme/Theme";
 import { handleWelcomeScreenCompleted } from "./helpers/welcomScreenState";
+import WelcomeSlide from "./slides/WelcomeSlide";
 
 export default function WelcomeScreen(props) {
   const { setShowWelcomeScreen } = props;
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Welcome To AlgoQuant!</Text>
-      </View>
-
+      <StatusBar barStyle={"light-content"} />
       <Swiper
         showsButtons={true}
         autoplay={false}
         loop={false}
-        activeDotColor={THEME.colors.primary}
+        activeDotColor={THEME.colors.background}
         nextButton={
           <Text>
             <Ionicons
               name="chevron-forward"
               size={36}
-              color={THEME.colors.primary}
+              color={THEME.colors.background}
             />
           </Text>
         }
@@ -32,14 +30,12 @@ export default function WelcomeScreen(props) {
             <Ionicons
               name="chevron-back"
               size={36}
-              color={THEME.colors.primary}
+              color={THEME.colors.background}
             />
           </Text>
         }
       >
-        <View>
-          <Text>Slide 1</Text>
-        </View>
+        <WelcomeSlide />
         <View>
           <Text>Slide 2</Text>
         </View>
@@ -50,8 +46,8 @@ export default function WelcomeScreen(props) {
 
       <View style={styles.getStartedButton}>
         <Button
-          buttonColor={THEME.button.primaryColorBackground}
-          textColor={THEME.text.color.secondary}
+          buttonColor={THEME.button.color.secondary}
+          textColor={THEME.text.color.primary}
           onPress={() => handleWelcomeScreenCompleted(setShowWelcomeScreen)}
           style={THEME.button.style}
         >
@@ -63,13 +59,8 @@ export default function WelcomeScreen(props) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: THEME.colors.background },
-  headerContainer: { alignItems: "center" },
-  headerText: {
-    fontSize: THEME.text.fontSize.H3,
-    fontWeight: "600",
-    color: THEME.text.color.primary,
-  },
+  container: { flex: 1, backgroundColor: THEME.colors.foreground },
+
   getStartedButton: {
     width: "60%",
     alignSelf: "center",
