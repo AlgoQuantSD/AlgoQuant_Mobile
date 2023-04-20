@@ -9,13 +9,15 @@ export default function WelcomeScreen(props) {
   const { setShowWelcomeScreen } = props;
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Welcome To AlgoQuant!</Text>
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Welcome To AlgoQuant!</Text>
+      </View>
+
       <Swiper
         showsButtons={true}
         autoplay={false}
         loop={false}
         activeDotColor={THEME.colors.primary}
-        buttonWrapperStyle={{ color: "red" }}
         nextButton={
           <Text>
             <Ionicons
@@ -45,18 +47,31 @@ export default function WelcomeScreen(props) {
           <Text>Slide 3</Text>
         </View>
       </Swiper>
-      <Button
-        buttonColor={THEME.button.primaryColorBackground}
-        textColor={THEME.text.color.secondary}
-        onPress={() => handleWelcomeScreenCompleted(setShowWelcomeScreen)}
-        style={THEME.button.style}
-      >
-        Get Started
-      </Button>
+
+      <View style={styles.getStartedButton}>
+        <Button
+          buttonColor={THEME.button.primaryColorBackground}
+          textColor={THEME.text.color.secondary}
+          onPress={() => handleWelcomeScreenCompleted(setShowWelcomeScreen)}
+          style={THEME.button.style}
+        >
+          Get Started
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingLeft: "5%", paddingRight: "5%" },
+  container: { flex: 1, backgroundColor: THEME.colors.background },
+  headerContainer: { alignItems: "center" },
+  headerText: {
+    fontSize: THEME.text.fontSize.H3,
+    fontWeight: "600",
+    color: THEME.text.color.primary,
+  },
+  getStartedButton: {
+    width: "60%",
+    alignSelf: "center",
+  },
 });
