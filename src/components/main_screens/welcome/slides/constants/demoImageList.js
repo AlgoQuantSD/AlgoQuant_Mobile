@@ -113,7 +113,7 @@ export const DEMO_IMAGES_JOBS = [
   },
   {
     image: DemoJobsImage4,
-    caption: "Example of an existing job that has made trades",
+    caption: "Example of an existing job that has made trades.",
     id: 4,
   },
 ];
