@@ -50,7 +50,7 @@ export const DEMO_IMAGES_INVESTOR = [
   },
   {
     image: DemoInvestorImage5,
-    caption: "Select stock for your investor to consider.",
+    caption: "Select stocks for your investor to consider.",
     id: 5,
   },
   {
@@ -127,7 +127,7 @@ export const DEMO_IMAGES_PAPER_TRADING = [
   {
     image: DemoPaperTradingImage1,
     caption:
-      "Connecting to Alpaca will give you a more realistic paper trading experience",
+      "Connecting to Alpaca will give you a more realistic paper trading experience.",
     id: 1,
   },
   {
