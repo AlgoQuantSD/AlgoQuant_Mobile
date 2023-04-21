@@ -15,6 +15,9 @@ import DemoJobsImage1 from "../../../../../../assets/demo_images/jobs/1.png";
 import DemoJobsImage2 from "../../../../../../assets/demo_images/jobs/2.png";
 import DemoJobsImage3 from "../../../../../../assets/demo_images/jobs/3.png";
 import DemoJobsImage4 from "../../../../../../assets/demo_images/jobs/4.png";
+import DemoPaperTradingImage0 from "../../../../../../assets/demo_images/paper_trading/0.png";
+import DemoPaperTradingImage1 from "../../../../../../assets/demo_images/paper_trading/1.png";
+import DemoPaperTradingImage2 from "../../../../../../assets/demo_images/paper_trading/2.png";
 
 // List of images to display in the demo carousel
 export const DEMO_IMAGES_INVESTOR = [
@@ -112,5 +115,25 @@ export const DEMO_IMAGES_JOBS = [
     image: DemoJobsImage4,
     caption: "Example of an existing job that has made trades",
     id: 4,
+  },
+];
+
+export const DEMO_IMAGES_PAPER_TRADING = [
+  {
+    image: DemoPaperTradingImage0,
+    caption: "By default you will be using the AlgoQuant Simulated Brokerage.",
+    id: 0,
+  },
+  {
+    image: DemoPaperTradingImage1,
+    caption:
+      "Connecting to Alpaca will give you a more realistic paper trading experience",
+    id: 1,
+  },
+  {
+    image: DemoPaperTradingImage2,
+    caption:
+      "Users that are connected to Alpaca will see Alpaca Verified Buying Power instead of Simulated Buying Power.",
+    id: 2,
   },
 ];
