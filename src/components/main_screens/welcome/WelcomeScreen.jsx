@@ -11,7 +11,10 @@ import { handleWelcomeScreenCompleted } from "./helpers/welcomScreenState";
 import DemoSlide from "./slides/DemoSlide";
 import FeaturesSlide from "./slides/FeaturesSlide";
 import WelcomeSlide from "./slides/WelcomeSlide";
-import { DEMO_IMAGES_INVESTOR } from "./slides/constants/demoImageList";
+import {
+  DEMO_IMAGES_BACKTESTING,
+  DEMO_IMAGES_INVESTOR,
+} from "./slides/constants/demoImageList";
 
 export default function WelcomeScreen(props) {
   const { setShowWelcomeScreen } = props;
@@ -54,7 +57,7 @@ export default function WelcomeScreen(props) {
         <DemoSlide
           name="Backtesting"
           headerImage={BacktestingHeaderImage}
-          demoImages={DEMO_IMAGES_INVESTOR}
+          demoImages={DEMO_IMAGES_BACKTESTING}
         />
         <DemoSlide
           name="Jobs"
