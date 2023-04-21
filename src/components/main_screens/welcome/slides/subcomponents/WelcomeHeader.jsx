@@ -3,6 +3,7 @@ import { THEME } from "../../../../../general_constants/theme/Theme";
 
 export default function WelcomeHeader(props) {
   const { title, image } = props;
+
   return (
     <View style={styles.headerContainer}>
       <View style={styles.imageContainer}>

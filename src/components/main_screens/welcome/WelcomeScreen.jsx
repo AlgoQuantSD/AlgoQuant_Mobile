@@ -2,16 +2,23 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import Swiper from "react-native-swiper";
+import InvestorHeaderImage from "../../../../assets/investor_avatars/avatar2.png";
+import BacktestingHeaderImage from "../../../../assets/investor_avatars/avatar3.png";
+import JobsHeaderImage from "../../../../assets/investor_avatars/avatar4.png";
+import PaperTradingHeaderImage from "../../../../assets/investor_avatars/avatar5.png";
 import { THEME } from "../../../general_constants/theme/Theme";
 import { handleWelcomeScreenCompleted } from "./helpers/welcomScreenState";
+import DemoSlide from "./slides/DemoSlide";
 import FeaturesSlide from "./slides/FeaturesSlide";
 import WelcomeSlide from "./slides/WelcomeSlide";
+import { DEMO_IMAGES_INVESTOR } from "./slides/constants/demoImageList";
 
 export default function WelcomeScreen(props) {
   const { setShowWelcomeScreen } = props;
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={"light-content"} />
+      {/* Carousel control */}
       <Swiper
         showsButtons={true}
         autoplay={false}
@@ -36,13 +43,31 @@ export default function WelcomeScreen(props) {
           </Text>
         }
       >
+        {/* Slides */}
         <WelcomeSlide />
         <FeaturesSlide />
-        <View>
-          <Text>Slide 3</Text>
-        </View>
+        <DemoSlide
+          name="Investor"
+          headerImage={InvestorHeaderImage}
+          demoImages={DEMO_IMAGES_INVESTOR}
+        />
+        <DemoSlide
+          name="Backtesting"
+          headerImage={BacktestingHeaderImage}
+          demoImages={DEMO_IMAGES_INVESTOR}
+        />
+        <DemoSlide
+          name="Jobs"
+          headerImage={JobsHeaderImage}
+          demoImages={DEMO_IMAGES_INVESTOR}
+        />
+        <DemoSlide
+          name="Paper Trading"
+          headerImage={PaperTradingHeaderImage}
+          demoImages={DEMO_IMAGES_INVESTOR}
+        />
       </Swiper>
-
+      {/* Get started button */}
       <View style={styles.getStartedButton}>
         <Button
           buttonColor={THEME.button.color.secondary}
