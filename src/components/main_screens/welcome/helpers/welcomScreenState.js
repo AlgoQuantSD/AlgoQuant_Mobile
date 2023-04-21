@@ -18,7 +18,4 @@ export async function resetWelcomeScreen(setShowWelcomeScreen) {
 export const handleWelcomeScreenCompleted = async (setShowWelcomeScreen) => {
   await AsyncStorage.setItem(WELCOME_SCREEN_SHOWN_KEY, "true");
   setShowWelcomeScreen(false);
-  setTimeout(() => {
-    resetWelcomeScreen(setShowWelcomeScreen);
-  }, 1000);
 };

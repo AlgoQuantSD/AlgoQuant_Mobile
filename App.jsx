@@ -7,10 +7,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { signUpConfig } from "./src/authentication/SignUpConfig";
 import config from "./src/authentication/aws-exports";
 import WelcomeScreen from "./src/components/main_screens/welcome/WelcomeScreen";
-import {
-  checkWelcomeScreenShown,
-  resetWelcomeScreen,
-} from "./src/components/main_screens/welcome/helpers/welcomScreenState";
+import { checkWelcomeScreenShown } from "./src/components/main_screens/welcome/helpers/welcomScreenState";
+import { WelcomeScreenContext } from "./src/general_constants/context/WelcomeScreenContext";
 import { CUSTOM_AUTH_THEME } from "./src/general_constants/theme/CustomAuthTheme";
 import BottomTabNavigation from "./src/navigation/BottomTabNavigation";
 
@@ -22,7 +20,6 @@ function App() {
 
   useEffect(() => {
     checkWelcomeScreenShown(setShowWelcomeScreen);
-    resetWelcomeScreen(setShowWelcomeScreen);
   }, []);
 
   return (
@@ -32,7 +29,9 @@ function App() {
           <WelcomeScreen setShowWelcomeScreen={setShowWelcomeScreen} />
         ) : (
           <NavigationContainer>
-            <BottomTabNavigation />
+            <WelcomeScreenContext.Provider value={setShowWelcomeScreen}>
+              <BottomTabNavigation />
+            </WelcomeScreenContext.Provider>
           </NavigationContainer>
         )}
       </SafeAreaProvider>
