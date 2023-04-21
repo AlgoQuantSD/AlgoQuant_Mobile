@@ -2,9 +2,13 @@ import { Authenticator } from "@aws-amplify/ui-react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { Amplify } from "aws-amplify";
 import { withAuthenticator } from "aws-amplify-react-native";
+import { useEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { signUpConfig } from "./src/authentication/SignUpConfig";
 import config from "./src/authentication/aws-exports";
+import WelcomeScreen from "./src/components/main_screens/welcome/WelcomeScreen";
+import { checkWelcomeScreenShown } from "./src/components/main_screens/welcome/helpers/welcomScreenState";
+import { WelcomeScreenContext } from "./src/general_constants/context/WelcomeScreenContext";
 import { CUSTOM_AUTH_THEME } from "./src/general_constants/theme/CustomAuthTheme";
 import BottomTabNavigation from "./src/navigation/BottomTabNavigation";
 
@@ -12,12 +16,24 @@ import BottomTabNavigation from "./src/navigation/BottomTabNavigation";
 Amplify.configure({ ...config, Analytics: { disabled: true } });
 
 function App() {
+  const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
+
+  useEffect(() => {
+    checkWelcomeScreenShown(setShowWelcomeScreen);
+  }, []);
+
   return (
     <Authenticator.Provider>
       <SafeAreaProvider>
-        <NavigationContainer>
-          <BottomTabNavigation />
-        </NavigationContainer>
+        {showWelcomeScreen ? (
+          <WelcomeScreen setShowWelcomeScreen={setShowWelcomeScreen} />
+        ) : (
+          <NavigationContainer>
+            <WelcomeScreenContext.Provider value={setShowWelcomeScreen}>
+              <BottomTabNavigation />
+            </WelcomeScreenContext.Provider>
+          </NavigationContainer>
+        )}
       </SafeAreaProvider>
     </Authenticator.Provider>
   );

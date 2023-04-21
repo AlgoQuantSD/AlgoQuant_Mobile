@@ -3,6 +3,7 @@ import { React, useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AlgoquantApiContext from "../../../../general_constants/api/apiContext";
+import { WelcomeScreenContext } from "../../../../general_constants/context/WelcomeScreenContext";
 import { THEME } from "../../../../general_constants/theme/Theme";
 import { handleSignOut } from "../../../../general_helpers/signOut";
 import {
@@ -13,10 +14,14 @@ import {
   updateEmailModalBuilder,
   updatePhoneModalBuilder,
 } from "../../../general_use/modal/helpers/modalFactory";
+import { resetWelcomeScreen } from "../../welcome/helpers/welcomScreenState";
 
 export default function ProfileListOptions(props) {
   // Get access to the algoquant object from parent component to use api
   const algoquantApi = useContext(AlgoquantApiContext);
+
+  // Use to show the welcome screen when the user presses AlgoQuant Tutorial
+  const setShowWelcomeScreen = useContext(WelcomeScreenContext);
 
   // State to keep track if a users account is conntect to alpaca or not
   // Boolean value
@@ -43,6 +48,9 @@ export default function ProfileListOptions(props) {
       case "UPDATE_PHONE":
         updatePhoneModalBuilder(props);
         break;
+      case "ALGOQUANT_TUTORIAL":
+        resetWelcomeScreen(setShowWelcomeScreen);
+        break;
       case "DELETE_ACCOUNT":
         deleteAccountModalBuilder(props);
         break;
@@ -60,6 +68,7 @@ export default function ProfileListOptions(props) {
     { label: "Reset password", key: "RESET_PASSWORD" },
     { label: "Update email", key: "UPDATE_EMAIL" },
     { label: "Update phone number", key: "UPDATE_PHONE" },
+    { label: "AlgoQuant Tutorial", key: "ALGOQUANT_TUTORIAL" },
     { label: "Delete account", key: "DELETE_ACCOUNT" },
     { label: "Sign out", key: "SIGN_OUT" },
   ];
@@ -111,7 +120,7 @@ const styles = StyleSheet.create({
   profileListOptionsContainer: {
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    paddingTop: "5%",
+
     paddingLeft: "10%",
     flex: 0.6,
     width: "100%",
@@ -124,6 +133,6 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: "row",
     alignItems: "center",
-    paddingBottom: "10%",
+    paddingBottom: "9%",
   },
 });
