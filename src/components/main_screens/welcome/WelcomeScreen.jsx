@@ -14,6 +14,7 @@ import WelcomeSlide from "./slides/WelcomeSlide";
 import {
   DEMO_IMAGES_BACKTESTING,
   DEMO_IMAGES_INVESTOR,
+  DEMO_IMAGES_JOBS,
 } from "./slides/constants/demoImageList";
 
 export default function WelcomeScreen(props) {
@@ -62,7 +63,7 @@ export default function WelcomeScreen(props) {
         <DemoSlide
           name="Jobs"
           headerImage={JobsHeaderImage}
-          demoImages={DEMO_IMAGES_INVESTOR}
+          demoImages={DEMO_IMAGES_JOBS}
         />
         <DemoSlide
           name="Paper Trading"

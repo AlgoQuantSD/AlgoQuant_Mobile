@@ -10,6 +10,11 @@ import DemoInvestorImage3 from "../../../../../../assets/demo_images/investor/3.
 import DemoInvestorImage4 from "../../../../../../assets/demo_images/investor/4.png";
 import DemoInvestorImage5 from "../../../../../../assets/demo_images/investor/5.png";
 import DemoInvestorImage6 from "../../../../../../assets/demo_images/investor/6.png";
+import DemoJobsImage0 from "../../../../../../assets/demo_images/jobs/0.png";
+import DemoJobsImage1 from "../../../../../../assets/demo_images/jobs/1.png";
+import DemoJobsImage2 from "../../../../../../assets/demo_images/jobs/2.png";
+import DemoJobsImage3 from "../../../../../../assets/demo_images/jobs/3.png";
+import DemoJobsImage4 from "../../../../../../assets/demo_images/jobs/4.png";
 
 // List of images to display in the demo carousel
 export const DEMO_IMAGES_INVESTOR = [
@@ -53,7 +58,6 @@ export const DEMO_IMAGES_INVESTOR = [
   },
 ];
 
-// List of images to display in the demo carousel
 export const DEMO_IMAGES_BACKTESTING = [
   {
     image: DemoBacktestingImage0,
@@ -79,6 +83,34 @@ export const DEMO_IMAGES_BACKTESTING = [
   {
     image: DemoBacktestingImage4,
     caption: "View the results!",
+    id: 4,
+  },
+];
+
+export const DEMO_IMAGES_JOBS = [
+  {
+    image: DemoJobsImage0,
+    caption: "Begin by opening the Start Job modal.",
+    id: 0,
+  },
+  {
+    image: DemoJobsImage1,
+    caption: "Provide a name and initial investment.",
+    id: 1,
+  },
+  {
+    image: DemoJobsImage2,
+    caption: "View your new job via the Jobs tab.",
+    id: 2,
+  },
+  {
+    image: DemoJobsImage3,
+    caption: "View details about your new job.",
+    id: 3,
+  },
+  {
+    image: DemoJobsImage4,
+    caption: "Example of an existing job that has made trades",
     id: 4,
   },
 ];

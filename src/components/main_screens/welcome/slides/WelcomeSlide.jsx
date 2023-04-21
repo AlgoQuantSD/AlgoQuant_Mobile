@@ -4,7 +4,7 @@ import HeaderImage from "../../../../../assets/investor_avatars/avatar0.png";
 import { THEME } from "../../../../general_constants/theme/Theme";
 import WelcomeHeader from "./subcomponents/WelcomeHeader";
 
-export default function WelcomeSlide(props) {
+export default function WelcomeSlide() {
   return (
     <View style={styles.container}>
       <WelcomeHeader title="Welcome to AlgoQuant!" image={HeaderImage} />
