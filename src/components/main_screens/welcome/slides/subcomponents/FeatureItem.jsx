@@ -53,10 +53,12 @@ const styles = StyleSheet.create({
   },
   featureDescriptionItem: {
     paddingBottom: "5%",
+    paddingLeft: "10%",
   },
   featureDescriptionText: {
     color: THEME.text.color.secondary,
     fontWeight: "200",
+    width: "100%",
     maxWidth: "85%",
   },
 });
